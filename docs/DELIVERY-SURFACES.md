@@ -35,15 +35,15 @@ As each module ships, **all three** must be updated:
 
 | Type | Library export | CLI command | Playground tab | Official source |
 |------|----------------|-------------|----------------|-----------------|
-| CNPJ | `br-validators/cnpj` | `br-validators cnpj …` | CNPJ | [RFB CNPJ FAQ](OFFICIAL-SOURCES.md) |
-| CPF | `br-validators/cpf` | `br-validators cpf …` | CPF | [RFB CPF](OFFICIAL-SOURCES.md) |
-| CEP | `br-validators/cep` | `br-validators cep …` | CEP | [Correios](OFFICIAL-SOURCES.md) |
-| Placa | `br-validators/placa` | `br-validators placa …` | Placa | [CONTRAN 729/2018](OFFICIAL-SOURCES.md) |
-| PIS/PASEP | `br-validators/pis-pasep` | `br-validators pis-pasep …` | PIS/PASEP | [SIPREV RV_03](OFFICIAL-SOURCES.md) |
-| PIX key | `br-validators/pix` | `br-validators pix …` | PIX | [Bacen PIX / DICT](OFFICIAL-SOURCES.md) |
-| Boleto | `br-validators/boleto` | `br-validators boleto …` | Boleto | [FEBRABAN](OFFICIAL-SOURCES.md) |
-| Credit card | `br-validators/cartao-credito` | `br-validators cartao …` / `cartao-credito …` | Credit Card | [ISO/IEC 7812-1](OFFICIAL-SOURCES.md) |
-| IE (27 UFs) | `br-validators/inscricao-estadual` | `br-validators ie … --uf <UF>` | `/ie` | [OFFICIAL-SOURCES § IE](OFFICIAL-SOURCES.md#inscrição-estadual-ie--all-27-ufs) |
+| CNPJ | `@br-validators/core/cnpj` | `br-validators cnpj …` | CNPJ | [RFB CNPJ FAQ](OFFICIAL-SOURCES.md) |
+| CPF | `@br-validators/core/cpf` | `br-validators cpf …` | CPF | [RFB CPF](OFFICIAL-SOURCES.md) |
+| CEP | `@br-validators/core/cep` | `br-validators cep …` | CEP | [Correios](OFFICIAL-SOURCES.md) |
+| Placa | `@br-validators/core/placa` | `br-validators placa …` | Placa | [CONTRAN 729/2018](OFFICIAL-SOURCES.md) |
+| PIS/PASEP | `@br-validators/core/pis-pasep` | `br-validators pis-pasep …` | PIS/PASEP | [SIPREV RV_03](OFFICIAL-SOURCES.md) |
+| PIX key | `@br-validators/core/pix` | `br-validators pix …` | PIX | [Bacen PIX / DICT](OFFICIAL-SOURCES.md) |
+| Boleto | `@br-validators/core/boleto` | `br-validators boleto …` | Boleto | [FEBRABAN](OFFICIAL-SOURCES.md) |
+| Credit card | `@br-validators/core/cartao-credito` | `br-validators cartao …` / `cartao-credito …` | Credit Card | [ISO/IEC 7812-1](OFFICIAL-SOURCES.md) |
+| IE (27 UFs) | `@br-validators/core/inscricao-estadual` | `br-validators ie … --uf <UF>` | `/ie` | [OFFICIAL-SOURCES § IE](OFFICIAL-SOURCES.md#inscrição-estadual-ie--all-27-ufs) |
 
 **Definition of done per module:** library tests green + CLI command + playground section + source link.
 
