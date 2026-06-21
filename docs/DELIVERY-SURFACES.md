@@ -43,9 +43,7 @@ As each module ships, **all three** must be updated:
 | PIX key | `br-validators/pix` | `br-validators pix …` | PIX | [Bacen PIX / DICT](OFFICIAL-SOURCES.md) |
 | Boleto | `br-validators/boleto` | `br-validators boleto …` | Boleto | [FEBRABAN](OFFICIAL-SOURCES.md) |
 | Credit card | `br-validators/cartao-credito` | `br-validators cartao …` / `cartao-credito …` | Credit Card | [ISO/IEC 7812-1](OFFICIAL-SOURCES.md) |
-| IE (SP) | `br-validators/inscricao-estadual` | `br-validators ie … --uf SP` | `/ie` | [SEFAZ-SP](OFFICIAL-SOURCES.md) |
-| IE (MT) | `br-validators/inscricao-estadual` | `br-validators ie … --uf MT` | `/ie` | [SEFAZ-MT](OFFICIAL-SOURCES.md) |
-| IE (DF) | `br-validators/inscricao-estadual` | `br-validators ie … --uf DF` | `/ie` | [Receita DF](OFFICIAL-SOURCES.md) |
+| IE (27 UFs) | `br-validators/inscricao-estadual` | `br-validators ie … --uf <UF>` | `/ie` | [OFFICIAL-SOURCES § IE](OFFICIAL-SOURCES.md#inscrição-estadual-ie--all-27-ufs) |
 
 **Definition of done per module:** library tests green + CLI command + playground section + source link.
 

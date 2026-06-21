@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-MA / SINTEGRA cad_MA",
+  "url": "https://www.sefaz.ma.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_MA.html",
+  "golden": {
+    "stripped": "123517680",
+    "masked": "12351768-0"
+  }
+}

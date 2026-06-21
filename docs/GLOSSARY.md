@@ -142,8 +142,8 @@
 **Definition:** State tax registration number — **27 different validation algorithms** (one per state + DF).  
 **Not the same as:** CNPJ (federal) or IM (municipal).  
 **Code name:** `InscricaoEstadual`, `IE`  
-**Algorithm index:** [IE-STATE-ALGORITHMS.md](IE-STATE-ALGORITHMS.md) — **v1 implements SP, MT, DF.**  
-**Official sources (v1):** SP [SEFAZ rotina](https://portal.fazenda.sp.gov.br/servicos/icms/Paginas/sintegra-rotina-consistencia.aspx) · MT [Port. Art. 6º](https://app1.sefaz.mt.gov.br/Sistema/legislacao/legislacaotribut.nsf/709f9c981a9d9f468425671300482be0/2217ddcf7a9b7cea03258c6c007324ba?OpenDocument=) · DF [Receita DF](https://www.receita.fazenda.df.gov.br/) — see [OFFICIAL-SOURCES.md](OFFICIAL-SOURCES.md).
+**Algorithm index:** [IE-STATE-ALGORITHMS.md](IE-STATE-ALGORITHMS.md) — **all 27 UFs shipped** (`0.10.0-alpha.0`).  
+**Official sources:** [OFFICIAL-SOURCES.md § IE](OFFICIAL-SOURCES.md#inscrição-estadual-ie--all-27-ufs) · per-UF URLs via `getIeOfficialSourceUrl(uf)`.
 
 ---
 

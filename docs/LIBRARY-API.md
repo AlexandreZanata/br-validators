@@ -23,7 +23,7 @@
 | `br-validators/pix` | PIX keys |
 | `br-validators/boleto` | Boleto (linha digitável + código de barras) |
 | `br-validators/cartao-credito` | Credit card PAN (Luhn / ISO 7812) |
-| `br-validators/inscricao-estadual` | Inscrição Estadual — SP, MT, DF (v1) |
+| `br-validators/inscricao-estadual` | Inscrição Estadual — all 27 UFs |
 
 ---
 
@@ -250,13 +250,15 @@ Golden vectors: Visa `4111111111111111`, Mastercard `5555555555554444`, Amex `37
 |----------|-----------|----------|
 | `stripInscricaoEstadual` | `(input: string) => string` | Remove non-digits |
 | `isValidInscricaoEstadual` | `(input, { uf }) => boolean` | Boolean wrapper |
-| `validateInscricaoEstadual` | `(input, { uf }) => InscricaoEstadualValidationResult` | Per-UF mod11 check digits |
-| `validateIeSp` / `validateIeMt` / `validateIeDf` | `(input: string) => …` | Direct UF validators |
-| `formatInscricaoEstadual` | `(input, { uf }) => FormatResult` | SP/DF mask; MT canonical digits |
-| `getIeOfficialSourceUrl` | `(uf: UfCode) => string` | Primary SEFAZ/SINTEGRA URL |
+| `validateInscricaoEstadual` | `(input, { uf }) => InscricaoEstadualValidationResult` | Per-UF check digits (27 UFs) |
+| `validateIeSp` / `validateIeMt` / `validateIeDf` / … | `(input: string) => …` | Direct per-UF validators (`validateIeAc` … `validateIeTo`) |
+| `formatInscricaoEstadual` | `(input, { uf }) => FormatResult` | SP/DF mask; other UFs return canonical digits |
+| `getIeOfficialSourceUrl` | `(uf: UfCode) => string` | Primary SEFAZ URL per UF |
 
 ```typescript
-type UfCode = 'SP' | 'MT' | 'DF';
+type UfCode =
+  | 'AC' | 'AL' | 'AM' | 'AP' | 'BA' | 'CE' | 'DF' | 'ES' | 'GO' | 'MA' | 'MG' | 'MS' | 'MT'
+  | 'PA' | 'PB' | 'PE' | 'PI' | 'PR' | 'RJ' | 'RN' | 'RO' | 'RR' | 'RS' | 'SC' | 'SE' | 'SP' | 'TO';
 
 type InscricaoEstadual = string & { readonly __brand: 'InscricaoEstadual' };
 
@@ -265,17 +267,39 @@ type InscricaoEstadualValidationResult =
   | { ok: false; code: ValidationErrorCode; message: string; uf?: UfCode };
 ```
 
-Golden vectors: SP `110042490114`, MT legacy `00130000019` / canonical `130000019`, DF `0730000100109`.
+**Official sources (per UF):** see [OFFICIAL-SOURCES.md § IE](OFFICIAL-SOURCES.md#inscrição-estadual-ie--all-27-ufs) and [IE-STATE-ALGORITHMS.md](IE-STATE-ALGORITHMS.md).
 
-**Official sources (v1 — per UF):**
+| UF | Primary source | SINTEGRA mirror | Golden (stripped) | Test file |
+|----|----------------|-----------------|-------------------|-----------|
+| **AC** | [SEFAZ-AC](https://sefaz.ac.gov.br/) | [cad_AC](http://www.sintegra.gov.br/Cad_Estados/cad_AC.html) | `0113253877910` | `ie.ac.official.json` |
+| **AL** | [SEFAZ-AL cálculo](https://www.sefaz.al.gov.br/calculo) | [cad_AL](http://www.sintegra.gov.br/Cad_Estados/cad_AL.html) | `248682954` | `ie.al.official.json` |
+| **AM** | [SEFAZ-AM](https://www.sefaz.am.gov.br/) | [cad_AM](http://www.sintegra.gov.br/Cad_Estados/cad_AM.html) | `917050150` | `ie.am.official.json` |
+| **AP** | [SEFAZ-AP](https://www.sefaz.ap.gov.br/) | [cad_AP](http://www.sintegra.gov.br/Cad_Estados/cad_AP.html) | `039045820` | `ie.ap.official.json` |
+| **BA** | [SEFAZ-BA cálculo DV](https://www.sefaz.ba.gov.br/inspetoria-eletronica/icms/cadastro/calculo-dv/) | [cad_BA](http://www.sintegra.gov.br/Cad_Estados/cad_BA.html) | `63984300` | `ie.ba.official.json` |
+| **CE** | [SEFAZ-CE](https://www.sefaz.ce.gov.br/) | [cad_CE](http://www.sintegra.gov.br/Cad_Estados/cad_CE.html) | `836182316` | `ie.ce.official.json` |
+| **DF** | [Receita DF](https://www.receita.fazenda.df.gov.br/) | [cad_DF](http://www.sintegra.gov.br/Cad_Estados/cad_DF.html) | `0730000100109` | `ie.df.official.json` |
+| **ES** | [SEFAZ-ES](https://sitenet.es.gov.br/sefaz/) | [cad_ES](http://www.sintegra.gov.br/Cad_Estados/cad_ES.html) | `463921810` | `ie.es.official.json` |
+| **GO** | [CCE-GO](http://www.sefaz.go.gov.br/ServicosAFA/ece.html) | [cad_GO](http://www.sintegra.gov.br/Cad_Estados/cad_GO.html) | `112237118` | `ie.go.official.json` |
+| **MA** | [SEFAZ-MA](https://www.sefaz.ma.gov.br/) | [cad_MA](http://www.sintegra.gov.br/Cad_Estados/cad_MA.html) | `123517680` | `ie.ma.official.json` |
+| **MG** | [SEF/MG cadastro](https://www.fazenda.mg.gov.br/empresas/Cadastro/cadastro/consultapublica.html) | [cad_MG](http://www.sintegra.gov.br/Cad_Estados/cad_MG.html) | `2490944173923` | `ie.mg.official.json` |
+| **MS** | [SEFAZ-MS](https://www.sefaz.ms.gov.br/) | [cad_MS](http://www.sintegra.gov.br/Cad_Estados/cad_MS.html) | `282570926` | `ie.ms.official.json` |
+| **MT** | [SEFAZ-MT Port. Art. 6º](https://app1.sefaz.mt.gov.br/Sistema/legislacao/legislacaotribut.nsf/709f9c981a9d9f468425671300482be0/2217ddcf7a9b7cea03258c6c007324ba?OpenDocument=) | [cad_MT](http://www.sintegra.gov.br/Cad_Estados/cad_MT.html) | `130000019` / `00130000019` | `ie.mt.official.json` |
+| **PA** | [SEFA-PA](https://www.sefa.pa.gov.br/) | [cad_PA](http://www.sintegra.gov.br/Cad_Estados/cad_PA.html) | `153662476` | `ie.pa.official.json` |
+| **PB** | [Receita PB](https://www.receita.pb.gov.br/) | [cad_PB](http://www.sintegra.gov.br/Cad_Estados/cad_PB.html) | `312029063` | `ie.pb.official.json` |
+| **PE** | [SEFAZ-PE](https://www.sefaz.pe.gov.br/) | [cad_PE](http://www.sintegra.gov.br/Cad_Estados/cad_PE.html) | `064970639` | `ie.pe.official.json` |
+| **PI** | [SEFAZ-PI](https://www.sefaz.pi.gov.br/) | [cad_PI](http://www.sintegra.gov.br/Cad_Estados/cad_PI.html) | `465180426` | `ie.pi.official.json` |
+| **PR** | [Fazenda PR cálculo DV](https://www.fazenda.pr.gov.br/Pagina/calculo-digito-verificador) | [cad_PR](http://www.sintegra.gov.br/Cad_Estados/cad_PR.html) | `0031595584` | `ie.pr.official.json` |
+| **RJ** | [Portal Fazenda RJ](https://portal.fazenda.rj.gov.br/cadastro/) | [cad_RJ](http://www.sintegra.gov.br/Cad_Estados/cad_RJ.html) | `06540481` | `ie.rj.official.json` |
+| **RN** | [SET-RN](https://www.set.rn.gov.br/) | [cad_RN](http://www.sintegra.gov.br/Cad_Estados/cad_RN.html) | `204502292` | `ie.rn.official.json` |
+| **RO** | [SEFIN-RO](https://www.sefin.ro.gov.br/) | [cad_RO](http://www.sintegra.gov.br/Cad_Estados/cad_RO.html) | `39206839474860` | `ie.ro.official.json` |
+| **RR** | [SEFAZ-RR](https://www.sefaz.rr.gov.br/) | [cad_RR](http://www.sintegra.gov.br/Cad_Estados/cad_RR.html) | `247681047` | `ie.rr.official.json` |
+| **RS** | [SEFAZ-RS](https://www.sefaz.rs.gov.br/) | [cad_RS](http://www.sintegra.gov.br/Cad_Estados/cad_RS.html) | `3288345503` | `ie.rs.official.json` |
+| **SC** | [SAT/SEF-SC](https://sat.sef.sc.gov.br/) | [cad_SC](http://www.sintegra.gov.br/Cad_Estados/cad_SC.html) | `632480718` | `ie.sc.official.json` |
+| **SE** | [SEFAZ-SE](https://www.sefaz.se.gov.br/) | [cad_SE](http://www.sintegra.gov.br/Cad_Estados/cad_SE.html) | `826594042` | `ie.se.official.json` |
+| **SP** | [SEFAZ-SP Sintegra rotina](https://portal.fazenda.sp.gov.br/servicos/icms/Paginas/sintegra-rotina-consistencia.aspx) | [cad_SP](http://www.sintegra.gov.br/Cad_Estados/cad_SP.html) | `110042490114` | `ie.sp.official.json` |
+| **TO** | [SEFAZ-TO](https://www.sefaz.to.gov.br/) | [cad_TO](http://www.sintegra.gov.br/Cad_Estados/cad_TO.html) | `27035910938` | `ie.to.official.json` |
 
-| UF | Primary source | SINTEGRA mirror | Golden vector | Test file |
-|----|----------------|-----------------|---------------|-----------|
-| **SP** | [SEFAZ-SP Sintegra rotina](https://portal.fazenda.sp.gov.br/servicos/icms/Paginas/sintegra-rotina-consistencia.aspx) | [cad_SP.html](http://www.sintegra.gov.br/Cad_Estados/cad_SP.html) | `110042490114` / `110.042.490.114` | `tests/vectors/ie.sp.official.json` |
-| **MT** | [SEFAZ-MT Port. Art. 6º](https://app1.sefaz.mt.gov.br/Sistema/legislacao/legislacaotribut.nsf/709f9c981a9d9f468425671300482be0/2217ddcf7a9b7cea03258c6c007324ba?OpenDocument=) | [cad_MT.html](http://www.sintegra.gov.br/Cad_Estados/cad_MT.html) | `130000019` / `00130000019` | `tests/vectors/ie.mt.official.json` |
-| **DF** | [Receita Fazenda DF](https://www.receita.fazenda.df.gov.br/) | [cad_DF.html](http://www.sintegra.gov.br/Cad_Estados/cad_DF.html) | `0730000100109` / `073.00001.001-09` | `tests/vectors/ie.df.official.json` |
-
-Constants: `IE_SP_OFFICIAL_SOURCE_URL`, `IE_MT_OFFICIAL_SOURCE_URL`, `IE_DF_OFFICIAL_SOURCE_URL`. CLI `--source` and `getIeOfficialSourceUrl(uf)` return the primary URL per UF.
+Constants: `IE_OFFICIAL_SOURCE_URLS` (all UFs), legacy `IE_SP_OFFICIAL_SOURCE_URL`, `IE_MT_OFFICIAL_SOURCE_URL`, `IE_DF_OFFICIAL_SOURCE_URL`. CLI `--source` and `getIeOfficialSourceUrl(uf)` return the primary URL per UF.
 
 ---
 

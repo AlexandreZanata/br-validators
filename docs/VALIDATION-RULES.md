@@ -329,14 +329,15 @@
 
 ## Inscrição Estadual (IE)
 
-> **Phase 8 v1:** SP, MT, DF only. Full index: [IE-STATE-ALGORITHMS.md](IE-STATE-ALGORITHMS.md).  
-> **UF required** in v1 API (`validateInscricaoEstadual(input, { uf })`).
+> **All 27 UFs shipped** (`0.10.0-alpha.0`). Full index: [IE-STATE-ALGORITHMS.md](IE-STATE-ALGORITHMS.md).  
+> **Official sources:** [OFFICIAL-SOURCES.md § IE](OFFICIAL-SOURCES.md#inscrição-estadual-ie--all-27-ufs).  
+> **UF required** in API (`validateInscricaoEstadual(input, { uf })`).
 
 ### BR-IE-001 — UF required
 
 - **GIVEN** IE validation without `uf` option
-- **WHEN** validating in v1
-- **THEN** reject with `UNSUPPORTED_FORMAT` (or require explicit UF per LIBRARY-API)
+- **WHEN** calling `validateInscricaoEstadual`
+- **THEN** reject with `UNSUPPORTED_FORMAT` (UF is mandatory per LIBRARY-API)
 
 ### BR-IE-SP-001 — São Paulo (12 digits)
 
@@ -366,8 +367,44 @@
 
 - **GIVEN** 12-digit DF input from legacy SINTEGRA validators
 - **WHEN** validating against CF/DF 13-digit rules
-- **THEN** reject with `INVALID_LENGTH` unless Phase 8b legacy mode enabled
+- **THEN** reject with `INVALID_LENGTH` (13-digit CF/DF rule only; no legacy 12-digit mode)
 - **Source:** [SINTEGRA cad_DF](http://www.sintegra.gov.br/Cad_Estados/cad_DF.html) (legacy 12-digit note vs current 13-digit CF/DF)
+
+### Per-UF rules (AC–TO)
+
+Each row maps to `validateIe{Uf}` and `BR-IE-{UF}-001`. Algorithm detail: [IE-STATE-ALGORITHMS.md](IE-STATE-ALGORITHMS.md).
+
+| UF | Rule | Golden | Primary source | Mirror |
+|----|------|--------|----------------|--------|
+| AC | BR-IE-AC-001 | `0113253877910` | [SEFAZ-AC](https://sefaz.ac.gov.br/) | [cad_AC](http://www.sintegra.gov.br/Cad_Estados/cad_AC.html) |
+| AL | BR-IE-AL-001 | `248682954` | [SEFAZ-AL cálculo](https://www.sefaz.al.gov.br/calculo) | [cad_AL](http://www.sintegra.gov.br/Cad_Estados/cad_AL.html) |
+| AM | BR-IE-AM-001 | `917050150` | [SEFAZ-AM](https://www.sefaz.am.gov.br/) | [cad_AM](http://www.sintegra.gov.br/Cad_Estados/cad_AM.html) |
+| AP | BR-IE-AP-001 | `039045820` | [SEFAZ-AP](https://www.sefaz.ap.gov.br/) | [cad_AP](http://www.sintegra.gov.br/Cad_Estados/cad_AP.html) |
+| BA | BR-IE-BA-001 | `63984300` | [SEFAZ-BA cálculo DV](https://www.sefaz.ba.gov.br/inspetoria-eletronica/icms/cadastro/calculo-dv/) | [cad_BA](http://www.sintegra.gov.br/Cad_Estados/cad_BA.html) |
+| CE | BR-IE-CE-001 | `836182316` | [SEFAZ-CE](https://www.sefaz.ce.gov.br/) | [cad_CE](http://www.sintegra.gov.br/Cad_Estados/cad_CE.html) |
+| ES | BR-IE-ES-001 | `463921810` | [SEFAZ-ES](https://sitenet.es.gov.br/sefaz/) | [cad_ES](http://www.sintegra.gov.br/Cad_Estados/cad_ES.html) |
+| GO | BR-IE-GO-001 | `112237118` | [CCE-GO](http://www.sefaz.go.gov.br/ServicosAFA/ece.html) | [cad_GO](http://www.sintegra.gov.br/Cad_Estados/cad_GO.html) |
+| MA | BR-IE-MA-001 | `123517680` | [SEFAZ-MA](https://www.sefaz.ma.gov.br/) | [cad_MA](http://www.sintegra.gov.br/Cad_Estados/cad_MA.html) |
+| MG | BR-IE-MG-001 | `2490944173923` | [SEF/MG cadastro](https://www.fazenda.mg.gov.br/empresas/Cadastro/cadastro/consultapublica.html) | [cad_MG](http://www.sintegra.gov.br/Cad_Estados/cad_MG.html) |
+| MS | BR-IE-MS-001 | `282570926` | [SEFAZ-MS](https://www.sefaz.ms.gov.br/) | [cad_MS](http://www.sintegra.gov.br/Cad_Estados/cad_MS.html) |
+| PA | BR-IE-PA-001 | `153662476` | [SEFA-PA](https://www.sefa.pa.gov.br/) | [cad_PA](http://www.sintegra.gov.br/Cad_Estados/cad_PA.html) |
+| PB | BR-IE-PB-001 | `312029063` | [Receita PB](https://www.receita.pb.gov.br/) | [cad_PB](http://www.sintegra.gov.br/Cad_Estados/cad_PB.html) |
+| PE | BR-IE-PE-001 | `064970639` | [SEFAZ-PE](https://www.sefaz.pe.gov.br/) | [cad_PE](http://www.sintegra.gov.br/Cad_Estados/cad_PE.html) |
+| PI | BR-IE-PI-001 | `465180426` | [SEFAZ-PI](https://www.sefaz.pi.gov.br/) | [cad_PI](http://www.sintegra.gov.br/Cad_Estados/cad_PI.html) |
+| PR | BR-IE-PR-001 | `0031595584` | [Fazenda PR cálculo DV](https://www.fazenda.pr.gov.br/Pagina/calculo-digito-verificador) | [cad_PR](http://www.sintegra.gov.br/Cad_Estados/cad_PR.html) |
+| RJ | BR-IE-RJ-001 | `06540481` | [Portal Fazenda RJ](https://portal.fazenda.rj.gov.br/cadastro/) | [cad_RJ](http://www.sintegra.gov.br/Cad_Estados/cad_RJ.html) |
+| RN | BR-IE-RN-001 | `204502292` | [SET-RN](https://www.set.rn.gov.br/) | [cad_RN](http://www.sintegra.gov.br/Cad_Estados/cad_RN.html) |
+| RO | BR-IE-RO-001 | `39206839474860` | [SEFIN-RO](https://www.sefin.ro.gov.br/) | [cad_RO](http://www.sintegra.gov.br/Cad_Estados/cad_RO.html) |
+| RR | BR-IE-RR-001 | `247681047` | [SEFAZ-RR](https://www.sefaz.rr.gov.br/) | [cad_RR](http://www.sintegra.gov.br/Cad_Estados/cad_RR.html) |
+| RS | BR-IE-RS-001 | `3288345503` | [SEFAZ-RS](https://www.sefaz.rs.gov.br/) | [cad_RS](http://www.sintegra.gov.br/Cad_Estados/cad_RS.html) |
+| SC | BR-IE-SC-001 | `632480718` | [SAT/SEF-SC](https://sat.sef.sc.gov.br/) | [cad_SC](http://www.sintegra.gov.br/Cad_Estados/cad_SC.html) |
+| SE | BR-IE-SE-001 | `826594042` | [SEFAZ-SE](https://www.sefaz.se.gov.br/) | [cad_SE](http://www.sintegra.gov.br/Cad_Estados/cad_SE.html) |
+| TO | BR-IE-TO-001 | `27035910938` | [SEFAZ-TO](https://www.sefaz.to.gov.br/) | [cad_TO](http://www.sintegra.gov.br/Cad_Estados/cad_TO.html) |
+
+**GIVEN** stripped IE for the UF above  
+**WHEN** length, prefix, or check digits fail the cited SEFAZ/SINTEGRA roteiro  
+**THEN** reject with `INVALID_LENGTH`, `INVALID_CHECK_DIGIT`, or `UNSUPPORTED_FORMAT`  
+**Vector:** `tests/vectors/ie.{uf}.official.json`
 
 ---
 

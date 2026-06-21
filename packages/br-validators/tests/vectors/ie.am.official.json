@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-AM / SINTEGRA cad_AM",
+  "url": "https://www.sefaz.am.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_AM.html",
+  "golden": {
+    "stripped": "917050150",
+    "masked": "91.705.015-0"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "source": "SEFAZ-AC / SINTEGRA cad_AC",
+  "url": "https://sefaz.ac.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_AC.html",
+  "golden": {
+    "stripped": "0113253877910"
+  }
+}

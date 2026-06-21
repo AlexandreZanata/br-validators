@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-PA / SINTEGRA cad_PA",
+  "url": "https://www.sefa.pa.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_PA.html",
+  "golden": {
+    "stripped": "153662476",
+    "masked": "15-366247-6"
+  }
+}

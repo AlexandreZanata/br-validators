@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-PI / SINTEGRA cad_PI",
+  "url": "https://www.sefaz.pi.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_PI.html",
+  "golden": {
+    "stripped": "465180426",
+    "masked": "46518042-6"
+  }
+}

@@ -42,7 +42,9 @@ export type CodigoBarras = string & { readonly __brand: 'CodigoBarras' };
 export type CartaoCredito = string & { readonly __brand: 'CartaoCredito' };
 export type InscricaoEstadual = string & { readonly __brand: 'InscricaoEstadual' };
 
-export type UfCode = 'SP' | 'MT' | 'DF';
+export type UfCode =
+  | 'AC' | 'AL' | 'AM' | 'AP' | 'BA' | 'CE' | 'DF' | 'ES' | 'GO' | 'MA' | 'MG' | 'MS' | 'MT'
+  | 'PA' | 'PB' | 'PE' | 'PI' | 'PR' | 'RJ' | 'RN' | 'RO' | 'RR' | 'RS' | 'SC' | 'SE' | 'SP' | 'TO';
 
 export type CardBrand = 'visa' | 'mastercard' | 'amex' | 'elo' | 'hipercard' | 'unknown';
 

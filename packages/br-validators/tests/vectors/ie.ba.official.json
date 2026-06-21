@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-BA / SINTEGRA cad_BA",
+  "url": "https://www.sefaz.ba.gov.br/inspetoria-eletronica/icms/cadastro/calculo-dv/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_BA.html",
+  "golden": {
+    "stripped": "63984300",
+    "masked": "639843-00"
+  }
+}

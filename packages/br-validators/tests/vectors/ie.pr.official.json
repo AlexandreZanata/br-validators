@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-PR / SINTEGRA cad_PR",
+  "url": "https://www.fazenda.pr.gov.br/Pagina/calculo-digito-verificador",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_PR.html",
+  "golden": {
+    "stripped": "0031595584",
+    "masked": "003.15955-84"
+  }
+}

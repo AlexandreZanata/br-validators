@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-PB / SINTEGRA cad_PB",
+  "url": "https://www.receita.pb.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_PB.html",
+  "golden": {
+    "stripped": "312029063",
+    "masked": "31202906-3"
+  }
+}

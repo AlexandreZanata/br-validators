@@ -1,4 +1,4 @@
-# Use Case: UC-009 — Validate and format Inscrição Estadual (SP, MT, DF)
+# Use Case: UC-009 — Validate and format Inscrição Estadual (27 UFs)
 
 ## Metadata
 
@@ -10,31 +10,31 @@
 
 ## Preconditions
 
-- **UF is required** in v1 (`SP`, `MT`, or `DF`) — no auto-detect across states
-- Input may contain mask punctuation (dots, hyphens)
+- **UF is required** — one of 27 codes (`AC` … `TO`)
+- Input may contain mask punctuation (dots, hyphens, slashes)
 - Validation is **check digits only** — no SEFAZ/SINTEGRA registration lookup
 
 ## Main flow (happy path)
 
 1. Consumer calls `stripInscricaoEstadual(input)` → digits only
 2. Consumer calls `validateInscricaoEstadual(stripped, { uf })` → `{ ok: true, value, uf, format: 'inscricao-estadual' }`
-3. Consumer calls `formatInscricaoEstadual(stripped, { uf })` → per-UF display mask (SP/DF) or canonical digits (MT)
+3. Consumer calls `formatInscricaoEstadual(stripped, { uf })` → per-UF display mask (SP/DF) or canonical digits
 
 ## Alternate flows
 
 ### AF-1: Invalid check digit
 
-- **When:** Modulo-11 DVs do not match SEFAZ/SINTEGRA roteiro
+- **When:** Check digits do not match SEFAZ/SINTEGRA roteiro for the UF
 - **Then:** `{ ok: false, code: 'INVALID_CHECK_DIGIT', uf? }`
 
 ### AF-2: Wrong length after strip
 
-- **When:** Length ≠ UF rule (SP 12, MT 9/11, DF 13)
+- **When:** Length ≠ UF rule (e.g. SP 12, RJ 8, RO 14)
 - **Then:** `{ ok: false, code: 'INVALID_LENGTH' }`
 
 ### AF-3: Unsupported UF or format
 
-- **When:** `uf` not in v1 set, SP rural `P…`, MT prefix ≠ `13`, DF prefix ≠ `07`, DF legacy 12-digit
+- **When:** Unknown `uf`, SP rural `P…`, invalid prefix, DF legacy 12-digit
 - **Then:** `{ ok: false, code: 'UNSUPPORTED_FORMAT' }`
 
 ### AF-4: Empty input
@@ -51,11 +51,8 @@
 
 | Rule ID | Description |
 |---------|-------------|
-| BR-IE-001 | UF required in v1 |
-| BR-IE-SP-001 | SP 12-digit dual mod11 DVs |
-| BR-IE-MT-001 | MT canonical 9-digit `13XXXXXXD` + legacy 11-digit zero-pad |
-| BR-IE-DF-001 | DF 13-digit prefix `07` dual mod11 DVs |
-| BR-IE-DF-002 | Reject DF legacy 12-digit |
+| BR-IE-001 | UF required |
+| BR-IE-SP-001 … BR-IE-TO-001 | Per-UF check-digit rules — see [VALIDATION-RULES.md](../VALIDATION-RULES.md) |
 | BR-GLOBAL-001 | Strip first |
 | BR-GLOBAL-002 | Validate before format |
 
@@ -69,28 +66,18 @@ N/A — client-side/server-side library call.
 
 ## Out of scope
 
-- Remaining 24 UFs (Phase 8b backlog)
 - SP rural `P…` format (Regra II)
 - SEFAZ HTTP registration lookup
 - Auto-detect UF from length/prefix
 
-## Golden vectors
-
-| UF | Canonical | Masked | Source |
-|----|-----------|--------|--------|
-| SP | `110042490114` | `110.042.490.114` | [SEFAZ-SP Sintegra rotina](https://portal.fazenda.sp.gov.br/servicos/icms/Paginas/sintegra-rotina-consistencia.aspx) |
-| MT | `130000019` (canonical) / `00130000019` (legacy) | — | [SEFAZ-MT Port. Art. 6º](https://app1.sefaz.mt.gov.br/Sistema/legislacao/legislacaotribut.nsf/709f9c981a9d9f468425671300482be0/2217ddcf7a9b7cea03258c6c007324ba?OpenDocument=) |
-| DF | `0730000100109` | `073.00001.001-09` | [Receita DF](https://www.receita.fazenda.df.gov.br/) · [SINTEGRA DF](http://www.sintegra.gov.br/Cad_Estados/cad_DF.html) |
-
 ## Official sources
 
-| UF | Primary URL |
-|----|-------------|
-| SP | https://portal.fazenda.sp.gov.br/servicos/icms/Paginas/sintegra-rotina-consistencia.aspx |
-| SP (mirror) | http://www.sintegra.gov.br/Cad_Estados/cad_SP.html |
-| MT | https://app1.sefaz.mt.gov.br/Sistema/legislacao/legislacaotribut.nsf/709f9c981a9d9f468425671300482be0/2217ddcf7a9b7cea03258c6c007324ba?OpenDocument= |
-| MT (mirror) | http://www.sintegra.gov.br/Cad_Estados/cad_MT.html |
-| DF | https://www.receita.fazenda.df.gov.br/ |
-| DF (mirror) | http://www.sintegra.gov.br/Cad_Estados/cad_DF.html |
+Full per-UF table (primary SEFAZ URL, SINTEGRA mirror, golden vector, test file):
 
-Cross-check mirrors: `http://www.sintegra.gov.br/Cad_Estados/cad_{SP,MT,DF}.html`
+- [OFFICIAL-SOURCES.md § IE](../OFFICIAL-SOURCES.md#inscrição-estadual-ie--all-27-ufs)
+- [LIBRARY-API.md § IE](../LIBRARY-API.md#core-api--inscrição-estadual-ie)
+- [IE-STATE-ALGORITHMS.md](../IE-STATE-ALGORITHMS.md)
+
+**API:** `getIeOfficialSourceUrl(uf)` · `IE_OFFICIAL_SOURCE_URLS`
+
+**CLI:** `br-validators ie validate <value> --uf <UF> --source`

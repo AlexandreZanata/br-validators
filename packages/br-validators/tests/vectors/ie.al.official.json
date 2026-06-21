@@ -1,0 +1,8 @@
+{
+  "source": "SEFAZ-AL / SINTEGRA cad_AL",
+  "url": "https://www.sefaz.al.gov.br/calculo",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_AL.html",
+  "golden": {
+    "stripped": "248682954"
+  }
+}

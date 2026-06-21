@@ -1,0 +1,8 @@
+{
+  "source": "SEFAZ-AP / SINTEGRA cad_AP",
+  "url": "https://www.sefaz.ap.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_AP.html",
+  "golden": {
+    "stripped": "039045820"
+  }
+}

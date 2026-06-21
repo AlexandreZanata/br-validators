@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-TO / SINTEGRA cad_TO",
+  "url": "https://www.sefaz.to.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_TO.html",
+  "golden": {
+    "stripped": "27035910938",
+    "masked": "2703591093-8"
+  }
+}

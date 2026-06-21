@@ -17,6 +17,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.10.0-alpha.0] - 2026-06-21
+
+Inscrição Estadual — remaining 24 UFs (Phase 8b). Full Brazil coverage: 27 states.
+
+### Added
+
+- Per-UF validators: AC, AL, AM, AP, BA, CE, ES, GO, MA, MG, MS, PA, PB, PE, PI, PR, RJ, RN, RO, RR, RS, SC, SE, TO
+- Golden vectors: `tests/vectors/ie.{uf}.official.json` for each new UF
+- `IE_OFFICIAL_SOURCE_URLS` — primary SEFAZ URL per UF
+- CLI `--uf` accepts all 27 UFs (case-insensitive)
+- Playground `/ie` — selector for all 27 states with per-UF samples
+
+### Notes
+
+- Check digits only — no SEFAZ registration lookup
+- SP rural `P…` format still out of scope
+
+---
+
 ## [0.9.0-alpha.0] - 2026-06-21
 
 Inscrição Estadual validator — SP, MT, DF (Phase 8 v1).

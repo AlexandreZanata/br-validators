@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-GO / SINTEGRA cad_GO",
+  "url": "http://www.sefaz.go.gov.br/ServicosAFA/ece.html",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_GO.html",
+  "golden": {
+    "stripped": "112237118",
+    "masked": "11.223.711-8"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-PE / SINTEGRA cad_PE",
+  "url": "https://www.sefaz.pe.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_PE.html",
+  "golden": {
+    "stripped": "064970639",
+    "masked": "0649706-39"
+  }
+}

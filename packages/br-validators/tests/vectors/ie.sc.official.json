@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-SC / SINTEGRA cad_SC",
+  "url": "https://sat.sef.sc.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_SC.html",
+  "golden": {
+    "stripped": "632480718",
+    "masked": "632.480.718"
+  }
+}

@@ -66,14 +66,14 @@ describe('validateInscricaoEstadual', () => {
     if (result.ok) expect(result.value).toBe(IE_DF_GOLDEN);
   });
 
-  it('rejects unsupported UF', () => {
-    const result = validateInscricaoEstadual(IE_SP_GOLDEN, { uf: 'RJ' as 'SP' });
+  it('rejects unknown UF code', () => {
+    const result = validateInscricaoEstadual(IE_SP_GOLDEN, { uf: 'XX' as 'SP' });
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.code).toBe('UNSUPPORTED_FORMAT');
   });
 
   it('rejects UF mismatch on same value', () => {
-    expect(validateInscricaoEstadual(IE_SP_GOLDEN, { uf: 'MT' }).ok).toBe(false);
+    expect(validateInscricaoEstadual(IE_SP_GOLDEN, { uf: 'RJ' }).ok).toBe(false);
   });
 
   it('wraps isValidInscricaoEstadual', () => {

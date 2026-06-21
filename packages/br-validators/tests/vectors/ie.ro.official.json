@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-RO / SINTEGRA cad_RO",
+  "url": "https://www.sefin.ro.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_RO.html",
+  "golden": {
+    "stripped": "39206839474860",
+    "masked": "3920683947486-0"
+  }
+}

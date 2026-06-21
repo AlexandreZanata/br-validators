@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-RS / SINTEGRA cad_RS",
+  "url": "https://www.sefaz.rs.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_RS.html",
+  "golden": {
+    "stripped": "3288345503",
+    "masked": "328/8345503"
+  }
+}

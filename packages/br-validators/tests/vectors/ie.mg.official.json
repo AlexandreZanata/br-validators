@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-MG / SINTEGRA cad_MG",
+  "url": "https://www.fazenda.mg.gov.br/empresas/Cadastro/cadastro/consultapublica.html",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_MG.html",
+  "golden": {
+    "stripped": "2490944173923",
+    "masked": "249.094.417/3923"
+  }
+}

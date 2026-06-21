@@ -21,14 +21,14 @@ describe('resolveInput (ie)', () => {
 });
 
 describe('resolveUf', () => {
-  it('accepts supported UFs', () => {
+  it('accepts supported UFs case-insensitively', () => {
     expect(resolveUf('SP')).toBe('SP');
-    expect(resolveUf('MT')).toBe('MT');
-    expect(resolveUf('DF')).toBe('DF');
+    expect(resolveUf('rj')).toBe('RJ');
+    expect(resolveUf('mg')).toBe('MG');
   });
 
   it('rejects unknown UF', () => {
-    expect(resolveUf('RJ')).toBeNull();
+    expect(resolveUf('XX')).toBeNull();
     expect(resolveUf(undefined)).toBeNull();
   });
 });
@@ -101,6 +101,13 @@ describe('runIeCommand', () => {
     const io = { stdout: [] as string[], stderr: [] as string[] };
     runIeCommand('validate', IE_SP_GOLDEN, { json: false, quiet: false, source: true, uf: 'SP' }, io);
     expect(io.stdout.some((line) => line.startsWith('source:'))).toBe(true);
+  });
+
+  it('validates RJ golden vector', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(
+      runIeCommand('validate', '06540481', { json: false, quiet: true, source: false, uf: 'RJ' }, io),
+    ).toBe(EXIT.OK);
   });
 
   it('rejects wrong UF for value', () => {

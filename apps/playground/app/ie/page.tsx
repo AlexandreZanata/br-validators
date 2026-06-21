@@ -3,27 +3,59 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import {
-  IE_DF_OFFICIAL_SOURCE_URL,
-  IE_MT_OFFICIAL_SOURCE_URL,
+  IE_OFFICIAL_SOURCE_URLS,
   IE_SP_GOLDEN,
-  IE_SP_OFFICIAL_SOURCE_URL,
+  IE_SUPPORTED_UFS,
   formatInscricaoEstadual,
   stripInscricaoEstadual,
   validateInscricaoEstadual,
   type UfCode,
 } from 'br-validators';
 
-const UF_OPTIONS: { code: UfCode; label: string; sample: string; source: string }[] = [
-  { code: 'SP', label: 'São Paulo', sample: IE_SP_GOLDEN, source: IE_SP_OFFICIAL_SOURCE_URL },
-  { code: 'MT', label: 'Mato Grosso', sample: '00130000019', source: IE_MT_OFFICIAL_SOURCE_URL },
-  { code: 'DF', label: 'Distrito Federal', sample: '0730000100109', source: IE_DF_OFFICIAL_SOURCE_URL },
-];
+const UF_SAMPLES: Record<UfCode, string> = {
+  AC: '0113253877910',
+  AL: '248682954',
+  AM: '917050150',
+  AP: '039045820',
+  BA: '63984300',
+  CE: '836182316',
+  DF: '0730000100109',
+  ES: '463921810',
+  GO: '112237118',
+  MA: '123517680',
+  MG: '2490944173923',
+  MS: '282570926',
+  MT: '00130000019',
+  PA: '153662476',
+  PB: '312029063',
+  PE: '064970639',
+  PI: '465180426',
+  PR: '0031595584',
+  RJ: '06540481',
+  RN: '204502292',
+  RO: '39206839474860',
+  RR: '247681047',
+  RS: '3288345503',
+  SC: '632480718',
+  SE: '826594042',
+  SP: IE_SP_GOLDEN,
+  TO: '27035910938',
+};
+
+const UF_LABELS: Record<UfCode, string> = {
+  AC: 'Acre', AL: 'Alagoas', AM: 'Amazonas', AP: 'Amapá', BA: 'Bahia', CE: 'Ceará',
+  DF: 'Distrito Federal', ES: 'Espírito Santo', GO: 'Goiás', MA: 'Maranhão', MG: 'Minas Gerais',
+  MS: 'Mato Grosso do Sul', MT: 'Mato Grosso', PA: 'Pará', PB: 'Paraíba', PE: 'Pernambuco',
+  PI: 'Piauí', PR: 'Paraná', RJ: 'Rio de Janeiro', RN: 'Rio Grande do Norte', RO: 'Rondônia',
+  RR: 'Roraima', RS: 'Rio Grande do Sul', SC: 'Santa Catarina', SE: 'Sergipe', SP: 'São Paulo',
+  TO: 'Tocantins',
+};
 
 export default function IePlaygroundPage() {
   const [uf, setUf] = useState<UfCode>('SP');
   const [input, setInput] = useState(IE_SP_GOLDEN);
 
-  const ufMeta = UF_OPTIONS.find((o) => o.code === uf) ?? UF_OPTIONS[0];
+  const source = IE_OFFICIAL_SOURCE_URLS[uf];
 
   const stripped = useMemo(() => (input ? stripInscricaoEstadual(input) : ''), [input]);
   const validation = useMemo(
@@ -46,7 +78,7 @@ export default function IePlaygroundPage() {
       </Link>
       <h1 style={{ fontSize: '1.75rem', margin: '1rem 0 0.5rem' }}>Inscrição Estadual</h1>
       <p style={{ color: '#9aa5bd', marginBottom: '1.5rem' }}>
-        Check digits only · SP, MT, DF (UC-009) — no SEFAZ registration lookup
+        Check digits only · all 27 UFs (UC-009) — no SEFAZ registration lookup
       </p>
 
       <label style={{ display: 'block', marginBottom: '0.5rem', color: '#9aa5bd' }}>UF</label>
@@ -55,8 +87,7 @@ export default function IePlaygroundPage() {
         onChange={(e) => {
           const next = e.target.value as UfCode;
           setUf(next);
-          const meta = UF_OPTIONS.find((o) => o.code === next);
-          if (meta) setInput(meta.sample);
+          setInput(UF_SAMPLES[next]);
         }}
         style={{
           width: '100%',
@@ -70,9 +101,9 @@ export default function IePlaygroundPage() {
           marginBottom: '1rem',
         }}
       >
-        {UF_OPTIONS.map((o) => (
-          <option key={o.code} value={o.code}>
-            {o.code} — {o.label}
+        {IE_SUPPORTED_UFS.map((code) => (
+          <option key={code} value={code}>
+            {code} — {UF_LABELS[code]}
           </option>
         ))}
       </select>
@@ -83,6 +114,7 @@ export default function IePlaygroundPage() {
         onChange={(e) => {
           setInput(e.target.value);
         }}
+        placeholder="IE value"
         style={{
           width: '100%',
           boxSizing: 'border-box',
@@ -92,74 +124,59 @@ export default function IePlaygroundPage() {
           background: '#141b2f',
           color: '#e8ecf4',
           fontSize: '1rem',
+          marginBottom: '1rem',
         }}
       />
 
-      <section
-        style={{
-          marginTop: '1.5rem',
-          padding: '1.25rem',
-          borderRadius: 12,
-          background: '#141b2f',
-          border: '1px solid #24304d',
-          display: 'grid',
-          gap: '0.75rem',
-        }}
-      >
-        <Row label="Strip" value={stripped || '—'} />
-        <Row
-          label="Valid"
-          value={
-            validation
-              ? validation.ok
-                ? `yes (${validation.uf})`
-                : `no — ${validation.code}`
-              : '—'
-          }
-        />
-        <Row
-          label="Format"
-          value={
-            formatted?.ok
-              ? formatted.formatted
-              : formatted?.ok === false
-                ? formatted.message
-                : '—'
-          }
-        />
-      </section>
-
-      <p style={{ marginTop: '1.5rem', fontSize: '0.9rem' }}>
-        Official source ({uf}):{' '}
-        <a href={ufMeta.source} target="_blank" rel="noreferrer" style={{ color: '#7aa2ff' }}>
-          SEFAZ / SINTEGRA
-        </a>
-      </p>
-
-      {cliCommand && (
+      <section style={{ marginBottom: '1.5rem' }}>
+        <h2 style={{ fontSize: '1rem', color: '#9aa5bd', marginBottom: '0.5rem' }}>Validate</h2>
         <pre
           style={{
-            marginTop: '1rem',
+            background: '#0d1220',
             padding: '1rem',
             borderRadius: 10,
-            background: '#0f1528',
-            border: '1px solid #24304d',
             overflow: 'auto',
-            fontSize: '0.85rem',
+            fontSize: '0.9rem',
           }}
         >
-          {cliCommand}
+          {validation
+            ? JSON.stringify(
+                validation.ok
+                  ? { ok: true, value: validation.value, uf: validation.uf }
+                  : { ok: false, code: validation.code, message: validation.message },
+                null,
+                2,
+              )
+            : '—'}
         </pre>
-      )}
-    </main>
-  );
-}
+      </section>
 
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: '6rem 1fr', gap: '1rem', alignItems: 'start' }}>
-      <span style={{ color: '#9aa5bd' }}>{label}</span>
-      <code style={{ wordBreak: 'break-all' }}>{value}</code>
-    </div>
+      <section style={{ marginBottom: '1.5rem' }}>
+        <h2 style={{ fontSize: '1rem', color: '#9aa5bd', marginBottom: '0.5rem' }}>Format</h2>
+        <pre
+          style={{
+            background: '#0d1220',
+            padding: '1rem',
+            borderRadius: 10,
+            overflow: 'auto',
+            fontSize: '0.9rem',
+          }}
+        >
+          {formatted ? JSON.stringify(formatted, null, 2) : '—'}
+        </pre>
+      </section>
+
+      <section style={{ marginBottom: '1.5rem' }}>
+        <h2 style={{ fontSize: '1rem', color: '#9aa5bd', marginBottom: '0.5rem' }}>CLI</h2>
+        <code style={{ color: '#a8d5a2', wordBreak: 'break-all' }}>{cliCommand}</code>
+      </section>
+
+      <p style={{ fontSize: '0.85rem', color: '#6b7a99' }}>
+        Official source ({uf}):{' '}
+        <a href={source} target="_blank" rel="noopener noreferrer" style={{ color: '#7aa2ff' }}>
+          {source}
+        </a>
+      </p>
+    </main>
   );
 }

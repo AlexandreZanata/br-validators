@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-MS / SINTEGRA cad_MS",
+  "url": "https://www.sefaz.ms.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_MS.html",
+  "golden": {
+    "stripped": "282570926",
+    "masked": "28257092-6"
+  }
+}

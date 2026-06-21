@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-RJ / SINTEGRA cad_RJ",
+  "url": "https://portal.fazenda.rj.gov.br/cadastro/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_RJ.html",
+  "golden": {
+    "stripped": "06540481",
+    "masked": "06.540.48-1"
+  }
+}

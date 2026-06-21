@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-RN / SINTEGRA cad_RN",
+  "url": "https://www.set.rn.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_RN.html",
+  "golden": {
+    "stripped": "204502292",
+    "masked": "20.450.229-2"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-CE / SINTEGRA cad_CE",
+  "url": "https://www.sefaz.ce.gov.br/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_CE.html",
+  "golden": {
+    "stripped": "836182316",
+    "masked": "83618231-6"
+  }
+}

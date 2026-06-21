@@ -1,0 +1,9 @@
+{
+  "source": "SEFAZ-ES / SINTEGRA cad_ES",
+  "url": "https://sitenet.es.gov.br/sefaz/",
+  "mirrorUrl": "http://www.sintegra.gov.br/Cad_Estados/cad_ES.html",
+  "golden": {
+    "stripped": "463921810",
+    "masked": "46392181-0"
+  }
+}

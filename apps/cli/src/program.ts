@@ -30,7 +30,7 @@ export function createProgram(): Command {
   program
     .name('br-validators')
     .description('100% open-source Brazilian document validators')
-    .version('0.9.0-alpha.0');
+    .version('0.10.0-alpha.0');
 
   program
     .command('list')
@@ -297,7 +297,7 @@ export function createProgram(): Command {
       .command(action)
       .description(`${action} an Inscrição Estadual`)
       .argument('[value]', 'IE value (raw or masked)')
-      .requiredOption('--uf <uf>', 'State code: SP, MT, or DF')
+      .requiredOption('--uf <uf>', 'State code (27 UFs, e.g. SP, RJ, MG)')
       .option('--json', 'JSON output')
       .option('-q, --quiet', 'Exit code only')
       .option('--source', 'Include official source URL (validate only)')

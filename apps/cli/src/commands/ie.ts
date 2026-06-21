@@ -1,6 +1,7 @@
 import {
   formatInscricaoEstadual,
   getIeOfficialSourceUrl,
+  IE_SUPPORTED_UFS,
   stripInscricaoEstadual,
   validateInscricaoEstadual,
   type InscricaoEstadualValidationResult,
@@ -28,8 +29,12 @@ export function resolveInput(value: string | undefined, fileContent?: string): s
 }
 
 export function resolveUf(uf: string | undefined): UfCode | null {
-  if (uf === 'SP' || uf === 'MT' || uf === 'DF') {
-    return uf;
+  if (uf === undefined) {
+    return null;
+  }
+  const normalized = uf.toUpperCase();
+  if ((IE_SUPPORTED_UFS as readonly string[]).includes(normalized)) {
+    return normalized as UfCode;
   }
   return null;
 }
@@ -94,7 +99,7 @@ export function runIeCommand(
 ): number {
   const uf = resolveUf(options.uf);
   if (!uf) {
-    io.stderr.push('Missing or invalid --uf. Use SP, MT, or DF.');
+    io.stderr.push(`Missing or invalid --uf. Use one of: ${IE_SUPPORTED_UFS.join(', ')}.`);
     return EXIT.USAGE;
   }
 
