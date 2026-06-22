@@ -1,0 +1,176 @@
+import {
+  BOLETO_GOLDEN_LINHA_MASKED,
+  BOLETO_LAYOUTS_PORTAL_URL,
+  BOLETO_OFFICIAL_SOURCE_URL,
+  BRCODE_GOLDEN_STATIC_EVP,
+  BRCODE_OFFICIAL_SOURCE_URL,
+  CARTAO_GOLDEN_VISA_MASKED,
+  CARTAO_OFFICIAL_SOURCE_URL,
+  CEP_GOLDEN_PRIMARY_MASKED,
+  CEP_OFFICIAL_SOURCE_URL,
+  CNH_GOLDEN_PRIMARY_DECORATED_INPUT,
+  CNH_OFFICIAL_SOURCE_URL,
+  CNPJ_GOLDEN_ALPHANUMERIC_MASKED,
+  CNPJ_OFFICIAL_SOURCE_URL,
+  CPF_OFFICIAL_SOURCE_URL,
+  IE_OFFICIAL_SOURCE_URLS,
+  IE_SP_GOLDEN,
+  NFE_CHAVE_GOLDEN_PRIMARY,
+  NFE_CHAVE_OFFICIAL_SOURCE_URL,
+  PIS_PASEP_OFFICIAL_SOURCE_URL,
+  PLACA_GOLDEN_MERCOSUL,
+  PLACA_OFFICIAL_SOURCE_URL,
+  PIX_DICT_API_SOURCE_URL,
+  PIX_OFFICIAL_SOURCE_URL,
+  RENAVAM_GOLDEN_DASH_INPUT,
+  RENAVAM_OFFICIAL_SOURCE_URL,
+  TELEFONE_GOLDEN_CELULAR_MASKED,
+  TELEFONE_OFFICIAL_SOURCE_URL,
+  TITULO_ELEITOR_GOLDEN_MASKED_INPUT,
+  TITULO_ELEITOR_OFFICIAL_SOURCE_URL,
+} from '@br-validators/core';
+import type { DocumentSlug } from './nav';
+
+export type OfficialLink = { href: string; label: string };
+
+export type DocumentMeta = {
+  title: string;
+  description: string;
+  defaultInput: string;
+  inputLabel: string;
+  cliSlug: string;
+  officialLinks: OfficialLink[];
+};
+
+export const DOCUMENT_META: Record<DocumentSlug, DocumentMeta> = {
+  cpf: {
+    title: 'CPF Validator',
+    description: 'Numeric only · RFB modulo 11 (UC-001)',
+    defaultInput: '123.456.789-09',
+    inputLabel: 'Input',
+    cliSlug: 'cpf',
+    officialLinks: [{ href: CPF_OFFICIAL_SOURCE_URL, label: 'Official source: RFB CPF portal' }],
+  },
+  cnpj: {
+    title: 'CNPJ Validator',
+    description: 'Numeric + alphanumeric · RFB modulo 11 (Q14)',
+    defaultInput: CNPJ_GOLDEN_ALPHANUMERIC_MASKED,
+    inputLabel: 'Input',
+    cliSlug: 'cnpj',
+    officialLinks: [{ href: CNPJ_OFFICIAL_SOURCE_URL, label: 'Official source: RFB CNPJ alfanumérico (PDF)' }],
+  },
+  cep: {
+    title: 'CEP Validator',
+    description: '8-digit format only · no check digit · no registration lookup',
+    defaultInput: CEP_GOLDEN_PRIMARY_MASKED,
+    inputLabel: 'Input',
+    cliSlug: 'cep',
+    officialLinks: [{ href: CEP_OFFICIAL_SOURCE_URL, label: 'Official source: Correios Busca CEP manual' }],
+  },
+  telefone: {
+    title: 'Telefone Validator',
+    description: 'Anatel DDD · fixo (8-digit) or celular (9-digit)',
+    defaultInput: TELEFONE_GOLDEN_CELULAR_MASKED,
+    inputLabel: 'Input',
+    cliSlug: 'telefone',
+    officialLinks: [{ href: TELEFONE_OFFICIAL_SOURCE_URL, label: 'Official source: Anatel — Plano de Numeração Brasileiro' }],
+  },
+  placa: {
+    title: 'Placa Validator',
+    description: 'Legacy + Mercosul · CONTRAN patterns',
+    defaultInput: PLACA_GOLDEN_MERCOSUL,
+    inputLabel: 'Input',
+    cliSlug: 'placa',
+    officialLinks: [{ href: PLACA_OFFICIAL_SOURCE_URL, label: 'Official source: CONTRAN Resolução 729/2018' }],
+  },
+  pis: {
+    title: 'PIS/PASEP Validator',
+    description: 'Numeric only · modulo 11 (UC-006)',
+    defaultInput: '100.27230.88-8',
+    inputLabel: 'Input',
+    cliSlug: 'pis-pasep',
+    officialLinks: [{ href: PIS_PASEP_OFFICIAL_SOURCE_URL, label: 'Official source: SIPREV RV_03 (gov.br)' }],
+  },
+  cnh: {
+    title: 'CNH Validator',
+    description: '11-digit RENACH · modulo 11',
+    defaultInput: CNH_GOLDEN_PRIMARY_DECORATED_INPUT,
+    inputLabel: 'Input',
+    cliSlug: 'cnh',
+    officialLinks: [{ href: CNH_OFFICIAL_SOURCE_URL, label: 'Official source: CONTRAN / RENACH' }],
+  },
+  renavam: {
+    title: 'RENAVAM Validator',
+    description: '9–11 digit vehicle registry · modulo 11',
+    defaultInput: RENAVAM_GOLDEN_DASH_INPUT,
+    inputLabel: 'Input',
+    cliSlug: 'renavam',
+    officialLinks: [{ href: RENAVAM_OFFICIAL_SOURCE_URL, label: 'Official source: DENATRAN / SENATRAN' }],
+  },
+  'titulo-eleitor': {
+    title: 'Título de Eleitor Validator',
+    description: '12-digit electoral registration · TSE modulo 11',
+    defaultInput: TITULO_ELEITOR_GOLDEN_MASKED_INPUT,
+    inputLabel: 'Input',
+    cliSlug: 'titulo-eleitor',
+    officialLinks: [{ href: TITULO_ELEITOR_OFFICIAL_SOURCE_URL, label: 'Official source: TSE manual' }],
+  },
+  'nfe-chave': {
+    title: 'NF-e Chave Validator',
+    description: '44-digit NF-e access key · modulo 11',
+    defaultInput: NFE_CHAVE_GOLDEN_PRIMARY,
+    inputLabel: 'Chave de acesso',
+    cliSlug: 'nfe-chave',
+    officialLinks: [{ href: NFE_CHAVE_OFFICIAL_SOURCE_URL, label: 'Official source: NF-e manual (SEFAZ)' }],
+  },
+  ie: {
+    title: 'Inscrição Estadual',
+    description: 'Check digits only · all 27 UFs (UC-009)',
+    defaultInput: IE_SP_GOLDEN,
+    inputLabel: 'Input',
+    cliSlug: 'ie',
+    officialLinks: [],
+  },
+  pix: {
+    title: 'PIX Key Validator',
+    description: 'CPF · CNPJ · email · phone (+55) · EVP',
+    defaultInput: '',
+    inputLabel: 'Input',
+    cliSlug: 'pix',
+    officialLinks: [
+      { href: PIX_OFFICIAL_SOURCE_URL, label: 'Official source: Manual Iniciação Pix' },
+      { href: PIX_DICT_API_SOURCE_URL, label: 'Official source: DICT API' },
+    ],
+  },
+  brcode: {
+    title: 'BR Code Parser',
+    description: 'Bacen EMV TLV + CRC16-CCITT',
+    defaultInput: BRCODE_GOLDEN_STATIC_EVP,
+    inputLabel: 'Payload',
+    cliSlug: 'brcode',
+    officialLinks: [{ href: BRCODE_OFFICIAL_SOURCE_URL, label: 'Official source: Bacen — Manual BR Code' }],
+  },
+  boleto: {
+    title: 'Boleto Validator',
+    description: 'Linha digitável (47) · código de barras (44)',
+    defaultInput: BOLETO_GOLDEN_LINHA_MASKED,
+    inputLabel: 'Input',
+    cliSlug: 'boleto',
+    officialLinks: [
+      { href: BOLETO_OFFICIAL_SOURCE_URL, label: 'Official source: Convenção da Cobrança' },
+      { href: BOLETO_LAYOUTS_PORTAL_URL, label: 'Official source: FEBRABAN Layouts' },
+    ],
+  },
+  cartao: {
+    title: 'Credit Card Validator',
+    description: 'Luhn checksum (ISO/IEC 7812-1) · best-effort brand detection',
+    defaultInput: CARTAO_GOLDEN_VISA_MASKED,
+    inputLabel: 'Input',
+    cliSlug: 'cartao-credito',
+    officialLinks: [{ href: CARTAO_OFFICIAL_SOURCE_URL, label: 'Official source: ISO/IEC 7812-1:2017' }],
+  },
+};
+
+export function ieOfficialLink(uf: keyof typeof IE_OFFICIAL_SOURCE_URLS): OfficialLink {
+  return { href: IE_OFFICIAL_SOURCE_URLS[uf], label: `Official source (${uf})` };
+}

@@ -1,7 +1,7 @@
 {
   "name": "@br-validators/cli",
-  "version": "0.12.0-alpha.0",
-  "description": "Terminal CLI for Brazilian document validation — CPF, CNPJ, CEP, IE, PIX, boleto, and more",
+  "version": "0.12.0-alpha.1",
+  "description": "CLI for @br-validators/core — CPF, CNPJ, NF-e, IE, PIX, boleto + detect/sanitize/generate",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -18,7 +18,16 @@
     "cli",
     "validator",
     "cpf",
-    "cnpj"
+    "cnpj",
+    "nfe",
+    "cnh",
+    "renavam",
+    "pix",
+    "boleto",
+    "inscricao-estadual",
+    "detect",
+    "sanitize",
+    "generate"
   ],
   "publishConfig": {
     "access": "public",

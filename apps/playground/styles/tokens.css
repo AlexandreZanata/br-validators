@@ -1,0 +1,60 @@
+:root {
+  --bg-base: #0a0a0a;
+  --bg-surface: #141414;
+  --bg-subtle: #1c1c1c;
+  --border: #2a2a2a;
+  --text-primary: #f5f5f5;
+  --text-muted: #a3a3a3;
+  --accent: #e5e5e5;
+  --accent-hover: #fafafa;
+  --accent-fg: #171717;
+  --accent-muted: #525252;
+  --focus-ring: #737373;
+  --focus-ring-alpha: rgb(115 115 115 / 28%);
+  --success: #4ade80;
+  --error: #f87171;
+  --warning: #facc15;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-9: 2.25rem;
+  --space-10: 2.5rem;
+  --space-11: 2.75rem;
+  --space-12: 3rem;
+  --space-13: 3.25rem;
+  --space-14: 3.5rem;
+  --space-15: 3.75rem;
+  --space-16: 4rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 1.75rem;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 20%);
+  --shadow-md: 0 8px 24px rgb(0 0 0 / 32%);
+}
+
+html[data-theme='light'] {
+  --bg-base: #f4f6fb;
+  --bg-surface: #fff;
+  --bg-subtle: #eef2ff;
+  --border: #d0d8ec;
+  --text-primary: #0b1020;
+  --text-muted: #4b5a72;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-fg: #fff;
+  --accent-muted: #2563eb;
+  --focus-ring: #2563eb;
+  --focus-ring-alpha: rgb(37 99 235 / 18%);
+}
