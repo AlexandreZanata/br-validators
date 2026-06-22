@@ -12,13 +12,14 @@ export type DocumentFormat =
   | 'inscricao-estadual'
   | 'inscricao-estadual-produtor-rural'
   | 'telefone'
-  | 'brcode';
+  | 'brcode'
+  | 'arrecadacao';
 
 export type PixKeyType = 'cpf' | 'cnpj' | 'email' | 'phone' | 'evp';
 
 export type TelefoneTipo = 'celular' | 'fixo';
 
-export type BoletoInputKind = 'linha-digitavel' | 'codigo-barras';
+export type BoletoInputKind = 'linha-digitavel' | 'codigo-barras' | 'arrecadacao-linha' | 'arrecadacao-codigo-barras';
 
 export type ValidationErrorCode =
   | 'INVALID_LENGTH'
@@ -70,13 +71,31 @@ export type PixValidationResult =
 
 export type BoletoSituacao = '1' | '2';
 
+export type CobrancaBoletoValidationResult =
+  | {
+      ok: true;
+      value: LinhaDigitavel | CodigoBarras;
+      inputKind: 'linha-digitavel' | 'codigo-barras';
+      format: 'linha-digitavel' | 'codigo-barras';
+      situacao: BoletoSituacao;
+    }
+  | { ok: false; code: ValidationErrorCode; message: string; inputKind?: BoletoInputKind };
+
 export type BoletoValidationResult =
   | {
       ok: true;
       value: LinhaDigitavel | CodigoBarras;
-      inputKind: BoletoInputKind;
-      format: DocumentFormat;
+      inputKind: 'linha-digitavel' | 'codigo-barras';
+      format: 'linha-digitavel' | 'codigo-barras';
       situacao: BoletoSituacao;
+    }
+  | {
+      ok: true;
+      value: string;
+      inputKind: 'arrecadacao-linha' | 'arrecadacao-codigo-barras';
+      format: 'arrecadacao';
+      segment: string;
+      valueType: '6' | '7' | '8' | '9';
     }
   | { ok: false; code: ValidationErrorCode; message: string; inputKind?: BoletoInputKind };
 

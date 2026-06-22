@@ -35,6 +35,9 @@
     "sanitize",
     "generate",
     "mask",
+    "compare",
+    "batch",
+    "diff",
     "typescript"
   ],
   "publishConfig": {
@@ -127,6 +130,18 @@
     "./mask": {
       "types": "./dist/mask.d.ts",
       "import": "./dist/mask.js"
+    },
+    "./compare": {
+      "types": "./dist/compare.d.ts",
+      "import": "./dist/compare.js"
+    },
+    "./batch": {
+      "types": "./dist/batch.d.ts",
+      "import": "./dist/batch.js"
+    },
+    "./diff": {
+      "types": "./dist/diff.d.ts",
+      "import": "./dist/diff.js"
     }
   },
   "files": [

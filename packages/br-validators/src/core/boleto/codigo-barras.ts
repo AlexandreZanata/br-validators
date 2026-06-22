@@ -2,7 +2,7 @@
  * Código de barras validation — modulo 11 general DV (Anexo X).
  * @see BR-BOLETO-003, BR-BOLETO-004, BR-BOLETO-010
  */
-import type { BoletoSituacao, BoletoValidationResult } from '../../types/validation-result.js';
+import type { BoletoSituacao, CobrancaBoletoValidationResult } from '../../types/validation-result.js';
 import { brandCodigoBarras } from '../../types/validation-result.js';
 import {
   BOLETO_CODIGO_BARRAS_LENGTH,
@@ -11,7 +11,7 @@ import {
 import { detectBoletoSituacao, toBoletoSituacaoCode } from './detect-situacao.js';
 import { computeModulo11BarcodeDv } from './modulo11.js';
 
-type FailedResult = Extract<BoletoValidationResult, { ok: false }>;
+type FailedResult = Extract<CobrancaBoletoValidationResult, { ok: false }>;
 
 function failure(code: FailedResult['code'], message: string): FailedResult {
   return { ok: false, code, message, inputKind: 'codigo-barras' };
@@ -21,7 +21,7 @@ export function stripCodigoBarras(input: string): string {
   return input.replace(/\D/g, '');
 }
 
-export function validateCodigoBarras(input: string): BoletoValidationResult {
+export function validateCodigoBarras(input: string): CobrancaBoletoValidationResult {
   const trimmed = input.trim();
   if (trimmed.length === 0) {
     return { ok: false, code: 'EMPTY_INPUT', message: 'Código de barras input is empty' };

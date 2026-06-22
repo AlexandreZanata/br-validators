@@ -32,3 +32,10 @@ export const BOLETO_OFFICIAL_SOURCE_URL =
 
 export const BOLETO_LAYOUTS_PORTAL_URL =
   'https://portal.febraban.org.br/pagina/3425/33/pt-br/layout-febraban';
+
+export const BOLETO_ARRECADACAO_LINHA_LENGTH = 48;
+export const BOLETO_ARRECADACAO_CODIGO_BARRAS_LENGTH = 44;
+export const BOLETO_ARRECADACAO_PRODUCT_ID = '8';
+
+export const BOLETO_ARRECADACAO_OFFICIAL_SOURCE_URL =
+  'https://cmsarquivos.febraban.org.br/Arquivos/documentos/PDF/Layout%20-%20C%C3%B3digo%20de%20Barras%20-%20Vers%C3%A3o%207%20-%2001_03_2023_mn.pdf';

@@ -530,11 +530,16 @@
 - **WHEN** validating
 - **THEN** strip non-digits before structural checks
 
-### BR-BOLETO-009 — Arrecadação out of scope
+### BR-BOLETO-009 — Arrecadação (48-digit linha / 44-digit barcode)
 
-- **GIVEN** 48-digit input starting with `8`
-- **WHEN** validating in v1
-- **THEN** reject with `UNSUPPORTED_FORMAT`
+- **GIVEN** 48-digit linha or 44-digit código de barras starting with product id `8`
+- **WHEN** validating via `validateArrecadacao` / `validateBoleto`
+- **THEN** value type at position 3 must be `6`, `7`, `8`, or `9`
+- **AND** for linha: validate modulo 10 (types `6`/`7`) or modulo 11 (types `8`/`9`) field DVs on four 11-digit blocks
+- **AND** validate general DV on assembled 44-digit payload (same modulo as value type)
+- **AND** on failure return `INVALID_CHECK_DIGIT`, `INVALID_LENGTH`, or `UNSUPPORTED_FORMAT` — never throw
+
+**Official source:** [FEBRABAN Layout Arrecadação v7 (PDF)](https://cmsarquivos.febraban.org.br/Arquivos/documentos/PDF/Layout%20-%20C%C3%B3digo%20de%20Barras%20-%20Vers%C3%A3o%207%20-%2001_03_2023_mn.pdf) · `tests/vectors/boleto-arrecadacao.official.json`
 
 ### BR-BOLETO-010 — Barcode DV edge cases
 
@@ -729,7 +734,7 @@ Each row maps to `validateIe{Uf}` and `BR-IE-{UF}-001`. Algorithm detail: [IE-ST
 - **GIVEN** non-empty raw input
 - **WHEN** calling `detect(raw, options?)`
 - **THEN** run structural pre-checks in fixed priority order; for each candidate call the existing `validate*` (never duplicate DV logic); return first `{ ok: true }` match with `type`, `value`, optional `format` and `meta`
-- **AND** skip 48-digit boleto arrecadação (not validated as standard boleto)
+- **AND** try boleto arrecadação (48-digit `8…`) before cobrança boleto
 - **AND** for 11-digit numeric input try CPF → CNH → PIS (RENAVAM equivalent DV may classify as `pis-pasep`)
 - **AND** IE detection runs only when `options.uf` is set; SP `P` prefix → `validateIeProdutorRural`
 - **AND** if no match, return `{ type: 'unknown', ok: false, code: 'UNSUPPORTED_FORMAT', ... }`
@@ -757,6 +762,38 @@ Official sources: per detected type — [OFFICIAL-SOURCES.md](OFFICIAL-SOURCES.m
 - **NOT** generatable: boleto, NF-e chave, IE, BR Code, PIX
 
 DV sources per type: [OFFICIAL-SOURCES.md](OFFICIAL-SOURCES.md).
+
+### BR-MASK-001 — Unified display mask
+
+- **GIVEN** raw input and explicit `MaskableDocumentType`
+- **WHEN** calling `mask(raw, type, options?)`
+- **THEN** strip → `validate*` → `format*`; return `FormatResult` — never throw
+- **AND** require `options.uf` for `inscricao-estadual`
+
+Official mask rules per type: [OFFICIAL-SOURCES.md](OFFICIAL-SOURCES.md).
+
+### BR-COMPARE-001 — Normalized equality
+
+- **GIVEN** two raw strings and `PlatformDocumentType`
+- **WHEN** calling `compare(a, b, type, options?)`
+- **THEN** normalize both via strip + validated canonical when possible; return `{ equal: boolean }`
+- **AND** never throw
+
+### BR-BATCH-001 — Batch validation
+
+- **GIVEN** `readonly string[]` and `PlatformDocumentType`
+- **WHEN** calling `batch(inputs, type, options?)`
+- **THEN** map each row through `validateForPlatform`; partition into `valid` / `invalid` with `summary`
+- **AND** never throw on invalid rows
+
+### BR-DIFF-001 — Field-level diff
+
+- **GIVEN** two raw strings and `PlatformDocumentType`
+- **WHEN** calling `diff(a, b, type, options?)`
+- **THEN** normalize both; split per-type structural fields (CPF base/DV, CNPJ base/DV, NF-e segments, etc.)
+- **AND** return `{ changed, fields: [{ field, a, b }] }` — opaque single-field diff for types without decomposition
+
+Per-type field depth: [LIBRARY-API.md](LIBRARY-API.md#diffa-b-type-options). Official structures: [OFFICIAL-SOURCES.md](OFFICIAL-SOURCES.md).
 
 ---
 

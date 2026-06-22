@@ -289,7 +289,7 @@ describe('validateBoleto union', () => {
   it('validates linha auto-detect', () => {
     const result = validateBoleto(BOLETO_GOLDEN_LINHA_STRIPPED);
     expect(result.ok).toBe(true);
-    if (result.ok) {
+    if (result.ok && result.format !== 'arrecadacao') {
       expect(result.inputKind).toBe('linha-digitavel');
       expect(result.format).toBe('linha-digitavel');
       expect(result.situacao).toBe('1');
@@ -299,7 +299,7 @@ describe('validateBoleto union', () => {
   it('validates Situação 2 linha with situacao 2', () => {
     const result = validateBoleto(BOLETO_GOLDEN_LINHA_SITUACAO2_STRIPPED);
     expect(result.ok).toBe(true);
-    if (result.ok) {
+    if (result.ok && result.format !== 'arrecadacao') {
       expect(result.situacao).toBe('2');
       expect(detectBoletoSituacao(result.value)).toBe('situacao-2');
     }
@@ -349,11 +349,21 @@ describe('validateBoleto union', () => {
     if (!result.ok) expect(result.code).toBe('UNSUPPORTED_FORMAT');
   });
 
-  it('rejects arrecadacao 48 on validate', () => {
+  it('validates arrecadacao 48 when check digits are valid', async () => {
+    const arrecadacaoVectors = await import('../../vectors/boleto-arrecadacao.official.json');
+    const result = validateBoleto(arrecadacaoVectors.primary.linha);
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.format).toBe('arrecadacao');
+      expect(detectBoletoInputKind(arrecadacaoVectors.primary.linha)).toBe('arrecadacao');
+    }
+  });
+
+  it('rejects invalid arrecadacao 48', () => {
     const result = validateBoleto(vectors.negative.arrecadacao48);
     expect(result.ok).toBe(false);
     if (!result.ok) {
-      expect(result.code).toBe('UNSUPPORTED_FORMAT');
+      expect(result.code).toBe('INVALID_CHECK_DIGIT');
       expect(detectBoletoInputKind(vectors.negative.arrecadacao48)).toBe('arrecadacao');
     }
   });
@@ -405,7 +415,7 @@ describe('convertLinhaToCodigoBarras / convertCodigoBarrasToLinhaDigitavel', () 
   it('converts valid Situação 2 barcode to linha', () => {
     const result = convertCodigoBarrasToLinhaDigitavel(BOLETO_GOLDEN_CODIGO_BARRAS_SITUACAO2);
     expect(result.ok).toBe(true);
-    if (result.ok) {
+    if (result.ok && result.format !== 'arrecadacao') {
       expect(result.value).toBe(BOLETO_GOLDEN_LINHA_SITUACAO2_STRIPPED);
       expect(result.situacao).toBe('2');
     }

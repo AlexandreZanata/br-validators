@@ -33,6 +33,10 @@
 | `@br-validators/core/inscricao-estadual-produtor-rural` | SP produtor rural IE (Regra II) |
 | `@br-validators/core/detect` | Unified type detection router |
 | `@br-validators/core/sanitize` | ETL fixes + validate pipeline |
+| `@br-validators/core/mask` | Unified display mask (delegates to `format*`) |
+| `@br-validators/core/compare` | Normalized equality check |
+| `@br-validators/core/batch` | Batch validation with summary |
+| `@br-validators/core/diff` | Field-level structural diff |
 | `@br-validators/core/generate` | Synthetic test document generation |
 
 ---
@@ -288,9 +292,14 @@ Phone keys: E.164 with `+55` Brazilian mobile per DICT. EVP: lowercase UUID with
 |----------|-----------|----------|
 | `detectBoletoInputKind` | `(input: string) => DetectedBoletoInputKind` | `linha-digitavel` \| `codigo-barras` \| `arrecadacao` \| `unknown` |
 | `detectBoletoSituacao` | `(stripped: string) => BoletoSituacaoKind` | `situacao-1` \| `situacao-2` \| `unknown` |
-| `validateBoleto` | `(input: string, options?: ValidateBoletoOptions) => BoletoValidationResult` | Auto-detect + validate |
-| `validateLinhaDigitavel` | `(input: string) => BoletoValidationResult` | 47 digits, modulo 10 field DVs |
-| `validateCodigoBarras` | `(input: string) => BoletoValidationResult` | 44 digits, modulo 11 barcode DV |
+| `validateBoleto` | `(input: string, options?: ValidateBoletoOptions) => BoletoValidationResult` | Auto-detect cobrança or arrecadação + validate |
+| `validateLinhaDigitavel` | `(input: string) => CobrancaBoletoValidationResult` | 47 digits, modulo 10 field DVs |
+| `validateCodigoBarras` | `(input: string) => CobrancaBoletoValidationResult` | 44 digits, modulo 11 barcode DV |
+| `validateArrecadacao` | `(input: string) => ArrecadacaoValidationResult` | 48-digit linha or 44-digit barcode (product `8`) |
+| `validateArrecadacaoLinha` | `(input: string) => ArrecadacaoValidationResult` | 48 digits, modulo 10/11 field DVs + general DV |
+| `validateArrecadacaoCodigoBarras` | `(input: string) => ArrecadacaoValidationResult` | 44 digits, general DV only |
+| `linhaArrecadacaoToCodigoBarras` | `(linha48: string) => string` | Strip field DVs → 44-digit payload |
+| `isValidArrecadacao` | `(input: string) => boolean` | Boolean wrapper |
 | `validateFatorVencimento` | `(factor: string) => FatorVencimentoValidationResult` | Optional semantic (Situação 1) |
 | `validateValorDocumento` | `(value: string) => ValorDocumentoValidationResult` | Optional semantic (Situação 1) |
 | `convertLinhaToCodigoBarras` | `(input: string) => BoletoValidationResult` | Validate linha → return barcode |
@@ -300,10 +309,19 @@ Phone keys: E.164 with `+55` Brazilian mobile per DICT. EVP: lowercase UUID with
 | `isValidBoleto` | `(input: string, options?) => boolean` | Boolean wrapper |
 
 ```typescript
-type BoletoInputKind = 'linha-digitavel' | 'codigo-barras';
+type BoletoInputKind =
+  | 'linha-digitavel'
+  | 'codigo-barras'
+  | 'arrecadacao-linha'
+  | 'arrecadacao-codigo-barras';
+
+type CobrancaBoletoValidationResult =
+  | { ok: true; value: LinhaDigitavel | CodigoBarras; inputKind: 'linha-digitavel' | 'codigo-barras'; format: 'linha-digitavel' | 'codigo-barras'; situacao: '1' | '2' }
+  | { ok: false; code: ValidationErrorCode; message: string; inputKind?: BoletoInputKind };
 
 type BoletoValidationResult =
-  | { ok: true; value: LinhaDigitavel | CodigoBarras; inputKind: BoletoInputKind; format: DocumentFormat; situacao: '1' | '2' }
+  | Extract<CobrancaBoletoValidationResult, { ok: true }>
+  | { ok: true; value: string; inputKind: 'arrecadacao-linha' | 'arrecadacao-codigo-barras'; format: 'arrecadacao'; segment: string; valueType: '6' | '7' | '8' | '9' }
   | { ok: false; code: ValidationErrorCode; message: string; inputKind?: BoletoInputKind };
 
 type ValidateBoletoOptions = {
@@ -313,9 +331,14 @@ type ValidateBoletoOptions = {
 };
 ```
 
-Golden vectors: Santander Situação 1 linha ↔ barcode; Situação 2 pair in `tests/vectors/boleto.situacao2.official.json`.
+Golden vectors: Santander Situação 1 linha ↔ barcode; Situação 2 pair in `tests/vectors/boleto.situacao2.official.json`; arrecadação in `tests/vectors/boleto-arrecadacao.official.json`.
 
-**Official source:** [FEBRABAN Convenção da Cobrança FB-0061/2021 (PDF)](https://cmsarquivos.febraban.org.br/Arquivos/documentos/PDF/Conven%C3%A7%C3%A3o%20da%20Cobran%C3%A7a%20-%2005_02_2021_f.pdf) · `BOLETO_OFFICIAL_SOURCE_URL` · `tests/vectors/boleto.official.json`
+**Official sources:**
+
+| Kind | Source |
+|------|--------|
+| Cobrança (47/44) | [FEBRABAN Convenção da Cobrança FB-0061/2021 (PDF)](https://cmsarquivos.febraban.org.br/Arquivos/documentos/PDF/Conven%C3%A7%C3%A3o%20da%20Cobran%C3%A7a%20-%2005_02_2021_f.pdf) · `BOLETO_OFFICIAL_SOURCE_URL` |
+| Arrecadação (48/44, product `8`) | [FEBRABAN Layout Padrão de Arrecadação v7 (PDF)](https://cmsarquivos.febraban.org.br/Arquivos/documentos/PDF/Layout%20-%20C%C3%B3digo%20de%20Barras%20-%20Vers%C3%A3o%207%20-%2001_03_2023_mn.pdf) · `BOLETO_ARRECADACAO_OFFICIAL_SOURCE_URL` |
 
 ---
 
@@ -476,7 +499,7 @@ type DetectResult =
 function detect(raw: string, options?: DetectOptions): DetectResult;
 ```
 
-**Priority router (first structural match + `validate*` success wins):** boleto (skip 48-digit arrecadação) → NF-e chave → BR Code → CNPJ alphanumeric → CNPJ numeric → 11-digit bucket (CPF → CNH → PIS) → título eleitor (12 digits) → CEP → placa → PIX → telefone → cartão → IE (only when `options.uf` set).
+**Priority router (first structural match + `validate*` success wins):** boleto arrecadação (48-digit `8…`) → boleto cobrança → NF-e chave → BR Code → CNPJ alphanumeric → CNPJ numeric → 11-digit bucket (CPF → CNH → PIS) → título eleitor (12 digits) → CEP → placa → PIX → telefone → cartão → IE (only when `options.uf` set).
 
 **11-digit note:** PIS and RENAVAM share equivalent modulo-11 math; valid RENAVAM values that also pass PIS validation are classified as `pis-pasep`.
 
@@ -569,6 +592,83 @@ mask('11999999999', 'telefone');
 ```
 
 Implementation: `strip → validate → apply mask` via existing `format*`. See [use-cases/UC-003-format-document.md](use-cases/UC-003-format-document.md).
+
+### `compare(a, b, type, options?)`
+
+Import: `@br-validators/core/compare` or barrel.
+
+Normalized equality — strips and, when possible, canonicalizes via the matching `validate*` before comparing. **Never throws.**
+
+```typescript
+type PlatformDocumentType = SanitizableDocumentType | 'pix' | 'brcode';
+
+type CompareResult = { equal: boolean };
+
+function compare(a: string, b: string, type: PlatformDocumentType, options?: PlatformOptions): CompareResult;
+function compareRuntime(a: string, b: string, type: string, options?: PlatformOptions): CompareResult | { equal: false; code: 'UNSUPPORTED_FORMAT'; message: string };
+```
+
+`inscricao-estadual` requires `options.uf`. Official normalization rules per type: [OFFICIAL-SOURCES.md](OFFICIAL-SOURCES.md).
+
+```typescript
+import { compare } from '@br-validators/core/compare';
+
+compare('123.456.789-09', '12345678909', 'cpf');
+// → { equal: true }
+```
+
+### `batch(inputs, type, options?)`
+
+Import: `@br-validators/core/batch` or barrel.
+
+Maps each row through `validateForPlatform` — **never throws** on invalid rows.
+
+```typescript
+type BatchResult = {
+  valid: Array<{ index: number; input: string; value: string }>;
+  invalid: Array<{ index: number; input: string; code: ValidationErrorCode; message: string }>;
+  summary: { total: number; valid: number; invalid: number };
+};
+
+function batch(inputs: readonly string[], type: PlatformDocumentType, options?: PlatformOptions): BatchResult;
+```
+
+Per-type validation delegates to official `validate*` helpers — [OFFICIAL-SOURCES.md](OFFICIAL-SOURCES.md).
+
+```typescript
+import { batch } from '@br-validators/core/batch';
+
+batch(['12345678909', 'bad'], 'cpf');
+// → { valid: [{ index: 0, input: '...', value: '12345678909' }], invalid: [...], summary: { total: 2, valid: 1, invalid: 1 } }
+```
+
+### `diff(a, b, type, options?)`
+
+Import: `@br-validators/core/diff` or barrel.
+
+Field-level structural diff after normalization. Returns `{ changed, fields: [{ field, a, b }] }`.
+
+| Type | Fields compared |
+|------|-----------------|
+| `cpf` | `base` (9), `dv` (2) |
+| `cnpj` | `base` (12), `dv` (2) |
+| `cep` | `prefix` (5), `suffix` (3) |
+| `telefone` | `ddd`, `subscriber` |
+| `pis-pasep` | `base`, `dv` |
+| `cnh` | `base`, `dv1`, `dv2` |
+| `renavam` | `base`, `dv` |
+| `titulo-eleitor` | `sequential`, `uf`, `dv` |
+| `nfe-chave` | `cUF`, `aamm`, `cnpj`, `mod`, `serie`, `nNF`, `tpEmis`, `cNF`, `cDV` |
+| opaque types | single `value` (`boleto`, `pix`, `brcode`, `placa`, `cartao-credito`, IE variants) |
+
+```typescript
+import { diff } from '@br-validators/core/diff';
+
+diff('12345678909', '12345678901', 'cpf');
+// → { changed: true, fields: [{ field: 'dv', a: '09', b: '01' }] }
+```
+
+Field splits follow the same official document structures cited in [OFFICIAL-SOURCES.md](OFFICIAL-SOURCES.md).
 
 ### `generate(type, options?)`
 

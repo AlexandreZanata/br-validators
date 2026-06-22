@@ -44,8 +44,23 @@ export {
   BOLETO_LAYOUTS_PORTAL_URL,
   BOLETO_LINHA_LENGTH,
   BOLETO_OFFICIAL_SOURCE_URL,
+  BOLETO_ARRECADACAO_LINHA_LENGTH,
+  BOLETO_ARRECADACAO_CODIGO_BARRAS_LENGTH,
+  BOLETO_ARRECADACAO_PRODUCT_ID,
+  BOLETO_ARRECADACAO_OFFICIAL_SOURCE_URL,
+  isValidArrecadacao,
+  stripArrecadacao,
+  validateArrecadacao,
+  validateArrecadacaoCodigoBarras,
+  validateArrecadacaoLinha,
+  linhaArrecadacaoToCodigoBarras,
+  computeArrecadacaoModulo10Dv,
+  computeArrecadacaoModulo11Dv,
 } from './boleto.js';
 export type {
+  ArrecadacaoInputKind,
+  ArrecadacaoValidationResult,
+  ArrecadacaoValueType,
   BoletoInputKind,
   BoletoSituacao,
   BoletoValidationResult,
@@ -149,6 +164,12 @@ export { sanitize } from './sanitize.js';
 export type { SanitizeOptions, SanitizeResult, SanitizableDocumentType } from './sanitize.js';
 export { mask, maskRuntime, isMaskableDocumentType, MASKABLE_DOCUMENT_TYPES } from './mask.js';
 export type { MaskableDocumentType, MaskOptions } from './mask.js';
+export { compare, compareRuntime } from './compare.js';
+export type { CompareResult } from './compare.js';
+export { batch } from './batch.js';
+export type { BatchInvalidEntry, BatchResult, BatchSummary, BatchValidEntry } from './batch.js';
+export { diff } from './diff.js';
+export type { DiffField, DiffResult } from './diff.js';
 export { generate } from './generate.js';
 export type { GenerateOptions, GeneratableDocumentType, GeneratableCardBrand } from './generate.js';
 export { isGeneratableCardBrand, GENERATABLE_CARD_BRANDS } from './generate.js';

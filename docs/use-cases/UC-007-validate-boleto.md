@@ -67,13 +67,17 @@ None.
 
 N/A.
 
-## Out of scope
+## In scope (arrecadação)
 
-- 48-digit arrecadação/concessionária slips (detected as `arrecadacao`; validation Phase 5c)
+- 48-digit arrecadação/concessionária slips (`validateArrecadacao`, `format: 'arrecadacao'`)
+- 44-digit arrecadação código de barras
+- Routed by `validateBoleto` and `detect()` when structural checks pass
+
+## Out of scope
 - Bank slip registration / DDA lookup
 - Structured field parse (banco, valor, vencimento)
 
 ## References
 
-- [OFFICIAL-SOURCES.md](../OFFICIAL-SOURCES.md) — FEBRABAN Convenção da Cobrança
+- [OFFICIAL-SOURCES.md](../OFFICIAL-SOURCES.md) — FEBRABAN cobrança + arrecadação Layout v7
 - [LIBRARY-API.md](../LIBRARY-API.md#core-api--boleto)

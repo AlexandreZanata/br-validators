@@ -1,0 +1,35 @@
+{
+  "source": "FEBRABAN Layout Padrão de Arrecadação/Recebimento — Versão 07 (vigência 01.03.2023)",
+  "url": "https://cmsarquivos.febraban.org.br/Arquivos/documentos/PDF/Layout%20-%20C%C3%B3digo%20de%20Barras%20-%20Vers%C3%A3o%207%20-%2001_03_2023_mn.pdf",
+  "modulo10Walkthrough": {
+    "sequence": "01230067896",
+    "dv": 3,
+    "section": "Layout v7 §07 — DAC módulo 10"
+  },
+  "modulo11Walkthrough": {
+    "sequence": "01230067896",
+    "dv": 0,
+    "section": "Layout v7 §09 — DAC módulo 11"
+  },
+  "primary": {
+    "segment": "4",
+    "valueType": "6",
+    "value": "00000008123",
+    "company": "4567",
+    "free": "89012345678901234567890123",
+    "barcode": "84630000000812345678901234567890123456789012",
+    "linha": "846300000003812345678906123456789015234567890129",
+    "linhaMasked": "84630000000 381234567890 612345678901 523456789012 9"
+  },
+  "modulo11": {
+    "segment": "3",
+    "valueType": "8",
+    "value": "00000001500",
+    "company": "1042",
+    "free": "5432100000000000000000000"
+  },
+  "negative": {
+    "invalidDv48": "846400000008123456789012345678901234567890123456",
+    "wrongLength": "84640000000812345678901234567890123456789012345"
+  }
+}

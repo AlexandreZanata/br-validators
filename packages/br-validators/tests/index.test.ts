@@ -106,6 +106,13 @@ describe('package exports', () => {
     expect(root.MASKABLE_DOCUMENT_TYPES).toContain('cpf');
   });
 
+  it('re-exports compare, batch, diff from index', () => {
+    expect(root.compare).toBeTypeOf('function');
+    expect(root.compareRuntime).toBeTypeOf('function');
+    expect(root.batch).toBeTypeOf('function');
+    expect(root.diff).toBeTypeOf('function');
+  });
+
   it('re-exports CNPJ API from cnpj entry', () => {
     expect(cnpjEntry.validateCnpj).toBe(root.validateCnpj);
   });

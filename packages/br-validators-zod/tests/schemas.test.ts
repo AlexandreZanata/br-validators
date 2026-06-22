@@ -18,6 +18,7 @@ import {
   TELEFONE_GOLDEN_CELULAR_MASKED,
   TELEFONE_GOLDEN_FIXO_MASKED,
 } from '@br-validators/core';
+import arrecadacaoVectors from '../../br-validators/tests/vectors/boleto-arrecadacao.official.json';
 import {
   boletoSchema,
   cartaoCreditoSchema,
@@ -106,13 +107,26 @@ describe('Zod schemas — golden vectors (Zod 3)', () => {
   it('boletoSchema parses linha digitável golden', () => {
     const parsed = boletoSchema.parse(BOLETO_GOLDEN_LINHA_MASKED);
     expect(parsed.inputKind).toBe('linha-digitavel');
-    expect(parsed.situacao).toBe('1');
+    if ('situacao' in parsed) {
+      expect(parsed.situacao).toBe('1');
+    }
     expect(parsed.value.length).toBeGreaterThan(40);
   });
 
   it('createBoletoSchema accepts options', () => {
     const schema = createBoletoSchema({ kind: 'linha-digitavel' });
     expect(schema.parse(BOLETO_GOLDEN_LINHA_MASKED).inputKind).toBe('linha-digitavel');
+  });
+
+  it('boletoSchema parses arrecadacao golden', () => {
+    const parsed = boletoSchema.parse(arrecadacaoVectors.primary.linha);
+    expect(parsed).toEqual({
+      value: arrecadacaoVectors.primary.linha,
+      inputKind: 'arrecadacao-linha',
+      format: 'arrecadacao',
+      segment: arrecadacaoVectors.primary.segment,
+      valueType: arrecadacaoVectors.primary.valueType,
+    });
   });
 
   it('cartaoCreditoSchema returns brand', () => {

@@ -2,6 +2,7 @@
  * Unified document type detection — delegates to existing validators (BR-DETECT-001).
  * @see docs/VALIDATION-RULES.md
  */
+import { validateArrecadacao } from '../core/boleto/arrecadacao.js';
 import { validateBoleto } from '../core/boleto/index.js';
 import { validateBrCode } from '../core/brcode/index.js';
 import { validateCartaoCredito } from '../core/cartao-credito/index.js';
@@ -112,10 +113,24 @@ function tryValidators(attempts: Array<() => DetectResult | null>): DetectResult
 
 const CANDIDATES: Candidate[] = [
   {
+    canTry: (raw) => isBoletoArrecadacao(raw),
+    detect: (raw) => {
+      const result = validateArrecadacao(raw);
+      if (!result.ok) {
+        return null;
+      }
+      return success('boleto', result.value, 'arrecadacao', {
+        inputKind: result.inputKind,
+        segment: result.segment,
+        valueType: result.valueType,
+      });
+    },
+  },
+  {
     canTry: (raw) => looksLikeBoleto(raw) && !isBoletoArrecadacao(raw),
     detect: (raw) => {
       const result = validateBoleto(raw);
-      if (!result.ok) {
+      if (!result.ok || result.format === 'arrecadacao') {
         return null;
       }
       return success('boleto', result.value, result.format, {

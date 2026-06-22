@@ -278,19 +278,24 @@ export function computeDocumentResults(
       formattedValue = formatted.ok ? formatted.formatted : formatted.message;
       extraRows.push({ label: 'Detect', value: detected });
       if (validation.ok) {
-        extraRows.push(
-          { label: 'Value', value: validation.value, mono: true },
-          { label: 'Situação', value: validation.situacao },
-        );
-        const converted =
-          validation.inputKind === 'linha-digitavel'
-            ? convertLinhaToCodigoBarras(input)
-            : convertCodigoBarrasToLinhaDigitavel(input);
-        extraRows.push({
-          label: 'Converted',
-          value: converted.ok ? `${converted.inputKind}: ${converted.value}` : '—',
-          mono: true,
-        });
+        extraRows.push({ label: 'Value', value: validation.value, mono: true });
+        if (validation.format === 'arrecadacao') {
+          extraRows.push(
+            { label: 'Segment', value: validation.segment },
+            { label: 'Value type', value: validation.valueType },
+          );
+        } else {
+          extraRows.push({ label: 'Situação', value: validation.situacao });
+          const converted =
+            validation.inputKind === 'linha-digitavel'
+              ? convertLinhaToCodigoBarras(input)
+              : convertCodigoBarrasToLinhaDigitavel(input);
+          extraRows.push({
+            label: 'Converted',
+            value: converted.ok ? `${converted.inputKind}: ${converted.value}` : '—',
+            mono: true,
+          });
+        }
       }
       break;
     }

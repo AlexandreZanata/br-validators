@@ -2,7 +2,7 @@
  * Linha digitável validation — modulo 10 field DVs (Anexo IX).
  * @see BR-BOLETO-002, BR-BOLETO-008
  */
-import type { BoletoSituacao, BoletoValidationResult } from '../../types/validation-result.js';
+import type { BoletoSituacao, CobrancaBoletoValidationResult } from '../../types/validation-result.js';
 import { brandLinhaDigitavel } from '../../types/validation-result.js';
 import {
   BOLETO_CODE_ISPB_HOLDER,
@@ -15,7 +15,7 @@ import { computeModulo11BarcodeDv } from './modulo11.js';
 
 export { applyLinhaDigitavelMask, formatLinhaDigitavel } from './mask.js';
 
-type FailedResult = Extract<BoletoValidationResult, { ok: false }>;
+type FailedResult = Extract<CobrancaBoletoValidationResult, { ok: false }>;
 
 const LINHA_MASK_PATTERN = /^[0-9.\s]+$/;
 
@@ -39,7 +39,7 @@ function validateFieldDv(
   return null;
 }
 
-export function validateLinhaDigitavel(input: string): BoletoValidationResult {
+export function validateLinhaDigitavel(input: string): CobrancaBoletoValidationResult {
   const trimmed = input.trim();
   if (trimmed.length === 0) {
     return { ok: false, code: 'EMPTY_INPUT', message: 'Linha digitável input is empty' };

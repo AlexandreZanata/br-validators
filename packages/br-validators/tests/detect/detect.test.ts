@@ -176,11 +176,22 @@ describe('detect()', () => {
     expect(result.type).toBe('pis-pasep');
   });
 
-  it('skips 48-digit boleto arrecadacao', () => {
+  it('skips invalid 48-digit boleto arrecadacao', () => {
     expect(isBoletoArrecadacao(boletoVectors.negative.arrecadacao48)).toBe(true);
     const result = detect(boletoVectors.negative.arrecadacao48);
     expect(result.ok).toBe(false);
     expect(result.type).toBe('unknown');
+  });
+
+  it('detects valid arrecadação linha', async () => {
+    const arrecadacaoVectors = await import('../vectors/boleto-arrecadacao.official.json');
+    const result = detect(arrecadacaoVectors.primary.linha);
+    expect(result).toMatchObject({
+      ok: true,
+      type: 'boleto',
+      format: 'arrecadacao',
+      value: arrecadacaoVectors.primary.linha,
+    });
   });
 
   it('returns empty input for blank string', () => {

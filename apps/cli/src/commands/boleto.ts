@@ -33,6 +33,13 @@ export function resolveInput(value: string | undefined, fileContent?: string): s
   return input;
 }
 
+function boletoSuccessMeta(result: Extract<BoletoValidationResult, { ok: true }>): Record<string, string> {
+  if (result.format === 'arrecadacao') {
+    return { segment: result.segment, valueType: result.valueType };
+  }
+  return { situacao: result.situacao };
+}
+
 export function printBoletoValidation(
   result: BoletoValidationResult,
   options: { json: boolean; quiet: boolean; source?: string },
@@ -47,7 +54,7 @@ export function printBoletoValidation(
               value: result.value,
               inputKind: result.inputKind,
               format: result.format,
-              situacao: result.situacao,
+              ...boletoSuccessMeta(result),
               ...(options.source ? { source: options.source } : {}),
             }
           : {
@@ -71,7 +78,12 @@ export function printBoletoValidation(
     io.stdout.push(`valid: yes (${result.inputKind})`);
     io.stdout.push(`value: ${result.value}`);
     io.stdout.push(`format: ${result.format}`);
-    io.stdout.push(`situacao: ${result.situacao}`);
+    if (result.format === 'arrecadacao') {
+      io.stdout.push(`segment: ${result.segment}`);
+      io.stdout.push(`valueType: ${result.valueType}`);
+    } else {
+      io.stdout.push(`situacao: ${result.situacao}`);
+    }
     if (options.source) {
       io.stdout.push(`source: ${options.source}`);
     }

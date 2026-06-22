@@ -56,7 +56,7 @@
 |--------|---------|-----|------------|--------|
 | **Boleto cobrança** | ✓ | ✓ | `/boleto` | Situação 1 + 2 shipped |
 | **BR Code** | ✓ `@br-validators/core/brcode` | ✓ `brcode …` | ✓ `/brcode` | Shipped — [Bacen Manual BR Code](OFFICIAL-SOURCES.md) |
-| **Boleto arrecadação** | detect only | — | — | **Backlog** — 48-digit `8…` detected, not validated (Week 3) |
+| **Boleto arrecadação** | ✓ | via `boleto` | via `boleto` | Shipped — [FEBRABAN Layout v7](OFFICIAL-SOURCES.md) |
 
 ---
 
@@ -76,15 +76,14 @@
 |----------------------|---------|-----|------------|--------|
 | **Telefone (F-01)** | ✓ `@br-validators/core/telefone` | ✓ `telefone …` | ✓ `/telefone` | Shipped — [Anatel](OFFICIAL-SOURCES.md) |
 | **BR Code (F-03)** | ✓ `@br-validators/core/brcode` | ✓ `brcode …` | ✓ `/brcode` | Shipped — [Bacen Manual BR Code](OFFICIAL-SOURCES.md) |
-| **Boleto arrecadação (F-02)** | partial | — | — | detect only — validation backlog |
+| **Boleto arrecadação (F-02)** | ✓ | via `boleto` | via `boleto` | Shipped — [FEBRABAN Layout v7](OFFICIAL-SOURCES.md) |
 | npm publish `@br-validators/core` + `@br-validators/cli` | — | — | — | `v0.12.0-alpha.3` |
 | npm publish `@br-validators/zod` + `@br-validators/react-hook-form` | — | — | — | `v0.12.0-alpha.3` (release.yml) |
-| Platform APIs: `detect`, `sanitize`, `mask`, `generate` | ✓ | partial | partial | Shipped in core |
+| Platform APIs: `detect`, `sanitize`, `mask`, `compare`, `batch`, `diff`, `generate` | ✓ | partial | partial | Shipped in core |
 | API freeze (SemVer guarantees) | — | — | — | Pending |
 
 **Deferred to post-v1.0 or v1.1:**
 
-- Boleto arrecadação validation
 - Alphanumeric CPF (when RFB publishes spec)
 - IE SP rural `P…` format — shipped in `validateIeProdutorRural`
 - `@br-validators/adapters-correios` — CEP HTTP lookup (F-06)

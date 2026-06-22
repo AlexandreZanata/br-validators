@@ -15,7 +15,9 @@ import {
   BOLETO_GOLDEN_LINHA_MASKED,
   BOLETO_GOLDEN_LINHA_STRIPPED,
   BOLETO_OFFICIAL_SOURCE_URL,
+  validateBoleto,
 } from '@br-validators/core';
+import arrecadacaoVectors from '../../../packages/br-validators/tests/vectors/boleto-arrecadacao.official.json';
 
 describe('resolveInput (boleto)', () => {
   it('returns null when missing value and file', () => {
@@ -236,6 +238,21 @@ describe('print helpers default io', () => {
       io,
     );
     expect(io.stderr.some((line) => line.includes('inputKind: codigo-barras'))).toBe(true);
+  });
+
+  it('printBoletoValidation arrecadacao json and human output', () => {
+    const result = validateBoleto(arrecadacaoVectors.primary.linha);
+    expect(result.ok).toBe(true);
+    const jsonIo = { stdout: [] as string[], stderr: [] as string[] };
+    printBoletoValidation(result, { json: true, quiet: false }, jsonIo);
+    const parsed = JSON.parse(jsonIo.stdout[0]) as { segment: string; valueType: string };
+    expect(parsed.segment).toBe(arrecadacaoVectors.primary.segment);
+    expect(parsed.valueType).toBe(arrecadacaoVectors.primary.valueType);
+
+    const humanIo = { stdout: [] as string[], stderr: [] as string[] };
+    printBoletoValidation(result, { json: false, quiet: false }, humanIo);
+    expect(humanIo.stdout.some((line) => line.startsWith('segment:'))).toBe(true);
+    expect(humanIo.stdout.some((line) => line.startsWith('valueType:'))).toBe(true);
   });
 
   it('printBoletoDetect uses default io', () => {

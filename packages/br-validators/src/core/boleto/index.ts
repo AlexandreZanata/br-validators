@@ -12,6 +12,7 @@ import {
 import { detectBoletoInputKind } from './detect.js';
 import { validateLinhaDigitavel } from './linha-digitavel.js';
 import { validateSemanticFields } from './semantic.js';
+import { validateArrecadacao } from './arrecadacao.js';
 
 export {
   BOLETO_CODIGO_BARRAS_LENGTH,
@@ -28,6 +29,10 @@ export {
   BOLETO_LAYOUTS_PORTAL_URL,
   BOLETO_LINHA_LENGTH,
   BOLETO_OFFICIAL_SOURCE_URL,
+  BOLETO_ARRECADACAO_LINHA_LENGTH,
+  BOLETO_ARRECADACAO_CODIGO_BARRAS_LENGTH,
+  BOLETO_ARRECADACAO_PRODUCT_ID,
+  BOLETO_ARRECADACAO_OFFICIAL_SOURCE_URL,
 } from './constants.js';
 export { computeModulo10FieldDv } from './modulo10.js';
 export { computeModulo11BarcodeDv } from './modulo11.js';
@@ -52,6 +57,23 @@ export { stripCodigoBarras, validateCodigoBarras } from './codigo-barras.js';
 export { validateFatorVencimento, type FatorVencimentoValidationResult } from './fator-vencimento.js';
 export { validateValorDocumento, type ValorDocumentoValidationResult } from './valor-documento.js';
 export { validateSemanticFields } from './semantic.js';
+export {
+  buildArrecadacaoGoldenPair,
+  isValidArrecadacao,
+  linhaArrecadacaoToCodigoBarras,
+  stripArrecadacao,
+  validateArrecadacao,
+  validateArrecadacaoCodigoBarras,
+  validateArrecadacaoLinha,
+} from './arrecadacao.js';
+export type { ArrecadacaoInputKind, ArrecadacaoValidationResult } from './arrecadacao.js';
+export {
+  computeArrecadacaoModulo10Dv,
+  computeArrecadacaoModulo11Dv,
+  getArrecadacaoDvCalculator,
+  isArrecadacaoValueType,
+} from './arrecadacao-modulo.js';
+export type { ArrecadacaoValueType } from './arrecadacao-modulo.js';
 
 export type ValidateBoletoOptions = {
   kind?: BoletoInputKind;
@@ -97,7 +119,7 @@ export function validateBoleto(input: string, options?: ValidateBoletoOptions): 
   const detected = detectBoletoInputKind(trimmed);
 
   if (detected === 'arrecadacao') {
-    return failure('UNSUPPORTED_FORMAT', '48-digit arrecadação slips are not supported');
+    return validateArrecadacao(trimmed);
   }
 
   if (options?.kind !== undefined) {
