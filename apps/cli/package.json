@@ -21,10 +21,11 @@
     "cnpj"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "alpha"
   },
   "bin": {
-    "br-validators": "./dist/index.js"
+    "br-validators": "dist/index.js"
   },
   "scripts": {
     "build": "tsup",
