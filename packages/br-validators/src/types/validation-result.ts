@@ -39,6 +39,7 @@ export type Cnpj = string & { readonly __brand: 'Cnpj' };
 export type Cpf = string & { readonly __brand: 'Cpf' };
 export type Cnh = string & { readonly __brand: 'Cnh' };
 export type Renavam = string & { readonly __brand: 'Renavam' };
+export type TituloEleitor = string & { readonly __brand: 'TituloEleitor' };
 export type Cep = string & { readonly __brand: 'Cep' };
 export type Placa = string & { readonly __brand: 'Placa' };
 export type PisPasep = string & { readonly __brand: 'PisPasep' };
@@ -80,6 +81,17 @@ export type InscricaoEstadualValidationResult =
   | { ok: true; value: InscricaoEstadual; uf: UfCode; format: 'inscricao-estadual' }
   | { ok: false; code: ValidationErrorCode; message: string; uf?: UfCode };
 
+export type TituloEleitorValidationResult =
+  | {
+      ok: true;
+      value: TituloEleitor;
+      format: 'numeric';
+      ufCode: number;
+      uf?: UfCode;
+      exterior?: true;
+    }
+  | { ok: false; code: ValidationErrorCode; message: string; ufCode?: number };
+
 export type TelefoneValidationResult =
   | { ok: true; value: Telefone; tipo: TelefoneTipo; format: 'telefone' }
   | { ok: false; code: ValidationErrorCode; message: string };
@@ -113,6 +125,10 @@ export function brandCnh(value: string): Cnh {
 
 export function brandRenavam(value: string): Renavam {
   return value as Renavam;
+}
+
+export function brandTituloEleitor(value: string): TituloEleitor {
+  return value as TituloEleitor;
 }
 
 export function brandCep(value: string): Cep {

@@ -4,6 +4,7 @@ import { runCep, type CepAction } from './commands/cep.js';
 import { runTelefone, type TelefoneAction } from './commands/telefone.js';
 import { runCnh, type CnhAction } from './commands/cnh.js';
 import { runRenavam, type RenavamAction } from './commands/renavam.js';
+import { runTituloEleitor, type TituloEleitorAction } from './commands/titulo-eleitor.js';
 import { runCnpj, type CnpjAction } from './commands/cnpj.js';
 import { runCpf, type CpfAction } from './commands/cpf.js';
 import { runPlaca, type PlacaAction } from './commands/placa.js';
@@ -32,6 +33,8 @@ export type TelefoneCliOptions = CnpjCliOptions;
 export type CnhCliOptions = CnpjCliOptions;
 
 export type RenavamCliOptions = CnpjCliOptions;
+
+export type TituloEleitorCliOptions = CnpjCliOptions;
 
 export type BrCodeCliOptions = CnpjCliOptions;
 
@@ -398,6 +401,34 @@ export function handleRenavamCli(
   }
 
   return runRenavam(
+    action,
+    value,
+    {
+      json: Boolean(opts.json),
+      quiet: Boolean(opts.quiet),
+      source: Boolean(opts.source),
+      file: fileContent,
+    },
+    io,
+  );
+}
+
+export function handleTituloEleitorCli(
+  action: TituloEleitorAction,
+  value: string | undefined,
+  opts: TituloEleitorCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  let fileContent: string | undefined;
+  if (opts.file) {
+    const content = readInputFile(opts.file, io);
+    if (content === null) {
+      return EXIT.USAGE;
+    }
+    fileContent = content;
+  }
+
+  return runTituloEleitor(
     action,
     value,
     {

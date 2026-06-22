@@ -243,6 +243,53 @@
 
 ---
 
+## Título de Eleitor
+
+> **Sources:** [OFFICIAL-SOURCES.md § Título de Eleitor](OFFICIAL-SOURCES.md#título-de-eleitor--reference-index) — [Resolução TSE 20.132/1998](https://www.tse.jus.br/legislacao/compilada/res/1998/resolucao-no-20-132-de-19-de-marco-de-1998) (Art. 10) · [Res. 23.659/2021](https://www.tse.jus.br/legislacao/compilada/res/2021/resolucao-no-23-659-de-26-de-outubro-de-2021) · Weights: [Wikipedia PT](https://pt.wikipedia.org/wiki/T%C3%ADtulo_eleitoral#C%C3%A1lculo_do_d%C3%ADgito_verificador) · [Ghiorzi](http://ghiorzi.org/DVnew.htm#e)
+
+### BR-TITULO-001 — Length
+
+- **GIVEN** stripped input
+- **WHEN** length is not 12 (standard) or 13 (SP/MG extended sequential)
+- **THEN** reject with `INVALID_LENGTH`
+
+### BR-TITULO-002 — Numeric only
+
+- **GIVEN** input after removing mask spaces
+- **WHEN** non-digit characters remain
+- **THEN** reject with `INVALID_CHARACTER`
+
+### BR-TITULO-003 — Known invalid sequence
+
+- **GIVEN** 12 or 13 identical digits (e.g. `111111111111`)
+- **WHEN** validating
+- **THEN** reject with `KNOWN_INVALID_PATTERN`
+
+### BR-TITULO-004 — UF code (TSE electoral table)
+
+- **GIVEN** UF digits at positions 9–10 (12-digit) or 10–11 (13-digit)
+- **WHEN** UF code is outside **01–28** (TSE table, 28 = exterior)
+- **THEN** reject with `KNOWN_INVALID_PATTERN`
+- **WHEN** length is 13 and UF is not **01 (SP)** or **02 (MG)**
+- **THEN** reject with `UNSUPPORTED_FORMAT`
+
+### BR-TITULO-005 — Check digits (modulo 11)
+
+- **GIVEN** structure per **Resolução TSE 20.132/1998, Art. 10** — DV1 on sequential; DV2 on UF + DV1; modulo 11
+- **WHEN** implementing weights: DV1 `[2,3,4,5,6,7,8,9]` left→right (9-digit SP/MG: `[9,2,3,4,5,6,7,8,9]`); DV2 `[7,8,9]` on `[UF₁, UF₂, DV1]`
+- **WHEN** `remainder % 11`; if remainder **10** → DV = **0**; if remainder **0** and UF is **01 or 02** → DV = **1**
+- **THEN** compare with last 2 digits; mismatch → `INVALID_CHECK_DIGIT`
+- **Normative:** [Resolução TSE 20.132/1998 — Art. 10](https://www.tse.jus.br/legislacao/compilada/res/1998/resolucao-no-20-132-de-19-de-marco-de-1998) (structure + mod 11 only)
+- **Weights / SP-MG rule:** [Wikipedia PT](https://pt.wikipedia.org/wiki/T%C3%ADtulo_eleitoral#C%C3%A1lculo_do_d%C3%ADgito_verificador) · [Ghiorzi](http://ghiorzi.org/DVnew.htm#e) — not spelled out in resolution text
+
+### BR-TITULO-006 — Display format
+
+- **GIVEN** valid canonical number
+- **WHEN** formatting for display
+- **THEN** emit `XXXX XXXX XXXX` (12-digit) or `XXXXX XXXX XXXX` (13-digit SP/MG)
+
+---
+
 ## BR Code
 
 > **Source:** [Bacen Manual BR Code (PDF)](https://www.bcb.gov.br/content/estabilidadefinanceira/spb_docs/ManualBRCode.pdf) · [Manual de Padrões para Iniciação do Pix (PDF)](https://www.bcb.gov.br/content/estabilidadefinanceira/pix/Regulamento_Pix/II_ManualdePadroesparaIniciacaodoPix.pdf)

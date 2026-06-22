@@ -31,6 +31,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Subpath `@br-validators/core/renavam`
 - CLI `br-validators renavam validate|format|strip`
 - Playground `/renavam`
+- **Título de Eleitor (Phase 14):** `validateTituloEleitor`, `formatTituloEleitor`, `stripTituloEleitor` — 12-digit voter registration (13 for SP/MG), modulo 11, TSE UF codes
+- Subpath `@br-validators/core/titulo-eleitor`
+- CLI `br-validators titulo-eleitor validate|format|strip`
+- Playground `/titulo-eleitor`
 
 ### Changed
 

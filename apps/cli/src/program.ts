@@ -7,6 +7,7 @@ import {
   handleTelefoneCli,
   handleCnhCli,
   handleRenavamCli,
+  handleTituloEleitorCli,
   handleListCli,
   handlePisPasepCli,
   handlePixCli,
@@ -24,6 +25,7 @@ import {
   type TelefoneCliOptions,
   type CnhCliOptions,
   type RenavamCliOptions,
+  type TituloEleitorCliOptions,
   type CnpjCliOptions,
   type CpfCliOptions,
   type IeCliOptions,
@@ -153,6 +155,26 @@ export function createProgram(): Command {
       .action((value: string | undefined, opts: RenavamCliOptions) => {
         const io = { stdout: [] as string[], stderr: [] as string[] };
         process.exitCode = handleRenavamCli(action, value, opts, io);
+        writeCliIo(io);
+      });
+  }
+
+  const tituloEleitor = program
+    .command('titulo-eleitor')
+    .description('Título de Eleitor — 12-digit voter registration (TSE / Wikipedia PT algorithm)');
+
+  for (const action of ['validate', 'format', 'strip'] as const) {
+    tituloEleitor
+      .command(action)
+      .description(`${action} a Título de Eleitor`)
+      .argument('[value]', 'Título de Eleitor value (12 or 13 digits, spaces allowed)')
+      .option('--json', 'JSON output')
+      .option('-q, --quiet', 'Exit code only')
+      .option('--source', 'Include official source URL (validate only)')
+      .option('-f, --file <path>', 'Read value from file')
+      .action((value: string | undefined, opts: TituloEleitorCliOptions) => {
+        const io = { stdout: [] as string[], stderr: [] as string[] };
+        process.exitCode = handleTituloEleitorCli(action, value, opts, io);
         writeCliIo(io);
       });
   }

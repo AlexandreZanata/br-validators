@@ -59,6 +59,10 @@
       "types": "./dist/renavam.d.ts",
       "import": "./dist/renavam.js"
     },
+    "./titulo-eleitor": {
+      "types": "./dist/titulo-eleitor.d.ts",
+      "import": "./dist/titulo-eleitor.js"
+    },
     "./brcode": {
       "types": "./dist/brcode.d.ts",
       "import": "./dist/brcode.js"

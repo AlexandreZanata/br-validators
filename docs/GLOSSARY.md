@@ -105,6 +105,16 @@
 
 ---
 
+## Título de Eleitor
+
+**Definition:** Brazilian voter registration number — 8 sequential digits + 2 TSE UF digits + 2 check digits (modulo 11). SP and MG may use 9 sequential digits (13 total).
+**Display mask:** `XXXX XXXX XXXX` (12-digit) or `XXXXX XXXX XXXX` (13-digit).
+**Not the same as:** CPF or RG.
+**Legal reference:** [OFFICIAL-SOURCES.md § Título de Eleitor](OFFICIAL-SOURCES.md#título-de-eleitor--reference-index) — [Resolução TSE 20.132/1998](https://www.tse.jus.br/legislacao/compilada/res/1998/resolucao-no-20-132-de-19-de-marco-de-1998) (Art. 10) · Weights: [Wikipedia PT](https://pt.wikipedia.org/wiki/T%C3%ADtulo_eleitoral#C%C3%A1lculo_do_d%C3%ADgito_verificador) · [Ghiorzi](http://ghiorzi.org/DVnew.htm#e)
+**Code name:** `TituloEleitor`, format `'numeric'`
+
+---
+
 ## CEP
 
 **Definition:** Código de Endereçamento Postal — 8-digit postal code (Correios).

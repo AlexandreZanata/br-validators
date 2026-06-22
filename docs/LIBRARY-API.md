@@ -21,6 +21,7 @@
 | `@br-validators/core/telefone` | Brazilian telephone (fixo + celular) |
 | `@br-validators/core/cnh` | CNH — Registro Nacional |
 | `@br-validators/core/renavam` | RENAVAM — vehicle registry code |
+| `@br-validators/core/titulo-eleitor` | Título de Eleitor — voter registration |
 | `@br-validators/core/brcode` | BR Code PIX QR payload (EMV TLV + CRC16) |
 | `@br-validators/core/placa` | License plates |
 | `@br-validators/core/pis-pasep` | PIS / PASEP / NIS / NIT |
@@ -168,6 +169,21 @@ See [DELIVERY-SURFACES.md](DELIVERY-SURFACES.md).
 **Success result:** `{ ok: true, value: Renavam, format: 'numeric' }`
 
 **Official sources:** [OFFICIAL-SOURCES.md § RENAVAM](OFFICIAL-SOURCES.md#renavam--reference-index) — [Portaria DENATRAN 27/2013](https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/portarias/2013/portaria0272013.pdf) · [Consultar veículo RENAVAM — gov.br](https://www.gov.br/pt-br/servicos/consultar-dados-de-veiculo-na-base-renavam) · [AdvPL RENAVAM](https://siga0984.wordpress.com/2019/05/01/algoritmos-validacao-de-renavam/) · [GeraValida](https://www.geravalida.com.br/gerador-de-renavam) · [GeradorFácil](https://geradorfacil.com/geradores/renavam) · `RENAVAM_OFFICIAL_SOURCE_URL` · `tests/vectors/renavam.official.json` · Golden: `63977791104`
+
+---
+
+## Core API — Título de Eleitor
+
+| Function | Signature | Description |
+|----------|-----------|-------------|
+| `validateTituloEleitor` | `(input: string) => TituloEleitorValidationResult` | Modulo 11, TSE UF codes 01–28 |
+| `formatTituloEleitor` | `(input: string) => FormatResult` | Display mask `XXXX XXXX XXXX` |
+| `stripTituloEleitor` | `(input: string) => string` | Digits only |
+| `isValidTituloEleitor` | `(input: string) => boolean` | Convenience wrapper |
+
+**Success result:** `{ ok: true, value: TituloEleitor, format: 'numeric', ufCode: number, uf?: UfCode, exterior?: true }`
+
+**Official sources:** [OFFICIAL-SOURCES.md § Título de Eleitor](OFFICIAL-SOURCES.md#título-de-eleitor--reference-index) — [Resolução TSE 20.132/1998](https://www.tse.jus.br/legislacao/compilada/res/1998/resolucao-no-20-132-de-19-de-marco-de-1998) · [Res. 23.659/2021](https://www.tse.jus.br/legislacao/compilada/res/2021/resolucao-no-23-659-de-26-de-outubro-de-2021) · Weights: [Wikipedia PT](https://pt.wikipedia.org/wiki/T%C3%ADtulo_eleitoral#C%C3%A1lculo_do_d%C3%ADgito_verificador) · [Ghiorzi](http://ghiorzi.org/DVnew.htm#e) · `TITULO_ELEITOR_OFFICIAL_SOURCE_URL` · `TITULO_ELEITOR_ALGORITHM_WEIGHTS_REF_URL` · `tests/vectors/titulo-eleitor.official.json` · Golden: `004356870906`
 
 ---
 

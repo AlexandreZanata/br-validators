@@ -1,0 +1,62 @@
+{
+  "source": "Título de Eleitor — Resolução TSE 20.132/1998 (structure) + mod 11 weights (Wikipedia PT + Ghiorzi)",
+  "url": "https://www.tse.jus.br/legislacao/compilada/res/1998/resolucao-no-20-132-de-19-de-marco-de-1998",
+  "normativeSecondaryUrl": "https://www.tse.jus.br/legislacao/compilada/res/2021/resolucao-no-23-659-de-26-de-outubro-de-2021",
+  "algorithmWeightsRefUrl": "https://pt.wikipedia.org/wiki/T%C3%ADtulo_eleitoral#C%C3%A1lculo_do_d%C3%ADgito_verificador",
+  "algorithmRefUrl": "http://ghiorzi.org/DVnew.htm#e",
+  "tsePortalUrl": "https://www.tse.jus.br/",
+  "eTituloUrl": "https://www.tse.jus.br/eleitor/servicos/aplicativo-e-titulo",
+  "normativeNote": "Res. 20.132/1998 Art. 10 defines structure (8 seq + 2 UF + 2 DV) and mod 11; exact weights and SP/MG rule are not in the resolution text",
+  "primary": {
+    "canonical": "004356870906",
+    "officialFormatted": "0043 5687 0906",
+    "sequential": "00435687",
+    "uf": "09",
+    "ufCode": 9,
+    "dv1": 0,
+    "dv2": 6
+  },
+  "spSpecial": {
+    "canonical": "000000000116",
+    "sequential": "00000000",
+    "uf": "01",
+    "ufCode": 1,
+    "dv1": 1,
+    "dv2": 6,
+    "note": "SP/MG rule — remainder 0 maps DV1 to 1 (algorithm cross-check; not in Res. 20.132 text)"
+  },
+  "spExtended": {
+    "canonical": "1234567890175",
+    "officialFormatted": "12345 6789 0175",
+    "sequential": "123456789",
+    "uf": "01",
+    "ufCode": 1,
+    "dv1": 7,
+    "dv2": 5,
+    "note": "9-digit sequential (13 total) — SP/MG only"
+  },
+  "maskedInput": {
+    "input": "0043 5687 0906",
+    "canonical": "004356870906"
+  },
+  "exterior": {
+    "canonical": "000000012895",
+    "sequential": "00000001",
+    "uf": "28",
+    "ufCode": 28,
+    "dv1": 9,
+    "dv2": 5,
+    "note": "ZZ exterior — UF code 28 (algorithm cross-check)"
+  },
+  "invalidUf": {
+    "canonical": "004356870006",
+    "uf": "00"
+  },
+  "invalidCheckDigit": {
+    "canonical": "004356870907"
+  },
+  "unsupportedExtended": {
+    "canonical": "1234567890975",
+    "note": "13 digits with UF 09 — only SP (01) or MG (02) allowed"
+  }
+}
