@@ -9,7 +9,7 @@
     "test": "pnpm -r test",
     "test:coverage": "pnpm --filter @br-validators/core test:coverage && pnpm --filter @br-validators/cli test:coverage",
     "lint": "eslint . --max-warnings 0",
-    "typecheck": "pnpm -r typecheck",
+    "typecheck": "pnpm --filter @br-validators/core build && pnpm -r typecheck",
     "verify": "pnpm --filter @br-validators/core build && pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm build"
   },
   "engines": {

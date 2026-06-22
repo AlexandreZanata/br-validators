@@ -7,7 +7,6 @@
     "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start",
-    "pretypecheck": "pnpm --filter @br-validators/core build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint app --max-warnings 0"
   },
