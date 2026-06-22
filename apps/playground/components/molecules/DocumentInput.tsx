@@ -12,6 +12,7 @@ type Props = {
   id: string;
   label: string;
   value: string;
+  placeholder?: string;
   onChange: (value: string) => void;
   onGenerate?: () => void;
   multiline?: boolean;
@@ -22,6 +23,7 @@ export function DocumentInput({
   id,
   label,
   value,
+  placeholder,
   onChange,
   onGenerate,
   multiline = false,
@@ -45,6 +47,7 @@ export function DocumentInput({
           <Input
             id={id}
             value={value}
+            placeholder={placeholder}
             onChange={(e) => {
               onChange(e.target.value);
             }}

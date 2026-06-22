@@ -129,6 +129,7 @@ export function DocumentWorkspace({ slug, renderAfter }: Props) {
         id={`${panelId}-input`}
         label={copy.inputLabel}
         value={input}
+        placeholder={'inputPlaceholder' in copy ? copy.inputPlaceholder : undefined}
         multiline={capabilities.multiline}
         onChange={setInput}
         showGenerate={canGenerate}

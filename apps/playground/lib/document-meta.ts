@@ -134,7 +134,7 @@ export const DOCUMENT_META: Record<DocumentSlug, DocumentMeta> = {
   pix: {
     title: 'PIX Key Validator',
     description: 'CPF · CNPJ · email · phone (+55) · EVP',
-    defaultInput: 'pix@bcb.gov.br',
+    defaultInput: '',
     inputLabel: 'Input',
     cliSlug: 'pix',
     officialLinks: [

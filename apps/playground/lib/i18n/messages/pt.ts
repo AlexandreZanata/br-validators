@@ -42,7 +42,7 @@ export const pt = {
     'titulo-eleitor': { title: 'Título de Eleitor', description: 'Inscrição eleitoral 12 dígitos · TSE módulo 11', inputLabel: 'Entrada' },
     'nfe-chave': { title: 'Chave NF-e', description: 'Chave de acesso 44 dígitos · módulo 11', inputLabel: 'Chave de acesso' },
     ie: { title: 'Inscrição Estadual', description: 'Somente dígitos verificadores · 27 UFs (UC-009)', inputLabel: 'Entrada' },
-    pix: { title: 'Chave PIX', description: 'CPF · CNPJ · e-mail · telefone (+55) · EVP', inputLabel: 'Entrada' },
+    pix: { title: 'Chave PIX', description: 'CPF · CNPJ · e-mail · telefone (+55) · EVP', inputLabel: 'Entrada', inputPlaceholder: 'Insira sua chave PIX para validar e gerar o QR code…' },
     brcode: { title: 'Parser BR Code', description: 'Bacen EMV TLV + CRC16-CCITT', inputLabel: 'Payload' },
     boleto: { title: 'Validador de Boleto', description: 'Linha digitável (47) · código de barras (44)', inputLabel: 'Entrada' },
     cartao: { title: 'Cartão de Crédito', description: 'Luhn (ISO/IEC 7812-1) · detecção de bandeira', inputLabel: 'Entrada' },

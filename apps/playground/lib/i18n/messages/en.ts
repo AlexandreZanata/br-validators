@@ -42,7 +42,7 @@ export const en = {
     'titulo-eleitor': { title: 'Voter ID Validator', description: '12-digit electoral registration · TSE modulo 11', inputLabel: 'Input' },
     'nfe-chave': { title: 'NF-e key Validator', description: '44-digit NF-e access key · modulo 11', inputLabel: 'Access key' },
     ie: { title: 'State registration', description: 'Check digits only · all 27 states (UC-009)', inputLabel: 'Input' },
-    pix: { title: 'PIX key Validator', description: 'CPF · CNPJ · email · phone (+55) · EVP', inputLabel: 'Input' },
+    pix: { title: 'PIX key Validator', description: 'CPF · CNPJ · email · phone (+55) · EVP', inputLabel: 'Input', inputPlaceholder: 'Enter your PIX key to validate and generate the QR code…' },
     brcode: { title: 'BR Code Parser', description: 'Bacen EMV TLV + CRC16-CCITT', inputLabel: 'Payload' },
     boleto: { title: 'Boleto Validator', description: 'Linha digitável (47) · barcode (44)', inputLabel: 'Input' },
     cartao: { title: 'Credit card Validator', description: 'Luhn checksum (ISO/IEC 7812-1) · brand detection', inputLabel: 'Input' },

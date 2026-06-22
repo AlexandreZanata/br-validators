@@ -26,6 +26,12 @@
   border-color: var(--accent-muted);
 }
 
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+
 .input:focus,
 .select:focus,
 .textarea:focus {
