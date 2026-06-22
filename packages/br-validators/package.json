@@ -1,6 +1,6 @@
 {
   "name": "@br-validators/core",
-  "version": "0.12.0-alpha.1",
+  "version": "0.12.0-alpha.2",
   "description": "Brazilian document validators (MIT) — CPF, CNPJ, CEP, CNH, RENAVAM, NF-e chave, IE (27 UFs), PIX, boleto, BR Code + detect/sanitize/generate platform APIs",
   "license": "MIT",
   "type": "module",
