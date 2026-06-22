@@ -1,7 +1,8 @@
 {
   "name": "@br-validators/core",
-  "version": "0.12.0-alpha.2",
-  "description": "Brazilian document validators (MIT) — CPF, CNPJ, CEP, CNH, RENAVAM, NF-e chave, IE (27 UFs), PIX, boleto, BR Code + detect/sanitize/generate platform APIs",
+  "version": "0.12.0-alpha.3",
+  "description": "The Brazilian document validation library for TypeScript — CPF, CNPJ (alphanumeric), NF-e, PIX, boleto, IE (27 UFs), and 15+ more. Zero deps, fully typed, never throws.",
+  "homepage": "https://www.npmjs.com/package/@br-validators/core",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -9,7 +10,6 @@
     "url": "git+https://github.com/AlexandreZanata/br-validators.git",
     "directory": "packages/br-validators"
   },
-  "homepage": "https://github.com/AlexandreZanata/br-validators/tree/main/packages/br-validators#readme",
   "bugs": {
     "url": "https://github.com/AlexandreZanata/br-validators/issues"
   },

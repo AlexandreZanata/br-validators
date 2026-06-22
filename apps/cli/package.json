@@ -1,6 +1,6 @@
 {
   "name": "@br-validators/cli",
-  "version": "0.12.0-alpha.2",
+  "version": "0.12.0-alpha.3",
   "description": "CLI for @br-validators/core — CPF, CNPJ, NF-e, IE, PIX, boleto + detect/sanitize/generate",
   "license": "MIT",
   "type": "module",
