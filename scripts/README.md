@@ -16,5 +16,8 @@ pnpm data:refresh:report  # Regenerate reports from committed JSON (no fetch)
 ## Policy
 
 - Fetch only from official `.gov.br` domains
+- **3 retries**, **2 s** apart per HTTP request (`scripts/lib/fetch-utils.ts`)
+- On source failure: **retain** embedded JSON; write alert to `data/refresh-reports/fetch-outcomes/`
 - Commit generated JSON with readable 2-space indent
 - Weekly automation: `.github/workflows/data-refresh-bot.yml`
+- Maintainer guide when sources break: [docs/DATA-SOURCE-MAINTENANCE.md](../docs/DATA-SOURCE-MAINTENANCE.md)

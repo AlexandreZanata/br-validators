@@ -1,0 +1,12 @@
+{
+  "datasetId": "ibge",
+  "status": "ok",
+  "endpoints": [
+    "https://servicodados.ibge.gov.br/api/v1/localidades/estados",
+    "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
+  ],
+  "attempts": 3,
+  "checkedAt": "2026-06-23T15:50:12.469Z",
+  "retainedEmbeddedDataFrom": "2026-06-23",
+  "message": "Official IBGE API fetch succeeded."
+}

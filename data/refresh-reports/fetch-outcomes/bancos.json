@@ -1,0 +1,11 @@
+{
+  "datasetId": "bancos",
+  "status": "ok",
+  "endpoints": [
+    "https://www.bcb.gov.br/content/estabilidadefinanceira/str1/ParticipantesSTR.csv"
+  ],
+  "attempts": 3,
+  "checkedAt": "2026-06-23T15:50:13.345Z",
+  "retainedEmbeddedDataFrom": "2026-06-23",
+  "message": "Official Bacen STR CSV fetch succeeded."
+}

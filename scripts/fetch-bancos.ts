@@ -4,13 +4,20 @@ import { fileURLToPath } from 'node:url';
 
 import { diffRecordsByKey } from './lib/diff-dataset.js';
 import { exitWithError } from './lib/errors.js';
-import { fetchText, todayIsoDate } from './lib/fetch-utils.js';
+import {
+  buildFailureOutcome,
+  FETCH_MAX_ATTEMPTS,
+  SourceDataError,
+  writeSourceFetchOutcome,
+} from './lib/source-fetch-outcome.js';
+import { fetchTextWithRetry, todayIsoDate } from './lib/fetch-utils.js';
 import { buildMetadata } from './lib/metadata-writer.js';
 import { parseCsv } from './lib/parse-csv.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const BANCOS_DATA_DIR = path.join(ROOT, 'packages/br-validators/src/bancos/data');
+const FETCH_OUTCOME_DIR = path.join(ROOT, 'data/refresh-reports/fetch-outcomes');
 
 const STR_PARTICIPANTES_URL =
   'https://www.bcb.gov.br/content/estabilidadefinanceira/str1/ParticipantesSTR.csv';
@@ -91,62 +98,89 @@ async function readJsonIfExists<T>(filePath: string): Promise<T | null> {
 }
 
 async function main(): Promise<void> {
-  const csvText = await fetchText(STR_PARTICIPANTES_URL);
-  const bancos = parseStrCsv(csvText);
-
-  if (bancos.length < MIN_BANCOS || bancos.length > MAX_BANCOS) {
-    throw new Error(
-      `Expected ${String(MIN_BANCOS)}–${String(MAX_BANCOS)} banks, got ${String(bancos.length)}`,
-    );
-  }
-
-  const codigoSet = new Set(bancos.map((banco) => banco.codigo));
-  const ispbSet = new Set(bancos.map((banco) => banco.ispb));
-  if (codigoSet.size !== bancos.length) {
-    throw new Error('Duplicate COMPE codes detected in STR dataset');
-  }
-  if (ispbSet.size !== bancos.length) {
-    throw new Error('Duplicate ISPB values detected in STR dataset');
-  }
-
-  await mkdir(BANCOS_DATA_DIR, { recursive: true });
-
   const bancosPath = path.join(BANCOS_DATA_DIR, 'bancos.json');
   const metadataPath = path.join(BANCOS_DATA_DIR, 'metadata.json');
-
-  const previousBancos = await readJsonIfExists<BancoRecord[]>(bancosPath);
   const previousMetadata = await readJsonIfExists<{ capturadoEm: string }>(metadataPath);
-  const comparadoCom = previousMetadata?.capturadoEm ?? null;
+  const endpoints = [STR_PARTICIPANTES_URL];
 
-  const changes = diffRecordsByKey(
-    previousBancos ?? [],
-    bancos,
-    (banco) => banco.codigo,
-    comparadoCom,
-  );
+  try {
+    const csvText = await fetchTextWithRetry(STR_PARTICIPANTES_URL, FETCH_MAX_ATTEMPTS);
+    if (csvText.trim().length === 0) {
+      throw new SourceDataError('Bacen STR CSV returned an empty body');
+    }
 
-  const metadata = buildMetadata(
-    {
-      id: 'bancos',
-      nome: 'Bacen STR Participants',
-      fonte: 'Banco Central — Participantes STR',
-      endpoints: [STR_PARTICIPANTES_URL],
-      contagens: { bancos: bancos.length },
-      documentacao: 'docs/OFFICIAL-SOURCES.md#bacen-banks',
-    },
-    changes,
-  );
+    const bancos = parseStrCsv(csvText);
 
-  const jsonIndent = 2;
-  await writeFile(bancosPath, `${JSON.stringify(bancos, null, jsonIndent)}\n`);
-  await writeFile(metadataPath, `${JSON.stringify(metadata, null, jsonIndent)}\n`);
+    if (bancos.length < MIN_BANCOS || bancos.length > MAX_BANCOS) {
+      throw new SourceDataError(
+        `Expected ${String(MIN_BANCOS)}–${String(MAX_BANCOS)} banks, got ${String(bancos.length)}`,
+      );
+    }
 
-  console.log(
-    `Bacen data written (${todayIsoDate()}): ${String(bancos.length)} institutions with COMPE codes`,
-  );
-  console.log(
-    `Changes: +${String(metadata.alteracoes.adicionados)} -${String(metadata.alteracoes.removidos)} ~${String(metadata.alteracoes.alterados)}`,
-  );
+    const codigoSet = new Set(bancos.map((banco) => banco.codigo));
+    const ispbSet = new Set(bancos.map((banco) => banco.ispb));
+    if (codigoSet.size !== bancos.length) {
+      throw new SourceDataError('Duplicate COMPE codes detected in STR dataset');
+    }
+    if (ispbSet.size !== bancos.length) {
+      throw new SourceDataError('Duplicate ISPB values detected in STR dataset');
+    }
+
+    await mkdir(BANCOS_DATA_DIR, { recursive: true });
+
+    const previousBancos = await readJsonIfExists<BancoRecord[]>(bancosPath);
+    const comparadoCom = previousMetadata?.capturadoEm ?? null;
+
+    const changes = diffRecordsByKey(
+      previousBancos ?? [],
+      bancos,
+      (banco) => banco.codigo,
+      comparadoCom,
+    );
+
+    const metadata = buildMetadata(
+      {
+        id: 'bancos',
+        nome: 'Bacen STR Participants',
+        fonte: 'Banco Central — Participantes STR',
+        endpoints,
+        contagens: { bancos: bancos.length },
+        documentacao: 'docs/OFFICIAL-SOURCES.md#bacen-banks',
+      },
+      changes,
+    );
+
+    const jsonIndent = 2;
+    await writeFile(bancosPath, `${JSON.stringify(bancos, null, jsonIndent)}\n`);
+    await writeFile(metadataPath, `${JSON.stringify(metadata, null, jsonIndent)}\n`);
+
+    await writeSourceFetchOutcome(FETCH_OUTCOME_DIR, {
+      datasetId: 'bancos',
+      status: 'ok',
+      endpoints,
+      attempts: FETCH_MAX_ATTEMPTS,
+      checkedAt: new Date().toISOString(),
+      retainedEmbeddedDataFrom: metadata.capturadoEm,
+      message: 'Official Bacen STR CSV fetch succeeded.',
+    });
+
+    console.log(
+      `Bacen data written (${todayIsoDate()}): ${String(bancos.length)} institutions with COMPE codes`,
+    );
+    console.log(
+      `Changes: +${String(metadata.alteracoes.adicionados)} -${String(metadata.alteracoes.removidos)} ~${String(metadata.alteracoes.alterados)}`,
+    );
+  } catch (error) {
+    const outcome = buildFailureOutcome(
+      'bancos',
+      endpoints,
+      previousMetadata?.capturadoEm ?? null,
+      error,
+      FETCH_MAX_ATTEMPTS,
+    );
+    await writeSourceFetchOutcome(FETCH_OUTCOME_DIR, outcome);
+    console.warn(`[bancos] ${outcome.message}`);
+  }
 }
 
 main().catch(exitWithError);

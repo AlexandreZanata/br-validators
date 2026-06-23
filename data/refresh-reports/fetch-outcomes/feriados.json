@@ -1,0 +1,11 @@
+{
+  "datasetId": "feriados",
+  "status": "ok",
+  "endpoints": [
+    "https://www.gov.br/gestao/pt-br/assuntos/noticias/2025/dezembro/confira-o-calendario-oficial-de-feriados-nacionais-e-pontos-facultativos-em-2026"
+  ],
+  "attempts": 3,
+  "checkedAt": "2026-06-23T15:50:13.717Z",
+  "retainedEmbeddedDataFrom": "2026-06-23",
+  "message": "Operational endpoint probe succeeded."
+}

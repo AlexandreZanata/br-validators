@@ -1,17 +1,20 @@
 {
   "id": "feriados",
-  "nome": "Feriados Nacionais",
-  "fonte": "Lei 662/1949 + Lei 6.802/1980 + Lei 14.759/2023",
+  "nome": "Feriados Nacionais Federais",
+  "fonte": "Lei 662/1949 + Portaria MGI (calendário federal)",
   "endpoints": [
     "https://www.planalto.gov.br/ccivil_03/leis/l0662.htm",
+    "https://www.planalto.gov.br/ccivil_03/leis/l10607.htm",
     "https://www.planalto.gov.br/ccivil_03/leis/l6802.htm",
-    "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/L14759.htm"
+    "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/L14759.htm",
+    "https://www.gov.br/gestao/pt-br/assuntos/noticias/2025/dezembro/confira-o-calendario-oficial-de-feriados-nacionais-e-pontos-facultativos-em-2026"
   ],
   "capturadoEm": "2026-06-23",
   "atualizadoEm": "2026-06-23T00:00:00.000Z",
   "contagens": {
-    "fixos": 9,
-    "moveis": 3
+    "feriadosNacionaisFixos": 9,
+    "feriadosNacionaisMoveis": 1,
+    "pontosFacultativosFederais": 9
   },
   "alteracoes": {
     "adicionados": 0,

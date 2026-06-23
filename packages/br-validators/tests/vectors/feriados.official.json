@@ -1,27 +1,59 @@
 {
   "source": "https://www.planalto.gov.br/ccivil_03/leis/l0662.htm",
+  "lei10007Url": "https://www.planalto.gov.br/ccivil_03/leis/l10607.htm",
   "lei14759Url": "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/L14759.htm",
+  "lei9093Url": "https://www.planalto.gov.br/ccivil_03/leis/l9093.htm",
+  "govBrCalendario2026Url": "https://www.gov.br/gestao/pt-br/assuntos/noticias/2025/dezembro/confira-o-calendario-oficial-de-feriados-nacionais-e-pontos-facultativos-em-2026",
+  "portariaMgi11460Url": "https://www.gov.br/gestao/pt-br/assuntos/noticias/2025/dezembro/confira-o-calendario-oficial-de-feriados-nacionais-e-pontos-facultativos-em-2026",
   "easterSunday": {
     "2024": "2024-03-31",
     "2025": "2025-04-20",
     "2026": "2026-04-05",
     "2027": "2027-03-28"
   },
-  "movable2025": {
-    "carnaval": "2025-03-04",
-    "sextaSanta": "2025-04-18",
-    "corpusChristi": "2025-06-19"
+  "paixaoDeCristo": {
+    "2025": "2025-04-18",
+    "2026": "2026-04-03",
+    "2027": "2027-03-26"
   },
-  "movable2026": {
-    "carnaval": "2026-02-17",
-    "sextaSanta": "2026-04-03",
-    "corpusChristi": "2026-06-04"
+  "facultativos2025": {
+    "carnavalSegunda": "2025-03-03",
+    "carnavalTerca": "2025-03-04",
+    "quartaCinzas": "2025-03-05",
+    "corpusChristi": "2025-06-19",
+    "servidorPublico": "2025-10-28",
+    "vesperaNatal": "2025-12-24",
+    "vesperaAnoNovo": "2025-12-31"
   },
-  "movable2027": {
-    "carnaval": "2027-02-09",
-    "sextaSanta": "2027-03-26",
-    "corpusChristi": "2027-05-27"
+  "facultativos2026": {
+    "carnavalSegunda": "2026-02-16",
+    "carnavalTerca": "2026-02-17",
+    "quartaCinzas": "2026-02-18",
+    "ponte20Abril": "2026-04-20",
+    "corpusChristi": "2026-06-04",
+    "ponte5Junho": "2026-06-05",
+    "servidorPublico": "2026-10-28",
+    "vesperaNatal": "2026-12-24",
+    "vesperaAnoNovo": "2026-12-31"
   },
+  "facultativos2027": {
+    "carnavalSegunda": "2027-02-08",
+    "carnavalTerca": "2027-02-09",
+    "quartaCinzas": "2027-02-10",
+    "corpusChristi": "2027-05-27",
+    "servidorPublico": "2027-10-28",
+    "vesperaNatal": "2027-12-24",
+    "vesperaAnoNovo": "2027-12-31"
+  },
+  "notNationalFederal": [
+    "2025-03-04",
+    "2025-06-19",
+    "2025-10-28",
+    "2026-02-17",
+    "2026-04-20",
+    "2026-06-04",
+    "2026-12-24"
+  ],
   "fixed2025": [
     { "data": "2025-01-01", "nome": "Confraternização Universal" },
     { "data": "2025-04-21", "nome": "Tiradentes" },
@@ -32,6 +64,17 @@
     { "data": "2025-11-15", "nome": "Proclamação da República" },
     { "data": "2025-11-20", "nome": "Dia Nacional de Zumbi e da Consciência Negra" },
     { "data": "2025-12-25", "nome": "Natal" }
+  ],
+  "fixed2026": [
+    { "data": "2026-01-01", "nome": "Confraternização Universal" },
+    { "data": "2026-04-21", "nome": "Tiradentes" },
+    { "data": "2026-05-01", "nome": "Dia do Trabalho" },
+    { "data": "2026-09-07", "nome": "Independência do Brasil" },
+    { "data": "2026-10-12", "nome": "Nossa Senhora Aparecida" },
+    { "data": "2026-11-02", "nome": "Finados" },
+    { "data": "2026-11-15", "nome": "Proclamação da República" },
+    { "data": "2026-11-20", "nome": "Dia Nacional de Zumbi e da Consciência Negra" },
+    { "data": "2026-12-25", "nome": "Natal" }
   ],
   "notHoliday": "2025-06-20",
   "proximoDiaUtil": {

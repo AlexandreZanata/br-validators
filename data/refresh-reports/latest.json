@@ -1,15 +1,15 @@
 {
-  "executadoEm": "2026-06-23T14:39:41.963Z",
+  "executadoEm": "2026-06-23T15:50:13.718Z",
   "agendamento": "semanal",
   "datasets": [
     {
       "id": "ibge",
-      "status": "changed",
+      "status": "unchanged",
       "alteracoes": {
-        "adicionados": 5598,
+        "adicionados": 0,
         "removidos": 0,
         "alterados": 0,
-        "comparadoCom": null
+        "comparadoCom": "2026-06-23"
       },
       "contagens": {
         "estados": 27,
@@ -18,12 +18,12 @@
     },
     {
       "id": "bancos",
-      "status": "changed",
+      "status": "unchanged",
       "alteracoes": {
-        "adicionados": 468,
+        "adicionados": 0,
         "removidos": 0,
         "alterados": 0,
-        "comparadoCom": null
+        "comparadoCom": "2026-06-23"
       },
       "contagens": {
         "bancos": 468
@@ -31,23 +31,40 @@
     },
     {
       "id": "telefone-ddd",
-      "status": "changed",
+      "status": "unchanged",
       "alteracoes": {
-        "adicionados": 67,
+        "adicionados": 0,
+        "removidos": 0,
+        "alterados": 0,
+        "comparadoCom": "2026-06-23"
+      },
+      "contagens": {
+        "ddds": 67
+      }
+    },
+    {
+      "id": "feriados",
+      "status": "unchanged",
+      "alteracoes": {
+        "adicionados": 0,
         "removidos": 0,
         "alterados": 0,
         "comparadoCom": null
       },
       "contagens": {
-        "ddds": 67
+        "feriadosNacionaisFixos": 9,
+        "feriadosNacionaisMoveis": 1,
+        "pontosFacultativosFederais": 9
       }
     }
   ],
+  "sourceAlerts": [],
   "resumo": {
-    "datasetsVerificados": 3,
-    "datasetsAlterados": 3,
-    "totalAdicionados": 6133,
+    "datasetsVerificados": 4,
+    "datasetsAlterados": 0,
+    "totalAdicionados": 0,
     "totalRemovidos": 0,
-    "totalAlterados": 0
+    "totalAlterados": 0,
+    "sourceAlerts": 0
   }
 }

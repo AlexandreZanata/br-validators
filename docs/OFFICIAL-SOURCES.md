@@ -257,15 +257,22 @@ Golden: COMPE `001` / ISPB `00000000` (Banco do Brasil), `341` / `60701190` (Ita
 
 ## National holidays {#feriados-nacionais}
 
-> **Vectors:** `packages/br-validators/tests/vectors/feriados.official.json`
+> **Vectors:** `packages/br-validators/tests/vectors/feriados.official.json`  
+> **Scope:** federal calendar per Lei 662 (fixed) + Portaria MGI annual (Paixão de Cristo + pontos facultativos).
 
 | Role | Source | URL |
 |------|--------|-----|
-| Fixed holidays | Lei 662/1949 | https://www.planalto.gov.br/ccivil_03/leis/l0662.htm |
+| Fixed national holidays | Lei 662/1949 | https://www.planalto.gov.br/ccivil_03/leis/l0662.htm |
+| Consolidation | Lei 10.607/2002 | https://www.planalto.gov.br/ccivil_03/leis/l10607.htm |
 | Nossa Senhora Aparecida | Lei 6.802/1980 | https://www.planalto.gov.br/ccivil_03/leis/l6802.htm |
-| Consciência Negra | Lei 14.759/2023 | https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/L14759.htm |
+| Consciência Negra (from 2024) | Lei 14.759/2023 | https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/L14759.htm |
+| Official 2026 calendar | Portaria MGI 11.460/2025 (Gov.br) | https://www.gov.br/gestao/pt-br/assuntos/noticias/2025/dezembro/confira-o-calendario-oficial-de-feriados-nacionais-e-pontos-facultativos-em-2026 |
 
-Movable offsets from Easter Sunday (Computus). Out of scope: state/municipal holidays, BACEN banking calendar.
+**National holidays (10 in 2026):** nine Lei 662 fixed dates + Paixão de Cristo (3 Apr 2026).
+
+**Pontos facultativos federais (9 in 2026, `getPontosFacultativosFederais`):** Carnaval (16–17 Feb), Quarta de Cinzas (18 Feb, until 14:00), 20 Apr, Corpus Christi (4 Jun), 5 Jun, Dia do Servidor (28 Oct), Véspera Natal (24 Dec after 13:00), Véspera Ano Novo (31 Dec after 13:00). Year-specific bridge days come from embedded portaria data (`portaria-extras.json`).
+
+Out of scope: state/municipal holidays, BACEN banking calendar.
 
 ---
 

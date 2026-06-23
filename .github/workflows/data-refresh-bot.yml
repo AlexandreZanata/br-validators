@@ -33,7 +33,9 @@ jobs:
       - name: Write job summary
         if: always()
         run: |
-          if [ -f data/refresh-reports/latest.json ]; then
+          if [ -f data/refresh-reports/job-summary.md ]; then
+            cat data/refresh-reports/job-summary.md >> "$GITHUB_STEP_SUMMARY"
+          elif [ -f data/refresh-reports/latest.json ]; then
             echo '### Data refresh report' >> "$GITHUB_STEP_SUMMARY"
             cat data/refresh-reports/latest.json >> "$GITHUB_STEP_SUMMARY"
           fi

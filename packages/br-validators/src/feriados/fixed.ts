@@ -1,12 +1,14 @@
 /**
- * Fixed national holidays — Lei 662/1949 and amendments.
+ * Fixed national federal holidays — Lei 662/1949 (consolidated by Lei 10.607/2002) and amendments.
  * @see https://www.planalto.gov.br/ccivil_03/leis/l0662.htm
+ * @see https://www.planalto.gov.br/ccivil_03/leis/l10607.htm
  */
 
 import { formatIsoDate } from './date-utils.js';
 import type { FeriadoNacional, ParsedUtcDate } from './types.js';
 
 export const FERIADOS_LEI_662_URL = 'https://www.planalto.gov.br/ccivil_03/leis/l0662.htm';
+export const FERIADOS_LEI_10007_URL = 'https://www.planalto.gov.br/ccivil_03/leis/l10607.htm';
 export const FERIADOS_LEI_6802_URL = 'https://www.planalto.gov.br/ccivil_03/leis/l6802.htm';
 export const FERIADOS_LEI_14759_URL =
   'https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/L14759.htm';
