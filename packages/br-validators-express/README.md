@@ -1,6 +1,10 @@
 # @br-validators/express
 
-Express and Fastify middleware for Brazilian document validation — delegates to [`@br-validators/core`](../br-validators) `validate*` functions (BR-GENERATE-001 / BR-VALIDATE parity).
+[![npm](https://img.shields.io/npm/v/@br-validators/express)](https://www.npmjs.com/package/@br-validators/express)
+[![MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/AlexandreZanata/br-validators/blob/main/LICENSE)
+[![GitHub release](https://img.shields.io/github/v/release/AlexandreZanata/br-validators)](https://github.com/AlexandreZanata/br-validators/releases)
+
+Express and Fastify middleware for Brazilian document validation — delegates to [`@br-validators/core`](../br-validators) **v1.7.0** `validate*` functions (BR-GENERATE-001 / BR-VALIDATE parity).
 
 ## Install
 

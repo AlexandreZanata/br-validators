@@ -1,6 +1,10 @@
 # @br-validators/cli
 
-Terminal CLI for all Brazilian document validators in [@br-validators/core](https://www.npmjs.com/package/@br-validators/core).
+[![npm](https://img.shields.io/npm/v/@br-validators/cli)](https://www.npmjs.com/package/@br-validators/cli)
+[![MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/AlexandreZanata/br-validators/blob/main/LICENSE)
+[![GitHub release](https://img.shields.io/github/v/release/AlexandreZanata/br-validators)](https://github.com/AlexandreZanata/br-validators/releases)
+
+Terminal CLI for all Brazilian document validators in [@br-validators/core](https://www.npmjs.com/package/@br-validators/core) **v1.7.0**.
 
 **Repo:** [github.com/AlexandreZanata/br-validators](https://github.com/AlexandreZanata/br-validators)
 

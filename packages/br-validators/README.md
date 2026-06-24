@@ -1,11 +1,13 @@
 # @br-validators/core
 
 > **The** Brazilian document validation library for TypeScript.  
-> Validate, format, and generate CPF, CNPJ (including the new alphanumeric format), NF-e, BR Code PIX, boleto, IE (all 27 states), and 15+ more — zero dependencies, fully typed, never throws.
+> Validate, format, and generate CPF, CNPJ (including the new alphanumeric format), NF-e, BR Code PIX, boleto, IE (all 27 states), ANP fuel prices, and 15+ more — zero dependencies, fully typed, never throws.
 
 [![npm](https://img.shields.io/npm/v/@br-validators/core)](https://www.npmjs.com/package/@br-validators/core)
+[![npm downloads](https://img.shields.io/npm/dm/@br-validators/core?label=downloads)](https://www.npmjs.com/package/@br-validators/core)
 [![MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/AlexandreZanata/br-validators/blob/main/LICENSE)
 [![Node ≥ 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)]()
+[![GitHub release](https://img.shields.io/github/v/release/AlexandreZanata/br-validators)](https://github.com/AlexandreZanata/br-validators/releases)
 
 ```bash
 npm install @br-validators/core
@@ -29,7 +31,7 @@ Every Brazilian SaaS eventually reinvents CPF validation — usually wrong.
 - ✅ **Zero runtime dependencies** — pure TypeScript logic, no HTTP calls
 - ✅ **Never throws** — every function returns `{ ok: true, value } | { ok: false, message, code }`
 - ✅ **Tree-shakeable** — subpath imports per document type
-- ✅ **Reference data** — IBGE, Bacen banks, DDD lookup, national holidays, CNAE, CFOP, NCM, CBO, natureza jurídica, NBS, CEST, moedas, países Bacen, Incoterms, portos, aeroportos — embedded offline with weekly freshness ([DATA-FRESHNESS.md](../../docs/DATA-FRESHNESS.md))
+- ✅ **Reference data** — IBGE, Bacen banks, DDD lookup, national holidays, CNAE, CFOP, NCM, CBO, natureza jurídica, NBS, CEST, moedas, países Bacen, Incoterms, portos, aeroportos, **ANP fuel prices (LPC)** — embedded offline with daily freshness ([DATA-FRESHNESS.md](../../docs/DATA-FRESHNESS.md); ANP weekly)
 - ✅ **ESM only**, Node ≥ 18, works in browser, Bun, Deno
 
 ---
@@ -306,6 +308,7 @@ import { getPaisPorCodigoBacen } from '@br-validators/core/paises-bacen';
 import { getIncotermPorCodigo } from '@br-validators/core/incoterms';
 import { getAeroportoPorIata } from '@br-validators/core/aeroportos';
 import { getPortoPorCodigo } from '@br-validators/core/portos';
+import { getAnpPrecosMedios } from '@br-validators/core/anp-combustiveis';
 import { getDataCatalog } from '@br-validators/core/data-catalog';
 
 getMunicipioPorCodigo(3550308)?.nome; // São Paulo
@@ -324,10 +327,17 @@ getPaisPorCodigoBacen('1058')?.nome;  // Brasil (NF-e cPais)
 getIncotermPorCodigo('FOB')?.nome;    // Free On Board
 getAeroportoPorIata('GRU')?.nome;     // Guarulhos — SP
 getPortoPorCodigo('BRSSZ')?.nome;     // Santos organized port
+getAnpPrecosMedios({ uf: 'SP', municipio: 'São Paulo', produto: 'GASOLINE_REGULAR' })?.precoMedio;
 getDataCatalog().length;              // registered datasets
 ```
 
-Freshness table (auto-updated weekly): [docs/DATA-FRESHNESS.md](https://github.com/AlexandreZanata/br-validators/blob/main/docs/DATA-FRESHNESS.md) · Per-type official URLs: [docs/OFFICIAL-SOURCES.md](https://github.com/AlexandreZanata/br-validators/blob/main/docs/OFFICIAL-SOURCES.md)
+Freshness table (auto-updated daily; ANP weekly): [docs/DATA-FRESHNESS.md](https://github.com/AlexandreZanata/br-validators/blob/main/docs/DATA-FRESHNESS.md) · Per-type official URLs: [docs/OFFICIAL-SOURCES.md](https://github.com/AlexandreZanata/br-validators/blob/main/docs/OFFICIAL-SOURCES.md)
+
+---
+
+## Current release
+
+**v1.7.0** — all six `@br-validators/*` packages ship the same semver. New in core: `@br-validators/core/anp-combustiveis` (`getAnpPrecosMedios`, `getAnpPrecosMediosPorIbge`, `getAnpSemanaAtual`). [CHANGELOG](https://github.com/AlexandreZanata/br-validators/blob/main/CHANGELOG.md#170---2026-06-24)
 
 ---
 
@@ -345,11 +355,13 @@ import { parseNfeChave } from '@br-validators/core/nfe-chave';
 
 ## Related packages
 
-| Package | Status |
+| Package | npm |
 |---|---|
-| [`@br-validators/cli`](https://www.npmjs.com/package/@br-validators/cli) | Published |
-| [`@br-validators/zod`](https://www.npmjs.com/package/@br-validators/zod) | Published — Zod 3/4 schemas |
-| [`@br-validators/react-hook-form`](https://www.npmjs.com/package/@br-validators/react-hook-form) | Published — RHF resolvers |
+| [`@br-validators/cli`](https://www.npmjs.com/package/@br-validators/cli) | Terminal — validate, format, detect, generate |
+| [`@br-validators/zod`](https://www.npmjs.com/package/@br-validators/zod) | Zod 3/4 schemas |
+| [`@br-validators/react-hook-form`](https://www.npmjs.com/package/@br-validators/react-hook-form) | RHF rules + resolvers |
+| [`@br-validators/express`](https://www.npmjs.com/package/@br-validators/express) | Express + Fastify middleware |
+| [`@br-validators/vue`](https://www.npmjs.com/package/@br-validators/vue) | Vue 3 composables |
 
 ---
 
