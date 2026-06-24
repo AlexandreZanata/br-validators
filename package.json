@@ -7,7 +7,7 @@
     "build": "pnpm --filter @br-validators/core build && pnpm -r --sequential --filter '!@br-validators/core' build",
     "prepare": "pnpm --filter @br-validators/core build",
     "test": "pnpm -r test",
-    "test:coverage": "pnpm --filter @br-validators/core test:coverage && pnpm --filter @br-validators/cli test:coverage && pnpm --filter @br-validators/zod test:coverage && pnpm --filter @br-validators/react-hook-form test:coverage && pnpm --filter @br-validators/express test:coverage",
+    "test:coverage": "pnpm --filter @br-validators/core test:coverage && pnpm --filter @br-validators/cli test:coverage && pnpm --filter @br-validators/zod test:coverage && pnpm --filter @br-validators/react-hook-form test:coverage && pnpm --filter @br-validators/express test:coverage && pnpm --filter @br-validators/vue test:coverage",
     "lint": "eslint . --max-warnings 0",
     "typecheck": "pnpm --filter @br-validators/core build && pnpm -r --sequential typecheck && pnpm typecheck:scripts",
     "typecheck:scripts": "tsc -p scripts/tsconfig.json --noEmit",

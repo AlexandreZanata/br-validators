@@ -5,6 +5,8 @@
 [![cli](https://img.shields.io/npm/v/@br-validators/cli?label=cli)](https://www.npmjs.com/package/@br-validators/cli)
 [![zod](https://img.shields.io/npm/v/@br-validators/zod?label=zod)](https://www.npmjs.com/package/@br-validators/zod)
 [![rhf](https://img.shields.io/npm/v/@br-validators/react-hook-form?label=rhf)](https://www.npmjs.com/package/@br-validators/react-hook-form)
+[![express](https://img.shields.io/npm/v/@br-validators/express?label=express)](https://www.npmjs.com/package/@br-validators/express)
+[![vue](https://img.shields.io/npm/v/@br-validators/vue?label=vue)](https://www.npmjs.com/package/@br-validators/vue)
 [![GitHub release](https://img.shields.io/github/v/release/AlexandreZanata/br-validators)](https://github.com/AlexandreZanata/br-validators/releases)
 
 **100% open-source** (MIT) monorepo — TypeScript library, terminal CLI, and web playground for formatting and validating Brazilian document identifiers. Algorithms trace to official primary sources (Receita Federal, Bacen, CONTRAN, Correios, SEFAZ).
@@ -16,6 +18,7 @@
 | **Zod** | [`@br-validators/zod`](https://www.npmjs.com/package/@br-validators/zod) on npm |
 | **React Hook Form** | [`@br-validators/react-hook-form`](https://www.npmjs.com/package/@br-validators/react-hook-form) on npm |
 | **Express / Fastify** | [`@br-validators/express`](https://www.npmjs.com/package/@br-validators/express) on npm |
+| **Vue 3** | [`@br-validators/vue`](https://www.npmjs.com/package/@br-validators/vue) on npm |
 | **Playground** | [doc-raiz-playground.vercel.app](https://doc-raiz-playground.vercel.app/) — client-side only, no PII sent to server |
 
 Reference datasets (IBGE, Bacen banks, DDD lookup, national holidays, CNAE, CFOP, NCM, CBO, natureza jurídica, NBS, CEST, moedas, países Bacen, Incoterms, portos, aeroportos) are embedded offline and refreshed weekly — see [docs/DATA-FRESHNESS.md](docs/DATA-FRESHNESS.md).
@@ -285,6 +288,7 @@ Every shipped type exists in **library + CLI + playground**. See [docs/DELIVERY-
 | `@br-validators/zod` | [npm](https://www.npmjs.com/package/@br-validators/zod) | `1.5.0` |
 | `@br-validators/react-hook-form` | [npm](https://www.npmjs.com/package/@br-validators/react-hook-form) | `1.5.0` |
 | `@br-validators/express` | [npm](https://www.npmjs.com/package/@br-validators/express) | `1.5.0` |
+| `@br-validators/vue` | [npm](https://www.npmjs.com/package/@br-validators/vue) | `1.5.0` |
 
 **v1.5.0** — federal open-data embeds (natureza-juridica, NBS, CEST, moedas, países Bacen, Incoterms, portos, aeroportos) plus CLI reference-lookup and playground `/data/fiscal|trade|logistics`. See [CHANGELOG.md](CHANGELOG.md) and [docs/VERSIONING.md](docs/VERSIONING.md#api-freeze-100).
 

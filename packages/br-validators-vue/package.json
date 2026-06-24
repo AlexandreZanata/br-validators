@@ -1,0 +1,91 @@
+{
+  "name": "@br-validators/vue",
+  "version": "1.5.0",
+  "description": "Vue 3 composables for Brazilian document validators — delegates to @br-validators/core",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexandreZanata/br-validators.git",
+    "directory": "packages/br-validators-vue"
+  },
+  "homepage": "https://github.com/AlexandreZanata/br-validators/tree/main/packages/br-validators-vue#readme",
+  "bugs": {
+    "url": "https://github.com/AlexandreZanata/br-validators/issues"
+  },
+  "keywords": [
+    "brazil",
+    "vue",
+    "composable",
+    "validator",
+    "cpf",
+    "cnpj",
+    "cep"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "tag": "alpha"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./cpf": {
+      "types": "./dist/cpf.d.ts",
+      "import": "./dist/cpf.js"
+    },
+    "./cnpj": {
+      "types": "./dist/cnpj.d.ts",
+      "import": "./dist/cnpj.js"
+    },
+    "./cep": {
+      "types": "./dist/cep.d.ts",
+      "import": "./dist/cep.js"
+    },
+    "./telefone": {
+      "types": "./dist/telefone.d.ts",
+      "import": "./dist/telefone.js"
+    },
+    "./pix": {
+      "types": "./dist/pix.d.ts",
+      "import": "./dist/pix.js"
+    },
+    "./inscricao-estadual": {
+      "types": "./dist/inscricao-estadual.d.ts",
+      "import": "./dist/inscricao-estadual.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "prepublishOnly": "pnpm run build",
+    "pretypecheck": "pnpm --filter @br-validators/core build",
+    "pretest": "pnpm --filter @br-validators/core build",
+    "pretest:coverage": "pnpm --filter @br-validators/core build",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src tests --max-warnings 0"
+  },
+  "peerDependencies": {
+    "@br-validators/core": "workspace:*",
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "@br-validators/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "@vitest/coverage-v8": "^3.2.4",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4",
+    "vue": "^3.5.17"
+  }
+}
