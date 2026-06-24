@@ -24,7 +24,7 @@
 | **Documentation** | [docs.br-validators.dev](https://docs.br-validators.dev/) — VitePress deep reference (README = quick start) |
 | **Playground** | [doc-raiz-playground.vercel.app](https://doc-raiz-playground.vercel.app/) — client-side only, no PII sent to server |
 
-Reference datasets (IBGE, Bacen banks, DDD lookup, national holidays, CNAE, CFOP, NCM, CBO, natureza jurídica, NBS, CEST, moedas, países Bacen, Incoterms, portos, aeroportos) are embedded offline and refreshed weekly — see [docs/DATA-FRESHNESS.md](docs/DATA-FRESHNESS.md).
+Reference datasets (IBGE, Bacen banks, DDD lookup, national holidays, CNAE, CFOP, NCM, CBO, natureza jurídica, NBS, CEST, moedas, países Bacen, Incoterms, portos, aeroportos) are embedded offline and refreshed **daily** (00:00 Brasília) — see [docs/DATA-FRESHNESS.md](docs/DATA-FRESHNESS.md). Critical source failures: [data/refresh-reports/CRITICAL-ALERTS.md](data/refresh-reports/CRITICAL-ALERTS.md).
 
 > **Note:** The unscoped npm name [`br-validators`](https://www.npmjs.com/package/br-validators) belongs to another project. Install **`@br-validators/core`** or **`@br-validators/cli`**.
 

@@ -11,7 +11,7 @@
     "lint": "eslint . --max-warnings 0",
     "typecheck": "pnpm --filter @br-validators/core build && pnpm -r --sequential typecheck && pnpm typecheck:scripts",
     "typecheck:scripts": "tsc -p scripts/tsconfig.json --noEmit",
-    "verify": "pnpm --filter @br-validators/core build && pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm build",
+    "verify": "pnpm --filter @br-validators/core build && pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm test:scripts && pnpm build",
     "fetch:data:ibge": "tsx scripts/fetch-ibge.ts",
     "fetch:data:bancos": "tsx scripts/fetch-bancos.ts",
     "fetch:data:aeroportos": "tsx scripts/fetch-aeroportos.ts",
@@ -33,7 +33,8 @@
     "fetch:data:cep-faixas": "tsx scripts/fetch-cep-faixas.ts",
     "fetch:data": "pnpm fetch:data:ibge && pnpm fetch:data:bancos && pnpm fetch:data:aeroportos && pnpm fetch:data:tse-municipios && pnpm fetch:data:moedas && pnpm fetch:data:paises-bacen && pnpm fetch:data:incoterms && pnpm fetch:data:ddd && pnpm fetch:data:cnaes && pnpm fetch:data:cfop && pnpm fetch:data:natureza-juridica && pnpm fetch:data:nbs && pnpm fetch:data:cest && pnpm fetch:data:portos && pnpm fetch:data:pncp-reference && pnpm fetch:data:transparencia && pnpm fetch:data:ncm && pnpm fetch:data:cbo",
     "data:refresh": "tsx scripts/data-refresh-bot.ts",
-    "data:refresh:report": "tsx scripts/data-refresh-bot.ts --report-only"
+    "data:refresh:report": "tsx scripts/data-refresh-bot.ts --report-only",
+    "test:scripts": "vitest run --config scripts/vitest.config.ts"
   },
   "engines": {
     "node": ">=18"
@@ -46,6 +47,7 @@
     "globals": "^16.2.0",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.33.0"
+    "typescript-eslint": "^8.33.0",
+    "vitest": "^3.2.1"
   }
 }

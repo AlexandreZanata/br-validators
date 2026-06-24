@@ -1,0 +1,13 @@
+{
+  "datasetId": "cest",
+  "endpoints": [
+    "https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18"
+  ],
+  "consecutiveFailureDays": 0,
+  "firstFailureDate": null,
+  "lastFailureDate": null,
+  "lastSuccessDate": "2026-06-24",
+  "severity": "ok",
+  "message": "Official source responded successfully.",
+  "retainedEmbeddedDataFrom": "2026-06-23"
+}

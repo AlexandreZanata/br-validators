@@ -29,6 +29,9 @@ importers:
       typescript-eslint:
         specifier: ^8.33.0
         version: 8.61.1(eslint@9.39.4)(typescript@5.9.3)
+      vitest:
+        specifier: ^3.2.1
+        version: 3.2.6(@types/node@22.20.0)(tsx@4.22.4)
 
   apps/cli:
     dependencies:

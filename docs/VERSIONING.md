@@ -226,6 +226,19 @@ Action: audit stored CNPJs; re-validate with v1.y.z+
 
 ---
 
+## Data-only PATCH releases (automated daily bot)
+
+When the daily data refresh bot (`.github/workflows/data-refresh-bot.yml`) detects embedded JSON drift or is triggered with `force_publish`:
+
+| Trigger | SemVer | Automation |
+|---------|--------|------------|
+| Rows added/removed/changed | **PATCH** | `scripts/bump-data-patch.mjs` → tag → `release.yml` |
+| Manual `force_publish` dispatch | **PATCH** | Same pipeline; `reason` input required |
+
+**Not handled by the bot:** MINOR (new dataset module) or MAJOR (API break) — human release per [Release process](#2-version-bump).
+
+---
+
 ## Changelog discipline
 
 Every user-facing change → [CHANGELOG.md](../CHANGELOG.md):

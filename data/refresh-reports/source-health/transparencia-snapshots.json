@@ -1,0 +1,15 @@
+{
+  "datasetId": "transparencia-snapshots",
+  "endpoints": [
+    "https://api.portaldatransparencia.gov.br/swagger-ui/index.html",
+    "https://api.portaldatransparencia.gov.br/v3/api-docs",
+    "https://portaldatransparencia.gov.br/"
+  ],
+  "consecutiveFailureDays": 0,
+  "firstFailureDate": null,
+  "lastFailureDate": null,
+  "lastSuccessDate": "2026-06-24",
+  "severity": "ok",
+  "message": "Official source responded successfully.",
+  "retainedEmbeddedDataFrom": "2026-06-23"
+}

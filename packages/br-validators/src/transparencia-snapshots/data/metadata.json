@@ -20,7 +20,7 @@
     "comparadoCom": "2026-06-23"
   },
   "verificacao": {
-    "agendamento": "semanal",
+    "agendamento": "diario",
     "workflow": "data-refresh-bot.yml",
     "ultimaExecucao": "2026-06-23T19:08:25.007Z"
   },

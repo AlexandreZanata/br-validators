@@ -2,9 +2,9 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { FetchError } from './fetch-utils.js';
+import { FETCH_RETRY_DELAY_MS } from './fetch-retry-config.js';
 
-export const FETCH_MAX_ATTEMPTS = 3;
-export const FETCH_RETRY_DELAY_MS = 2000;
+export { FETCH_MAX_ATTEMPTS, FETCH_RETRY_DELAY_MS } from './fetch-retry-config.js';
 
 export type SourceFetchStatus =
   | 'ok'
@@ -25,12 +25,13 @@ export interface SourceFetchOutcome {
 
 export interface SourceAlert {
   datasetId: string;
-  severity: 'warning';
+  severity: 'warning' | 'critical';
   status: Exclude<SourceFetchStatus, 'ok'>;
   message: string;
   endpoints: string[];
   retainedEmbeddedDataFrom: string | null;
   documentationAction: string;
+  consecutiveFailureDays?: number;
 }
 
 const DOC_MAINTENANCE =
@@ -58,10 +59,11 @@ export function buildFailureOutcome(
   const status = classifySourceError(error);
   const detail = error instanceof Error ? error.message : 'Unknown fetch error';
   const retainedLabel = retainedEmbeddedDataFrom ?? 'unknown date';
+  const retryDelayMs = FETCH_RETRY_DELAY_MS;
   const message =
     status === 'dependency_failed'
       ? `${detail} Embedded data from ${retainedLabel} retained in the API.`
-      : `Official source appears unavailable or deprecated after ${String(attempts)} attempts (${detail}). No new data returned — embedded data from ${retainedLabel} retained in the API.`;
+      : `Possible link deprecation — official source unreachable after ${String(attempts)} attempts (interval ${String(retryDelayMs)}ms) (${detail}). No new data returned — embedded data from ${retainedLabel} retained in the API.`;
 
   return {
     datasetId,

@@ -23,7 +23,7 @@
     "comparadoCom": null
   },
   "verificacao": {
-    "agendamento": "semanal",
+    "agendamento": "diario",
     "workflow": "data-refresh-bot.yml"
   },
   "documentacao": "docs/OFFICIAL-SOURCES.md#feriados-nacionais"

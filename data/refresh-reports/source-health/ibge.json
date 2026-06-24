@@ -1,0 +1,14 @@
+{
+  "datasetId": "ibge",
+  "endpoints": [
+    "https://servicodados.ibge.gov.br/api/v1/localidades/estados",
+    "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
+  ],
+  "consecutiveFailureDays": 0,
+  "firstFailureDate": null,
+  "lastFailureDate": null,
+  "lastSuccessDate": "2026-06-24",
+  "severity": "ok",
+  "message": "Official source responded successfully.",
+  "retainedEmbeddedDataFrom": "2026-06-24"
+}

@@ -102,7 +102,7 @@ describe('IBGE data version — transparency metadata', () => {
     expect(IBGE_DATA_VERSION.endpoints).toContain(vectors.municipiosUrl);
     expect(IBGE_DATA_VERSION.contagens.estados).toBe(IBGE_EXPECTED_ESTADOS);
     expect(IBGE_DATA_VERSION.contagens.municipios).toBeGreaterThanOrEqual(IBGE_MIN_MUNICIPIOS);
-    expect(IBGE_DATA_VERSION.verificacao.agendamento).toBe('semanal');
+    expect(IBGE_DATA_VERSION.verificacao.agendamento).toBe('diario');
   });
 
   it('tracks row counts consistent with embedded datasets', () => {

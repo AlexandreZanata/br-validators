@@ -5,6 +5,12 @@ export interface DatasetChanges {
   comparadoCom: string | null;
 }
 
+export {
+  diffRecordsByKeyWithFields,
+  mergeFieldChangeDetails,
+  type FieldChangeDetail,
+} from './field-change-detail.js';
+
 export function diffRecordsByKey<T>(
   previous: readonly T[],
   next: readonly T[],

@@ -1,12 +1,28 @@
 # Data source maintenance — when official endpoints fail
 
-> **Audience:** maintainers running the weekly data refresh bot or investigating `sourceAlerts` in reports.
+> **Audience:** maintainers running the daily data refresh bot or investigating `sourceAlerts` in reports.
+
+---
+
+## Critical alerts (scan first)
+
+| File | Purpose |
+|------|---------|
+| [`data/refresh-reports/CRITICAL-ALERTS.md`](../data/refresh-reports/CRITICAL-ALERTS.md) | Human-readable table — **2+ consecutive failure days** |
+| [`data/refresh-reports/CRITICAL-ALERTS.log`](../data/refresh-reports/CRITICAL-ALERTS.log) | Plain text — `rg CRITICAL` |
 
 ---
 
 ## What triggers an alert?
 
-The weekly bot (`pnpm data:refresh` / `data-refresh-bot.yml`) fetches reference datasets from official government sources. Each fetch uses **3 attempts** with **2 seconds** between retries.
+The daily bot (`pnpm data:refresh` / `data-refresh-bot.yml`) fetches reference datasets from official government sources. Each fetch uses **5 attempts** with **2 minutes** between retries.
+
+### Escalation
+
+| Day | Severity | Message |
+|-----|----------|---------|
+| 1st failure day | **warning** | Possible link deprecation |
+| 2+ consecutive failure days | **critical** | Consultation link deprecated |
 
 An alert is recorded when:
 
@@ -23,29 +39,36 @@ An alert is recorded when:
 
 ## What consumers see
 
-Weekly artifacts:
+Daily artifacts:
 
 | File | Content |
 |------|---------|
-| `data/refresh-reports/latest.json` | `sourceAlerts[]` with retention date |
-| `data/refresh-reports/pr-body.md` | PR description when drift or alerts exist |
+| `data/refresh-reports/latest.json` | `sourceAlerts[]` with severity + retention date |
+| `data/refresh-reports/daily/YYYY-MM-DD.json` | Archived run snapshot |
+| `data/refresh-reports/field-changes/YYYY-MM-DD.json` | Field-level drift (`camposAlterados`) or `no_drift` |
+| `data/refresh-reports/CRITICAL-ALERTS.md` | Critical maintainer file |
 | `docs/DATA-FRESHNESS.md` | Auto-generated freshness table + alert section |
 | GitHub Actions job summary | Human-readable warning with embedded-data date |
 
-Example alert message:
+Example warning message (day 1):
 
-> Official source appears unavailable or deprecated after 3 attempts (HTTP 404). No new data returned — embedded data from **2026-06-23** retained in the API.
+> Possible link deprecation — official source unreachable after 5 attempts (interval 120000ms) (HTTP 404). No new data returned — embedded data from **2026-06-23** retained in the API.
+
+Example critical message (day 2+):
+
+> Consultation link deprecated — official source unreachable for 2 or more consecutive days.
 
 ---
 
 ## Maintainer checklist
 
-1. **Confirm** the official URL in `docs/OFFICIAL-SOURCES.md` still works in a browser.
-2. **Update** the endpoint in the relevant `scripts/fetch-*.ts` (or `metadata.json` `endpoints` for algorithm modules).
-3. **Update** `docs/OFFICIAL-SOURCES.md` anchor for the dataset.
-4. **Run** `pnpm data:refresh` locally — confirm `sourceAlerts` is empty in `latest.json`.
-5. **Run** `pnpm verify` before merging.
-6. **CHANGELOG** — note the source URL fix under `[Unreleased]` if consumers rely on freshness metadata.
+1. **Scan** [`CRITICAL-ALERTS.md`](../data/refresh-reports/CRITICAL-ALERTS.md) when severity is **critical**.
+2. **Confirm** the official URL in `docs/OFFICIAL-SOURCES.md` still works in a browser.
+3. **Update** the endpoint in the relevant `scripts/fetch-*.ts` (or `metadata.json` `endpoints` for algorithm modules).
+4. **Update** `docs/OFFICIAL-SOURCES.md` anchor for the dataset.
+5. **Run** `pnpm data:refresh` locally — confirm alerts are cleared in `latest.json`.
+6. **Run** `pnpm verify` before merging.
+7. **CHANGELOG** — note the source URL fix under `[Unreleased]` if consumers rely on freshness metadata.
 
 ---
 
@@ -72,4 +95,4 @@ If the Gov.br calendar URL moves:
 
 ---
 
-**See also:** [DATA-FRESHNESS.md](DATA-FRESHNESS.md) · [OFFICIAL-SOURCES.md](OFFICIAL-SOURCES.md) · `.local/phases/23f-data-transparency-bot/TASKS.md`
+**See also:** [DATA-FRESHNESS.md](DATA-FRESHNESS.md) · [OFFICIAL-SOURCES.md](OFFICIAL-SOURCES.md) · `.local/phases/30-daily-data-refresh-bot/TASKS.md`

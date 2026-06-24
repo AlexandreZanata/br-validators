@@ -1,0 +1,20 @@
+{
+  "datasetId": "pncp-reference",
+  "endpoints": [
+    "https://pncp.gov.br/api/pncp/v1/modalidades",
+    "https://pncp.gov.br/api/pncp/v1/amparos-legais",
+    "https://pncp.gov.br/api/pncp/v1/modos-disputas",
+    "https://pncp.gov.br/api/pncp/v1/tipos-instrumentos-convocatorios",
+    "https://pncp.gov.br/api/pncp/v1/tipos-contratos",
+    "https://pncp.gov.br/api/pncp/v1/criterios-julgamentos",
+    "https://pncp.gov.br/api/pncp/v1/tipos-instrumentos-cobranca",
+    "https://pncp.gov.br/api/pncp/v1/fontes-orcamentarias"
+  ],
+  "consecutiveFailureDays": 0,
+  "firstFailureDate": null,
+  "lastFailureDate": null,
+  "lastSuccessDate": "2026-06-24",
+  "severity": "ok",
+  "message": "Official source responded successfully.",
+  "retainedEmbeddedDataFrom": "2026-06-23"
+}

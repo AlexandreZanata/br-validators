@@ -1,16 +1,20 @@
 import type { DatasetMetadata } from './metadata-writer.js';
 import type { SourceAlert } from './source-fetch-outcome.js';
+import type { FieldChangesReport } from './field-change-report.js';
 
 export interface RefreshReportDataset {
   id: string;
   status: 'changed' | 'unchanged';
   alteracoes: DatasetMetadata['alteracoes'];
   contagens: Record<string, number>;
+  camposAlterados?: string[];
 }
 
 export interface RefreshReport {
   executadoEm: string;
-  agendamento: 'semanal';
+  runDate: string;
+  schedule: 'diario';
+  agendamento: 'diario';
   datasets: RefreshReportDataset[];
   sourceAlerts: SourceAlert[];
   resumo: {
@@ -20,7 +24,21 @@ export interface RefreshReport {
     totalRemovidos: number;
     totalAlterados: number;
     sourceAlerts: number;
+    criticalAlerts: number;
   };
+}
+
+function renderCriticalBanner(criticalCount: number): string[] {
+  if (criticalCount === 0) {
+    return [];
+  }
+  return [
+    '## ⚠️ Critical source alerts',
+    '',
+    `**${String(criticalCount)}** dataset(s) marked as **consultation link deprecated** (2+ consecutive failure days).`,
+    'See [`data/refresh-reports/CRITICAL-ALERTS.md`](../data/refresh-reports/CRITICAL-ALERTS.md).',
+    '',
+  ];
 }
 
 function renderSourceAlertsSection(alerts: SourceAlert[]): string[] {
@@ -36,16 +54,16 @@ function renderSourceAlertsSection(alerts: SourceAlert[]): string[] {
   const lines: string[] = [
     '## Source health alerts',
     '',
-    '> Official source unreachable, deprecated, or returned no usable data. **Embedded data was retained** — the published API continues to serve the last successful capture.',
+    '> Official source unreachable or deprecated. **Embedded data was retained** — the published API continues to serve the last successful capture.',
     '',
-    '| Dataset | Status | Embedded data from | Message |',
-    '|---------|--------|--------------------|---------|',
+    '| Dataset | Severity | Status | Embedded data from | Message |',
+    '|---------|----------|--------|--------------------|---------|',
   ];
 
   for (const alert of alerts) {
     const retained = alert.retainedEmbeddedDataFrom ?? 'unknown';
     lines.push(
-      `| ${alert.datasetId} | ${alert.status} | ${retained} | ${alert.message} |`,
+      `| ${alert.datasetId} | ${alert.severity} | ${alert.status} | ${retained} | ${alert.message} |`,
     );
   }
 
@@ -54,13 +72,21 @@ function renderSourceAlertsSection(alerts: SourceAlert[]): string[] {
     '### Maintainer action required',
     '',
     '1. Read [DATA-SOURCE-MAINTENANCE.md](DATA-SOURCE-MAINTENANCE.md).',
-    '2. Verify whether the official URL moved (404) or the payload schema changed.',
-    '3. Update `docs/OFFICIAL-SOURCES.md`, the relevant `scripts/fetch-*.ts` endpoint(s), and `metadata.json`.',
-    '4. Run `pnpm data:refresh` locally and confirm `sourceAlerts` is empty in `data/refresh-reports/latest.json`.',
+    '2. Scan [CRITICAL-ALERTS.md](../data/refresh-reports/CRITICAL-ALERTS.md) when severity is **critical**.',
+    '3. Verify whether the official URL moved (404) or the payload schema changed.',
+    '4. Update `docs/OFFICIAL-SOURCES.md`, the relevant `scripts/fetch-*.ts` endpoint(s), and `metadata.json`.',
+    '5. Run `pnpm data:refresh` locally and confirm alerts are cleared in `data/refresh-reports/latest.json`.',
     '',
   );
 
   return lines;
+}
+
+function formatFieldsDelta(fields: string[] | undefined): string {
+  if (fields === undefined || fields.length === 0) {
+    return '—';
+  }
+  return fields.join(', ');
 }
 
 export function generateDataFreshnessDoc(report: RefreshReport, datasets: DatasetMetadata[]): string {
@@ -72,29 +98,32 @@ export function generateDataFreshnessDoc(report: RefreshReport, datasets: Datase
     '',
     '## Summary',
     '',
-    '| Dataset | Last capture | Records | + added | − removed | ~ changed | Official source |',
-    '|---------|--------------|---------|---------|-----------|-----------|-----------------|',
+    '| Dataset | Last capture | Records | + added | − removed | ~ changed | Fields Δ | Official source |',
+    '|---------|--------------|---------|---------|-----------|-----------|----------|-----------------|',
   ];
 
   for (const dataset of datasets) {
+    const reportEntry = report.datasets.find((entry) => entry.id === dataset.id);
     const counts = Object.entries(dataset.contagens)
       .map(([key, value]) => `${String(value)} ${key}`)
       .join(' / ');
     const source = dataset.endpoints[0] ?? dataset.fonte;
     const { adicionados, removidos, alterados } = dataset.alteracoes;
     lines.push(
-      `| ${dataset.nome} | ${dataset.capturadoEm} | ${counts} | ${String(adicionados)} | ${String(removidos)} | ${String(alterados)} | [${dataset.fonte}](${source}) |`,
+      `| ${dataset.nome} | ${dataset.capturadoEm} | ${counts} | ${String(adicionados)} | ${String(removidos)} | ${String(alterados)} | ${formatFieldsDelta(reportEntry?.camposAlterados)} | [${dataset.fonte}](${source}) |`,
     );
   }
 
   lines.push(
     '',
+    ...renderCriticalBanner(report.resumo.criticalAlerts),
     ...renderSourceAlertsSection(report.sourceAlerts),
     '## Verification',
     '',
-    '- Schedule: weekly — Monday 06:00 UTC (`data-refresh-bot.yml`)',
-    '- Fetch retries: 3 attempts, 2 s apart (`scripts/lib/fetch-utils.ts`)',
-    '- On source failure: embedded JSON is **not** overwritten; weekly report records retention',
+    '- Schedule: **daily** — 00:00 America/Sao_Paulo (`0 3 * * *` UTC in `data-refresh-bot.yml`)',
+    '- Fetch retries: **5** attempts, **2 min** apart (`scripts/lib/fetch-retry-config.ts`)',
+    '- Critical maintainer file: [`data/refresh-reports/CRITICAL-ALERTS.md`](../data/refresh-reports/CRITICAL-ALERTS.md)',
+    '- On source failure: embedded JSON is **not** overwritten; daily report records retention',
     '- Local dry run: `pnpm data:refresh`',
     '- Library API: `getDataCatalog()` from `@br-validators/core/data-catalog`',
     '- Maintainer guide: [DATA-SOURCE-MAINTENANCE.md](DATA-SOURCE-MAINTENANCE.md)',
@@ -112,20 +141,22 @@ export function generateDataFreshnessDoc(report: RefreshReport, datasets: Datase
 
 export function generatePrBody(report: RefreshReport, datasets: DatasetMetadata[]): string {
   const lines: string[] = [
-    `## Weekly data refresh — ${report.executadoEm.slice(0, 10)}`,
+    `## Daily data refresh — ${report.runDate}`,
     '',
-    '| Dataset | Records | + added | − removed | ~ changed | Captured | Source |',
-    '|---------|---------|---------|-----------|-----------|----------|--------|',
+    ...renderCriticalBanner(report.resumo.criticalAlerts),
+    '| Dataset | Records | + added | − removed | ~ changed | Fields Δ | Captured | Source |',
+    '|---------|---------|---------|-----------|-----------|----------|----------|--------|',
   ];
 
   for (const dataset of datasets) {
+    const reportEntry = report.datasets.find((entry) => entry.id === dataset.id);
     const counts = Object.entries(dataset.contagens)
       .map(([key, value]) => `${String(value)} ${key}`)
       .join(' / ');
     const source = dataset.endpoints[0] ?? '#';
     const { adicionados, removidos, alterados } = dataset.alteracoes;
     lines.push(
-      `| ${dataset.id} | ${counts} | ${String(adicionados)} | ${String(removidos)} | ${String(alterados)} | ${dataset.capturadoEm} | [official](${source}) |`,
+      `| ${dataset.id} | ${counts} | ${String(adicionados)} | ${String(removidos)} | ${String(alterados)} | ${formatFieldsDelta(reportEntry?.camposAlterados)} | ${dataset.capturadoEm} | [official](${source}) |`,
     );
   }
 
@@ -140,7 +171,7 @@ export function generatePrBody(report: RefreshReport, datasets: DatasetMetadata[
     for (const alert of report.sourceAlerts) {
       const retained = alert.retainedEmbeddedDataFrom ?? 'unknown';
       lines.push(
-        `- **${alert.datasetId}** (${alert.status}): ${alert.message} Embedded data from **${retained}** retained in the API.`,
+        `- **${alert.datasetId}** (${alert.severity}/${alert.status}): ${alert.message} Embedded data from **${retained}** retained in the API.`,
       );
       lines.push(`  - Action: ${alert.documentationAction}`);
     }
@@ -149,48 +180,80 @@ export function generatePrBody(report: RefreshReport, datasets: DatasetMetadata[
     lines.push('### Source health', '', 'All official endpoints responded successfully.', '');
   }
 
+  if (report.resumo.datasetsAlterados === 0) {
+    lines.push('### Drift', '', '✅ No dataset drift on this run.', '');
+  }
+
   lines.push(
     '### Verification',
     '',
     '- [ ] `pnpm verify` passed',
     '- [ ] All endpoints are official government domains',
-    '- [ ] No unresolved `sourceAlerts` (or documented in PR if retention is expected)',
-    '- [ ] Human review required before merge',
+    '- [ ] No unresolved critical alerts (or documented in PR if retention is expected)',
     '',
   );
 
   return lines.join('\n');
 }
 
-export function generateJobSummary(report: RefreshReport): string {
+export function generateJobSummary(
+  report: RefreshReport,
+  fieldChanges?: FieldChangesReport,
+): string {
   const lines: string[] = [
     '### Data refresh report',
     '',
+    `- Run date: ${report.runDate}`,
     `- Datasets checked: ${String(report.resumo.datasetsVerificados)}`,
     `- Datasets changed: ${String(report.resumo.datasetsAlterados)}`,
     `- Source alerts: ${String(report.resumo.sourceAlerts)}`,
+    `- Critical alerts: ${String(report.resumo.criticalAlerts)}`,
     '',
   ];
 
+  if (report.resumo.criticalAlerts > 0) {
+    lines.push(
+      '### ⚠️ Critical — consultation link deprecated',
+      '',
+      'See `data/refresh-reports/CRITICAL-ALERTS.md` for maintainer actions.',
+      '',
+    );
+  }
+
   if (report.sourceAlerts.length === 0 && report.resumo.datasetsAlterados === 0) {
-    lines.push('✅ No dataset drift. All official sources responded successfully.', '');
+    lines.push(`✅ No dataset drift — all ${String(report.resumo.datasetsVerificados)} datasets unchanged on ${report.runDate}.`, '');
     return lines.join('\n');
   }
 
   if (report.sourceAlerts.length > 0) {
-    lines.push('### ⚠️ Source health alerts', '');
+    lines.push('### Source health alerts', '');
     for (const alert of report.sourceAlerts) {
       const retained = alert.retainedEmbeddedDataFrom ?? 'unknown';
-      lines.push(`- **${alert.datasetId}**: ${alert.message} (embedded data from ${retained} retained)`);
+      lines.push(
+        `- **${alert.datasetId}** (${alert.severity}): ${alert.message} (embedded data from ${retained} retained)`,
+      );
     }
     lines.push('', 'See `docs/DATA-SOURCE-MAINTENANCE.md` for remediation steps.', '');
   }
 
   if (report.resumo.datasetsAlterados > 0) {
     lines.push(
-      `Dataset drift: +${String(report.resumo.totalAdicionados)} −${String(report.resumo.totalRemovidos)} ~${String(report.resumo.totalAlterados)}`,
+      '### Dataset drift',
       '',
+      `Totals: +${String(report.resumo.totalAdicionados)} −${String(report.resumo.totalRemovidos)} ~${String(report.resumo.totalAlterados)}`,
+      '',
+      '| Dataset | Δ | Fields |',
+      '|---------|---|--------|',
     );
+
+    for (const entry of report.datasets.filter((item) => item.status === 'changed')) {
+      const delta = `+${String(entry.alteracoes.adicionados)} −${String(entry.alteracoes.removidos)} ~${String(entry.alteracoes.alterados)}`;
+      lines.push(`| ${entry.id} | ${delta} | ${formatFieldsDelta(entry.camposAlterados)} |`);
+    }
+
+    lines.push('');
+  } else if (fieldChanges?.summary === 'no_drift') {
+    lines.push(`✅ No dataset drift — all datasets unchanged on ${report.runDate}.`, '');
   }
 
   return lines.join('\n');

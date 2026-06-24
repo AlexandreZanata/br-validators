@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 
+import { FETCH_MAX_ATTEMPTS } from './fetch-retry-config.js';
 import { probeUrl } from './fetch-utils.js';
 import { parseDatasetMetadata } from './parse-metadata.js';
 import {
@@ -50,7 +51,7 @@ export async function probeMetadataEndpoints(
         datasetId: metadata.id,
         status: 'ok',
         endpoints: httpEndpoints,
-        attempts: 3,
+        attempts: FETCH_MAX_ATTEMPTS,
         checkedAt: new Date().toISOString(),
         retainedEmbeddedDataFrom: metadata.capturadoEm,
         message: 'Operational endpoint probe succeeded.',
@@ -65,7 +66,7 @@ export async function probeMetadataEndpoints(
       new Error(
         `Endpoint probe failed for ${String(failedEndpoints.length)} operational URL(s) — source may be deprecated or moved.`,
       ),
-      3,
+      FETCH_MAX_ATTEMPTS,
     );
     outcome.status = 'source_unavailable';
     await writeSourceFetchOutcome(outcomeDir, outcome);

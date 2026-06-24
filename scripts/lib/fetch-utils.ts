@@ -1,3 +1,5 @@
+import { FETCH_MAX_ATTEMPTS, FETCH_RETRY_DELAY_MS } from './fetch-retry-config.js';
+
 const DEFAULT_TIMEOUT_MS = 30_000;
 const USER_AGENT = 'br-validators-data-refresh/1.0 (+https://github.com/AlexandreZanata/br-validators)';
 
@@ -109,8 +111,8 @@ async function fetchWithRetry<T>(
 
 export async function fetchTextWithRetry(
   url: string,
-  attempts = 3,
-  delayMs = 2000,
+  attempts = FETCH_MAX_ATTEMPTS,
+  delayMs = FETCH_RETRY_DELAY_MS,
   timeoutMs = DEFAULT_TIMEOUT_MS,
 ): Promise<string> {
   return fetchWithRetry(() => fetchText(url, timeoutMs), attempts, delayMs);
@@ -118,8 +120,8 @@ export async function fetchTextWithRetry(
 
 export async function fetchJsonWithRetry<T>(
   url: string,
-  attempts = 3,
-  delayMs = 2000,
+  attempts = FETCH_MAX_ATTEMPTS,
+  delayMs = FETCH_RETRY_DELAY_MS,
   timeoutMs = DEFAULT_TIMEOUT_MS,
 ): Promise<T> {
   return fetchWithRetry(() => fetchJson<T>(url, timeoutMs), attempts, delayMs);
@@ -127,8 +129,8 @@ export async function fetchJsonWithRetry<T>(
 
 export async function probeUrl(
   url: string,
-  attempts = 3,
-  delayMs = 2000,
+  attempts = FETCH_MAX_ATTEMPTS,
+  delayMs = FETCH_RETRY_DELAY_MS,
   timeoutMs = DEFAULT_TIMEOUT_MS,
 ): Promise<{ ok: boolean; status?: number; error?: string }> {
   try {

@@ -17,7 +17,7 @@
     "comparadoCom": null
   },
   "verificacao": {
-    "agendamento": "semanal",
+    "agendamento": "diario",
     "workflow": "data-refresh-bot.yml",
     "ultimaExecucao": "2026-06-23T16:12:05.672Z"
   },

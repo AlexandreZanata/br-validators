@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Daily data refresh bot (Phase 30)** — cron 00:00 America/Sao_Paulo; 5 fetch retries × 2 min; field-level drift logs; source health escalation (warning → critical); `CRITICAL-ALERTS.md`; full-auto PATCH publish on drift
+
+### Changed
+
+- Data bot schedule: weekly → **daily**; `DatasetMetadata.verificacao.agendamento` → `diario`
+
 ---
 
 ## [1.6.1] - 2026-06-24

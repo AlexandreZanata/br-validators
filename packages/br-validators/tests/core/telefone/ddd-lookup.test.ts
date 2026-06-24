@@ -66,6 +66,6 @@ describe('DDD data version — transparency metadata', () => {
   it('exposes capture metadata with official endpoints', () => {
     expect(TELEFONE_DDD_DATA_VERSION.id).toBe('telefone-ddd');
     expect(TELEFONE_DDD_DATA_VERSION.endpoints[0]).toBe(vectors.source);
-    expect(TELEFONE_DDD_DATA_VERSION.verificacao.agendamento).toBe('semanal');
+    expect(TELEFONE_DDD_DATA_VERSION.verificacao.agendamento).toBe('diario');
   });
 });
