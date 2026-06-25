@@ -30,3 +30,23 @@ export interface IbgeDataVersion {
   verificacao: DatasetVerification;
   documentacao: string;
 }
+
+export type CmunFgParseFailureReason =
+  | 'EMPTY_INPUT'
+  | 'INVALID_CHARS'
+  | 'INVALID_LENGTH'
+  | 'CHECK_DIGIT_MISMATCH';
+
+export interface CmunFgParseSuccess {
+  ok: true;
+  codigo: number;
+  base6: string;
+  checkDigit: number;
+}
+
+export interface CmunFgParseFailure {
+  ok: false;
+  reason: CmunFgParseFailureReason;
+}
+
+export type CmunFgParseResult = CmunFgParseSuccess | CmunFgParseFailure;

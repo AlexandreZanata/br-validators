@@ -6,7 +6,7 @@ export interface DatasetChanges {
 }
 
 export interface DatasetVerification {
-  agendamento: 'diario' | 'semanal';
+  agendamento: 'diario' | 'semanal' | 'manual';
   workflow: 'data-refresh-bot.yml';
   ultimaExecucao?: string;
 }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { formatBoleto } from '../../src/format/boleto.js';
 import { formatCartaoCredito } from '../../src/format/cartao-credito.js';
+import { formatEan } from '../../src/format/ean.js';
 import { formatCep } from '../../src/format/cep.js';
 import { formatCnpj } from '../../src/format/cnpj.js';
 import { formatCpf } from '../../src/format/cpf.js';
@@ -24,6 +25,7 @@ const FORMATTERS = {
   pix: formatPixKey,
   boleto: formatBoleto,
   'cartao-credito': formatCartaoCredito,
+  ean: formatEan,
 } as const;
 
 describe('format.official.json — UC-003 golden vectors', () => {

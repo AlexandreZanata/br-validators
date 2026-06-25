@@ -14,6 +14,7 @@ import processoVectors from '../vectors/processo-judicial.official.json';
 import nfeVectors from '../vectors/nfe-chave.official.json';
 import boletoVectors from '../vectors/boleto.official.json';
 import cartaoVectors from '../vectors/cartao-credito.official.json';
+import eanVectors from '../vectors/ean.official.json';
 import pisVectors from '../vectors/pis-pasep.official.json';
 
 import ieSpRuralVectors from '../vectors/inscricao-estadual-produtor-rural.official.json';
@@ -100,6 +101,7 @@ describe('sanitize()', () => {
       'nfe-chave',
       'boleto',
       'cartao-credito',
+      'ean',
       'inscricao-estadual',
       'inscricao-estadual-produtor-rural',
     ] as const;
@@ -118,6 +120,8 @@ describe('sanitize()', () => {
     expect(sanitize(nfeVectors.primary.officialFormatted, 'nfe-chave').ok).toBe(true);
     expect(sanitize(boletoVectors.golden.santander.linhaMasked, 'boleto').ok).toBe(true);
     expect(sanitize(cartaoVectors.visa.masked, 'cartao-credito').ok).toBe(true);
+    expect(sanitize(eanVectors.ean13.masked, 'ean').ok).toBe(true);
+    expect(sanitize(eanVectors.modulo10Walkthrough.invalid, 'ean').ok).toBe(false);
     expect(sanitize(pisVectors.primary.formatted, 'pis-pasep').ok).toBe(true);
   });
 

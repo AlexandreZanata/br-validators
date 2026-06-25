@@ -1,0 +1,25 @@
+{
+  "id": "cnpj-motivos",
+  "nome": "RFB CNPJ Motivos de Situação Cadastral",
+  "fonte": "Receita Federal — Dados Abertos CNPJ (Motivos.zip)",
+  "endpoints": [
+    "https://github.com/jonathands/dados-abertos-receita-cnpj/releases/download/2024.09/Motivos.zip"
+  ],
+  "capturadoEm": "2026-06-25",
+  "atualizadoEm": "2026-06-25T14:24:31.180Z",
+  "contagens": {
+    "motivos": 61
+  },
+  "alteracoes": {
+    "adicionados": 0,
+    "removidos": 0,
+    "alterados": 0,
+    "comparadoCom": null
+  },
+  "verificacao": {
+    "agendamento": "diario",
+    "workflow": "data-refresh-bot.yml",
+    "ultimaExecucao": "2026-06-25T14:24:31.180Z"
+  },
+  "documentacao": "docs/OFFICIAL-SOURCES.md#cnpj-motivos-situacao-cadastral"
+}

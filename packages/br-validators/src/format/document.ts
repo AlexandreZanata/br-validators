@@ -5,6 +5,7 @@
 import type { FormatResult } from '../types/validation-result.js';
 import { formatBoleto } from './boleto.js';
 import { formatCartaoCredito } from './cartao-credito.js';
+import { formatEan } from './ean.js';
 import { formatCep } from './cep.js';
 import { formatCnpj } from './cnpj.js';
 import { formatCpf } from './cpf.js';
@@ -20,7 +21,8 @@ export type FormattableDocumentType =
   | 'pis-pasep'
   | 'pix'
   | 'boleto'
-  | 'cartao-credito';
+  | 'cartao-credito'
+  | 'ean';
 
 export const FORMATTABLE_DOCUMENT_TYPES = [
   'cpf',
@@ -31,6 +33,7 @@ export const FORMATTABLE_DOCUMENT_TYPES = [
   'pix',
   'boleto',
   'cartao-credito',
+  'ean',
 ] as const satisfies readonly FormattableDocumentType[];
 
 export function isFormattableDocumentType(type: string): type is FormattableDocumentType {
@@ -55,6 +58,8 @@ export function formatDocument(type: FormattableDocumentType, input: string): Fo
       return formatBoleto(input);
     case 'cartao-credito':
       return formatCartaoCredito(input);
+    case 'ean':
+      return formatEan(input);
   }
 }
 

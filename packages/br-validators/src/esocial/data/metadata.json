@@ -1,0 +1,25 @@
+{
+  "id": "esocial",
+  "nome": "eSocial Tabela 01 — Categorias de Trabalhadores",
+  "fonte": "eSocial S-1.3 — Tabela 01 (Categorias de Trabalhadores)",
+  "endpoints": [
+    "https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html"
+  ],
+  "capturadoEm": "2026-06-25",
+  "atualizadoEm": "2026-06-25T11:50:20.341Z",
+  "contagens": {
+    "categorias": 47
+  },
+  "alteracoes": {
+    "adicionados": 47,
+    "removidos": 0,
+    "alterados": 0,
+    "comparadoCom": null
+  },
+  "verificacao": {
+    "agendamento": "manual",
+    "workflow": "data-refresh-bot.yml",
+    "ultimaExecucao": "2026-06-25T11:50:20.341Z"
+  },
+  "documentacao": "docs/OFFICIAL-SOURCES.md#esocial-categorias-trabalhadores"
+}

@@ -12,6 +12,7 @@ export * from './inscricao-estadual-produtor-rural.js';
 export * from './brcode.js';
 export * from './placa.js';
 export * from './pis-pasep.js';
+export * from './cnis.js';
 export {
   computeModulo10FieldDv,
   computeModulo11BarcodeDv,
@@ -129,6 +130,26 @@ export {
   CARTAO_PAN_MIN_LENGTH,
 } from './cartao-credito.js';
 export type { CardBrand, CartaoCredito, CartaoCreditoValidationResult } from './cartao-credito.js';
+export {
+  applyEanMask,
+  computeGs1Modulo10CheckDigit,
+  computeGs1Modulo10Sum,
+  detectEanFormat,
+  formatEan,
+  isValidEan,
+  isValidGs1Modulo10,
+  passesGs1Modulo10,
+  stripEan,
+  validateEan,
+  EAN_8_LENGTH,
+  EAN_13_LENGTH,
+  EAN_GOLDEN_13,
+  EAN_GOLDEN_13_MASKED,
+  EAN_GOLDEN_8,
+  EAN_GOLDEN_8_MASKED,
+  EAN_OFFICIAL_SOURCE_URL,
+} from './ean.js';
+export type { Ean, EanFormat, EanValidationResult } from './ean.js';
 export {
   formatInscricaoEstadual,
   getIeOfficialSourceUrl,

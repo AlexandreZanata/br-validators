@@ -1,0 +1,46 @@
+[
+  {
+    "codigo": "00",
+    "descricao": "Nacional - Tributada integralmente"
+  },
+  {
+    "codigo": "10",
+    "descricao": "Nacional - Tributada e com cobrança do ICMS por substituição tributária"
+  },
+  {
+    "codigo": "20",
+    "descricao": "Nacional - Com redução de base de cálculo"
+  },
+  {
+    "codigo": "30",
+    "descricao": "Nacional - Isenta ou não tributada e com cobrança do ICMS por substituição tributária"
+  },
+  {
+    "codigo": "40",
+    "descricao": "Nacional - Isenta"
+  },
+  {
+    "codigo": "41",
+    "descricao": "Nacional - Não tributada"
+  },
+  {
+    "codigo": "50",
+    "descricao": "Nacional - Suspensão"
+  },
+  {
+    "codigo": "51",
+    "descricao": "Nacional - Diferimento"
+  },
+  {
+    "codigo": "60",
+    "descricao": "Nacional - ICMS cobrado anteriormente por substituição tributária"
+  },
+  {
+    "codigo": "70",
+    "descricao": "Nacional - Com redução de base de cálculo e cobrança do ICMS por substituição tributária"
+  },
+  {
+    "codigo": "90",
+    "descricao": "Nacional - Outras"
+  }
+]

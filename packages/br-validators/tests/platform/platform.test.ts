@@ -19,6 +19,7 @@ import processoVectors from '../vectors/processo-judicial.official.json';
 import nfeVectors from '../vectors/nfe-chave.official.json';
 import boletoVectors from '../vectors/boleto.official.json';
 import cartaoVectors from '../vectors/cartao-credito.official.json';
+import eanVectors from '../vectors/ean.official.json';
 import pixVectors from '../vectors/pix.official.json';
 import brcodeVectors from '../vectors/brcode.official.json';
 import ieSpVectors from '../vectors/ie.sp.official.json';
@@ -69,6 +70,7 @@ describe('normalizeForPlatform + validateForPlatform', () => {
       boletoVectors.golden.santander.linhaStripped,
     );
     expect(normalizeForPlatform(cartaoVectors.visa.canonical, 'cartao-credito')).toBe(cartaoVectors.visa.canonical);
+    expect(normalizeForPlatform(eanVectors.ean13.canonical, 'ean')).toBe(eanVectors.ean13.canonical);
   });
 
   it('normalizes IE, IE rural, PIX, BR Code, arrecadação', () => {
@@ -108,6 +110,7 @@ describe('normalizeForPlatform + validateForPlatform', () => {
     ).toBe(true);
     expect(validateForPlatform(boletoVectors.golden.santander.linhaStripped, 'boleto').ok).toBe(true);
     expect(validateForPlatform(cartaoVectors.visa.canonical, 'cartao-credito').ok).toBe(true);
+    expect(validateForPlatform(eanVectors.ean13.canonical, 'ean').ok).toBe(true);
     expect(
       validateForPlatform(ieSpRuralVectors.golden.canonical, 'inscricao-estadual-produtor-rural').ok,
     ).toBe(true);
@@ -144,6 +147,7 @@ describe('normalizeForPlatform + validateForPlatform', () => {
       ['nfe-chave', 'bad'],
       ['boleto', 'bad'],
       ['cartao-credito', 'bad'],
+      ['ean', eanVectors.modulo10Walkthrough.invalid],
       ['inscricao-estadual', 'bad', { uf: 'SP' }],
       ['inscricao-estadual-produtor-rural', 'bad'],
       ['rg', 'bad', { uf: 'SP' }],
@@ -218,6 +222,7 @@ describe('diff field coverage', () => {
 
   it('diffs opaque platform types', () => {
     expect(diff('4111111111111111', '4111111111111112', 'cartao-credito').changed).toBe(true);
+    expect(diff(eanVectors.ean13.canonical, eanVectors.modulo10Walkthrough.invalid, 'ean').changed).toBe(true);
     expect(diff('x', 'y', 'pix').fields).toEqual([{ field: 'value', a: 'x', b: 'y' }]);
     expect(diff('a', 'b', 'brcode').changed).toBe(true);
     expect(diff('1', '2', 'boleto').changed).toBe(true);

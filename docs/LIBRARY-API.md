@@ -25,10 +25,12 @@
 | `@br-validators/core/nfe-chave` | NF-e / NFC-e chave de acesso — 44-digit access key |
 | `@br-validators/core/brcode` | BR Code PIX QR payload (EMV TLV + CRC16) |
 | `@br-validators/core/placa` | License plates |
-| `@br-validators/core/pis-pasep` | PIS / PASEP / NIS / NIT |
+| `@br-validators/core/pis-pasep` | PIS / PASEP / NIS (checksum — no issuer metadata) |
+| `@br-validators/core/cnis` | CNIS / NIT with `issuer` + `tipo` metadata |
 | `@br-validators/core/pix` | PIX keys |
 | `@br-validators/core/boleto` | Boleto (linha digitável + código de barras) |
 | `@br-validators/core/cartao-credito` | Credit card PAN (Luhn / ISO 7812) |
+| `@br-validators/core/ean` | GS1 EAN-8 / EAN-13 product barcodes |
 | `@br-validators/core/inscricao-estadual` | Inscrição Estadual — all 27 UFs |
 | `@br-validators/core/inscricao-estadual-produtor-rural` | SP produtor rural IE (Regra II) |
 | `@br-validators/core/detect` | Unified type detection router |
@@ -42,7 +44,14 @@
 | `@br-validators/core/bancos` | Bacen STR participants with COMPE / ISPB lookup |
 | `@br-validators/core/feriados` | Brazilian national federal holidays (fixed dates) + optional facultative days |
 | `@br-validators/core/cnaes` | IBGE CNAE 2.3 economic activity subclass lookup |
+| `@br-validators/core/ibpt` | IBPT approximate NCM tax burden (Lei 12.741/2012) |
+| `@br-validators/core/cnpj-motivos` | RFB CNPJ motivos de situação cadastral (Motivos.zip) |
 | `@br-validators/core/cfop` | CONFAZ CFOP fiscal operation code lookup |
+| `@br-validators/core/cst` | RFB SPED CST lookup (ICMS, IPI, PIS, COFINS) |
+| `@br-validators/core/lc116` | LC 116/2003 ISS national service list lookup |
+| `@br-validators/core/esocial` | eSocial Tabela 01 worker category lookup |
+| `@br-validators/core/simples-nacional` | LC 123/2006 Simples Nacional annex rate tables |
+| `@br-validators/core/ptax` | Bacen PTAX Fechamento exchange rates (pairs with `moedas`) |
 | `@br-validators/core/ncm` | Siscomex NCM Mercosur nomenclature lookup |
 | `@br-validators/core/cbo` | MTE CBO 2002 occupation lookup |
 | `@br-validators/core/data-catalog` | Aggregated dataset transparency metadata |
@@ -335,9 +344,34 @@ validateBrCode(permanent).ok; // true — matches BRCODE_GOLDEN_STATIC_EMAIL whe
 | `validatePisPasep` | `(input: string) => ValidationResult<PisPasep>` | Full result with canonical 11 digits |
 | `formatPisPasep` | `(input: string) => FormatResult` | `XXX.XXXXX.XX-X` after validation |
 
-**Invariants:** Output canonical form is exactly 11 digits. Covers PIS, PASEP, NIS, and NIT (same CNIS algorithm).
+**Invariants:** Output canonical form is exactly 11 digits. Same modulo-11 family as NIT — use `@br-validators/core/cnis` when issuer metadata is required.
 
 **Official source:** [SIPREV RV_03 (PDF)](https://www.gov.br/previdencia/pt-br/outros/imagens/2015/07/rgrva_RegrasValidacao.pdf) · `PIS_PASEP_OFFICIAL_SOURCE_URL` · `tests/vectors/pis-pasep.official.json` · Golden: `10027230888`, `12056456402`
+
+---
+
+## Core API — CNIS / NIT
+
+| Function | Signature | Behavior |
+|----------|-----------|----------|
+| `stripNit` | `(input: string) => string` | Remove non-digits (same mask as PIS/PASEP) |
+| `isValidNit` | `(input: string, options?) => boolean` | Modulo 11 per RV_03 |
+| `validateNit` | `(input: string, options?) => NitValidationResult` | Checksum + `issuer` (`inss` \| `caixa`) + `tipo` (`nit` \| `pis` \| `nis`) |
+| `inferNitIssuer` | `(canonical: string) => NitIssuer` | Heuristic when caller context unknown |
+| `inferNitTipo` | `(canonical: string) => NitTipo` | Heuristic series (0 → nit, 1–3 → pis, 4–9 → nis) |
+| `formatNit` | `(input: string) => FormatResult` | `XXX.XXXXX.XX-X` after validation |
+
+```typescript
+type NitValidationResult =
+  | { ok: true; value: Nit; format: 'numeric'; issuer: 'inss' | 'caixa'; tipo: 'nit' | 'pis' | 'nis' }
+  | { ok: false; code: ValidationErrorCode; message: string };
+
+type ValidateNitOptions = { issuer?: 'inss' | 'caixa'; tipo?: 'nit' | 'pis' | 'nis' };
+```
+
+**Issuer inference** is heuristic only — RV_03 validates checksum, not cadastro origin. Pass explicit `issuer` / `tipo` when your domain context is known (payroll vs INSS enrollment).
+
+**Official sources:** [SIPREV RV_03 (PDF)](https://www.gov.br/previdencia/pt-br/outros/imagens/2015/07/rgrva_RegrasValidacao.pdf) · [INSS NIT enrollment](https://www.gov.br/pt-br/servicos/obter-numero-de-inscricao-no-inss-nit) · `tests/vectors/cnis.official.json` · Golden: `01234567897` (INSS NIT), `10027230888` (Caixa PIS cross-check)
 
 ---
 
@@ -543,18 +577,29 @@ Constants: `IE_OFFICIAL_SOURCE_URLS` (all UFs), legacy `IE_SP_OFFICIAL_SOURCE_UR
 | `getEstados()` | All 27 federative units with `codigo`, `sigla`, `nome`, `regiao` |
 | `getMunicipios(options?)` | All municipalities, or filtered by `uf` (case-insensitive) |
 | `getMunicipioPorCodigo(codigo)` | Single municipality or `undefined` |
+| `toCmunFg(codigo)` | 7-digit NF-e `cMunFG` from 6-digit base or validated 7-digit input; `undefined` if invalid |
+| `parseCmunFg(code)` | Structured ok/reason result with `codigo`, `base6`, `checkDigit` on success |
+| `computeCmunFgCheckDigit(base6)` | IBGE modulo-10 check digit for 6-digit base; `undefined` if invalid |
 | `IBGE_DATA_VERSION` | `DatasetMetadata` — capture date, official endpoints, row counts, weekly delta |
 
-Golden vectors: `3550308` (São Paulo/SP), `5107925` (Sorriso/MT), `5300108` (Brasília/DF), `5101837` (Boa Esperança do Norte/MT).
+Golden vectors: `3550308` (São Paulo/SP), `5107925` (Sorriso/MT), `5300108` (Brasília/DF), `5101837` (Boa Esperança do Norte/MT). **cMunFG:** `tests/vectors/ibge.cmunfg.official.json` — base `355030` → `3550308`; exception `220191` → `2201919` (Bom Princípio do Piauí).
 
 ```typescript
 import {
   getEstados,
   getMunicipios,
   getMunicipioPorCodigo,
+  toCmunFg,
+  parseCmunFg,
+  computeCmunFgCheckDigit,
   IBGE_DATA_VERSION,
 } from '@br-validators/core/ibge';
+
+toCmunFg('355030'); // '3550308'
+parseCmunFg('3550308'); // { ok: true, codigo: 3550308, base6: '355030', checkDigit: 8 }
 ```
+
+**cMunFG** helpers implement NF-e field B12 check-digit rules (distinct from generic `getMunicipioPorCodigo` lookup). Nine IBGE exceptions with non-algorithmic DVs are embedded. Sources: [IBGE municipality codes](https://www.ibge.gov.br/explica/codigos-dos-municipios.php), [NF-e MOC Anexo I](https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w=).
 
 **No runtime fetch** — JSON embedded at build time from official IBGE API via `scripts/fetch-ibge.ts`.
 
@@ -643,6 +688,34 @@ Golden vectors: `6201501` (custom software development), `6201502` (web design).
 import { getCnaePorCodigo, searchCnaes, CNAES_DATA_VERSION } from '@br-validators/core/cnaes';
 ```
 
+Complementary RFB source: [Cnaes.zip](https://dadosabertos.rfb.gov.br/CNPJ/dados_abertos_cnpj/) — subclass codes must match IBGE embed.
+
+---
+
+## Core API — CNPJ motivos (reference data)
+
+> **Offline embedded data** from [RFB CNPJ Motivos.zip](https://dadosabertos.rfb.gov.br/CNPJ/dados_abertos_cnpj/).  
+> Freshness: [DATA-FRESHNESS.md](DATA-FRESHNESS.md) — monthly (`pnpm fetch:data:cnpj-motivos`)
+
+| Function | Returns |
+|----------|---------|
+| `getMotivosSituacaoCadastral()` | All motivo de situação cadastral codes |
+| `getMotivoSituacaoCadastralPorCodigo(codigo)` | Single motivo or `undefined` (2-digit code) |
+| `SITUACAO_CADASTRAL_LABELS` | Estabelecimentos `situacao_cadastral` status labels (reference) |
+| `CNPJ_MOTIVOS_DATA_VERSION` | `DatasetMetadata` |
+
+Golden vectors: `01` (extinção voluntária), `02` (incorporação). Vector: `cnpj-motivos.official.json`.
+
+```typescript
+import {
+  getMotivoSituacaoCadastralPorCodigo,
+  getMotivosSituacaoCadastral,
+  CNPJ_MOTIVOS_DATA_VERSION,
+} from '@br-validators/core/cnpj-motivos';
+```
+
+**Out of scope:** empresa/sócio/endereço lookup (~GB RFB dumps).
+
 ---
 
 ## Core API — CFOP (reference data)
@@ -665,6 +738,134 @@ import { getCfopPorCodigo, searchCfop, CFOP_DATA_VERSION } from '@br-validators/
 
 ---
 
+## Core API — CST (reference data)
+
+> **Offline embedded data** from [RFB SPED Fiscal — Tabelas de Situação Tributária](http://www.sped.fazenda.gov.br/spedtabelas/AppConsulta/publico/aspx/ConsultaTabelasExternas.aspx?CodSistema=SpedFiscal).  
+> Freshness: [DATA-FRESHNESS.md](DATA-FRESHNESS.md) — manual maintainer refresh (`pnpm fetch:data:cst`)
+
+| Function | Returns |
+|----------|---------|
+| `getCstIcms()` | All ICMS CST codes (2-digit NF-e format) |
+| `getCstIpi()` | All IPI CST codes |
+| `getCstPis()` | All PIS CST codes |
+| `getCstCofins()` | All COFINS CST codes |
+| `getCstIcmsPorCodigo(codigo)` | Single ICMS CST or `undefined` |
+| `getCstIpiPorCodigo(codigo)` | Single IPI CST or `undefined` |
+| `getCstPisPorCodigo(codigo)` | Single PIS CST or `undefined` |
+| `getCstCofinsPorCodigo(codigo)` | Single COFINS CST or `undefined` |
+| `searchCstIcms(query, { limit? })` | ICMS description search (default limit 10) |
+| `searchCstIpi(query, { limit? })` | IPI description search |
+| `searchCstPis(query, { limit? })` | PIS description search |
+| `searchCstCofins(query, { limit? })` | COFINS description search |
+| `CST_DATA_VERSION` | `DatasetMetadata` |
+
+Golden vectors: ICMS `00` / `10`; IPI `50` / `00`; PIS `01` / `07`; COFINS `01` / `07`.
+
+```typescript
+import {
+  getCstIcmsPorCodigo,
+  getCstIpiPorCodigo,
+  searchCstIcms,
+  CST_DATA_VERSION,
+} from '@br-validators/core/cst';
+```
+
+---
+
+## Core API — LC 116 (reference data)
+
+> **Offline embedded data** from [LC 116/2003 — Planalto](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm) with [NFSe republication](https://www.gov.br/nfse/pt-br/mei-e-demais-empresas/codigos-de-tributacao-nacional-nbs) fetch fallback.  
+> Freshness: [DATA-FRESHNESS.md](DATA-FRESHNESS.md) — manual maintainer refresh (`pnpm fetch:data:lc116`)
+
+| Function | Returns |
+|----------|---------|
+| `getLc116List()` | All LC 116 ISS service items |
+| `getLc116PorCodigo(codigo)` | Single item or `undefined` (accepts `1.01` or NFSe `010101`) |
+| `searchLc116(query, { limit? })` | Description search (default limit 10) |
+| `LC116_DATA_VERSION` | `DatasetMetadata` |
+
+Golden vectors: `1.01` (análise e desenvolvimento de sistemas), `7.02` (obras de construção civil).
+
+```typescript
+import { getLc116PorCodigo, searchLc116, LC116_DATA_VERSION } from '@br-validators/core/lc116';
+```
+
+---
+
+## Core API — eSocial (reference data)
+
+> **Offline embedded data** from [eSocial S-1.3 Tabela 01](https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html).  
+> Freshness: [DATA-FRESHNESS.md](DATA-FRESHNESS.md) — manual maintainer refresh (`pnpm fetch:data:esocial`)
+
+| Function | Returns |
+|----------|---------|
+| `getEsocialCategorias()` | All Tabela 01 worker categories |
+| `getEsocialCategoriaPorCodigo(codigo)` | Single category or `undefined` (3-digit code) |
+| `searchEsocialCategorias(query, { limit? })` | Search by code, grupo, or description (default limit 10) |
+| `ESOCIAL_DATA_VERSION` | `DatasetMetadata` |
+
+Golden vectors: `101` (empregado geral), `103` (aprendiz), `901` (estagiário).
+
+```typescript
+import {
+  getEsocialCategoriaPorCodigo,
+  searchEsocialCategorias,
+  ESOCIAL_DATA_VERSION,
+} from '@br-validators/core/esocial';
+```
+
+---
+
+## Core API — Simples Nacional (reference data)
+
+> **Offline embedded data** from [LC 123/2006 — Planalto](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm) with [Receita Federal annex republication](http://normas.receita.fazenda.gov.br/sijut2consulta/anexoOutros.action?idArquivoBinario=48430).  
+> Freshness: [DATA-FRESHNESS.md](DATA-FRESHNESS.md) — manual maintainer refresh (`pnpm fetch:data:simples-nacional`)
+
+| Function | Returns |
+|----------|---------|
+| `getSimplesAnexos()` | All annex rate tables (I–V) |
+| `getSimplesAnexo(anexo)` | Single annex or `undefined` (accepts `I`, `ANEXO III`, `3`) |
+| `getSimplesFaixa({ anexo, receitaBruta })` | Matching faixa row + annex id, or `undefined` |
+| `computeSimplesAliquotaEfetiva({ anexo, receitaBruta })` | Effective rate decimal per Resolução CGSN art. 22, or `undefined` |
+| `SIMPLES_NACIONAL_DATA_VERSION` | `DatasetMetadata` |
+
+Golden vectors: Anexo `I` RBT12 `700000` (efetiva `0.0752`), Anexo `III` faixa 1 at `180000`, Anexo `V` RBT12 `200000` (efetiva `0.1575`).
+
+```typescript
+import {
+  getSimplesAnexo,
+  getSimplesFaixa,
+  computeSimplesAliquotaEfetiva,
+  SIMPLES_NACIONAL_DATA_VERSION,
+} from '@br-validators/core/simples-nacional';
+```
+
+---
+
+## Core API — PTAX (reference data)
+
+> **Offline embedded data** from [Bacen Olinda PTAX API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3) — Fechamento closing rates for Bacen tipo A/B currencies in `@br-validators/core/moedas`.  
+> Freshness: [DATA-FRESHNESS.md](DATA-FRESHNESS.md) — daily refresh (`pnpm fetch:data:ptax`)
+
+| Function | Returns |
+|----------|---------|
+| `getPtaxList()` | All embedded Fechamento PTAX rows |
+| `getPtaxCotacao(moeda, data?)` | Single closing rate or `undefined` (ISO or Bacen date; omit `data` for latest) |
+| `getPtaxUltimoDiaUtil(moeda)` | Latest embedded Fechamento for currency |
+| `getPtaxCotacoesPorMoeda(moeda)` | All embedded days for currency, newest first |
+| `PTAX_DATA_VERSION` | `DatasetMetadata` |
+
+Golden vectors: USD `2026-06-24` (compra `5.2092`, venda `5.2098`); USD `2026-06-23` historical; EUR último dia útil `2026-06-24`.
+
+```typescript
+import { getPtaxCotacao, getPtaxUltimoDiaUtil, PTAX_DATA_VERSION } from '@br-validators/core/ptax';
+
+getPtaxCotacao('USD', '2026-06-24');
+getPtaxUltimoDiaUtil('EUR');
+```
+
+---
+
 ## Core API — NCM (reference data)
 
 > **Offline embedded data** from [Siscomex NCM JSON](https://portalunico.siscomex.gov.br/classif/api/publico/nomenclatura/download/json).  
@@ -682,6 +883,39 @@ Golden vectors: `01012100` (purebred horses), `12011000` (soybean seeds).
 ```typescript
 import { getNcmPorCodigo, searchNcm, NCM_DATA_VERSION } from '@br-validators/core/ncm';
 ```
+
+Pair with `@br-validators/core/ibpt` for Lei 12.741/2012 approximate tax burden per NCM×UF.
+
+---
+
+## Core API — IBPT (approximate NCM tax burden)
+
+> **Offline golden subset** from [IBPT De Olho no Imposto](https://deolhonoimposto.ibpt.org.br/) (Lei 12.741/2012).  
+> Freshness: [DATA-FRESHNESS.md](DATA-FRESHNESS.md) — `pnpm fetch:data:ibpt`
+
+| Function | Returns |
+|----------|---------|
+| `getIbptCargas()` | All embedded NCM×UF carga rows (golden subset) |
+| `getIbptCargaPorNcmUf({ ncm, uf, excecao? })` | Single row or `undefined` |
+| `computeIbptCargaTotal(carga, { importado })` | Sum of federal + estadual + municipal (%) |
+| `getIbptTabelaAtual()` | Current IBPT table version string (e.g. `26.1.H`) |
+| `IBPT_DATA_VERSION` | `DatasetMetadata` |
+
+Golden: `01012100`/SP → **31,45%** nacional; `01012100`/RJ → **27,45%**; `22030000`/SP beer → **35,91%** / **39,77%** importado.
+
+```typescript
+import {
+  getIbptCargaPorNcmUf,
+  computeIbptCargaTotal,
+  getNcmPorCodigo,
+  IBPT_DATA_VERSION,
+} from '@br-validators/core/ibpt';
+
+const carga = getIbptCargaPorNcmUf({ ncm: '01012100', uf: 'SP' });
+const total = carga ? computeIbptCargaTotal(carga, { importado: false }) : undefined;
+```
+
+**Disclaimer:** approximate rates for consumer disclosure — not a substitute for SEFAZ ICMS/IPI calculation. Full NCM×UF matrix not embedded.
 
 ---
 

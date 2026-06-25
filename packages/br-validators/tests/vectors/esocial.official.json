@@ -1,0 +1,25 @@
+{
+  "source": "https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html",
+  "minCategorias": 40,
+  "maxCategorias": 55,
+  "golden": {
+    "empregadoGeral": {
+      "codigo": "101",
+      "grupoContains": "Empregado e Trabalhador Temporário",
+      "descricaoContains": "empregado público da administração direta ou indireta contratado pela clt"
+    },
+    "aprendiz": {
+      "codigo": "103",
+      "descricaoContains": "aprendiz"
+    },
+    "estagiario": {
+      "codigo": "901",
+      "grupoContains": "bolsista",
+      "descricaoContains": "estagiário"
+    },
+    "searchAprendiz": {
+      "query": "aprendiz",
+      "expectedCodigo": "103"
+    }
+  }
+}

@@ -6,6 +6,8 @@ import {
   BRCODE_OFFICIAL_SOURCE_URL,
   CARTAO_GOLDEN_VISA_MASKED,
   CARTAO_OFFICIAL_SOURCE_URL,
+  EAN_GOLDEN_13_MASKED,
+  EAN_OFFICIAL_SOURCE_URL,
   CEP_GOLDEN_PRIMARY_MASKED,
   CEP_OFFICIAL_SOURCE_URL,
   CNH_GOLDEN_PRIMARY_DECORATED_INPUT,
@@ -17,6 +19,9 @@ import {
   IE_SP_GOLDEN,
   NFE_CHAVE_GOLDEN_PRIMARY,
   NFE_CHAVE_OFFICIAL_SOURCE_URL,
+  CNIS_GOLDEN_INSS_NIT_MASKED,
+  CNIS_INSS_NIT_SERVICE_URL,
+  CNIS_OFFICIAL_VALIDATION_URL,
   PIS_PASEP_OFFICIAL_SOURCE_URL,
   PLACA_GOLDEN_MERCOSUL,
   PLACA_OFFICIAL_SOURCE_URL,
@@ -94,6 +99,17 @@ export const DOCUMENT_META: Record<DocumentSlug, DocumentMeta> = {
     inputLabel: 'Input',
     cliSlug: 'pis-pasep',
     officialLinks: [{ href: PIS_PASEP_OFFICIAL_SOURCE_URL, label: 'Official source: SIPREV RV_03 (gov.br)' }],
+  },
+  cnis: {
+    title: 'CNIS / NIT Validator',
+    description: 'Modulo 11 · issuer inss | caixa metadata',
+    defaultInput: CNIS_GOLDEN_INSS_NIT_MASKED,
+    inputLabel: 'Input',
+    cliSlug: 'cnis',
+    officialLinks: [
+      { href: CNIS_OFFICIAL_VALIDATION_URL, label: 'Official source: SIPREV RV_03 (gov.br)' },
+      { href: CNIS_INSS_NIT_SERVICE_URL, label: 'Official source: INSS NIT enrollment (gov.br)' },
+    ],
   },
   cnh: {
     title: 'CNH Validator',
@@ -188,6 +204,14 @@ export const DOCUMENT_META: Record<DocumentSlug, DocumentMeta> = {
     inputLabel: 'Input',
     cliSlug: 'cartao-credito',
     officialLinks: [{ href: CARTAO_OFFICIAL_SOURCE_URL, label: 'Official source: ISO/IEC 7812-1:2017' }],
+  },
+  ean: {
+    title: 'EAN Validator',
+    description: 'GS1 EAN-8 / EAN-13 · modulo-10 weights 1/3',
+    defaultInput: EAN_GOLDEN_13_MASKED,
+    inputLabel: 'Input',
+    cliSlug: 'ean',
+    officialLinks: [{ href: EAN_OFFICIAL_SOURCE_URL, label: 'Official source: GS1 EAN/UPC' }],
   },
 };
 

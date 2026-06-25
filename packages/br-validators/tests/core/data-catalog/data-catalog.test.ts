@@ -17,6 +17,7 @@ describe('Data catalog — transparency API', () => {
     expect(catalog.some((entry) => entry.id === 'aeroportos')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'tse-municipios')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'moedas')).toBe(true);
+    expect(catalog.some((entry) => entry.id === 'ptax')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'paises-bacen')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'incoterms')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'telefone-ddd')).toBe(true);
@@ -24,12 +25,19 @@ describe('Data catalog — transparency API', () => {
     expect(catalog.some((entry) => entry.id === 'cnaes')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'cfop')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'natureza-juridica')).toBe(true);
+    expect(catalog.some((entry) => entry.id === 'cnpj-motivos')).toBe(true);
+    expect(catalog.some((entry) => entry.id === 'ibpt')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'nbs')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'cest')).toBe(true);
+    expect(catalog.some((entry) => entry.id === 'cst')).toBe(true);
+    expect(catalog.some((entry) => entry.id === 'lc116')).toBe(true);
+    expect(catalog.some((entry) => entry.id === 'esocial')).toBe(true);
+    expect(catalog.some((entry) => entry.id === 'simples-nacional')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'ncm')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'cbo')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'cep-faixas')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'portos')).toBe(true);
+    expect(catalog.some((entry) => entry.id === 'anp-combustiveis')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'pncp-reference')).toBe(true);
     expect(catalog.some((entry) => entry.id === 'transparencia-snapshots')).toBe(true);
   });

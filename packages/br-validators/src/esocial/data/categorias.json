@@ -1,0 +1,331 @@
+[
+  {
+    "codigo": "101",
+    "grupo": "Empregado e Trabalhador Temporário",
+    "descricao": "Empregado - Geral, inclusive o empregado público da administração direta ou indireta contratado pela CLT",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "102",
+    "grupo": "Empregado e Trabalhador Temporário",
+    "descricao": "Empregado - Trabalhador rural por pequeno prazo da Lei 11.718/2008",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "103",
+    "grupo": "Empregado e Trabalhador Temporário",
+    "descricao": "Empregado - Aprendiz",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "104",
+    "grupo": "Empregado e Trabalhador Temporário",
+    "descricao": "Empregado - Doméstico",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "105",
+    "grupo": "Empregado e Trabalhador Temporário",
+    "descricao": "Empregado - Contrato a termo firmado nos termos da Lei 9.601/1998",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "106",
+    "grupo": "Empregado e Trabalhador Temporário",
+    "descricao": "Trabalhador temporário - Contrato nos termos da Lei 6.019/1974",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "107",
+    "grupo": "Empregado e Trabalhador Temporário",
+    "descricao": "Empregado - Contrato de trabalho Verde e Amarelo - sem acordo para antecipação mensal da multa rescisória do FGTS",
+    "inicio": "01/01/2020",
+    "termino": "31/12/2022"
+  },
+  {
+    "codigo": "108",
+    "grupo": "Empregado e Trabalhador Temporário",
+    "descricao": "Empregado - Contrato de trabalho Verde e Amarelo - com acordo para antecipação mensal da multa rescisória do FGTS",
+    "inicio": "01/01/2020",
+    "termino": "31/12/2022"
+  },
+  {
+    "codigo": "111",
+    "grupo": "Empregado e Trabalhador Temporário",
+    "descricao": "Empregado - Contrato de trabalho intermitente",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "201",
+    "grupo": "Avulso",
+    "descricao": "Trabalhador avulso portuário",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "202",
+    "grupo": "Avulso",
+    "descricao": "Trabalhador avulso não portuário",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "301",
+    "grupo": "Agente Público",
+    "descricao": "Servidor público titular de cargo efetivo, magistrado, ministro de Tribunal de Contas, conselheiro de Tribunal de Contas e membro do Ministério Público",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "302",
+    "grupo": "Agente Público",
+    "descricao": "Servidor público ocupante de cargo exclusivo em comissão",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "303",
+    "grupo": "Agente Público",
+    "descricao": "Exercente de mandato eletivo",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "304",
+    "grupo": "Agente Público",
+    "descricao": "Servidor público exercente de mandato eletivo, inclusive com exercício de cargo em comissão",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "305",
+    "grupo": "Agente Público",
+    "descricao": "Servidor público indicado para conselho ou órgão deliberativo, na condição de representante do governo, órgão ou entidade da administração pública",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "306",
+    "grupo": "Agente Público",
+    "descricao": "Servidor público contratado por tempo determinado, sujeito a regime administrativo especial definido em lei própria",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "307",
+    "grupo": "Agente Público",
+    "descricao": "Militar dos Estados e Distrito Federal",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "308",
+    "grupo": "Agente Público",
+    "descricao": "Conscrito",
+    "inicio": "01/01/2014",
+    "termino": "25/04/2023"
+  },
+  {
+    "codigo": "309",
+    "grupo": "Agente Público",
+    "descricao": "Agente público - Outros",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "310",
+    "grupo": "Agente Público",
+    "descricao": "Servidor público eventual",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "311",
+    "grupo": "Agente Público",
+    "descricao": "Ministros, juízes, procuradores, promotores ou oficiais de justiça à disposição da Justiça Eleitoral",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "312",
+    "grupo": "Agente Público",
+    "descricao": "Auxiliar local",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "313",
+    "grupo": "Agente Público",
+    "descricao": "Servidor público exercente de atividade de instrutoria, curso ou concurso, convocado para pareceres técnicos, depoimentos ou aditância no exterior.",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "314",
+    "grupo": "Agente Público",
+    "descricao": "Militar das Forças Armadas",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "401",
+    "grupo": "Cessão",
+    "descricao": "Dirigente sindical - Informação prestada pelo sindicato",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "410",
+    "grupo": "Cessão",
+    "descricao": "Trabalhador cedido/exercício em outro órgão/juiz auxiliar - Informação prestada pelo cessionário/destino",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "501",
+    "grupo": "Segurado Especial",
+    "descricao": "Dirigente sindical - Segurado especial",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "701",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Autônomo em geral, exceto se enquadrado em uma das demais categorias de contribuinte individual",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "711",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Transportador autônomo de passageiros",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "712",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Transportador autônomo de carga",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "721",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Diretor não empregado, com FGTS",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "722",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Diretor não empregado, sem FGTS",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "723",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Empresário, sócio e membro de conselho de administração ou fiscal",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "731",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Cooperado que presta serviços por intermédio de cooperativa de trabalho",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "734",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Transportador cooperado que presta serviços por intermédio de cooperativa de trabalho",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "738",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Cooperado filiado a cooperativa de produção",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "741",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Microempreendedor individual",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "751",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Magistrado classista temporário da Justiça do Trabalho ou da Justiça Eleitoral que seja aposentado de qualquer regime previdenciário",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "761",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Associado eleito para direção de cooperativa, associação ou entidade de classe de qualquer natureza ou finalidade, bem como o síndico ou administrador eleito para exercer atividade de direção condominial, desde que recebam remuneração",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "771",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Contribuinte individual - Membro de conselho tutelar, nos termos da Lei 8.069/1990",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "781",
+    "grupo": "Contribuinte Individual",
+    "descricao": "Ministro de confissão religiosa ou membro de vida consagrada, de congregação ou de ordem religiosa",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "901",
+    "grupo": "Bolsista",
+    "descricao": "Estagiário",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "902",
+    "grupo": "Bolsista",
+    "descricao": "Médico residente, residente em área profissional de saúde ou médico em curso de formação",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "903",
+    "grupo": "Bolsista",
+    "descricao": "Bolsista",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "904",
+    "grupo": "Bolsista",
+    "descricao": "Participante de curso de formação, como etapa de concurso público, sem vínculo de emprego/estatutário",
+    "inicio": "01/01/2014",
+    "termino": null
+  },
+  {
+    "codigo": "906",
+    "grupo": "Bolsista",
+    "descricao": "Beneficiário do Programa Nacional de Prestação de Serviço Civil Voluntário",
+    "inicio": "28/01/2022",
+    "termino": null
+  }
+]

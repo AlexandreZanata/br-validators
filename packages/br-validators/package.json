@@ -1,7 +1,7 @@
 {
   "name": "@br-validators/core",
   "version": "1.7.0",
-  "description": "The Brazilian document validation library for TypeScript — CPF, CNPJ (alphanumeric), NF-e, PIX, boleto, IE (27 UFs), offline IBGE/ANP/NCM reference data, and 15+ more. Zero deps, fully typed, never throws.",
+  "description": "The Brazilian document validation library for TypeScript — CPF, CNPJ (alphanumeric), NF-e, PIX, boleto, IE (27 UFs), offline IBGE/ANP/NCM/CST/LC116 reference data, and 15+ more. Zero deps, fully typed, never throws.",
   "homepage": "https://www.npmjs.com/package/@br-validators/core",
   "license": "MIT",
   "type": "module",
@@ -26,6 +26,7 @@
     "titulo-eleitor",
     "placa",
     "pis-pasep",
+    "cnis",
     "telefone",
     "pix",
     "brcode",
@@ -45,14 +46,22 @@
     "aeroportos",
     "tse-municipios",
     "moedas",
+    "ptax",
     "paises-bacen",
     "incoterms",
     "feriados",
     "cnaes",
     "cfop",
     "natureza-juridica",
+    "cnpj-motivos",
+    "ibpt",
     "nbs",
     "cest",
+    "cst",
+    "lc116",
+    "esocial",
+    "simples-nacional",
+    "ean",
     "ncm",
     "cbo",
     "portos",
@@ -125,6 +134,10 @@
       "types": "./dist/pis-pasep.d.ts",
       "import": "./dist/pis-pasep.js"
     },
+    "./cnis": {
+      "types": "./dist/cnis.d.ts",
+      "import": "./dist/cnis.js"
+    },
     "./pix": {
       "types": "./dist/pix.d.ts",
       "import": "./dist/pix.js"
@@ -193,6 +206,10 @@
       "types": "./dist/moedas.d.ts",
       "import": "./dist/moedas.js"
     },
+    "./ptax": {
+      "types": "./dist/ptax.d.ts",
+      "import": "./dist/ptax.js"
+    },
     "./paises-bacen": {
       "types": "./dist/paises-bacen.d.ts",
       "import": "./dist/paises-bacen.js"
@@ -217,6 +234,14 @@
       "types": "./dist/natureza-juridica.d.ts",
       "import": "./dist/natureza-juridica.js"
     },
+    "./cnpj-motivos": {
+      "types": "./dist/cnpj-motivos.d.ts",
+      "import": "./dist/cnpj-motivos.js"
+    },
+    "./ibpt": {
+      "types": "./dist/ibpt.d.ts",
+      "import": "./dist/ibpt.js"
+    },
     "./nbs": {
       "types": "./dist/nbs.d.ts",
       "import": "./dist/nbs.js"
@@ -224,6 +249,26 @@
     "./cest": {
       "types": "./dist/cest.d.ts",
       "import": "./dist/cest.js"
+    },
+    "./cst": {
+      "types": "./dist/cst.d.ts",
+      "import": "./dist/cst.js"
+    },
+    "./lc116": {
+      "types": "./dist/lc116.d.ts",
+      "import": "./dist/lc116.js"
+    },
+    "./esocial": {
+      "types": "./dist/esocial.d.ts",
+      "import": "./dist/esocial.js"
+    },
+    "./simples-nacional": {
+      "types": "./dist/simples-nacional.d.ts",
+      "import": "./dist/simples-nacional.js"
+    },
+    "./ean": {
+      "types": "./dist/ean.d.ts",
+      "import": "./dist/ean.js"
     },
     "./ncm": {
       "types": "./dist/ncm.d.ts",

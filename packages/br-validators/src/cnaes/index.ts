@@ -4,6 +4,7 @@ export {
   CNAES_GOLDEN_WEB_DESIGN,
   CNAES_MAX_SUBCLASSES,
   CNAES_MIN_SUBCLASSES,
+  CNAES_RFB_CNAES_ZIP_BASE_URL,
   CNAES_SUBCLASSES_URL,
 } from './constants.js';
 export type { Cnae, CnaesDataVersion } from './types.js';

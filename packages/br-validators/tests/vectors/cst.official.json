@@ -1,0 +1,51 @@
+{
+  "source": "http://www.sped.fazenda.gov.br/spedtabelas/AppConsulta/publico/aspx/ConsultaTabelasExternas.aspx?CodSistema=SpedFiscal",
+  "pisDocUrl": "http://sped.rfb.gov.br/arquivo/download/1629",
+  "cofinsDocUrl": "http://sped.rfb.gov.br/arquivo/download/1630",
+  "minCounts": {
+    "icms": 10,
+    "ipi": 12,
+    "pis": 30,
+    "cofins": 30
+  },
+  "maxCounts": {
+    "icms": 20,
+    "ipi": 20,
+    "pis": 40,
+    "cofins": 40
+  },
+  "golden": {
+    "icmsTributada": {
+      "codigo": "00",
+      "descricaoContains": "tributada integralmente"
+    },
+    "icmsSt": {
+      "codigo": "10",
+      "descricaoContains": "substituição tributária"
+    },
+    "ipiSaida": {
+      "codigo": "50",
+      "descricaoContains": "saída tributada"
+    },
+    "ipiEntrada": {
+      "codigo": "00",
+      "descricaoContains": "recuperação de crédito"
+    },
+    "pisTributavel": {
+      "codigo": "01",
+      "descricaoContains": "alíquota básica"
+    },
+    "pisIsenta": {
+      "codigo": "07",
+      "descricaoContains": "isenta"
+    },
+    "cofinsTributavel": {
+      "codigo": "01",
+      "descricaoContains": "alíquota básica"
+    },
+    "cofinsIsenta": {
+      "codigo": "07",
+      "descricaoContains": "isenta"
+    }
+  }
+}

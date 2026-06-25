@@ -3,9 +3,9 @@ import { mkdtempSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { EXIT } from '../src/constants.js';
-import { handleCepCli, handleCnpjCli, handleCpfCli, handleTelefoneCli, handleCnhCli, handleRenavamCli, handleTituloEleitorCli, handleProcessoJudicialCli, handleRgCli, handleNfeChaveCli, handleBrCodeCli, handleListCli, handlePisPasepCli, handlePixCli, handleBoletoCli, handleCartaoCli, handleCartaoCreditoCli, handleIeCli, handlePlacaCli, handleDetectCli, handleSanitizeCli, handleGenerateCli, handleBancosLookupCli, handleBancosListCli, readInputFile, writeCliIo } from '../src/handlers.js';
+import { handleCepCli, handleCnpjCli, handleCpfCli, handleTelefoneCli, handleCnhCli, handleRenavamCli, handleTituloEleitorCli, handleProcessoJudicialCli, handleRgCli, handleNfeChaveCli, handleBrCodeCli, handleListCli, handlePisPasepCli, handleCnisCli, handlePixCli, handleBoletoCli, handleCartaoCli, handleCartaoCreditoCli, handleEanCli, handleIeCli, handlePlacaCli, handleDetectCli, handleSanitizeCli, handleGenerateCli, handleBancosLookupCli, handleBancosListCli, readInputFile, writeCliIo } from '../src/handlers.js';
 import { createProgram, run } from '../src/program.js';
-import { CEP_GOLDEN_PRIMARY, CNPJ_GOLDEN_ALPHANUMERIC, CPF_GOLDEN_PRIMARY, CPF_GOLDEN_PRIMARY_MASKED, CNH_GOLDEN_PRIMARY, RENAVAM_GOLDEN_PRIMARY, TITULO_ELEITOR_GOLDEN_PRIMARY, PROCESSO_JUDICIAL_GOLDEN_PRIMARY_MASKED, NFE_CHAVE_GOLDEN_PRIMARY, PIX_GOLDEN_EMAIL, PIS_PASEP_GOLDEN_PRIMARY, PLACA_GOLDEN_MERCOSUL, BOLETO_GOLDEN_LINHA_STRIPPED, CARTAO_GOLDEN_VISA, IE_SP_GOLDEN, RG_SP_GOLDEN, TELEFONE_GOLDEN_CELULAR, BRCODE_GOLDEN_STATIC_EVP } from '@br-validators/core';
+import { CEP_GOLDEN_PRIMARY, CNPJ_GOLDEN_ALPHANUMERIC, CPF_GOLDEN_PRIMARY, CPF_GOLDEN_PRIMARY_MASKED, CNH_GOLDEN_PRIMARY, RENAVAM_GOLDEN_PRIMARY, TITULO_ELEITOR_GOLDEN_PRIMARY, PROCESSO_JUDICIAL_GOLDEN_PRIMARY_MASKED, NFE_CHAVE_GOLDEN_PRIMARY, PIX_GOLDEN_EMAIL, PIS_PASEP_GOLDEN_PRIMARY, CNIS_GOLDEN_INSS_NIT, PLACA_GOLDEN_MERCOSUL, BOLETO_GOLDEN_LINHA_STRIPPED, CARTAO_GOLDEN_VISA, EAN_GOLDEN_13, IE_SP_GOLDEN, RG_SP_GOLDEN, TELEFONE_GOLDEN_CELULAR, BRCODE_GOLDEN_STATIC_EVP } from '@br-validators/core';
 
 describe('handlers', () => {
   it('handleListCli lists types', () => {
@@ -51,6 +51,29 @@ describe('handlers', () => {
   it('handleCartaoCli returns usage when file unreadable', () => {
     const io = { stdout: [] as string[], stderr: [] as string[] };
     expect(handleCartaoCli('validate', undefined, { file: '/no/such/file.txt' }, io)).toBe(EXIT.USAGE);
+  });
+
+  it('handleEanCli validates value', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(handleEanCli('validate', EAN_GOLDEN_13, { quiet: true }, io)).toBe(EXIT.OK);
+  });
+
+  it('handleEanCli detects format', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(handleEanCli('detect', EAN_GOLDEN_13, { quiet: true }, io)).toBe(EXIT.OK);
+  });
+
+  it('handleEanCli reads value from file', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'br-validators-ean-'));
+    const file = join(dir, 'ean.txt');
+    writeFileSync(file, EAN_GOLDEN_13, 'utf8');
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(handleEanCli('validate', undefined, { file, quiet: true }, io)).toBe(EXIT.OK);
+  });
+
+  it('handleEanCli returns usage when file unreadable', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(handleEanCli('validate', undefined, { file: '/no/such/file.txt' }, io)).toBe(EXIT.USAGE);
   });
 
   it('handleCartaoCreditoCli validates value', () => {
@@ -145,6 +168,24 @@ describe('handlers', () => {
   it('handlePisPasepCli returns usage when file unreadable', () => {
     const io = { stdout: [] as string[], stderr: [] as string[] };
     expect(handlePisPasepCli('validate', undefined, { file: '/no/such/file.txt' }, io)).toBe(EXIT.USAGE);
+  });
+
+  it('handleCnisCli validates value', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(handleCnisCli('validate', CNIS_GOLDEN_INSS_NIT, { quiet: true }, io)).toBe(EXIT.OK);
+  });
+
+  it('handleCnisCli reads value from file', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'br-validators-'));
+    const file = join(dir, 'cnis.txt');
+    writeFileSync(file, CNIS_GOLDEN_INSS_NIT, 'utf8');
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(handleCnisCli('validate', undefined, { file, quiet: true }, io)).toBe(EXIT.OK);
+  });
+
+  it('handleCnisCli returns usage when file unreadable', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(handleCnisCli('validate', undefined, { file: '/no/such/file.txt' }, io)).toBe(EXIT.USAGE);
   });
 
   it('handlePlacaCli validates value', () => {
@@ -573,6 +614,14 @@ describe('program', () => {
     expect(() => { run(['node', 'br-validators', 'pis-pasep', 'strip', PIS_PASEP_GOLDEN_PRIMARY]); }).not.toThrow();
   });
 
+  it('run parses cnis validate format strip', () => {
+    expect(() => {
+      run(['node', 'br-validators', 'cnis', 'validate', CNIS_GOLDEN_INSS_NIT, '--quiet']);
+    }).not.toThrow();
+    expect(() => { run(['node', 'br-validators', 'cnis', 'format', CNIS_GOLDEN_INSS_NIT]); }).not.toThrow();
+    expect(() => { run(['node', 'br-validators', 'cnis', 'strip', CNIS_GOLDEN_INSS_NIT]); }).not.toThrow();
+  });
+
   it('run parses pix validate detect format', () => {
     expect(() => {
       run(['node', 'br-validators', 'pix', 'validate', PIX_GOLDEN_EMAIL, '--quiet']);
@@ -621,6 +670,21 @@ describe('program', () => {
   it('run parses cartao-credito format', () => {
     expect(() => {
       run(['node', 'br-validators', 'cartao-credito', 'format', CARTAO_GOLDEN_VISA, '--quiet']);
+    }).not.toThrow();
+  });
+
+  it('run parses ean validate detect format strip', () => {
+    expect(() => {
+      run(['node', 'br-validators', 'ean', 'validate', EAN_GOLDEN_13, '--quiet']);
+    }).not.toThrow();
+    expect(() => {
+      run(['node', 'br-validators', 'ean', 'detect', EAN_GOLDEN_13]);
+    }).not.toThrow();
+    expect(() => {
+      run(['node', 'br-validators', 'ean', 'format', EAN_GOLDEN_13]);
+    }).not.toThrow();
+    expect(() => {
+      run(['node', 'br-validators', 'ean', 'strip', EAN_GOLDEN_13]);
     }).not.toThrow();
   });
 

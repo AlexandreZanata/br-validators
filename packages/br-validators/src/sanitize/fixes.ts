@@ -27,6 +27,7 @@ export type SanitizableDocumentType =
   | 'nfe-chave'
   | 'boleto'
   | 'cartao-credito'
+  | 'ean'
   | 'inscricao-estadual'
   | 'inscricao-estadual-produtor-rural';
 
@@ -109,6 +110,7 @@ export function applyFixes(raw: string, type: SanitizableDocumentType): FixResul
     case 'renavam':
     case 'nfe-chave':
     case 'cartao-credito':
+    case 'ean':
     case 'boleto':
     case 'titulo-eleitor':
     case 'processo-judicial':
@@ -161,6 +163,7 @@ export function stripForType(value: string, type: SanitizableDocumentType): stri
     case 'boleto':
       return value.replace(/\D/g, '');
     case 'cartao-credito':
+    case 'ean':
       return value.replace(/\D/g, '');
     case 'inscricao-estadual':
       return stripInscricaoEstadual(value);

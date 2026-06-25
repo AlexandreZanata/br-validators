@@ -1,0 +1,28 @@
+{
+  "source": "https://www.ibge.gov.br/explica/codigos-dos-municipios.php",
+  "nfeMocAnexoIUrl": "https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w=",
+  "golden": {
+    "saoPaulo": {
+      "base6": "355030",
+      "codigo": 3550308,
+      "checkDigit": 8
+    },
+    "sorriso": {
+      "base6": "510792",
+      "codigo": 5107925,
+      "checkDigit": 5
+    },
+    "exceptionBomPrincipio": {
+      "base6": "220191",
+      "codigo": 2201919,
+      "checkDigit": 9,
+      "nomeContains": "Bom Princípio do Piauí"
+    }
+  },
+  "invalid": {
+    "badCheckDigit": "3550307",
+    "tooShort": "35503",
+    "tooLong": "35503080",
+    "withLetters": "3550308a"
+  }
+}

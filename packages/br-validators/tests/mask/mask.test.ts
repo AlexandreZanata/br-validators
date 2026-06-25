@@ -8,6 +8,7 @@ import {
 import type { MaskableDocumentType } from '../../src/mask/index.js';
 import boletoVectors from '../vectors/boleto.official.json';
 import cartaoVectors from '../vectors/cartao-credito.official.json';
+import eanVectors from '../vectors/ean.official.json';
 import cepVectors from '../vectors/cep.official.json';
 import cnhVectors from '../vectors/cnh.official.json';
 import cnpjVectors from '../vectors/cnpj.official.json';
@@ -91,6 +92,8 @@ describe('mask()', () => {
   it('masks cartão de crédito golden vector', () => {
     const result = mask(cartaoVectors.visa.canonical, 'cartao-credito');
     expect(result).toEqual({ ok: true, formatted: cartaoVectors.visa.masked });
+    const eanResult = mask(eanVectors.ean13.canonical, 'ean');
+    expect(eanResult).toEqual({ ok: true, formatted: eanVectors.ean13.masked });
   });
 
   it('masks IE SP golden vector with uf', () => {
@@ -143,6 +146,7 @@ describe('mask()', () => {
     expect(mask('bad', 'nfe-chave').ok).toBe(false);
     expect(mask('bad', 'boleto').ok).toBe(false);
     expect(mask('bad', 'cartao-credito').ok).toBe(false);
+    expect(mask('bad', 'ean').ok).toBe(false);
     expect(mask('bad', 'pis-pasep').ok).toBe(false);
     expect(mask('bad', 'pix').ok).toBe(false);
     expect(mask('bad', 'inscricao-estadual-produtor-rural').ok).toBe(false);

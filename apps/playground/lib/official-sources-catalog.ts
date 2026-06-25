@@ -28,7 +28,9 @@ export const OFFICIAL_SOURCES_ORDER: DocumentSlug[] = [
   'brcode',
   'boleto',
   'cartao',
+  'ean',
   'pis',
+  'cnis',
   'ie',
 ];
 
@@ -169,6 +171,20 @@ export const OFFICIAL_SOURCES_CATALOG: Record<DocumentSlug, OfficialSourcesEntry
       {
         label: 'SIPREV Regras de Validação v1.14 — RV_03 (PDF)',
         href: 'https://www.gov.br/previdencia/pt-br/outros/imagens/2015/07/rgrva_RegrasValidacao.pdf',
+      },
+    ],
+  },
+  cnis: {
+    title: 'CNIS / NIT (worker ID)',
+    agency: 'INSS / Caixa (CNIS)',
+    links: [
+      {
+        label: 'SIPREV RV_03 — PIS/PASEP/NIT checksum (PDF)',
+        href: 'https://www.gov.br/previdencia/pt-br/outros/imagens/2015/07/rgrva_RegrasValidacao.pdf',
+      },
+      {
+        label: 'INSS — Obter NIT',
+        href: 'https://www.gov.br/pt-br/servicos/obter-numero-de-inscricao-no-inss-nit',
       },
     ],
   },
@@ -370,6 +386,13 @@ export const OFFICIAL_SOURCES_CATALOG: Record<DocumentSlug, OfficialSourcesEntry
     agency: 'ISO/IEC 7812',
     links: [
       { label: 'ISO/IEC 7812-1:2017', href: 'https://www.iso.org/standard/70484.html' },
+    ],
+  },
+  ean: {
+    title: 'EAN barcode',
+    agency: 'GS1',
+    links: [
+      { label: 'GS1 EAN/UPC barcodes', href: 'https://www.gs1.org/standards/barcodes/ean-upc' },
     ],
   },
 };

@@ -31,7 +31,7 @@ Every Brazilian SaaS eventually reinvents CPF validation — usually wrong.
 - ✅ **Zero runtime dependencies** — pure TypeScript logic, no HTTP calls
 - ✅ **Never throws** — every function returns `{ ok: true, value } | { ok: false, message, code }`
 - ✅ **Tree-shakeable** — subpath imports per document type
-- ✅ **Reference data** — IBGE, Bacen banks, DDD lookup, national holidays, CNAE, CFOP, NCM, CBO, natureza jurídica, NBS, CEST, moedas, países Bacen, Incoterms, portos, aeroportos, **ANP fuel prices (LPC)** — embedded offline with daily freshness ([DATA-FRESHNESS.md](../../docs/DATA-FRESHNESS.md); ANP weekly)
+- ✅ **Reference data** — IBGE, Bacen banks, DDD lookup, national holidays, CNAE, CFOP, NCM, CBO, natureza jurídica, NBS, CEST, eSocial categorias, moedas, PTAX cotações, países Bacen, Incoterms, portos, aeroportos, **ANP fuel prices (LPC)** — embedded offline with daily freshness ([DATA-FRESHNESS.md](../../docs/DATA-FRESHNESS.md); ANP weekly)
 - ✅ **ESM only**, Node ≥ 18, works in browser, Bun, Deno
 
 ---
@@ -280,11 +280,15 @@ Embedded JSON from official `.gov.br` sources — **no runtime HTTP**. Each modu
 | National holidays | `@br-validators/core/feriados` | `feriados list --year` | `/data/calendar` | `isFeriadoNacional`, `getFeriadosNacionais`, `getProximoDiaUtil` | [Lei 662/1949](https://www.planalto.gov.br/ccivil_03/leis/l0662.htm) + annual Portaria MGI |
 | CNAE 2.3 subclasses | `@br-validators/core/cnaes` | `cnae lookup` · `search` | `/data/fiscal` | `getCnaePorCodigo`, `searchCnaes` | [IBGE CNAE API v2](https://servicodados.ibge.gov.br/api/docs/cnae) |
 | CFOP fiscal operations | `@br-validators/core/cfop` | `cfop lookup` · `search` | `/data/fiscal` | `getCfopPorCodigo`, `searchCfop` | [CONFAZ CFOP SINIEF](https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cfop_cvsn_70_vigente) |
+| CST (ICMS, IPI, PIS, COFINS) | `@br-validators/core/cst` | — | `/data/fiscal` | `getCstIcmsPorCodigo`, `getCstIpiPorCodigo`, `searchCstIcms` | [RFB SPED CST tables](http://www.sped.fazenda.gov.br/spedtabelas/AppConsulta/publico/aspx/ConsultaTabelasExternas.aspx?CodSistema=SpedFiscal) |
+| LC 116 ISS services | `@br-validators/core/lc116` | — | `/data/fiscal` | `getLc116PorCodigo`, `searchLc116` | [LC 116/2003 Planalto](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm) |
+| eSocial worker categories | `@br-validators/core/esocial` | — | `/data/fiscal` | `getEsocialCategoriaPorCodigo`, `searchEsocialCategorias` | [eSocial S-1.3 Tabelas](https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html) |
 | NCM Mercosur nomenclature | `@br-validators/core/ncm` | `ncm lookup` · `search` | `/data/fiscal` | `getNcmPorCodigo`, `searchNcm` | [Siscomex NCM JSON](https://portalunico.siscomex.gov.br/classif/api/publico/nomenclatura/download/json) |
 | Natureza jurídica (CNPJ) | `@br-validators/core/natureza-juridica` | `natureza-juridica lookup` | `/data/fiscal` | `getNaturezaJuridicaPorCodigo` | [RFB Naturezas.zip](https://dadosabertos.rfb.gov.br/CNPJ/dados_abertos_cnpj/) |
 | NBS (NFSe Nacional) | `@br-validators/core/nbs` | `nbs lookup` | `/data/fiscal` | `getNbsPorCodigo`, `searchNbs` | [NFSe Anexo B NBS2 xlsx](https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica/documentacao-atual/anexo_b-nbs2-lista_servico_nacional-snnfse.xlsx) |
 | CEST (substituição tributária) | `@br-validators/core/cest` | `cest lookup` | `/data/fiscal` | `getCestPorCodigo`, `getCestPorNcm`, `searchCest` | [CONFAZ ICMS 142/2018](https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18) |
 | ISO 4217 + Bacen PTAX moedas | `@br-validators/core/moedas` | `moedas lookup` | `/data/trade` | `getMoedaPorCodigo`, `searchMoedas` | [Bacen PTAX Moedas API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas) |
+| Bacen PTAX Fechamento | `@br-validators/core/ptax` | — | `/data/trade` | `getPtaxCotacao`, `getPtaxUltimoDiaUtil` | [Bacen Olinda PTAX API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3) |
 | NF-e Bacen country codes | `@br-validators/core/paises-bacen` | `paises-bacen lookup` | `/data/trade` | `getPaisPorCodigoBacen`, `getPaisesBacen` | [NF-e country table](http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50=) |
 | ICC Incoterms 2020 | `@br-validators/core/incoterms` | `incoterms lookup` | `/data/trade` | `getIncotermPorCodigo`, `getIncoterms` | [ICC Incoterms rules](https://iccwbo.org/resources-for-business/incoterms-rules/) |
 | CBO 2002 occupations | `@br-validators/core/cbo` | `cbo lookup` · `search` | `/data/fiscal` | `getCboPorCodigo`, `searchCbo` | [MTE CBO downloads](https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/cbo/servicos/downloads) |
@@ -298,6 +302,8 @@ import { getDddInfo } from '@br-validators/core/telefone';
 import { isFeriadoNacional } from '@br-validators/core/feriados';
 import { getCnaePorCodigo } from '@br-validators/core/cnaes';
 import { getCfopPorCodigo } from '@br-validators/core/cfop';
+import { getCstIcmsPorCodigo } from '@br-validators/core/cst';
+import { getLc116PorCodigo } from '@br-validators/core/lc116';
 import { getNcmPorCodigo } from '@br-validators/core/ncm';
 import { getCboPorCodigo } from '@br-validators/core/cbo';
 import { getNaturezaJuridicaPorCodigo } from '@br-validators/core/natureza-juridica';

@@ -31,3 +31,19 @@ export const IBGE_GOLDEN_MUNICIPIO_BRASILIA = 5300108;
 
 /** Golden state — São Paulo (IBGE 35). */
 export const IBGE_GOLDEN_ESTADO_SP = 35;
+
+/** IBGE municipality code structure — official explanation (7-digit DV rules). */
+export const IBGE_MUNICIPIO_CODIGOS_URL = 'https://www.ibge.gov.br/explica/codigos-dos-municipios.php';
+
+/** NF-e MOC 7.0 Anexo I — campo B12 cMunFG (municipality of tax occurrence). */
+export const NFE_MOC_ANEXO_I_URL =
+  'https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w=';
+
+/** Golden cMunFG base (6 digits) — São Paulo capital → 3550308. */
+export const CMUNFG_GOLDEN_BASE_SAO_PAULO = '355030';
+
+/** Golden cMunFG full code — São Paulo capital. */
+export const CMUNFG_GOLDEN_SAO_PAULO = 3550308;
+
+/** Golden cMunFG exception — Bom Princípio do Piauí (non-algorithmic DV). */
+export const CMUNFG_GOLDEN_EXCEPTION_BOM_PRINCIPIO = 2201919;

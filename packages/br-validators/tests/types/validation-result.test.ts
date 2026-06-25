@@ -11,6 +11,7 @@ import {
   brandInscricaoEstadual,
   brandLinhaDigitavel,
   brandPisPasep,
+  brandNit,
   brandPixKey,
   brandPlaca,
   brandTelefone,
@@ -62,6 +63,13 @@ describe('brandPisPasep', () => {
   it('casts string to PisPasep brand', () => {
     const value = brandPisPasep('10027230888');
     expect(value).toBe('10027230888');
+  });
+});
+
+describe('brandNit', () => {
+  it('casts string to Nit brand', () => {
+    const value = brandNit('01234567897');
+    expect(value).toBe('01234567897');
   });
 });
 

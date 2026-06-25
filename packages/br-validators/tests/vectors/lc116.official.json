@@ -1,0 +1,20 @@
+{
+  "source": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm",
+  "nfseListUrl": "https://www.gov.br/nfse/pt-br/mei-e-demais-empresas/codigos-de-tributacao-nacional-nbs",
+  "minItems": 150,
+  "maxItems": 250,
+  "golden": {
+    "analiseSistemas": {
+      "codigo": "1.01",
+      "descricaoContains": "análise e desenvolvimento de sistemas"
+    },
+    "obrasCivis": {
+      "codigo": "7.02",
+      "descricaoContains": "obras de construção civil"
+    },
+    "searchProgramas": {
+      "query": "elaboração de programas",
+      "expectedCodigo": "1.04"
+    }
+  }
+}

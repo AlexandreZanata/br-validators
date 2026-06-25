@@ -1,0 +1,29 @@
+{
+  "source": "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)",
+  "swaggerUrl": "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3",
+  "minRecords": 10,
+  "maxRecords": 80,
+  "minMoedas": 10,
+  "maxMoedas": 10,
+  "golden": {
+    "usdUltimoDiaUtil": {
+      "moeda": "USD",
+      "data": "2026-06-24",
+      "cotacaoCompra": 5.2092,
+      "cotacaoVenda": 5.2098
+    },
+    "usdHistorico": {
+      "moeda": "USD",
+      "data": "2026-06-23",
+      "dataBacen": "06-23-2026",
+      "cotacaoCompra": 5.1737,
+      "cotacaoVenda": 5.1743
+    },
+    "eurUltimoDiaUtil": {
+      "moeda": "EUR",
+      "data": "2026-06-24",
+      "cotacaoCompra": 5.9114,
+      "cotacaoVenda": 5.9126
+    }
+  }
+}

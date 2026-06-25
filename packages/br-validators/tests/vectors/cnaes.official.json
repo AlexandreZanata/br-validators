@@ -1,5 +1,6 @@
 {
   "source": "https://servicodados.ibge.gov.br/api/v2/cnae/subclasses",
+  "rfbCnaesZipBaseUrl": "https://dadosabertos.rfb.gov.br/CNPJ/dados_abertos_cnpj",
   "minSubclasses": 1200,
   "maxSubclasses": 1500,
   "golden": {

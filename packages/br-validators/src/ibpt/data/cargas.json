@@ -1,0 +1,67 @@
+[
+  {
+    "ncm": "01012100",
+    "uf": "SP",
+    "excecao": "",
+    "descricao": "Cavalos reprodutores,de raca pura",
+    "aliquotaNacionalFederal": 13.45,
+    "aliquotaImportadosFederal": 15.45,
+    "aliquotaEstadual": 18,
+    "aliquotaMunicipal": 0,
+    "vigenciaInicio": "20/04/2026",
+    "vigenciaFim": "31/05/2026",
+    "tabela": "26.1.H"
+  },
+  {
+    "ncm": "12011000",
+    "uf": "SP",
+    "excecao": "",
+    "descricao": "Soja, mesmo triturada, para semeadura",
+    "aliquotaNacionalFederal": 13.45,
+    "aliquotaImportadosFederal": 15.45,
+    "aliquotaEstadual": 18,
+    "aliquotaMunicipal": 0,
+    "vigenciaInicio": "20/04/2026",
+    "vigenciaFim": "31/05/2026",
+    "tabela": "26.1.H"
+  },
+  {
+    "ncm": "22030000",
+    "uf": "SP",
+    "excecao": "",
+    "descricao": "Cervejas de malte",
+    "aliquotaNacionalFederal": 13.91,
+    "aliquotaImportadosFederal": 17.77,
+    "aliquotaEstadual": 22,
+    "aliquotaMunicipal": 0,
+    "vigenciaInicio": "20/04/2026",
+    "vigenciaFim": "31/05/2026",
+    "tabela": "26.1.H"
+  },
+  {
+    "ncm": "01012100",
+    "uf": "RJ",
+    "excecao": "",
+    "descricao": "Cavalos reprodutores,de raca pura",
+    "aliquotaNacionalFederal": 13.45,
+    "aliquotaImportadosFederal": 15.45,
+    "aliquotaEstadual": 14,
+    "aliquotaMunicipal": 0,
+    "vigenciaInicio": "20/04/2026",
+    "vigenciaFim": "31/05/2026",
+    "tabela": "26.1.H"
+  },
+  {
+    "ncm": "01012100",
+    "uf": "MG",
+    "excecao": "",
+    "descricao": "Cavalos reprodutores,de raca pura",
+    "aliquotaNacionalFederal": 13.45,
+    "aliquotaImportadosFederal": 15.45,
+    "aliquotaEstadual": 18,
+    "aliquotaMunicipal": 0,
+    "vigenciaInicio": "20/04/2026",
+    "vigenciaFim": "31/05/2026",
+    "tabela": "26.1.H"
+  }
+]

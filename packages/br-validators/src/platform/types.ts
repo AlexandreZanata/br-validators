@@ -18,6 +18,7 @@ export const PLATFORM_DOCUMENT_TYPES = [
   'nfe-chave',
   'boleto',
   'cartao-credito',
+  'ean',
   'inscricao-estadual',
   'inscricao-estadual-produtor-rural',
   'pix',

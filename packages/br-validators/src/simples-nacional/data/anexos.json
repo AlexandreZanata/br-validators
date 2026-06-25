@@ -1,0 +1,72 @@
+[
+  {
+    "id": "I",
+    "nome": "Comércio",
+    "descricao": "Receitas decorrentes da revenda de mercadorias",
+    "cppForaSimples": false,
+    "faixas": [
+      { "faixa": 1, "receitaBrutaMin": 0, "receitaBrutaMax": 180000, "aliquotaNominal": 0.04, "parcelaDeduzir": 0 },
+      { "faixa": 2, "receitaBrutaMin": 180000.01, "receitaBrutaMax": 360000, "aliquotaNominal": 0.073, "parcelaDeduzir": 5940 },
+      { "faixa": 3, "receitaBrutaMin": 360000.01, "receitaBrutaMax": 720000, "aliquotaNominal": 0.095, "parcelaDeduzir": 13860 },
+      { "faixa": 4, "receitaBrutaMin": 720000.01, "receitaBrutaMax": 1800000, "aliquotaNominal": 0.107, "parcelaDeduzir": 22500 },
+      { "faixa": 5, "receitaBrutaMin": 1800000.01, "receitaBrutaMax": 3600000, "aliquotaNominal": 0.143, "parcelaDeduzir": 87300 },
+      { "faixa": 6, "receitaBrutaMin": 3600000.01, "receitaBrutaMax": 4800000, "aliquotaNominal": 0.19, "parcelaDeduzir": 378000 }
+    ]
+  },
+  {
+    "id": "II",
+    "nome": "Indústria",
+    "descricao": "Receitas decorrentes da venda de mercadorias industrializadas pelo contribuinte",
+    "cppForaSimples": false,
+    "faixas": [
+      { "faixa": 1, "receitaBrutaMin": 0, "receitaBrutaMax": 180000, "aliquotaNominal": 0.045, "parcelaDeduzir": 0 },
+      { "faixa": 2, "receitaBrutaMin": 180000.01, "receitaBrutaMax": 360000, "aliquotaNominal": 0.078, "parcelaDeduzir": 5940 },
+      { "faixa": 3, "receitaBrutaMin": 360000.01, "receitaBrutaMax": 720000, "aliquotaNominal": 0.1, "parcelaDeduzir": 13860 },
+      { "faixa": 4, "receitaBrutaMin": 720000.01, "receitaBrutaMax": 1800000, "aliquotaNominal": 0.112, "parcelaDeduzir": 22500 },
+      { "faixa": 5, "receitaBrutaMin": 1800000.01, "receitaBrutaMax": 3600000, "aliquotaNominal": 0.147, "parcelaDeduzir": 85500 },
+      { "faixa": 6, "receitaBrutaMin": 3600000.01, "receitaBrutaMax": 4800000, "aliquotaNominal": 0.3, "parcelaDeduzir": 720000 }
+    ]
+  },
+  {
+    "id": "III",
+    "nome": "Serviços — alíquota reduzida",
+    "descricao": "Locação de bens móveis e prestação de serviços não relacionados no § 5º-C do art. 18 da LC 123/2006",
+    "cppForaSimples": false,
+    "faixas": [
+      { "faixa": 1, "receitaBrutaMin": 0, "receitaBrutaMax": 180000, "aliquotaNominal": 0.06, "parcelaDeduzir": 0 },
+      { "faixa": 2, "receitaBrutaMin": 180000.01, "receitaBrutaMax": 360000, "aliquotaNominal": 0.112, "parcelaDeduzir": 9360 },
+      { "faixa": 3, "receitaBrutaMin": 360000.01, "receitaBrutaMax": 720000, "aliquotaNominal": 0.135, "parcelaDeduzir": 17640 },
+      { "faixa": 4, "receitaBrutaMin": 720000.01, "receitaBrutaMax": 1800000, "aliquotaNominal": 0.16, "parcelaDeduzir": 35640 },
+      { "faixa": 5, "receitaBrutaMin": 1800000.01, "receitaBrutaMax": 3600000, "aliquotaNominal": 0.21, "parcelaDeduzir": 125640 },
+      { "faixa": 6, "receitaBrutaMin": 3600000.01, "receitaBrutaMax": 4800000, "aliquotaNominal": 0.33, "parcelaDeduzir": 648000 }
+    ]
+  },
+  {
+    "id": "IV",
+    "nome": "Serviços — CPP fora do Simples",
+    "descricao": "Prestação de serviços do § 5º-C do art. 18 da LC 123/2006 (CPP recolhida em separado)",
+    "cppForaSimples": true,
+    "faixas": [
+      { "faixa": 1, "receitaBrutaMin": 0, "receitaBrutaMax": 180000, "aliquotaNominal": 0.045, "parcelaDeduzir": 0 },
+      { "faixa": 2, "receitaBrutaMin": 180000.01, "receitaBrutaMax": 360000, "aliquotaNominal": 0.09, "parcelaDeduzir": 8100 },
+      { "faixa": 3, "receitaBrutaMin": 360000.01, "receitaBrutaMax": 720000, "aliquotaNominal": 0.102, "parcelaDeduzir": 12420 },
+      { "faixa": 4, "receitaBrutaMin": 720000.01, "receitaBrutaMax": 1800000, "aliquotaNominal": 0.14, "parcelaDeduzir": 39780 },
+      { "faixa": 5, "receitaBrutaMin": 1800000.01, "receitaBrutaMax": 3600000, "aliquotaNominal": 0.22, "parcelaDeduzir": 183780 },
+      { "faixa": 6, "receitaBrutaMin": 3600000.01, "receitaBrutaMax": 4800000, "aliquotaNominal": 0.33, "parcelaDeduzir": 828000 }
+    ]
+  },
+  {
+    "id": "V",
+    "nome": "Serviços — alíquota elevada",
+    "descricao": "Prestação de serviços do § 5º-I do art. 18 da LC 123/2006 quando o Fator R for inferior a 28% (CPP fora do Simples)",
+    "cppForaSimples": true,
+    "faixas": [
+      { "faixa": 1, "receitaBrutaMin": 0, "receitaBrutaMax": 180000, "aliquotaNominal": 0.155, "parcelaDeduzir": 0 },
+      { "faixa": 2, "receitaBrutaMin": 180000.01, "receitaBrutaMax": 360000, "aliquotaNominal": 0.18, "parcelaDeduzir": 4500 },
+      { "faixa": 3, "receitaBrutaMin": 360000.01, "receitaBrutaMax": 720000, "aliquotaNominal": 0.195, "parcelaDeduzir": 9900 },
+      { "faixa": 4, "receitaBrutaMin": 720000.01, "receitaBrutaMax": 1800000, "aliquotaNominal": 0.205, "parcelaDeduzir": 17100 },
+      { "faixa": 5, "receitaBrutaMin": 1800000.01, "receitaBrutaMax": 3600000, "aliquotaNominal": 0.23, "parcelaDeduzir": 62100 },
+      { "faixa": 6, "receitaBrutaMin": 3600000.01, "receitaBrutaMax": 4800000, "aliquotaNominal": 0.305, "parcelaDeduzir": 540000 }
+    ]
+  }
+]

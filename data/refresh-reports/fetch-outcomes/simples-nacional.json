@@ -1,0 +1,13 @@
+{
+  "datasetId": "simples-nacional",
+  "status": "ok",
+  "endpoints": [
+    "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm",
+    "http://normas.receita.fazenda.gov.br/sijut2consulta/anexoOutros.action?idArquivoBinario=48430",
+    "http://normas.receita.fazenda.gov.br/sijut2consulta/link.action?visao=anotado&idAto=115262"
+  ],
+  "attempts": 5,
+  "checkedAt": "2026-06-25T13:34:24.570Z",
+  "retainedEmbeddedDataFrom": "2026-06-25",
+  "message": "Simples Nacional tables validated (5 annexes, 30 faixas)."
+}

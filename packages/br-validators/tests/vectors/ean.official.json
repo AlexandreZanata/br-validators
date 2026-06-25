@@ -1,0 +1,18 @@
+{
+  "source": "GS1 General Specifications — EAN/UPC check digit (modulo 10, weights 1 and 3)",
+  "url": "https://www.gs1.org/standards/barcodes/ean-upc",
+  "ean13": {
+    "canonical": "4006381333931",
+    "masked": "4 006381 333931",
+    "format": "ean-13"
+  },
+  "ean8": {
+    "canonical": "96385074",
+    "masked": "9638 5074",
+    "format": "ean-8"
+  },
+  "modulo10Walkthrough": {
+    "valid": "4006381333931",
+    "invalid": "4006381333930"
+  }
+}

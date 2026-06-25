@@ -1,0 +1,246 @@
+[
+  {
+    "codigo": "00",
+    "descricao": "SEM MOTIVO"
+  },
+  {
+    "codigo": "01",
+    "descricao": "EXTINCAO POR ENCERRAMENTO LIQUIDACAO VOLUNTARIA"
+  },
+  {
+    "codigo": "02",
+    "descricao": "INCORPORACAO"
+  },
+  {
+    "codigo": "03",
+    "descricao": "FUSAO"
+  },
+  {
+    "codigo": "04",
+    "descricao": "CISAO TOTAL"
+  },
+  {
+    "codigo": "05",
+    "descricao": "ENCERRAMENTO DA FALENCIA"
+  },
+  {
+    "codigo": "06",
+    "descricao": "ENCERRAMENTO DA LIQUIDACAO"
+  },
+  {
+    "codigo": "07",
+    "descricao": "ELEVACAO A MATRIZ"
+  },
+  {
+    "codigo": "08",
+    "descricao": "TRANSPASSE"
+  },
+  {
+    "codigo": "09",
+    "descricao": "NAO INICIO DE ATIVIDADE"
+  },
+  {
+    "codigo": "10",
+    "descricao": "EXTINCAO PELO ENCERRAMENTO DA LIQUIDACAO JUDICIAL"
+  },
+  {
+    "codigo": "11",
+    "descricao": "ANULACAO POR MULTICIPLIDADE"
+  },
+  {
+    "codigo": "12",
+    "descricao": "ANULACAO ONLINE DE OFICIO"
+  },
+  {
+    "codigo": "13",
+    "descricao": "OMISSA CONTUMAZ"
+  },
+  {
+    "codigo": "14",
+    "descricao": "OMISSA NAO LOCALIZADA"
+  },
+  {
+    "codigo": "15",
+    "descricao": "INEXISTENCIA DE FATO"
+  },
+  {
+    "codigo": "16",
+    "descricao": "ANULACAO POR VICIOS"
+  },
+  {
+    "codigo": "17",
+    "descricao": "BAIXA INICIADA EM ANALISE"
+  },
+  {
+    "codigo": "18",
+    "descricao": "INTERRUPCAO TEMPORARIA DAS ATIVIDADES"
+  },
+  {
+    "codigo": "21",
+    "descricao": "PEDIDO DE BAIXA INDEFERIDA"
+  },
+  {
+    "codigo": "24",
+    "descricao": "POR EMISSAO CERTIDAO NEGATIVA"
+  },
+  {
+    "codigo": "28",
+    "descricao": "TRANSFERENCIA FILIAL CONDICAO MATRIZ"
+  },
+  {
+    "codigo": "31",
+    "descricao": "EXTINCAO-UNIFICACAO DA FILIAL"
+  },
+  {
+    "codigo": "33",
+    "descricao": "TRANSFERENCIA DO ORGAO LOCAL A CONDICAO DE FILIAL DO ORGAO REGIONAL"
+  },
+  {
+    "codigo": "34",
+    "descricao": "ANULACAO DE INSCRICAO INDEVIDA"
+  },
+  {
+    "codigo": "35",
+    "descricao": "EMPRESA ESTRANGEIRA AGUARDANDO DOCUMENTACAO"
+  },
+  {
+    "codigo": "36",
+    "descricao": "PRATICA IRREGULAR DE OPERACAO DE COMERCIO EXTERIOR"
+  },
+  {
+    "codigo": "37",
+    "descricao": "BAIXA DE PRODUTOR RURAL"
+  },
+  {
+    "codigo": "38",
+    "descricao": "BAIXA DEFERIDA PELA RFB AGUARDANDO ANALISE DO CONVENENTE"
+  },
+  {
+    "codigo": "39",
+    "descricao": "BAIXA DEFERIDA PELA RFB E INDEFERIDA PELO CONVENENTE"
+  },
+  {
+    "codigo": "40",
+    "descricao": "BAIXA INDEFERIDA PELA RFB E AGUARDANDO ANALISE DO CONVENENTE"
+  },
+  {
+    "codigo": "41",
+    "descricao": "BAIXA INDEFERIDA PELA RFB E DEFERIDA PELO CONVENENTE"
+  },
+  {
+    "codigo": "42",
+    "descricao": "BAIXA DEFERIDA PELA RFB E SEFIN, AGUARDANDO ANALISE SEFAZ"
+  },
+  {
+    "codigo": "43",
+    "descricao": "BAIXA DEFERIDA PELA RFB, AGUARDANDO ANALISE DA SEFAZ E INDEFERIDA PELA SEFIN"
+  },
+  {
+    "codigo": "44",
+    "descricao": "BAIXA DEFERIDA PELA RFB E SEFAZ, AGUARDANDO ANALISE SEFIN"
+  },
+  {
+    "codigo": "45",
+    "descricao": "BAIXA DEFERIDA PELA RFB, AGUARDANDO ANALISE DA SEFIN E INDEFERIDA PELA SEFAZ"
+  },
+  {
+    "codigo": "46",
+    "descricao": "BAIXA DEFERIDA PELA RFB E SEFAZ E INDEFERIDA PELA SEFIN"
+  },
+  {
+    "codigo": "47",
+    "descricao": "BAIXA DEFERIDA PELA RFB E SEFIN E INDEFERIDA PELA SEFAZ"
+  },
+  {
+    "codigo": "48",
+    "descricao": "BAIXA INDEFERIDA PELA RFB, AGARDANDO ANALISE SEFAZ E DEFERIDA PELA SEFIN"
+  },
+  {
+    "codigo": "49",
+    "descricao": "BAIXA INDEFERIDA PELA RFB, AGUARDANDO ANALISE DA SEFAZ E INDEFERIDA PELA SEFIN"
+  },
+  {
+    "codigo": "50",
+    "descricao": "BAIXA INDEFERIDA PELA RFB, DEFERIDA PELA SEFAZ E AGUARDANDO ANALISE DA SEFIN"
+  },
+  {
+    "codigo": "51",
+    "descricao": "BAIXA INDEFERIDA PELA RFB E SEFAZ, AGUARDANDO ANALISE DA SEFIN"
+  },
+  {
+    "codigo": "52",
+    "descricao": "BAIXA INDEFERIDA PELA RFB, DEFERIDA PELA SEFAZ E INDEFERIDA PELA SEFIN"
+  },
+  {
+    "codigo": "53",
+    "descricao": "BAIXA INDEFERIDA PELA RFB E SEFAZ E DEFERIDA PELA SEFIN"
+  },
+  {
+    "codigo": "54",
+    "descricao": "EXTINCAO - TRATAMENTO DIFERENCIADO DADO AS ME E EPP (LEI COMPLEMENTAR NUMERO 123/2006)"
+  },
+  {
+    "codigo": "55",
+    "descricao": "DEFERIDO PELO CONVENENTE, AGUARDANDO ANALISE DA RFB"
+  },
+  {
+    "codigo": "60",
+    "descricao": "ARTIGO 30, VI, DA IN 748/2007"
+  },
+  {
+    "codigo": "61",
+    "descricao": "INDICIO INTERPOS. FRAUDULENTA"
+  },
+  {
+    "codigo": "62",
+    "descricao": "FALTA DE PLURALIDADE DE SOCIOS"
+  },
+  {
+    "codigo": "63",
+    "descricao": "OMISSAO DE DECLARACOES"
+  },
+  {
+    "codigo": "64",
+    "descricao": "LOCALIZACAO DESCONHECIDA"
+  },
+  {
+    "codigo": "66",
+    "descricao": "INAPTIDAO"
+  },
+  {
+    "codigo": "67",
+    "descricao": "REGISTRO CANCELADO"
+  },
+  {
+    "codigo": "70",
+    "descricao": "ANULACAO POR NAO CONFIRMADO ATO DE REGISTRO DO MEI NA JUNTA COMERCIAL"
+  },
+  {
+    "codigo": "71",
+    "descricao": "INAPTIDAO (LEI 11.941/2009 ART.54)"
+  },
+  {
+    "codigo": "72",
+    "descricao": "DETERMINACAO JUDICIAL"
+  },
+  {
+    "codigo": "73",
+    "descricao": "OMISSAO CONTUMAZ"
+  },
+  {
+    "codigo": "74",
+    "descricao": "INCONSISTENCIA CADASTRAL"
+  },
+  {
+    "codigo": "75",
+    "descricao": "OBITO DO MEI - TITULAR FALECIDO"
+  },
+  {
+    "codigo": "80",
+    "descricao": "BAIXA REGISTRADA NA JUNTA, INDEFERIDA NA RFB"
+  },
+  {
+    "codigo": "82",
+    "descricao": "SUSPENSO PERANTE A COMISSAO DE VALORES MOBILIARIOS - CVM"
+  }
+]

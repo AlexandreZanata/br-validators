@@ -9,6 +9,7 @@ import * as renavamEntry from '../src/renavam.js';
 import * as brcodeEntry from '../src/brcode.js';
 import * as placaEntry from '../src/placa.js';
 import * as pisPasepEntry from '../src/pis-pasep.js';
+import * as cnisEntry from '../src/cnis.js';
 import * as pixEntry from '../src/pix.js';
 import * as boletoEntry from '../src/boleto.js';
 import * as cartaoCreditoEntry from '../src/cartao-credito.js';
@@ -17,14 +18,22 @@ import * as bancosEntry from '../src/bancos.js';
 import * as aeroportosEntry from '../src/aeroportos.js';
 import * as tseMunicipiosEntry from '../src/tse-municipios.js';
 import * as moedasEntry from '../src/moedas.js';
+import * as ptaxEntry from '../src/ptax.js';
 import * as paisesBacenEntry from '../src/paises-bacen.js';
 import * as incotermsEntry from '../src/incoterms.js';
 import * as feriadosEntry from '../src/feriados.js';
 import * as cnaesEntry from '../src/cnaes.js';
 import * as cfopEntry from '../src/cfop.js';
 import * as naturezaJuridicaEntry from '../src/natureza-juridica.js';
+import * as cnpjMotivosEntry from '../src/cnpj-motivos.js';
+import * as ibptEntry from '../src/ibpt.js';
 import * as nbsEntry from '../src/nbs.js';
 import * as cestEntry from '../src/cest.js';
+import * as cstEntry from '../src/cst.js';
+import * as lc116Entry from '../src/lc116.js';
+import * as esocialEntry from '../src/esocial.js';
+import * as simplesNacionalEntry from '../src/simples-nacional.js';
+import * as eanEntry from '../src/ean.js';
 import * as ncmEntry from '../src/ncm.js';
 import * as cboEntry from '../src/cbo.js';
 import * as portosEntry from '../src/portos.js';
@@ -174,6 +183,12 @@ describe('package exports', () => {
     expect(pisPasepEntry.validatePisPasep).toBe(root.validatePisPasep);
   });
 
+  it('re-exports CNIS / NIT API from cnis entry', () => {
+    expect(cnisEntry.validateNit).toBe(root.validateNit);
+    expect(cnisEntry.inferNitIssuer).toBe(root.inferNitIssuer);
+    expect(cnisEntry.stripNit).toBe(root.stripNit);
+  });
+
   it('re-exports PIX API from pix entry', () => {
     expect(pixEntry.validatePixKey).toBe(root.validatePixKey);
     expect(pixEntry.detectPixKeyType).toBe(root.detectPixKeyType);
@@ -196,6 +211,9 @@ describe('package exports', () => {
     expect(ibgeEntry.getEstados).toBeTypeOf('function');
     expect(ibgeEntry.getMunicipios).toBeTypeOf('function');
     expect(ibgeEntry.getMunicipioPorCodigo).toBeTypeOf('function');
+    expect(ibgeEntry.toCmunFg).toBeTypeOf('function');
+    expect(ibgeEntry.parseCmunFg).toBeTypeOf('function');
+    expect(ibgeEntry.computeCmunFgCheckDigit).toBeTypeOf('function');
     expect(ibgeEntry.IBGE_DATA_VERSION.id).toBe('ibge');
   });
 
@@ -226,6 +244,13 @@ describe('package exports', () => {
     expect(moedasEntry.getMoedaPorCodigo).toBeTypeOf('function');
     expect(moedasEntry.searchMoedas).toBeTypeOf('function');
     expect(moedasEntry.MOEDAS_DATA_VERSION.id).toBe('moedas');
+  });
+
+  it('re-exports PTAX API from ptax entry', () => {
+    expect(ptaxEntry.getPtaxCotacao).toBeTypeOf('function');
+    expect(ptaxEntry.getPtaxUltimoDiaUtil).toBeTypeOf('function');
+    expect(ptaxEntry.getPtaxCotacoesPorMoeda).toBeTypeOf('function');
+    expect(ptaxEntry.PTAX_DATA_VERSION.id).toBe('ptax');
   });
 
   it('re-exports Paises Bacen API from paises-bacen entry', () => {
@@ -267,6 +292,19 @@ describe('package exports', () => {
     expect(naturezaJuridicaEntry.NATUREZA_JURIDICA_DATA_VERSION.id).toBe('natureza-juridica');
   });
 
+  it('re-exports CNPJ motivos API from cnpj-motivos entry', () => {
+    expect(cnpjMotivosEntry.getMotivosSituacaoCadastral).toBeTypeOf('function');
+    expect(cnpjMotivosEntry.getMotivoSituacaoCadastralPorCodigo).toBeTypeOf('function');
+    expect(cnpjMotivosEntry.CNPJ_MOTIVOS_DATA_VERSION.id).toBe('cnpj-motivos');
+  });
+
+  it('re-exports IBPT API from ibpt entry', () => {
+    expect(ibptEntry.getIbptCargaPorNcmUf).toBeTypeOf('function');
+    expect(ibptEntry.computeIbptCargaTotal).toBeTypeOf('function');
+    expect(ibptEntry.getIbptCargas).toBeTypeOf('function');
+    expect(ibptEntry.IBPT_DATA_VERSION.id).toBe('ibpt');
+  });
+
   it('re-exports NBS API from nbs entry', () => {
     expect(nbsEntry.getNbsList).toBeTypeOf('function');
     expect(nbsEntry.getNbsPorCodigo).toBeTypeOf('function');
@@ -280,6 +318,45 @@ describe('package exports', () => {
     expect(cestEntry.getCestPorNcm).toBeTypeOf('function');
     expect(cestEntry.searchCest).toBeTypeOf('function');
     expect(cestEntry.CEST_DATA_VERSION.id).toBe('cest');
+  });
+
+  it('re-exports CST API from cst entry', () => {
+    expect(cstEntry.getCstIcmsPorCodigo).toBeTypeOf('function');
+    expect(cstEntry.getCstIpiPorCodigo).toBeTypeOf('function');
+    expect(cstEntry.getCstPisPorCodigo).toBeTypeOf('function');
+    expect(cstEntry.getCstCofinsPorCodigo).toBeTypeOf('function');
+    expect(cstEntry.searchCstIcms).toBeTypeOf('function');
+    expect(cstEntry.CST_DATA_VERSION.id).toBe('cst');
+  });
+
+  it('re-exports LC 116 API from lc116 entry', () => {
+    expect(lc116Entry.getLc116List).toBeTypeOf('function');
+    expect(lc116Entry.getLc116PorCodigo).toBeTypeOf('function');
+    expect(lc116Entry.searchLc116).toBeTypeOf('function');
+    expect(lc116Entry.LC116_DATA_VERSION.id).toBe('lc116');
+  });
+
+  it('re-exports eSocial API from esocial entry', () => {
+    expect(esocialEntry.getEsocialCategorias).toBeTypeOf('function');
+    expect(esocialEntry.getEsocialCategoriaPorCodigo).toBeTypeOf('function');
+    expect(esocialEntry.searchEsocialCategorias).toBeTypeOf('function');
+    expect(esocialEntry.ESOCIAL_DATA_VERSION.id).toBe('esocial');
+  });
+
+  it('re-exports Simples Nacional API from simples-nacional entry', () => {
+    expect(simplesNacionalEntry.getSimplesAnexos).toBeTypeOf('function');
+    expect(simplesNacionalEntry.getSimplesAnexo).toBeTypeOf('function');
+    expect(simplesNacionalEntry.getSimplesFaixa).toBeTypeOf('function');
+    expect(simplesNacionalEntry.computeSimplesAliquotaEfetiva).toBeTypeOf('function');
+    expect(simplesNacionalEntry.SIMPLES_NACIONAL_DATA_VERSION.id).toBe('simples-nacional');
+  });
+
+  it('re-exports EAN API from ean entry', () => {
+    expect(eanEntry.validateEan).toBeTypeOf('function');
+    expect(eanEntry.formatEan).toBeTypeOf('function');
+    expect(eanEntry.stripEan).toBeTypeOf('function');
+    expect(eanEntry.detectEanFormat).toBeTypeOf('function');
+    expect(eanEntry.EAN_OFFICIAL_SOURCE_URL).toContain('gs1.org');
   });
 
   it('re-exports NCM API from ncm entry', () => {

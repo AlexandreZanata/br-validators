@@ -1,0 +1,26 @@
+{
+  "id": "lc116",
+  "nome": "LC 116/2003 — Lista de Serviços ISS",
+  "fonte": "Lei Complementar 116/2003 — Anexo (Lista de Serviços)",
+  "endpoints": [
+    "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm",
+    "https://www.gov.br/nfse/pt-br/mei-e-demais-empresas/codigos-de-tributacao-nacional-nbs"
+  ],
+  "capturadoEm": "2026-06-25",
+  "atualizadoEm": "2026-06-25T11:18:03.978Z",
+  "contagens": {
+    "lc116": 200
+  },
+  "alteracoes": {
+    "adicionados": 0,
+    "removidos": 0,
+    "alterados": 0,
+    "comparadoCom": "2026-06-25"
+  },
+  "verificacao": {
+    "agendamento": "manual",
+    "workflow": "data-refresh-bot.yml",
+    "ultimaExecucao": "2026-06-25T11:18:03.978Z"
+  },
+  "documentacao": "docs/OFFICIAL-SOURCES.md#lc116-iss-servicos"
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "codigo": "00",
+    "descricao": "Entrada com recuperação de crédito"
+  },
+  {
+    "codigo": "01",
+    "descricao": "Entrada tributada com alíquota zero"
+  },
+  {
+    "codigo": "02",
+    "descricao": "Entrada isenta"
+  },
+  {
+    "codigo": "03",
+    "descricao": "Entrada não-tributada"
+  },
+  {
+    "codigo": "04",
+    "descricao": "Entrada imune"
+  },
+  {
+    "codigo": "05",
+    "descricao": "Entrada com suspensão"
+  },
+  {
+    "codigo": "49",
+    "descricao": "Outras entradas"
+  },
+  {
+    "codigo": "50",
+    "descricao": "Saída tributada"
+  },
+  {
+    "codigo": "51",
+    "descricao": "Saída tributada com alíquota zero"
+  },
+  {
+    "codigo": "52",
+    "descricao": "Saída isenta"
+  },
+  {
+    "codigo": "53",
+    "descricao": "Saída não-tributada"
+  },
+  {
+    "codigo": "54",
+    "descricao": "Saída imune"
+  },
+  {
+    "codigo": "55",
+    "descricao": "Saída com suspensão"
+  },
+  {
+    "codigo": "99",
+    "descricao": "Outras saídas"
+  }
+]

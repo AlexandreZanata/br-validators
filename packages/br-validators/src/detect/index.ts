@@ -6,6 +6,7 @@ import { validateArrecadacao } from '../core/boleto/arrecadacao.js';
 import { validateBoleto } from '../core/boleto/index.js';
 import { validateBrCode } from '../core/brcode/index.js';
 import { validateCartaoCredito } from '../core/cartao-credito/index.js';
+import { validateEan } from '../core/ean/index.js';
 import { validateCep } from '../core/cep/index.js';
 import { validateCnh } from '../core/cnh/index.js';
 import { validateCnpj } from '../core/cnpj/index.js';
@@ -26,6 +27,7 @@ import {
   looksLikeBrCode,
   looksLikeCartao,
   looksLikeCep,
+  looksLikeEan,
   looksLikeCnpjAlphanumeric,
   looksLikeCnpjNumeric,
   looksLikeElevenDigits,
@@ -49,6 +51,7 @@ export type DetectableDocumentType =
   | 'telefone'
   | 'boleto'
   | 'cartao-credito'
+  | 'ean'
   | 'cnh'
   | 'renavam'
   | 'nfe-chave'
@@ -272,6 +275,16 @@ const CANDIDATES: Candidate[] = [
         return null;
       }
       return success('telefone', result.value, result.format, { tipo: result.tipo });
+    },
+  },
+  {
+    canTry: (raw) => looksLikeEan(raw),
+    detect: (raw) => {
+      const result = validateEan(raw);
+      if (!result.ok) {
+        return null;
+      }
+      return success('ean', result.value, result.format);
     },
   },
   {

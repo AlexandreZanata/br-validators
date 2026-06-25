@@ -4,10 +4,12 @@ import {
   convertPlacaToMercosul,
   detectBoletoInputKind,
   detectCardBrand,
+  detectEanFormat,
   detectPixKeyType,
   detectPlacaFormat,
   formatBoleto,
   formatCartaoCredito,
+  formatEan,
   formatCep,
   formatCnh,
   formatCnpj,
@@ -15,6 +17,7 @@ import {
   formatInscricaoEstadual,
   formatNfeChave,
   formatProcessoJudicial,
+  formatNit,
   formatPisPasep,
   formatPlaca,
   formatRenavam,
@@ -26,6 +29,7 @@ import {
   parseBrCode,
   sanitize,
   stripCartaoCredito,
+  stripEan,
   stripCep,
   stripCnh,
   stripCnpj,
@@ -33,6 +37,7 @@ import {
   stripInscricaoEstadual,
   stripNfeChave,
   stripProcessoJudicial,
+  stripNit,
   stripPisPasep,
   stripPlaca,
   stripRenavam,
@@ -42,6 +47,7 @@ import {
   validateBoleto,
   validateBrCode,
   validateCartaoCredito,
+  validateEan,
   validateCep,
   validateCnh,
   validateCnpj,
@@ -50,6 +56,7 @@ import {
   validateIeProdutorRural,
   validateNfeChave,
   validateProcessoJudicial,
+  validateNit,
   validatePisPasep,
   validatePlaca,
   validatePixKey,
@@ -111,6 +118,8 @@ function runSanitize(slug: DocumentSlug, input: string, uf: UfCode): SanitizeRes
       return sanitize(input, 'boleto');
     case 'cartao':
       return sanitize(input, 'cartao-credito');
+    case 'ean':
+      return sanitize(input, 'ean');
     case 'ie':
       return sanitize(input, 'inscricao-estadual', { uf });
     default:
@@ -193,6 +202,20 @@ export function computeDocumentResults(
       const formatted = formatPisPasep(input);
       validationDetail = validation.ok ? `yes (${validation.format})` : `no — ${validation.code}`;
       formattedValue = formatted.ok ? formatted.formatted : formatted.message;
+      break;
+    }
+    case 'cnis': {
+      stripped = stripNit(input);
+      const validation = validateNit(input);
+      const formatted = formatNit(input);
+      validationDetail = validation.ok
+        ? `yes — issuer ${validation.issuer} / tipo ${validation.tipo}`
+        : `no — ${validation.code}`;
+      formattedValue = formatted.ok ? formatted.formatted : formatted.message;
+      if (validation.ok) {
+        extraRows.push({ label: 'Issuer', value: validation.issuer });
+        extraRows.push({ label: 'Tipo', value: validation.tipo });
+      }
       break;
     }
     case 'cnh': {
@@ -356,6 +379,16 @@ export function computeDocumentResults(
       extraRows.push({ label: 'Brand', value: brand ?? '—' });
       break;
     }
+    case 'ean': {
+      stripped = stripEan(input);
+      const validation = validateEan(input);
+      const formatted = formatEan(input);
+      const detected = stripped ? detectEanFormat(stripped) : null;
+      validationDetail = validation.ok ? `yes (${validation.format})` : `no — ${validation.code}`;
+      formattedValue = formatted.ok ? formatted.formatted : formatted.message;
+      extraRows.push({ label: 'Format', value: detected ?? '—' });
+      break;
+    }
     default:
       return null;
   }
@@ -385,6 +418,7 @@ export function buildCliCommand(
     telefone: 'telefone',
     placa: 'placa',
     pis: 'pis-pasep',
+    cnis: 'cnis',
     cnh: 'cnh',
     renavam: 'renavam',
     'titulo-eleitor': 'titulo-eleitor',
@@ -396,6 +430,7 @@ export function buildCliCommand(
     brcode: 'brcode',
     boleto: 'boleto',
     cartao: 'cartao-credito',
+    ean: 'ean',
   } as const;
 
   const cliSlug = meta[slug];

@@ -1,0 +1,25 @@
+{
+  "source": "SIPREV Dataprev RV_03 (CNIS / NIT) + INSS NIT enrollment",
+  "validationUrl": "https://www.gov.br/previdencia/pt-br/outros/imagens/2015/07/rgrva_RegrasValidacao.pdf",
+  "inssNitServiceUrl": "https://www.gov.br/pt-br/servicos/obter-numero-de-inscricao-no-inss-nit",
+  "caixaPis": {
+    "canonical": "10027230888",
+    "formatted": "100.27230.88-8",
+    "issuer": "caixa",
+    "tipo": "pis",
+    "note": "UC-006 PIS golden; same RV_03 checksum as NIT"
+  },
+  "inssNit": {
+    "canonical": "01234567897",
+    "formatted": "012.34567.89-7",
+    "issuer": "inss",
+    "tipo": "nit",
+    "note": "Leading-zero INSS NIT series; DV per RV_03"
+  },
+  "caixaNis": {
+    "canonical": "45678901236",
+    "issuer": "caixa",
+    "tipo": "nis",
+    "note": "Leading digit 4 — CadÚnico / NIS heuristic series"
+  }
+}

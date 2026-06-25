@@ -4,6 +4,7 @@ import {
   CNAES_DATA_VERSION,
   CNAES_GOLDEN_DESENVOLVIMENTO_PROGRAMAS,
   CNAES_GOLDEN_WEB_DESIGN,
+  CNAES_RFB_CNAES_ZIP_BASE_URL,
   CNAES_SUBCLASSES_URL,
   getCnaePorCodigo,
   getCnaes,
@@ -70,5 +71,12 @@ describe('CNAE — coverage and search', () => {
     expect(CNAES_DATA_VERSION.endpoints).toContain(CNAES_SUBCLASSES_URL);
     expect(CNAES_DATA_VERSION.endpoints).toContain(vectors.source);
     expect(CNAES_DATA_VERSION.contagens.cnaes).toBe(getCnaes().length);
+  });
+
+  it('documents RFB Cnaes.zip as complementary official source (subclass parity)', () => {
+    expect(CNAES_RFB_CNAES_ZIP_BASE_URL).toBe(vectors.rfbCnaesZipBaseUrl);
+    const golden = getCnaePorCodigo(vectors.golden.desenvolvimentoProgramas.codigo);
+    expect(golden?.codigo).toBe(CNAES_GOLDEN_DESENVOLVIMENTO_PROGRAMAS);
+    expect(golden?.descricao.length).toBeGreaterThan(0);
   });
 });

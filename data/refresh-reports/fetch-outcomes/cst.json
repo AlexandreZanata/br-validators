@@ -1,0 +1,13 @@
+{
+  "datasetId": "cst",
+  "status": "ok",
+  "endpoints": [
+    "http://www.sped.fazenda.gov.br/spedtabelas/AppConsulta/publico/aspx/ConsultaTabelasExternas.aspx?CodSistema=SpedFiscal",
+    "http://sped.rfb.gov.br/arquivo/download/1629",
+    "http://sped.rfb.gov.br/arquivo/download/1630"
+  ],
+  "attempts": 5,
+  "checkedAt": "2026-06-24T20:45:12.813Z",
+  "retainedEmbeddedDataFrom": "2026-06-24",
+  "message": "SPED CST tables fetched (ICMS=11, IPI=14, PIS=33, COFINS=33; SPED table ids 130/26/27/23)."
+}

@@ -6,6 +6,7 @@
 import { formatInscricaoEstadual } from '../core/inscricao-estadual/index.js';
 import { formatBoleto } from '../format/boleto.js';
 import { formatCartaoCredito } from '../format/cartao-credito.js';
+import { formatEan } from '../format/ean.js';
 import { formatCep } from '../format/cep.js';
 import { formatCnh } from '../format/cnh.js';
 import { formatCnpj } from '../format/cnpj.js';
@@ -37,6 +38,7 @@ export type MaskableDocumentType =
   | 'nfe-chave'
   | 'boleto'
   | 'cartao-credito'
+  | 'ean'
   | 'inscricao-estadual'
   | 'inscricao-estadual-produtor-rural'
   | 'pix';
@@ -56,6 +58,7 @@ export const MASKABLE_DOCUMENT_TYPES = [
   'nfe-chave',
   'boleto',
   'cartao-credito',
+  'ean',
   'inscricao-estadual',
   'inscricao-estadual-produtor-rural',
   'pix',
@@ -135,6 +138,8 @@ function dispatchMask(raw: string, type: MaskableDocumentType, options: MaskOpti
       return formatBoleto(raw);
     case 'cartao-credito':
       return formatCartaoCredito(raw);
+    case 'ean':
+      return formatEan(raw);
     case 'inscricao-estadual':
       return formatInscricaoEstadual(raw, { uf: options.uf as UfCode });
     case 'inscricao-estadual-produtor-rural':

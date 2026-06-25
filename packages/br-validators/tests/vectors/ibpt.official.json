@@ -1,0 +1,30 @@
+{
+  "source": "https://deolhonoimposto.ibpt.org.br/",
+  "lei12741Url": "https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2012/lei/l12741.htm",
+  "minCargas": 4,
+  "maxCargas": 12,
+  "tabela": "26.1.H",
+  "golden": {
+    "cavalosSp": {
+      "ncm": "01012100",
+      "uf": "SP",
+      "aliquotaNacionalFederal": 13.45,
+      "aliquotaEstadual": 18,
+      "aliquotaMunicipal": 0,
+      "cargaTotalNacional": 31.45,
+      "cargaTotalImportado": 33.45
+    },
+    "cavalosRj": {
+      "ncm": "01012100",
+      "uf": "RJ",
+      "aliquotaEstadual": 14,
+      "cargaTotalNacional": 27.45
+    },
+    "cervejaSp": {
+      "ncm": "22030000",
+      "uf": "SP",
+      "cargaTotalNacional": 35.91,
+      "cargaTotalImportado": 39.77
+    }
+  }
+}

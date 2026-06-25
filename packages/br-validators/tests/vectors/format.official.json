@@ -12,6 +12,8 @@
     { "type": "pis-pasep", "raw": "10027230888", "formatted": "100.27230.88-8" },
     { "type": "boleto", "raw": "03399025790899183400671742301014614500000099668", "formatted": "03399.02579 08991.834006 71742.301014 6 14500000099668" },
     { "type": "cartao-credito", "raw": "4111111111111111", "formatted": "4111 1111 1111 1111" },
+    { "type": "ean", "raw": "4006381333931", "formatted": "4 006381 333931" },
+    { "type": "ean", "raw": "96385074", "formatted": "9638 5074", "note": "ean-8" },
     { "type": "pix", "raw": "12345678909", "formatted": "123.456.789-09", "note": "cpf key" },
     { "type": "pix", "raw": "12ABC34501DE35", "formatted": "12.ABC.345/01DE-35", "note": "cnpj key" },
     { "type": "pix", "raw": "+5510998765432", "formatted": "+55 (10) 99876-5432", "note": "phone key" },

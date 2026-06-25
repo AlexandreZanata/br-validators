@@ -1,0 +1,20 @@
+{
+  "source": "https://dadosabertos.rfb.gov.br/CNPJ/dados_abertos_cnpj/",
+  "layoutUrl": "https://www.gov.br/receitafederal/dados/cnpj-metadados.pdf",
+  "minMotivos": 55,
+  "maxMotivos": 65,
+  "golden": {
+    "semMotivo": {
+      "codigo": "00",
+      "descricaoContains": "SEM MOTIVO"
+    },
+    "extincaoVoluntaria": {
+      "codigo": "01",
+      "descricaoContains": "EXTINCAO POR ENCERRAMENTO"
+    },
+    "incorporacao": {
+      "codigo": "02",
+      "descricaoContains": "INCORPORACAO"
+    }
+  }
+}

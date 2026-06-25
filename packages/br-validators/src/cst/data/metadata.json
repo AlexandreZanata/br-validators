@@ -1,0 +1,30 @@
+{
+  "id": "cst",
+  "nome": "RFB SPED — CST (ICMS, IPI, PIS, COFINS)",
+  "fonte": "SPED Fiscal — Tabelas de Situação Tributária (IN RFB 932/2009 family)",
+  "endpoints": [
+    "http://www.sped.fazenda.gov.br/spedtabelas/AppConsulta/publico/aspx/ConsultaTabelasExternas.aspx?CodSistema=SpedFiscal",
+    "http://sped.rfb.gov.br/arquivo/download/1629",
+    "http://sped.rfb.gov.br/arquivo/download/1630"
+  ],
+  "capturadoEm": "2026-06-24",
+  "atualizadoEm": "2026-06-24T20:45:12.812Z",
+  "contagens": {
+    "icms": 11,
+    "ipi": 14,
+    "pis": 33,
+    "cofins": 33
+  },
+  "alteracoes": {
+    "adicionados": 11,
+    "removidos": 0,
+    "alterados": 0,
+    "comparadoCom": null
+  },
+  "verificacao": {
+    "agendamento": "manual",
+    "workflow": "data-refresh-bot.yml",
+    "ultimaExecucao": "2026-06-24T20:45:12.812Z"
+  },
+  "documentacao": "docs/OFFICIAL-SOURCES.md#cst-situacao-tributaria"
+}

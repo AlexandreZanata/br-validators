@@ -10,6 +10,7 @@ pnpm fetch:data:bancos    # Bacen STR participants → packages/br-validators/sr
 pnpm fetch:data:aeroportos # ANAC public aerodromos → packages/br-validators/src/aeroportos/data/
 pnpm fetch:data:tse-municipios # TSE ↔ IBGE municipality codes → packages/br-validators/src/tse-municipios/data/
 pnpm fetch:data:moedas       # ISO 4217 + Bacen PTAX → packages/br-validators/src/moedas/data/
+pnpm fetch:data:ptax         # Bacen PTAX Fechamento → packages/br-validators/src/ptax/data/
 pnpm fetch:data:paises-bacen # NF-e Bacen country codes → packages/br-validators/src/paises-bacen/data/
 pnpm fetch:data:incoterms    # ICC Incoterms 2020 static list → packages/br-validators/src/incoterms/data/
 pnpm fetch:data:ddd       # Anatel DDD lookup → packages/br-validators/src/core/telefone/data/
@@ -18,6 +19,9 @@ pnpm fetch:data:cfop      # CONFAZ CFOP table → packages/br-validators/src/cfo
 pnpm fetch:data:natureza-juridica # RFB natureza jurídica → packages/br-validators/src/natureza-juridica/data/
 pnpm fetch:data:nbs       # Comex NBS → packages/br-validators/src/nbs/data/
 pnpm fetch:data:cest      # CONFAZ CEST → packages/br-validators/src/cest/data/
+pnpm fetch:data:cst       # RFB SPED CST tables → packages/br-validators/src/cst/data/
+pnpm fetch:data:lc116     # LC 116 ISS list → packages/br-validators/src/lc116/data/
+pnpm fetch:data:esocial   # eSocial Tabela 01 categorias → packages/br-validators/src/esocial/data/
 pnpm fetch:data:portos    # ANTAQ portos → packages/br-validators/src/portos/data/
 pnpm fetch:data:pncp-reference # PNCP Cadastro domain tables → packages/br-validators/src/pncp-reference/data/
 pnpm fetch:data:transparencia  # CGU Swagger audit registry → packages/br-validators/src/transparencia-snapshots/data/
