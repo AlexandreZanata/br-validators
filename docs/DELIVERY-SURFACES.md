@@ -50,6 +50,7 @@ As each module ships, **all three** must be updated:
 | Boleto cobrança | `@br-validators/core/boleto` | `br-validators boleto …` | Boleto | [FEBRABAN FB-0061/2021](OFFICIAL-SOURCES.md) |
 | Boleto arrecadação | `@br-validators/core/boleto` | `br-validators boleto …` | Boleto | [FEBRABAN Layout v7](OFFICIAL-SOURCES.md) |
 | Credit card | `@br-validators/core/cartao-credito` | `br-validators cartao …` / `cartao-credito …` | Credit Card | [ISO/IEC 7812-1](OFFICIAL-SOURCES.md) |
+| EAN barcode | `@br-validators/core/ean` | `br-validators ean …` | EAN | [GS1 EAN/UPC](OFFICIAL-SOURCES.md) |
 | IE (27 UFs) | `@br-validators/core/inscricao-estadual` | `br-validators ie … --uf <UF>` | `/ie` | [OFFICIAL-SOURCES § IE](OFFICIAL-SOURCES.md#inscrição-estadual-ie--all-27-ufs) |
 | IE produtor rural (SP) | `@br-validators/core/inscricao-estadual-produtor-rural` | `br-validators ie … --uf SP` (auto `P` prefix) | `/ie` badge | [SINTEGRA cad_SP Bloco II](http://www.sintegra.gov.br/Cad_Estados/cad_SP.html) |
 | **detect()** | `@br-validators/core/detect` | `br-validators detect …` | `/detect` | Composes per-type [OFFICIAL-SOURCES](OFFICIAL-SOURCES.md) |

@@ -111,6 +111,7 @@ function splitFields(value: string, type: PlatformDocumentType): Record<string, 
       return { value };
     case 'boleto':
     case 'cartao-credito':
+    case 'ean':
     case 'inscricao-estadual':
     case 'inscricao-estadual-produtor-rural':
     case 'rg':

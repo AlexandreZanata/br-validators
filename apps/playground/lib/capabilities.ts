@@ -75,6 +75,13 @@ export const CAPABILITIES: Record<DocumentSlug, DocumentCapabilities> = {
     generate: true,
     generateFormats: ['visa', 'mastercard', 'amex', 'elo', 'hipercard'],
   },
+  ean: {
+    validate: true,
+    format: true,
+    strip: true,
+    sanitize: true,
+    generate: false,
+  },
 };
 
 export function enabledTabs(capabilities: DocumentCapabilities): ActionTab[] {

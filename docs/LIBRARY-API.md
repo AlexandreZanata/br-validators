@@ -29,6 +29,7 @@
 | `@br-validators/core/pix` | PIX keys |
 | `@br-validators/core/boleto` | Boleto (linha digitável + código de barras) |
 | `@br-validators/core/cartao-credito` | Credit card PAN (Luhn / ISO 7812) |
+| `@br-validators/core/ean` | GS1 EAN-8 / EAN-13 product barcodes |
 | `@br-validators/core/inscricao-estadual` | Inscrição Estadual — all 27 UFs |
 | `@br-validators/core/inscricao-estadual-produtor-rural` | SP produtor rural IE (Regra II) |
 | `@br-validators/core/detect` | Unified type detection router |

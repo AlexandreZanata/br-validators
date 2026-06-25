@@ -5,6 +5,7 @@ import {
   handleBrCodeCli,
   handleCartaoCli,
   handleCartaoCreditoCli,
+  handleEanCli,
   handleCepCli,
   handleCnhCli,
   handleCnpjCli,
@@ -163,7 +164,7 @@ export function dispatchArgv(tokens: string[], io: CliIo): number {
   if (tokens.length === 0 || tokens.includes('--help') || tokens.includes('-h')) {
     io.stdout.push('br-validators — 100% open-source Brazilian document validators');
     io.stdout.push('Usage: br-validators <command> ...');
-    io.stdout.push('Commands: list · cpf · cnpj · cep · telefone · cnh · renavam · titulo-eleitor · processo-judicial · rg · nfe-chave · brcode · placa · pis-pasep · pix · boleto · cartao · cartao-credito · ie · bancos · ibge · feriados · tse-municipios · ddd · natureza-juridica · nbs · cest · cnae · cfop · ncm · cbo · moedas · paises-bacen · incoterms · portos · aeroportos · detect · sanitize · generate');
+    io.stdout.push('Commands: list · cpf · cnpj · cep · telefone · cnh · renavam · titulo-eleitor · processo-judicial · rg · nfe-chave · brcode · placa · pis-pasep · pix · boleto · cartao · cartao-credito · ean · ie · bancos · ibge · feriados · tse-municipios · ddd · natureza-juridica · nbs · cest · cnae · cfop · ncm · cbo · moedas · paises-bacen · incoterms · portos · aeroportos · detect · sanitize · generate');
     return EXIT.OK;
   }
 
@@ -285,6 +286,14 @@ export function dispatchArgv(tokens: string[], io: CliIo): number {
     }
     case 'cartao-credito':
       return dispatchStandard(rest, opts, io, handleCartaoCreditoCli);
+    case 'ean': {
+      const action = rest[0];
+      if (!action || !['detect', 'validate', 'format', 'strip'].includes(action)) {
+        return usage(io, 'Expected action: detect | validate | format | strip');
+      }
+      const value = pickValue(rest);
+      return handleEanCli(action as 'detect' | 'validate' | 'format' | 'strip', value, opts, io);
+    }
     case 'ie':
       return dispatchStandard(rest, opts, io, (action, value, ieOpts, ioArg) =>
         handleIeCli(action, value, ieOpts, ioArg),

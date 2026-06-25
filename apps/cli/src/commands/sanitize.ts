@@ -21,6 +21,7 @@ const SANITIZABLE_TYPES: SanitizableDocumentType[] = [
   'nfe-chave',
   'boleto',
   'cartao-credito',
+  'ean',
   'inscricao-estadual',
   'inscricao-estadual-produtor-rural',
 ];

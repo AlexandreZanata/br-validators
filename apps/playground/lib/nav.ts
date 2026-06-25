@@ -37,6 +37,7 @@ export const DOCUMENT_ROUTES = [
   { slug: 'brcode', label: 'BR Code', description: 'Pix EMV payload', group: 'documents' },
   { slug: 'boleto', label: 'Boleto', description: 'FEBRABAN cobrança', group: 'documents' },
   { slug: 'cartao', label: 'Cartão de Crédito', description: 'Luhn algorithm', group: 'documents' },
+  { slug: 'ean', label: 'EAN', description: 'GS1 EAN-8 / EAN-13', group: 'documents' },
 ] as const satisfies readonly DocumentRoute[];
 
 export const PLATFORM_ROUTES = [

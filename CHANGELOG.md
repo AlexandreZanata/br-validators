@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`@br-validators/core/lc116`** — LC 116/2003 ISS national service list (`getLc116PorCodigo`, `searchLc116`); embedded from Planalto / NFSe republication; `pnpm fetch:data:lc116` (manual refresh)
 - **`@br-validators/core/ptax`** — Bacen PTAX Fechamento exchange rates (`getPtaxCotacao`, `getPtaxUltimoDiaUtil`); 5-business-day rolling embed; pairs with `moedas`; `pnpm fetch:data:ptax` (daily bot)
 - **`@br-validators/core/esocial`** — eSocial Tabela 01 worker categories (`getEsocialCategoriaPorCodigo`, `searchEsocialCategorias`); embedded from official layout tables; `pnpm fetch:data:esocial` (manual refresh)
+- **`@br-validators/core/ean`** — GS1 EAN-8 / EAN-13 product barcodes (`validateEan`, `formatEan`, `stripEan`, `detectEanFormat`); modulo-10 weights 1/3; CLI + playground
 
 ---
 

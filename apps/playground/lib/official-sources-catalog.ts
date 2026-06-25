@@ -28,6 +28,7 @@ export const OFFICIAL_SOURCES_ORDER: DocumentSlug[] = [
   'brcode',
   'boleto',
   'cartao',
+  'ean',
   'pis',
   'ie',
 ];
@@ -370,6 +371,13 @@ export const OFFICIAL_SOURCES_CATALOG: Record<DocumentSlug, OfficialSourcesEntry
     agency: 'ISO/IEC 7812',
     links: [
       { label: 'ISO/IEC 7812-1:2017', href: 'https://www.iso.org/standard/70484.html' },
+    ],
+  },
+  ean: {
+    title: 'EAN barcode',
+    agency: 'GS1',
+    links: [
+      { label: 'GS1 EAN/UPC barcodes', href: 'https://www.gs1.org/standards/barcodes/ean-upc' },
     ],
   },
 };

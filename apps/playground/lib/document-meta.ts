@@ -6,6 +6,8 @@ import {
   BRCODE_OFFICIAL_SOURCE_URL,
   CARTAO_GOLDEN_VISA_MASKED,
   CARTAO_OFFICIAL_SOURCE_URL,
+  EAN_GOLDEN_13_MASKED,
+  EAN_OFFICIAL_SOURCE_URL,
   CEP_GOLDEN_PRIMARY_MASKED,
   CEP_OFFICIAL_SOURCE_URL,
   CNH_GOLDEN_PRIMARY_DECORATED_INPUT,
@@ -188,6 +190,14 @@ export const DOCUMENT_META: Record<DocumentSlug, DocumentMeta> = {
     inputLabel: 'Input',
     cliSlug: 'cartao-credito',
     officialLinks: [{ href: CARTAO_OFFICIAL_SOURCE_URL, label: 'Official source: ISO/IEC 7812-1:2017' }],
+  },
+  ean: {
+    title: 'EAN Validator',
+    description: 'GS1 EAN-8 / EAN-13 · modulo-10 weights 1/3',
+    defaultInput: EAN_GOLDEN_13_MASKED,
+    inputLabel: 'Input',
+    cliSlug: 'ean',
+    officialLinks: [{ href: EAN_OFFICIAL_SOURCE_URL, label: 'Official source: GS1 EAN/UPC' }],
   },
 };
 

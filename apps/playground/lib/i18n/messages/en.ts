@@ -29,6 +29,7 @@ export const en = {
     brcode: { label: 'BR Code', description: 'Pix EMV payload' },
     boleto: { label: 'Boleto', description: 'FEBRABAN billing' },
     cartao: { label: 'Credit card', description: 'Luhn algorithm' },
+    ean: { label: 'EAN', description: 'GS1 EAN-8 / EAN-13' },
     detect: { label: 'Detect', description: 'Auto-identify document type' },
     sanitize: { label: 'Sanitize', description: 'ETL fixes + validate' },
     generate: { label: 'Generate', description: 'Synthetic test fixtures' },
@@ -242,6 +243,7 @@ export const en = {
     brcode: { title: 'BR Code Parser', description: 'Bacen EMV TLV + CRC16-CCITT', inputLabel: 'Payload' },
     boleto: { title: 'Boleto Validator', description: 'Linha digitável (47) · barcode (44)', inputLabel: 'Input' },
     cartao: { title: 'Credit card Validator', description: 'Luhn checksum (ISO/IEC 7812-1) · brand detection', inputLabel: 'Input' },
+    ean: { title: 'EAN Validator', description: 'GS1 EAN-8 / EAN-13 · modulo-10 weights 1/3', inputLabel: 'Input' },
   },
   tabs: {
     validate: 'Validate',
@@ -349,6 +351,7 @@ export const en = {
         inscricaoEstadualProdutorRural: 'IE rural producer (SP)',
         tituloEleitor: 'Voter ID',
         cartaoCredito: 'Credit card',
+        ean: 'EAN barcode',
         pix: 'PIX EVP',
         nfeChave: 'NF-e access key',
         brcode: 'BR Code (static PIX)',

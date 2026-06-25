@@ -4,6 +4,7 @@
  */
 import { validateBoleto } from '../core/boleto/index.js';
 import { validateCartaoCredito } from '../core/cartao-credito/index.js';
+import { validateEan } from '../core/ean/index.js';
 import { validateCep } from '../core/cep/index.js';
 import { validateCnh } from '../core/cnh/index.js';
 import { validateCnpj } from '../core/cnpj/index.js';
@@ -37,6 +38,7 @@ export type SanitizableDocumentType =
   | 'nfe-chave'
   | 'boleto'
   | 'cartao-credito'
+  | 'ean'
   | 'inscricao-estadual'
   | 'inscricao-estadual-produtor-rural';
 
@@ -151,6 +153,10 @@ function validateFixed(value: string, type: SanitizableDocumentType, uf?: UfCode
     }
     case 'cartao-credito': {
       const result = validateCartaoCredito(value);
+      return result.ok ? { ok: true, value: result.value } : result;
+    }
+    case 'ean': {
+      const result = validateEan(value);
       return result.ok ? { ok: true, value: result.value } : result;
     }
     case 'inscricao-estadual': {

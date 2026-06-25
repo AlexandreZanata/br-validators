@@ -29,6 +29,7 @@ import * as cestEntry from '../src/cest.js';
 import * as cstEntry from '../src/cst.js';
 import * as lc116Entry from '../src/lc116.js';
 import * as esocialEntry from '../src/esocial.js';
+import * as eanEntry from '../src/ean.js';
 import * as ncmEntry from '../src/ncm.js';
 import * as cboEntry from '../src/cbo.js';
 import * as portosEntry from '../src/portos.js';
@@ -314,6 +315,14 @@ describe('package exports', () => {
     expect(esocialEntry.getEsocialCategoriaPorCodigo).toBeTypeOf('function');
     expect(esocialEntry.searchEsocialCategorias).toBeTypeOf('function');
     expect(esocialEntry.ESOCIAL_DATA_VERSION.id).toBe('esocial');
+  });
+
+  it('re-exports EAN API from ean entry', () => {
+    expect(eanEntry.validateEan).toBeTypeOf('function');
+    expect(eanEntry.formatEan).toBeTypeOf('function');
+    expect(eanEntry.stripEan).toBeTypeOf('function');
+    expect(eanEntry.detectEanFormat).toBeTypeOf('function');
+    expect(eanEntry.EAN_OFFICIAL_SOURCE_URL).toContain('gs1.org');
   });
 
   it('re-exports NCM API from ncm entry', () => {

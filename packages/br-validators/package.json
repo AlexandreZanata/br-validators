@@ -57,6 +57,7 @@
     "cst",
     "lc116",
     "esocial",
+    "ean",
     "ncm",
     "cbo",
     "portos",
@@ -244,6 +245,10 @@
     "./esocial": {
       "types": "./dist/esocial.d.ts",
       "import": "./dist/esocial.js"
+    },
+    "./ean": {
+      "types": "./dist/ean.d.ts",
+      "import": "./dist/ean.js"
     },
     "./ncm": {
       "types": "./dist/ncm.d.ts",

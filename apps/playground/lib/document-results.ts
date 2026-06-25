@@ -4,10 +4,12 @@ import {
   convertPlacaToMercosul,
   detectBoletoInputKind,
   detectCardBrand,
+  detectEanFormat,
   detectPixKeyType,
   detectPlacaFormat,
   formatBoleto,
   formatCartaoCredito,
+  formatEan,
   formatCep,
   formatCnh,
   formatCnpj,
@@ -26,6 +28,7 @@ import {
   parseBrCode,
   sanitize,
   stripCartaoCredito,
+  stripEan,
   stripCep,
   stripCnh,
   stripCnpj,
@@ -42,6 +45,7 @@ import {
   validateBoleto,
   validateBrCode,
   validateCartaoCredito,
+  validateEan,
   validateCep,
   validateCnh,
   validateCnpj,
@@ -111,6 +115,8 @@ function runSanitize(slug: DocumentSlug, input: string, uf: UfCode): SanitizeRes
       return sanitize(input, 'boleto');
     case 'cartao':
       return sanitize(input, 'cartao-credito');
+    case 'ean':
+      return sanitize(input, 'ean');
     case 'ie':
       return sanitize(input, 'inscricao-estadual', { uf });
     default:
@@ -356,6 +362,16 @@ export function computeDocumentResults(
       extraRows.push({ label: 'Brand', value: brand ?? '—' });
       break;
     }
+    case 'ean': {
+      stripped = stripEan(input);
+      const validation = validateEan(input);
+      const formatted = formatEan(input);
+      const detected = stripped ? detectEanFormat(stripped) : null;
+      validationDetail = validation.ok ? `yes (${validation.format})` : `no — ${validation.code}`;
+      formattedValue = formatted.ok ? formatted.formatted : formatted.message;
+      extraRows.push({ label: 'Format', value: detected ?? '—' });
+      break;
+    }
     default:
       return null;
   }
@@ -396,6 +412,7 @@ export function buildCliCommand(
     brcode: 'brcode',
     boleto: 'boleto',
     cartao: 'cartao-credito',
+    ean: 'ean',
   } as const;
 
   const cliSlug = meta[slug];

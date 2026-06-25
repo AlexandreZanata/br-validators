@@ -39,6 +39,7 @@ import { runPix, type PixAction } from './commands/pix.js';
 import { runBoleto, type BoletoAction, type BoletoConvertDirection } from './commands/boleto.js';
 import { runCartao, type CartaoAction } from './commands/cartao.js';
 import { runCartaoCredito, type CartaoCreditoAction } from './commands/cartao-credito.js';
+import { runEan, type EanAction } from './commands/ean.js';
 import { runIe, type IeAction } from './commands/ie.js';
 import { runDetect } from './commands/detect.js';
 import { runSanitize } from './commands/sanitize.js';
@@ -90,6 +91,8 @@ export type BoletoCliOptions = CnpjCliOptions & {
 export type CartaoCliOptions = CnpjCliOptions;
 
 export type CartaoCreditoCliOptions = CnpjCliOptions;
+
+export type EanCliOptions = CnpjCliOptions;
 
 export type IeCliOptions = CnpjCliOptions & {
   uf?: string;
@@ -434,6 +437,34 @@ export function handleCartaoCreditoCli(
   }
 
   return runCartaoCredito(
+    action,
+    value,
+    {
+      json: Boolean(opts.json),
+      quiet: Boolean(opts.quiet),
+      source: Boolean(opts.source),
+      file: fileContent,
+    },
+    io,
+  );
+}
+
+export function handleEanCli(
+  action: EanAction,
+  value: string | undefined,
+  opts: EanCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  let fileContent: string | undefined;
+  if (opts.file) {
+    const content = readInputFile(opts.file, io);
+    if (content === null) {
+      return EXIT.USAGE;
+    }
+    fileContent = content;
+  }
+
+  return runEan(
     action,
     value,
     {

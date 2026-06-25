@@ -244,6 +244,7 @@ Negative cross-UF cases: `ie.negative.official.json`.
 | `titulo-eleitor` | [TSE Res. 20.132/1998](https://www.tse.jus.br/legislacao/compilada/res/1998/resolucao-no-20-132-de-19-de-marco-de-1998) |
 | `pis-pasep` | [SIPREV RV_03 (PDF)](https://www.gov.br/previdencia/pt-br/outros/imagens/2015/07/rgrva_RegrasValidacao.pdf) |
 | `cartao-credito` | [ISO/IEC 7812-1:2017](https://www.iso.org/standard/70484.html) (Luhn) |
+| `ean` | [GS1 EAN/UPC barcodes](https://www.gs1.org/standards/barcodes/ean-upc) (modulo-10 weights 1/3) |
 | `inscricao-estadual` | Per-UF SEFAZ — [IE table](#inscrição-estadual-ie--all-27-ufs) |
 | `inscricao-estadual-produtor-rural` | [SINTEGRA cad_SP.html Bloco II](http://www.sintegra.gov.br/Cad_Estados/cad_SP.html) |
 | `pix` | [Bacen DICT API](https://aprendervalor.bcb.gov.br/content/estabilidadefinanceira/pix/API-DICT_v2-9-0.html) (EVP UUID) |

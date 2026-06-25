@@ -1,5 +1,6 @@
 import { BOLETO_CODIGO_BARRAS_LENGTH, BOLETO_LINHA_LENGTH } from '../core/boleto/constants.js';
 import { CARTAO_PAN_MAX_LENGTH, CARTAO_PAN_MIN_LENGTH } from '../core/cartao-credito/constants.js';
+import { EAN_13_LENGTH, EAN_8_LENGTH } from '../core/ean/constants.js';
 import { CNPJ_LENGTH } from '../core/cnpj/constants.js';
 import { NFE_CHAVE_LENGTH } from '../core/nfe-chave/constants.js';
 import { PROCESSO_JUDICIAL_LENGTH, PROCESSO_JUDICIAL_MASKED_PATTERN } from '../core/processo-judicial/constants.js';
@@ -75,6 +76,15 @@ export function looksLikeCartao(input: string): boolean {
   }
   const digits = stripDigits(input);
   return digits.length >= CARTAO_PAN_MIN_LENGTH && digits.length <= CARTAO_PAN_MAX_LENGTH;
+}
+
+export function looksLikeEan(input: string): boolean {
+  const withoutMask = input.replace(/[\s-]/g, '');
+  if (/[^0-9]/.test(withoutMask)) {
+    return false;
+  }
+  const digits = stripDigits(input);
+  return digits.length === EAN_8_LENGTH || digits.length === EAN_13_LENGTH;
 }
 
 export function looksLikeIe(input: string, uf?: string): boolean {

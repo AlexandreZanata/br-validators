@@ -10,6 +10,7 @@ const subpaths = [
   'brcode',
   'boleto',
   'cartao-credito',
+  'ean',
   'cep',
   'cnh',
   'cnpj',

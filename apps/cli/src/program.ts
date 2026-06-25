@@ -18,6 +18,7 @@ import {
   handleBoletoCli,
   handleCartaoCli,
   handleCartaoCreditoCli,
+  handleEanCli,
   handleIeCli,
   handleDetectCli,
   handleSanitizeCli,
@@ -38,6 +39,7 @@ import {
   type BoletoCliOptions,
   type CartaoCliOptions,
   type CartaoCreditoCliOptions,
+  type EanCliOptions,
   type BrCodeCliOptions,
   type CepCliOptions,
   type TelefoneCliOptions,
@@ -462,6 +464,37 @@ export function createProgram(): Command {
       .action((value: string | undefined, opts: CartaoCreditoCliOptions) => {
         const io = { stdout: [] as string[], stderr: [] as string[] };
         process.exitCode = handleCartaoCreditoCli(action, value, opts, io);
+        writeCliIo(io);
+      });
+  }
+
+  const ean = program.command('ean').description('GS1 EAN-8 / EAN-13 product barcodes — modulo-10 weights 1/3');
+
+  ean
+    .command('detect')
+    .description('detect EAN format (ean-8 or ean-13)')
+    .argument('[value]', 'EAN barcode (raw or masked)')
+    .option('--json', 'JSON output')
+    .option('-q, --quiet', 'Exit code only')
+    .option('-f, --file <path>', 'Read value from file')
+    .action((value: string | undefined, opts: EanCliOptions) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleEanCli('detect', value, opts, io);
+      writeCliIo(io);
+    });
+
+  for (const action of ['validate', 'format', 'strip'] as const) {
+    ean
+      .command(action)
+      .description(`${action} an EAN barcode`)
+      .argument('[value]', 'EAN barcode (raw or masked)')
+      .option('--json', 'JSON output')
+      .option('-q, --quiet', 'Exit code only')
+      .option('--source', 'Include official source URL (validate only)')
+      .option('-f, --file <path>', 'Read value from file')
+      .action((value: string | undefined, opts: EanCliOptions) => {
+        const io = { stdout: [] as string[], stderr: [] as string[] };
+        process.exitCode = handleEanCli(action, value, opts, io);
         writeCliIo(io);
       });
   }

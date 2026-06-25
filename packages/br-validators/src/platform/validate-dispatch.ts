@@ -1,6 +1,7 @@
 import { validateBrCode } from '../core/brcode/index.js';
 import { validateBoleto } from '../core/boleto/index.js';
 import { validateCartaoCredito } from '../core/cartao-credito/index.js';
+import { validateEan } from '../core/ean/index.js';
 import { validateCep } from '../core/cep/index.js';
 import { validateCnh } from '../core/cnh/index.js';
 import { validateCnpj } from '../core/cnpj/index.js';
@@ -104,6 +105,10 @@ export function validateForPlatform(
     }
     case 'cartao-credito': {
       const result = validateCartaoCredito(input);
+      return result.ok ? { ok: true, value: result.value } : result;
+    }
+    case 'ean': {
+      const result = validateEan(input);
       return result.ok ? { ok: true, value: result.value } : result;
     }
     case 'inscricao-estadual': {

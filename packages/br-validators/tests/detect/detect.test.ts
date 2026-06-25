@@ -5,6 +5,7 @@ import {
   looksLikeBoleto,
   looksLikeBrCode,
   looksLikeCartao,
+  looksLikeEan,
   looksLikeCep,
   looksLikeCnpjAlphanumeric,
   looksLikeCnpjNumeric,
@@ -28,6 +29,7 @@ import pixVectors from '../vectors/pix.official.json';
 import telefoneVectors from '../vectors/telefone.official.json';
 import boletoVectors from '../vectors/boleto.official.json';
 import cartaoVectors from '../vectors/cartao-credito.official.json';
+import eanVectors from '../vectors/ean.official.json';
 import cnhVectors from '../vectors/cnh.official.json';
 import renavamVectors from '../vectors/renavam.official.json';
 import nfeVectors from '../vectors/nfe-chave.official.json';
@@ -103,6 +105,16 @@ describe('detect()', () => {
   it('detects cartao credito', () => {
     const result = detect(cartaoVectors.visa.masked);
     expect(result).toMatchObject({ type: 'cartao-credito', ok: true, value: cartaoVectors.visa.canonical });
+  });
+
+  it('detects EAN-13 golden', () => {
+    const result = detect(eanVectors.ean13.masked);
+    expect(result).toMatchObject({ type: 'ean', ok: true, value: eanVectors.ean13.canonical, format: 'ean-13' });
+  });
+
+  it('skips EAN detect when check digit invalid', () => {
+    const result = detect(eanVectors.modulo10Walkthrough.invalid);
+    expect(result.type).not.toBe('ean');
   });
 
   it('detects CNH golden', () => {
@@ -258,6 +270,7 @@ describe('detect()', () => {
     expect(looksLikePix(pixVectors.evp.primary)).toBe(true);
     expect(looksLikeTelefone(telefoneVectors.celular.canonical)).toBe(true);
     expect(looksLikeCartao(cartaoVectors.visa.masked)).toBe(true);
+    expect(looksLikeEan(eanVectors.ean13.masked)).toBe(true);
     expect(looksLikeIe(ieSpVectors.golden.stripped, 'SP')).toBe(true);
     expect(looksLikeIe(ieSpRuralVectors.golden.masked, 'SP')).toBe(true);
     expect(looksLikeIe('123', undefined)).toBe(false);

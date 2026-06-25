@@ -9,6 +9,8 @@ export type DocumentFormat =
   | 'linha-digitavel'
   | 'codigo-barras'
   | 'cartao-credito'
+  | 'ean-8'
+  | 'ean-13'
   | 'inscricao-estadual'
   | 'inscricao-estadual-produtor-rural'
   | 'telefone'
@@ -53,6 +55,7 @@ export type PixKey = string & { readonly __brand: 'PixKey' };
 export type LinhaDigitavel = string & { readonly __brand: 'LinhaDigitavel' };
 export type CodigoBarras = string & { readonly __brand: 'CodigoBarras' };
 export type CartaoCredito = string & { readonly __brand: 'CartaoCredito' };
+export type Ean = string & { readonly __brand: 'Ean' };
 export type InscricaoEstadual = string & { readonly __brand: 'InscricaoEstadual' };
 export type InscricaoEstadualProdutorRural = string & { readonly __brand: 'InscricaoEstadualProdutorRural' };
 export type Rg = string & { readonly __brand: 'Rg' };
@@ -71,6 +74,10 @@ export type CardBrand = 'visa' | 'mastercard' | 'amex' | 'elo' | 'hipercard' | '
 export type CartaoCreditoValidationResult =
   | { ok: true; value: CartaoCredito; format: 'cartao-credito'; brand: CardBrand }
   | { ok: false; code: ValidationErrorCode; message: string; brand?: CardBrand };
+
+export type EanValidationResult =
+  | { ok: true; value: Ean; format: 'ean-8' | 'ean-13' }
+  | { ok: false; code: ValidationErrorCode; message: string };
 
 export type PixValidationResult =
   | { ok: true; value: PixKey; keyType: PixKeyType; format: DocumentFormat }
@@ -224,6 +231,10 @@ export function brandCodigoBarras(value: string): CodigoBarras {
 
 export function brandCartaoCredito(value: string): CartaoCredito {
   return value as CartaoCredito;
+}
+
+export function brandEan(value: string): Ean {
+  return value as Ean;
 }
 
 export function brandInscricaoEstadual(value: string): InscricaoEstadual {

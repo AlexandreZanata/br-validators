@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   BOLETO_GOLDEN_LINHA_STRIPPED,
   CARTAO_GOLDEN_VISA,
+  EAN_GOLDEN_13,
   CEP_GOLDEN_PRIMARY,
   CNPJ_GOLDEN_ALPHANUMERIC,
   CPF_GOLDEN_PRIMARY,
@@ -119,6 +120,7 @@ describe('dispatchArgv', () => {
       [['rg', 'validate', RG_SP_GOLDEN, '--uf', 'SP', '--quiet'], EXIT.OK],
       [['pis-pasep', 'validate', '10027230888', '--quiet'], EXIT.OK],
       [['cartao-credito', 'validate', CARTAO_GOLDEN_VISA, '--quiet'], EXIT.OK],
+      [['ean', 'validate', EAN_GOLDEN_13, '--quiet'], EXIT.OK],
       [['ie', 'validate', IE_SP_GOLDEN, '--uf', 'SP', '--quiet'], EXIT.OK],
     ];
     for (const [tokens, expected] of cases) {
@@ -228,6 +230,7 @@ describe('dispatchArgv', () => {
 
     const invalid = io();
     expect(dispatchArgv(['cartao', 'bad'], invalid)).toBe(EXIT.USAGE);
+    expect(dispatchArgv(['ean', 'bad'], invalid)).toBe(EXIT.USAGE);
   });
 
   it('dispatches detect sanitize and generate', () => {
