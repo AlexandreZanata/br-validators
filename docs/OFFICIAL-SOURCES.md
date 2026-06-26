@@ -51,7 +51,7 @@
 | **TSE ↔ IBGE municipios** | TSE | [municipio_tse_ibge.zip](https://cdn.tse.jus.br/estatistica/sead/odsele/municipio_tse_ibge/municipio_tse_ibge.zip) · [Portal dados abertos](https://dadosabertos.tse.jus.br/dataset/codigos-oficiais-de-uf-e-municipios-segundo-o-tse-e-o-ibge) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Electoral municipality codes cross-walk to IBGE `codigo`. Golden: TSE **`71072`** → IBGE **`3550308`** (São Paulo/SP). Vector: `tse-municipios.official.json`. Lookup-only — does not change `titulo-eleitor` validation. |
 | **Moedas (ISO 4217 + Bacen)** | ISO / Bacen | [Bacen PTAX Moedas API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | ISO 4217 embedded baseline merged with Bacen PTAX `tipoMoeda` (A/B). Golden: **`BRL`**, **`USD`**, **`EUR`**. Vector: `moedas.official.json`. |
 | **PTAX cotações** | Bacen | [Bacen Olinda PTAX API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Fechamento PTAX for Bacen tipo A/B currencies (~10). Rolling **5 business days** embedded. Golden: USD **`2026-06-24`** (`5.2092` / `5.2098`), EUR último dia útil. Vector: `ptax.official.json`. Pairs with `@br-validators/core/moedas`. Daily refresh. |
-| **Países Bacen (NF-e)** | RFB / Bacen | [NF-e country table](http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50=) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | 4-digit Bacen country codes for NF-e `cPais`. Golden: **`1058`** → Brasil. Vector: `paises-bacen.official.json`. Embedded fallback when portal redirect fails. |
+| **Países Bacen (NF-e)** | RFB / Bacen | [NF-e Diversos — Tabela de Países](http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=/NJarYc9nus=) · [Bacen FTP paises.txt](https://www.bcb.gov.br/ftp/paises.txt) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | 4-digit Bacen country codes for NF-e `cPais`. Golden: **`1058`** → Brasil. Vector: `paises-bacen.official.json`. Fetch chain: NF-e ODS (NT 2018.003 v1.01) → Bacen FTP merge → embedded fallback. |
 | **Incoterms 2020** | ICC | [Incoterms rules](https://iccwbo.org/resources-for-business/incoterms-rules/) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Static ICC 2020 list (11 terms, code + name only). Golden: **`FOB`**. Vector: `incoterms.official.json`. |
 | **Portos (ANTAQ)** | ANTAQ | [Instalações portuárias shape/xlsx zip](https://www.gov.br/antaq/pt-br/central-de-conteudos/Instalaesporturias06052025.zip) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Outorged port installations (`Portos.xlsx`). Golden: **`BRSSZ`** (Santos), **`BRADR`**, **`BRPNG`**. Vector: `portos.official.json`. IBGE municipality cross-ref via `idcidade`. |
 | **ANP combustíveis (LPC)** | ANP | [Levantamento semanal LPC](https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/levantamento-de-precos-de-combustiveis-ultimas-semanas-pesquisadas) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Weekly municipal fuel averages (`resumo_semanal_lpc` MUNICIPIOS sheet). Golden: **São Paulo/SP `GASOLINE_REGULAR`**, **Adamantina/SP `ETHANOL`**, **Campo Grande/MS `LPG_P13`**. Vector: `anp-combustiveis.official.json`. Product normalization ported from [TABELA-ANP-COMBUSTIVEIS](https://github.com/AlexandreZanata/TABELA-ANP-COMBUSTIVEIS) (MIT). |
@@ -368,6 +368,8 @@ Golden: **`BRL`** (Real brasileiro, `R$`), **`USD`** (Dólar dos Estados Unidos,
 | CotacaoMoedaPeriodo (fetch) | Banco Central Olinda OData | https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao) |
 | CotacaoMoedaDia (reference) | Banco Central Olinda OData | https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao) |
 
+> **Note:** The bare `CotacaoMoedaPeriodo` OData URL returns HTTP 500 (`Erro desconhecido`) without `@moeda`, `@dataInicial`, and `@dataFinalCotacao` query parameters. Use the [Swagger UI](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3) **Try it out** or `scripts/lib/ptax-bacen-api.ts` (`buildPtaxPeriodoRequestUrl`).
+
 Fetch embeds **Fechamento PTAX** closing rates for Bacen `tipoMoeda` **A/B** currencies from `@br-validators/core/moedas` (USD, EUR, GBP, …). Rolling window: **5 business days** (`scripts/lib/ptax-bacen-api.ts`). Parser accepts `tipoBoletim` **`Fechamento PTAX`** (daily endpoint) and **`Fechamento`** (period endpoint).
 
 Golden: USD último dia útil **`2026-06-24`** — compra **`5.2092`**, venda **`5.2098`**; USD histórico **`2026-06-23`**; EUR último dia útil **`2026-06-24`**. `getPtaxCotacao('USD')` without date returns latest embedded Fechamento; dates accept ISO `YYYY-MM-DD` or Bacen `MM-DD-YYYY`.
@@ -381,9 +383,13 @@ Golden: USD último dia útil **`2026-06-24`** — compra **`5.2092`**, venda **
 
 | Role | Source | URL |
 |------|--------|-----|
-| NF-e country table | Portal Nacional NF-e | http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50= |
+| NF-e Diversos listing | Portal Nacional NF-e | http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=/NJarYc9nus= |
+| NF-e country table (NT 2018.003 v1.01 ODS) | Portal Nacional NF-e | http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=PfPDd6dW200= |
+| Bacen FTP fallback | Banco Central | https://www.bcb.gov.br/ftp/paises.txt |
 
-Golden: Bacen **`1058`** → **Brasil** (NF-e domestic operations). Non-significant leading zeros accepted (`01058` → `1058`). When the portal redirect loop fails, fetch retains the embedded NF-e/Bacen table.
+Fetch discovers país-table links from **Documentos → Diversos**, downloads the **ODS** spreadsheet (v1.01 preferred), and parses active rows (`EXCLUÍDO` skipped). When NF-e is unreachable, **Bacen FTP** is merged with the embedded NF-e supplemental codes. Legacy `FOXZNFX/p50=` redirects to the portal homepage — do not use.
+
+Golden: Bacen **`1058`** → **Brasil** (NF-e domestic operations). Non-significant leading zeros accepted (`01058` → `1058`).
 
 ---
 

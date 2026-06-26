@@ -117,3 +117,10 @@ When the daily bot detects real drift, it PATCH-bumps all six packages and trigg
 **One-time setup:** add GitHub Actions secret `DATA_REFRESH_GITHUB_TOKEN` (fine-grained PAT with `main` bypass) — see [BRANCHING.md § Automated data refresh publish](BRANCHING.md#automated-data-refresh-publish-daily-bot).
 
 Without the PAT, the bot opens a PR; after merge, [data-refresh-tag-on-merge.yml](../.github/workflows/data-refresh-tag-on-merge.yml) pushes the tag and npm publish runs.
+
+### Why the bot ran but npm stayed on the old version
+
+1. **PATCH gate (fixed v1.8.3)** — previously required `totalAdicionados > 0`; field-only drift (`~alterados`) did not trigger a PATCH bump. Gate logic: `scripts/lib/should-patch-release.ts`.
+2. **Zero drift on `main`** — if embedded JSON was already committed (manual `pnpm data:refresh`), the scheduled run reports `datasetsAlterados: 0` and only commits reports.
+3. **PR fallback** — without `DATA_REFRESH_GITHUB_TOKEN`, release PRs must be **merged** before `data-refresh-tag-on-merge.yml` pushes `vX.Y.Z`.
+4. **Code vs data** — fetch-script fixes ship on a **human** semver tag; the bot auto-bumps only for **embedded JSON drift** (or `force_publish` dispatch).

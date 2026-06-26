@@ -1,5 +1,7 @@
 export { getPaisesBacen, getPaisPorCodigoBacen } from './lookup.js';
 export {
+  BACEN_PAISES_FTP_URL,
+  NFE_DIVERSOS_LIST_URL,
   NFE_PAISES_TABLE_URL,
   PAISES_BACEN_GOLDEN_BRASIL,
   PAISES_BACEN_MAX_PAISES,

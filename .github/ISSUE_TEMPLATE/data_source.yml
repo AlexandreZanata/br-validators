@@ -1,0 +1,53 @@
+name: Data source alert
+description: Official embedded dataset endpoint failed or moved (data refresh bot / CRITICAL-ALERTS)
+title: "[data-source] "
+labels: ["data-source"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this when the **daily data refresh bot** reports `source_unavailable`, `embedded_retained`, or **critical** alerts.
+        See `data/refresh-reports/CRITICAL-ALERTS.md` and [DATA-SOURCE-MAINTENANCE.md](docs/DATA-SOURCE-MAINTENANCE.md).
+  - type: input
+    id: dataset
+    attributes:
+      label: Dataset id
+      placeholder: e.g. paises-bacen, cfop, ptax, ibpt
+    validations:
+      required: true
+  - type: input
+    id: endpoint
+    attributes:
+      label: Official URL (from metadata or OFFICIAL-SOURCES.md)
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Bot severity
+      options:
+        - warning (day 1)
+        - critical (2+ days)
+        - unknown
+    validations:
+      required: true
+  - type: textarea
+    id: message
+    attributes:
+      label: Bot message or HTTP error
+      description: Paste from `latest.json` → `sourceAlerts` or CI job summary.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Local reproduction
+      description: |
+        e.g. `pnpm fetch:data:paises-bacen` or curl output.
+  - type: checkboxes
+    id: maintainer
+    attributes:
+      label: Maintainer notes
+      options:
+        - label: I checked whether the source moved (new URL on the official portal)
+        - label: Embedded data is still served to npm consumers (no API break)

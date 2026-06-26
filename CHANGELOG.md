@@ -13,6 +13,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.8.3] - 2026-06-26
+
+### Fixed
+
+- **paises-bacen fetch** — legacy NF-e URL redirected to HTML; fetch now discovers **Documentos → Diversos** ODS (NT 2018.003 v1.01), parses zip data descriptors, and falls back to Bacen FTP
+- **Data refresh bot PATCH gate** — npm publish skipped when drift was `~alterados` only (required `totalAdicionados > 0`); now publishes on any real row/field drift
+- **CONFAZ fetch** — 60s HTML timeout for CFOP and CEST (fewer transient CI failures)
+
+### Changed
+
+- **Embedded reference data** — paises-bacen refreshed to **253** countries (NF-e ODS); PTAX rolling window updated
+- **GitHub issue templates** — bug, data-source, and feature request forms + labels
+- **docs** — PTAX OData bare URL documented (HTTP 500 without query parameters)
+
+---
+
 ## [1.8.2] - 2026-06-25
 
 ### Fixed

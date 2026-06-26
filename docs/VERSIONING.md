@@ -234,7 +234,7 @@ When the daily data refresh bot (`.github/workflows/data-refresh-bot.yml`) detec
 
 | Trigger | SemVer | Automation |
 |---------|--------|------------|
-| Rows added/removed/changed | **PATCH** | `scripts/bump-data-patch.mjs` → tag → `release.yml` |
+| Rows added/removed/changed or field-level `~alterados` drift | **PATCH** | `scripts/bump-data-patch.mjs` → tag → `release.yml` |
 | Manual `force_publish` dispatch | **PATCH** | Same pipeline; `reason` input required |
 
 **Not handled by the bot:** MINOR (new dataset module) or MAJOR (API break) — human release per [Release process](#2-version-bump).

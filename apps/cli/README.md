@@ -4,7 +4,7 @@
 [![MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/AlexandreZanata/br-validators/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/AlexandreZanata/br-validators)](https://github.com/AlexandreZanata/br-validators/releases)
 
-Terminal CLI for all Brazilian document validators in [@br-validators/core](https://www.npmjs.com/package/@br-validators/core) **v1.8.2**.
+Terminal CLI for all Brazilian document validators in [@br-validators/core](https://www.npmjs.com/package/@br-validators/core) **v1.8.3**.
 
 **Repo:** [github.com/AlexandreZanata/br-validators](https://github.com/AlexandreZanata/br-validators)
 

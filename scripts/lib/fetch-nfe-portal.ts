@@ -1,8 +1,12 @@
 import { FETCH_MAX_ATTEMPTS, FETCH_RETRY_DELAY_MS } from './fetch-retry-config.js';
 import { FetchError, sleep, USER_AGENT } from './fetch-utils.js';
+import { parsePaisesFromPayload } from './parse-paises-payload.js';
 import { parseNfePaisesTable } from './parse-nfe-paises.js';
 
 export const NFE_PORTAL_ORIGIN = 'http://www.nfe.fazenda.gov.br';
+
+export const NFE_DIVERSOS_LIST_URL =
+  'http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=/NJarYc9nus=';
 
 function readSetCookieHeaders(response: Response): string[] {
   if (typeof response.headers.getSetCookie === 'function') {
@@ -53,11 +57,52 @@ export function discoverNfeConteudoUrls(html: string): string[] {
   return [...discovered];
 }
 
-export async function fetchTextAspNetPortal(
+interface RankedUrl {
+  url: string;
+  priority: number;
+}
+
+export function discoverNfePaisesTableUrls(html: string): string[] {
+  const ranked: RankedUrl[] = [];
+  const pattern =
+    /Tabela de Pa[ií]ses[\s\S]{0,500}?exibirArquivo\.aspx\?conteudo=([A-Za-z0-9+/=_%-]+)/gi;
+
+  for (const match of html.matchAll(pattern)) {
+    const conteudo = match[1].trim();
+    if (conteudo.length === 0) {
+      continue;
+    }
+    const context = match[0];
+    let priority = 10;
+    if (/v1\.01/i.test(context)) {
+      priority = 100;
+    } else if (/v1\.00/i.test(context)) {
+      priority = 50;
+    }
+    ranked.push({
+      url: `${NFE_PORTAL_ORIGIN}/portal/exibirArquivo.aspx?conteudo=${conteudo}`,
+      priority,
+    });
+  }
+
+  const byUrl = new Map<string, number>();
+  for (const entry of ranked) {
+    const current = byUrl.get(entry.url) ?? 0;
+    if (entry.priority > current) {
+      byUrl.set(entry.url, entry.priority);
+    }
+  }
+
+  return [...byUrl.entries()]
+    .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))
+    .map(([url]) => url);
+}
+
+export async function fetchAspNetPortalPayload(
   url: string,
   timeoutMs = 30_000,
   maxRedirects = 10,
-): Promise<{ text: string; finalUrl: string }> {
+): Promise<{ payload: Uint8Array; finalUrl: string }> {
   const jar = new Map<string, string>();
   let current = url;
 
@@ -69,7 +114,7 @@ export async function fetchTextAspNetPortal(
 
     try {
       const headers: Record<string, string> = {
-        Accept: 'text/csv,text/plain,*/*',
+        Accept: 'text/csv,text/plain,application/*,*/*',
         'User-Agent': USER_AGENT,
       };
       const cookie = cookieHeader(jar);
@@ -97,8 +142,8 @@ export async function fetchTextAspNetPortal(
         throw new FetchError(`HTTP ${String(response.status)} fetching ${current}`, current, response.status);
       }
 
-      const text = await response.text();
-      return { text, finalUrl: current };
+      const payload = new Uint8Array(await response.arrayBuffer());
+      return { payload, finalUrl: current };
     } catch (error) {
       if (error instanceof FetchError) {
         throw error;
@@ -115,37 +160,64 @@ export async function fetchTextAspNetPortal(
   throw new FetchError(`Max redirects (${String(maxRedirects)}) exceeded`, url);
 }
 
-export async function fetchNfePaisesTableText(
+export async function fetchTextAspNetPortal(
+  url: string,
+  timeoutMs = 30_000,
+  maxRedirects = 10,
+): Promise<{ text: string; finalUrl: string }> {
+  const { payload, finalUrl } = await fetchAspNetPortalPayload(url, timeoutMs, maxRedirects);
+  return { text: new TextDecoder('utf-8').decode(payload), finalUrl };
+}
+
+function appendCandidateUrls(candidateUrls: string[], urls: readonly string[]): void {
+  for (const url of urls) {
+    if (!candidateUrls.includes(url)) {
+      candidateUrls.push(url);
+    }
+  }
+}
+
+export async function discoverNfePaisesCandidateUrls(primaryUrl: string): Promise<string[]> {
+  const candidateUrls = [primaryUrl];
+
+  try {
+    const { text } = await fetchTextAspNetPortal(NFE_DIVERSOS_LIST_URL);
+    appendCandidateUrls(candidateUrls, discoverNfePaisesTableUrls(text));
+    appendCandidateUrls(candidateUrls, discoverNfeConteudoUrls(text));
+  } catch {
+    // Discovery is best-effort — primary URL and retries still run.
+  }
+
+  return candidateUrls;
+}
+
+export async function fetchNfePaisesPayload(
   primaryUrl: string,
   minRecords: number,
   attempts = FETCH_MAX_ATTEMPTS,
   delayMs = FETCH_RETRY_DELAY_MS,
-): Promise<{ text: string; attemptsUsed: number }> {
-  const candidateUrls = [primaryUrl];
+): Promise<{ payload: Uint8Array; attemptsUsed: number; finalUrl: string }> {
+  const candidateUrls = await discoverNfePaisesCandidateUrls(primaryUrl);
   let lastError: FetchError | null = null;
 
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     for (const url of candidateUrls) {
       try {
-        const { text, finalUrl } = await fetchTextAspNetPortal(url);
-        if (isHtmlPayload(text)) {
-          for (const discovered of discoverNfeConteudoUrls(text)) {
-            if (!candidateUrls.includes(discovered)) {
-              candidateUrls.push(discovered);
-            }
+        const { payload, finalUrl } = await fetchAspNetPortalPayload(url);
+        const paises = parsePaisesFromPayload(payload);
+        if (paises.length < minRecords) {
+          const text = new TextDecoder('utf-8').decode(payload);
+          if (isHtmlPayload(text)) {
+            appendCandidateUrls(candidateUrls, discoverNfeConteudoUrls(text));
+            throw new FetchError('Portal returned HTML instead of a country table file', finalUrl);
           }
-          throw new FetchError('Portal returned HTML instead of a country table file', finalUrl);
-        }
-
-        const parsedCount = parseNfePaisesTable(text).length;
-        if (parsedCount < minRecords) {
           throw new FetchError(
-            `Portal payload has ${String(parsedCount)} countries; expected at least ${String(minRecords)}`,
+            `Portal payload has ${String(paises.length)} countries; expected at least ${String(minRecords)}`,
             finalUrl,
           );
         }
 
-        return { text, attemptsUsed: attempt };
+        return { payload, attemptsUsed: attempt, finalUrl };
       } catch (error) {
         lastError =
           error instanceof FetchError
@@ -160,4 +232,27 @@ export async function fetchNfePaisesTableText(
   }
 
   throw lastError ?? new FetchError('NF-e portal fetch failed', primaryUrl);
+}
+
+/** @deprecated Use {@link fetchNfePaisesPayload} — kept for tests and legacy callers. */
+export async function fetchNfePaisesTableText(
+  primaryUrl: string,
+  minRecords: number,
+  attempts = FETCH_MAX_ATTEMPTS,
+  delayMs = FETCH_RETRY_DELAY_MS,
+): Promise<{ text: string; attemptsUsed: number }> {
+  const { payload, attemptsUsed } = await fetchNfePaisesPayload(
+    primaryUrl,
+    minRecords,
+    attempts,
+    delayMs,
+  );
+  return { text: new TextDecoder('utf-8').decode(payload), attemptsUsed };
+}
+
+export function countPaisesPayload(payload: string | Uint8Array): number {
+  if (typeof payload === 'string') {
+    return parseNfePaisesTable(payload).length;
+  }
+  return parsePaisesFromPayload(payload).length;
 }

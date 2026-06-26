@@ -348,7 +348,7 @@ Freshness table (auto-updated daily; ANP weekly): [docs/DATA-FRESHNESS.md](https
 
 ## Current release
 
-**v1.8.2** — all six `@br-validators/*` packages ship the same semver. IBPT fetch fix, ANP in daily data bot, embedded refresh (Bacen STR, PTAX, IBPT 26.1.K). v1.8.0 added ten core subpaths. [CHANGELOG](https://github.com/AlexandreZanata/br-validators/blob/main/CHANGELOG.md#182---2026-06-25)
+**v1.8.3** — NF-e ODS país-table fetch, Bacen FTP fallback, data-bot PATCH gate fix, paises-bacen embedded refresh (253 countries). v1.8.0 added ten core subpaths. [CHANGELOG](https://github.com/AlexandreZanata/br-validators/blob/main/CHANGELOG.md#183---2026-06-26)
 
 ---
 

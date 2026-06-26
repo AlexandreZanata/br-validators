@@ -7,7 +7,7 @@
     "https://portaldatransparencia.gov.br/"
   ],
   "attempts": 5,
-  "checkedAt": "2026-06-26T07:28:02.761Z",
+  "checkedAt": "2026-06-26T11:31:12.900Z",
   "retainedEmbeddedDataFrom": "2026-06-26",
   "message": "Transparência registry refreshed; Swagger/OpenAPI reachable."
 }

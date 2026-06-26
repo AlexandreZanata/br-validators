@@ -10,7 +10,8 @@ import {
   SourceDataError,
   writeSourceFetchOutcome,
 } from './lib/source-fetch-outcome.js';
-import { fetchTextWithRetry, todayIsoDate } from './lib/fetch-utils.js';
+import { FETCH_RETRY_DELAY_MS } from './lib/fetch-retry-config.js';
+import { fetchTextWithRetry, todayIsoDate, CONFAZ_HTML_TIMEOUT_MS } from './lib/fetch-utils.js';
 import { buildMetadata } from './lib/metadata-writer.js';
 import { parseCestHtml, type CestRecord } from './lib/parse-cest-html.js';
 
@@ -40,7 +41,12 @@ async function main(): Promise<void> {
   const endpoints = [CEST_HTML_URL];
 
   try {
-    const html = await fetchTextWithRetry(CEST_HTML_URL, FETCH_MAX_ATTEMPTS);
+    const html = await fetchTextWithRetry(
+      CEST_HTML_URL,
+      FETCH_MAX_ATTEMPTS,
+      FETCH_RETRY_DELAY_MS,
+      CONFAZ_HTML_TIMEOUT_MS,
+    );
     const cests = parseCestHtml(html);
 
     if (cests.length < MIN_CEST || cests.length > MAX_CEST) {

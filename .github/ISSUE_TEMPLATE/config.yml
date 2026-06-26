@@ -1,5 +1,14 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Bug report
+    url: https://github.com/AlexandreZanata/br-validators/issues/new?template=bug_report.yml
+    about: Incorrect validation, formatting, or library behavior
+  - name: Data source alert
+    url: https://github.com/AlexandreZanata/br-validators/issues/new?template=data_source.yml
+    about: Broken or moved official endpoint (data refresh bot / CRITICAL-ALERTS)
+  - name: Feature request
+    url: https://github.com/AlexandreZanata/br-validators/issues/new?template=feature_request.yml
+    about: New validator, dataset, or public API — check ROADMAP first
   - name: RG UF contribution (good first issue)
     url: https://github.com/AlexandreZanata/br-validators/blob/main/docs/community/RG-GOOD-FIRST-ISSUES.md
     about: Pick one of 21 remaining states and use the RG UF contribution template

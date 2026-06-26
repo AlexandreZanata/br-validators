@@ -302,14 +302,14 @@ Every shipped type exists in **library + CLI + playground**. See [docs/DELIVERY-
 
 | Package | npm | Version |
 |---------|-----|---------|
-| `@br-validators/core` | [npm](https://www.npmjs.com/package/@br-validators/core) | `1.8.2` |
-| `@br-validators/cli` | [npm](https://www.npmjs.com/package/@br-validators/cli) | `1.8.2` |
-| `@br-validators/zod` | [npm](https://www.npmjs.com/package/@br-validators/zod) | `1.8.2` |
-| `@br-validators/react-hook-form` | [npm](https://www.npmjs.com/package/@br-validators/react-hook-form) | `1.8.2` |
-| `@br-validators/express` | [npm](https://www.npmjs.com/package/@br-validators/express) | `1.8.2` |
-| `@br-validators/vue` | [npm](https://www.npmjs.com/package/@br-validators/vue) | `1.8.2` |
+| `@br-validators/core` | [npm](https://www.npmjs.com/package/@br-validators/core) | `1.8.3` |
+| `@br-validators/cli` | [npm](https://www.npmjs.com/package/@br-validators/cli) | `1.8.3` |
+| `@br-validators/zod` | [npm](https://www.npmjs.com/package/@br-validators/zod) | `1.8.3` |
+| `@br-validators/react-hook-form` | [npm](https://www.npmjs.com/package/@br-validators/react-hook-form) | `1.8.3` |
+| `@br-validators/express` | [npm](https://www.npmjs.com/package/@br-validators/express) | `1.8.3` |
+| `@br-validators/vue` | [npm](https://www.npmjs.com/package/@br-validators/vue) | `1.8.3` |
 
-**v1.8.2** — IBPT fetch fix, ANP back in daily data bot, embedded data refresh (Bacen STR, PTAX, IBPT 26.1.K). v1.8.0 added ten core subpaths (`cst`, `lc116`, `ptax`, `esocial`, `ean`, `simples-nacional`, IBGE `cMunFG`, `cnpj-motivos`, `ibpt`, `cnis`). See [CHANGELOG.md](CHANGELOG.md#182---2026-06-25) and [docs/VERSIONING.md](docs/VERSIONING.md#api-freeze-100).
+**v1.8.3** — NF-e ODS país-table fetch for `paises-bacen`, Bacen FTP fallback, data-bot PATCH gate fix (`~alterados` drift), CONFAZ 60s timeout. See [CHANGELOG.md](CHANGELOG.md#183---2026-06-26).
 
 See [CHANGELOG.md](CHANGELOG.md) for release notes.
 

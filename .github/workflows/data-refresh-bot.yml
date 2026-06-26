@@ -82,13 +82,7 @@ jobs:
 
       - name: Detect dataset drift
         id: drift
-        run: |
-          if [ ! -f data/refresh-reports/latest.json ]; then
-            echo "changed=0" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          CHANGED=$(node -e "const fs=require('node:fs'); const r=JSON.parse(fs.readFileSync('data/refresh-reports/latest.json','utf8')); const n=r.resumo?.datasetsAlterados ?? 0; const add=r.resumo?.totalAdicionados ?? 0; process.stdout.write(String(n > 0 && add > 0 ? n : 0));")
-          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
+        run: pnpm exec tsx scripts/ci/eval-patch-release.ts
 
       - name: Bump PATCH version
         if: steps.drift.outputs.changed != '0' || inputs.force_publish == true

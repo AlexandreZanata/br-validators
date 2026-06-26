@@ -3,23 +3,25 @@
   "nome": "NF-e Bacen Country Codes",
   "fonte": "Portal Nacional NF-e — Tabela de Países (Bacen)",
   "endpoints": [
-    "http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50="
+    "http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=PfPDd6dW200=",
+    "http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=/NJarYc9nus=",
+    "https://www.bcb.gov.br/ftp/paises.txt"
   ],
-  "capturadoEm": "2026-06-25",
-  "atualizadoEm": "2026-06-25T16:24:35.361Z",
+  "capturadoEm": "2026-06-26",
+  "atualizadoEm": "2026-06-26T11:18:52.926Z",
   "contagens": {
-    "paises": 252
+    "paises": 253
   },
   "alteracoes": {
     "adicionados": 0,
     "removidos": 0,
     "alterados": 0,
-    "comparadoCom": "2026-06-24"
+    "comparadoCom": "2026-06-26"
   },
   "verificacao": {
     "agendamento": "diario",
     "workflow": "data-refresh-bot.yml",
-    "ultimaExecucao": "2026-06-25T16:24:35.361Z"
+    "ultimaExecucao": "2026-06-26T11:18:52.926Z"
   },
   "documentacao": "docs/OFFICIAL-SOURCES.md#paises-bacen"
 }

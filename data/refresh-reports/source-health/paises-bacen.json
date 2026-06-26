@@ -1,14 +1,16 @@
 {
   "datasetId": "paises-bacen",
   "endpoints": [
-    "http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50="
+    "http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=PfPDd6dW200=",
+    "http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=/NJarYc9nus=",
+    "https://www.bcb.gov.br/ftp/paises.txt"
   ],
-  "consecutiveFailureDays": 2,
-  "firstFailureDate": "2026-06-25",
-  "lastFailureDate": "2026-06-26",
-  "lastSuccessDate": "2026-06-24",
-  "severity": "critical",
-  "message": "NF-e portal did not return a parseable country table (Portal returned HTML instead of a country table file). Embedded data from 2026-06-25 retained in the API.",
-  "retainedEmbeddedDataFrom": "2026-06-25",
-  "outcomeStatus": "embedded_retained"
+  "consecutiveFailureDays": 0,
+  "firstFailureDate": null,
+  "lastFailureDate": null,
+  "lastSuccessDate": "2026-06-26",
+  "severity": "ok",
+  "message": "Official source responded successfully.",
+  "retainedEmbeddedDataFrom": "2026-06-26",
+  "outcomeStatus": "ok"
 }

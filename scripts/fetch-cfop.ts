@@ -10,7 +10,8 @@ import {
   SourceDataError,
   writeSourceFetchOutcome,
 } from './lib/source-fetch-outcome.js';
-import { fetchTextWithRetry, todayIsoDate } from './lib/fetch-utils.js';
+import { FETCH_RETRY_DELAY_MS } from './lib/fetch-retry-config.js';
+import { fetchTextWithRetry, todayIsoDate, CONFAZ_HTML_TIMEOUT_MS } from './lib/fetch-utils.js';
 import { buildMetadata } from './lib/metadata-writer.js';
 import { parseCfopHtml, type CfopRecord } from './lib/parse-cfop-html.js';
 
@@ -39,7 +40,12 @@ async function main(): Promise<void> {
   const endpoints = [CFOP_HTML_URL];
 
   try {
-    const html = await fetchTextWithRetry(CFOP_HTML_URL, FETCH_MAX_ATTEMPTS);
+    const html = await fetchTextWithRetry(
+      CFOP_HTML_URL,
+      FETCH_MAX_ATTEMPTS,
+      FETCH_RETRY_DELAY_MS,
+      CONFAZ_HTML_TIMEOUT_MS,
+    );
     const cfops = parseCfopHtml(html);
 
     if (cfops.length < MIN_CFOP || cfops.length > MAX_CFOP) {

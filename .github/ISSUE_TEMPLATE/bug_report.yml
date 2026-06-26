@@ -1,0 +1,68 @@
+name: Bug report
+description: Report incorrect validation, formatting, or library behavior
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Include a minimal repro and the **exact package version** (`npm view @br-validators/core version` or `package.json`).
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: e.g. 1.8.3
+    validations:
+      required: true
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      options:
+        - "@br-validators/core"
+        - "@br-validators/cli"
+        - "@br-validators/zod"
+        - "@br-validators/react-hook-form"
+        - "@br-validators/express"
+        - "@br-validators/vue"
+        - other
+    validations:
+      required: true
+  - type: input
+    id: module
+    attributes:
+      label: Validator or module
+      placeholder: e.g. validateCnpj, getPtaxCotacao, getPaisPorCodigoBacen
+    validations:
+      required: true
+  - type: textarea
+    id: input
+    attributes:
+      label: Input value(s)
+      description: Raw value passed to the API (mask sensitive data if needed).
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: official-source
+    attributes:
+      label: Official source (if applicable)
+      description: Link to RFB, Bacen, CONFAZ, etc. that supports the expected result.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and did not find a duplicate
+          required: true

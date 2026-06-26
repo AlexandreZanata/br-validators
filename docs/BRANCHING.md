@@ -87,7 +87,7 @@ git checkout developing && git merge main && git push origin developing
 
 Workflow: [`.github/workflows/data-refresh-bot.yml`](../.github/workflows/data-refresh-bot.yml)
 
-When embedded reference data **drifts** (`datasetsAlterados > 0` and `totalAdicionados > 0`):
+When embedded reference data **drifts** (`datasetsAlterados > 0` and at least one of `totalAdicionados`, `totalRemovidos`, or `totalAlterados` > 0):
 
 1. `pnpm data:refresh` → `pnpm verify`
 2. `scripts/bump-data-patch.mjs` — PATCH bump on all six packages + CHANGELOG

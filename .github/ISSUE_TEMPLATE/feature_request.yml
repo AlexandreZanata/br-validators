@@ -1,0 +1,39 @@
+name: Feature request
+description: Propose a new validator, reference dataset, or public API
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check [docs/ROADMAP.md](docs/ROADMAP.md) first. New validators require an [official source](docs/OFFICIAL-SOURCES.md).
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API or behavior
+      description: Function names, inputs, outputs — match existing `@br-validators/core` style.
+    validations:
+      required: true
+  - type: input
+    id: official-source
+    attributes:
+      label: Official source URL
+      description: Required for validation algorithms and reference data.
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - New document validator (CPF, CNPJ, …)
+        - New reference dataset (IBGE, Bacen, CONFAZ, …)
+        - Adapter package (zod, express, vue, …)
+        - CLI / playground
+        - Documentation only
+    validations:
+      required: true

@@ -1,6 +1,7 @@
 import { FETCH_MAX_ATTEMPTS, FETCH_RETRY_DELAY_MS } from './fetch-retry-config.js';
 
 const DEFAULT_TIMEOUT_MS = 30_000;
+export const CONFAZ_HTML_TIMEOUT_MS = 60_000;
 export const USER_AGENT =
   'br-validators-data-refresh/1.0 (+https://github.com/AlexandreZanata/br-validators)';
 

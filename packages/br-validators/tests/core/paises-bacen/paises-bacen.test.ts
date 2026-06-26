@@ -17,7 +17,7 @@ describe('Paises Bacen — official golden vectors', () => {
   });
 
   it('normalizes Bacen code with non-significant leading zeros', () => {
-    expect(getPaisPorCodigoBacen('1058')?.nome).toContain('Brasil');
+    expect(getPaisPorCodigoBacen('1058')?.nome).toContain('BRASIL');
     expect(getPaisPorCodigoBacen('01058')?.codigo).toBe('1058');
   });
 

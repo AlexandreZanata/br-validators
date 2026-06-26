@@ -1,10 +1,5 @@
 ## Daily data refresh — 2026-06-26
 
-## ⚠️ Critical source alerts
-
-**1** dataset(s) marked as **consultation link deprecated** (2+ consecutive failure days).
-See [`data/refresh-reports/CRITICAL-ALERTS.md`](../data/refresh-reports/CRITICAL-ALERTS.md).
-
 | Dataset | Records | + added | − removed | ~ changed | Fields Δ | Captured | Source |
 |---------|---------|---------|-----------|-----------|----------|----------|--------|
 | ibge | 27 estados / 5571 municipios | 0 | 0 | 0 | — | 2026-06-26 | [official](https://servicodados.ibge.gov.br/api/v1/localidades/estados) |
@@ -12,18 +7,18 @@ See [`data/refresh-reports/CRITICAL-ALERTS.md`](../data/refresh-reports/CRITICAL
 | aeroportos | 533 aeroportos / 87 comIata | 0 | 0 | 0 | — | 2026-06-26 | [official](https://www.anac.gov.br/acesso-a-informacao/dados-abertos/areas-de-atuacao/aerodromos/lista-de-aerodromos-publicos/aerodromospublicosv1.csv/@@download/file/aerodromospublicosv1.csv) |
 | tse-municipios | 5571 municipios | 0 | 0 | 0 | — | 2026-06-26 | [official](https://cdn.tse.jus.br/estatistica/sead/odsele/municipio_tse_ibge/municipio_tse_ibge.zip) |
 | moedas | 154 moedas | 0 | 0 | 0 | — | 2026-06-26 | [official](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas) |
-| ptax | 40 cotacoes / 10 moedas / 4 diasUteis | 0 | 10 | 0 | — | 2026-06-26 | [official](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)) |
-| paises-bacen | 252 paises | 0 | 0 | 0 | — | 2026-06-26 | [official](http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50=) |
+| ptax | 40 cotacoes / 10 moedas / 4 diasUteis | 0 | 0 | 0 | — | 2026-06-26 | [official](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)) |
+| paises-bacen | 253 paises | 0 | 0 | 0 | — | 2026-06-26 | [official](http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=PfPDd6dW200=) |
 | incoterms | 11 incoterms | 0 | 0 | 0 | — | 2026-06-26 | [official](https://iccwbo.org/resources-for-business/incoterms-rules/) |
 | telefone-ddd | 67 ddds | 0 | 0 | 0 | — | 2026-06-26 | [official](https://informacoes.anatel.gov.br/paineis/areas-tarifarias/codigos-nacionais) |
 | feriados | 9 feriadosNacionaisFixos / 1 feriadosNacionaisMoveis / 9 pontosFacultativosFederais | 0 | 0 | 0 | — | 2026-06-23 | [official](https://www.planalto.gov.br/ccivil_03/leis/l0662.htm) |
 | cnaes | 1332 cnaes | 0 | 0 | 0 | — | 2026-06-26 | [official](https://servicodados.ibge.gov.br/api/v2/cnae/subclasses) |
-| cfop | 689 cfop | 0 | 0 | 0 | — | 2026-06-25 | [official](https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cfop_cvsn_70_vigente) |
+| cfop | 689 cfop | 0 | 0 | 0 | — | 2026-06-26 | [official](https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cfop_cvsn_70_vigente) |
 | natureza-juridica | 90 naturezas | 0 | 0 | 0 | — | 2026-06-26 | [official](https://github.com/jonathands/dados-abertos-receita-cnpj/releases/download/2024.09/Naturezas.zip) |
 | cnpj-motivos | 61 motivos | 0 | 0 | 0 | — | 2026-06-26 | [official](https://github.com/jonathands/dados-abertos-receita-cnpj/releases/download/2024.09/Motivos.zip) |
 | ibpt | 12 cargas | 0 | 0 | 0 | — | 2026-06-26 | [official](https://deolhonoimposto.ibpt.org.br/) |
 | nbs | 917 nbs | 0 | 0 | 0 | — | 2026-06-26 | [official](https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica/documentacao-atual/anexo_b-nbs2-lista_servico_nacional-snnfse.xlsx/@@download/file/ANEXO_B-NBS2-LISTA_SERVICO_NACIONAL-SNNFSe.xlsx) |
-| cest | 1018 cest | 0 | 0 | 0 | — | 2026-06-25 | [official](https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18) |
+| cest | 1018 cest | 0 | 0 | 0 | — | 2026-06-26 | [official](https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18) |
 | cst | 11 icms / 14 ipi / 33 pis / 33 cofins | 0 | 0 | 0 | — | 2026-06-24 | [official](http://www.sped.fazenda.gov.br/spedtabelas/AppConsulta/publico/aspx/ConsultaTabelasExternas.aspx?CodSistema=SpedFiscal) |
 | lc116 | 200 lc116 | 0 | 0 | 0 | — | 2026-06-25 | [official](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm) |
 | esocial | 47 categorias | 0 | 0 | 0 | — | 2026-06-25 | [official](https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html) |
@@ -38,14 +33,9 @@ See [`data/refresh-reports/CRITICAL-ALERTS.md`](../data/refresh-reports/CRITICAL
 
 **Totals:** +0 −0 ~0
 
-### Source health alerts
+### Source health
 
-- **paises-bacen** (critical/embedded_retained): NF-e portal did not return a parseable country table (Portal returned HTML instead of a country table file). Embedded data from 2026-06-25 retained in the API. Embedded data from **2026-06-25** retained in the API.
-  - Action: See docs/DATA-SOURCE-MAINTENANCE.md — update OFFICIAL-SOURCES.md, fetch script endpoint(s), and metadata.json, then run `pnpm data:refresh`.
-- **cfop** (warning/source_unavailable): Possible link deprecation — official source unreachable after 5 attempts (2 min interval). Embedded data from **2026-06-25** retained in the API.
-  - Action: See docs/DATA-SOURCE-MAINTENANCE.md — update OFFICIAL-SOURCES.md, fetch script endpoint(s), and metadata.json, then run `pnpm data:refresh`.
-- **cest** (warning/source_unavailable): Possible link deprecation — official source unreachable after 5 attempts (2 min interval). Embedded data from **2026-06-25** retained in the API.
-  - Action: See docs/DATA-SOURCE-MAINTENANCE.md — update OFFICIAL-SOURCES.md, fetch script endpoint(s), and metadata.json, then run `pnpm data:refresh`.
+All HTTP endpoints responded successfully.
 
 ### Drift
 

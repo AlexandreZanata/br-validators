@@ -1,6 +1,6 @@
 {
   "name": "@br-validators/react-hook-form",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "React Hook Form rules and resolvers for Brazilian document validators — delegates to @br-validators/core",
   "license": "MIT",
   "type": "module",

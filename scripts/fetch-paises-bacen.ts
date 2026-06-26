@@ -4,26 +4,29 @@ import { fileURLToPath } from 'node:url';
 
 import { diffRecordsByKey } from './lib/diff-dataset.js';
 import { exitWithError } from './lib/errors.js';
-import { fetchNfePaisesTableText } from './lib/fetch-nfe-portal.js';
 import {
   buildEmbeddedFallbackOutcome,
   buildFailureOutcome,
   FETCH_MAX_ATTEMPTS,
-  SourceDataError,
   writeSourceFetchOutcome,
 } from './lib/source-fetch-outcome.js';
 import { todayIsoDate } from './lib/fetch-utils.js';
 import { buildMetadata } from './lib/metadata-writer.js';
-import { loadOfficialPaisesBacen } from './lib/paises-bacen-official.js';
-import { parseNfePaisesTable, type PaisBacenRecord } from './lib/parse-nfe-paises.js';
+import {
+  BACEN_PAISES_FTP_URL,
+  NFE_DIVERSOS_LIST_URL,
+  NFE_PAISES_TABLE_URL,
+  resolvePaisesBacen,
+  validatePaisesBacenRecords,
+} from './lib/resolve-paises-bacen.js';
+import type { PaisBacenRecord } from './lib/parse-nfe-paises.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const PAISES_DATA_DIR = path.join(ROOT, 'packages/br-validators/src/paises-bacen/data');
 const FETCH_OUTCOME_DIR = path.join(ROOT, 'data/refresh-reports/fetch-outcomes');
 
-export const NFE_PAISES_TABLE_URL =
-  'http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50=';
+export { BACEN_PAISES_FTP_URL, NFE_DIVERSOS_LIST_URL, NFE_PAISES_TABLE_URL };
 
 export const MIN_PAISES_BACEN = 240;
 export const MAX_PAISES_BACEN = 270;
@@ -37,63 +40,17 @@ async function readJsonIfExists<T>(filePath: string): Promise<T | null> {
   }
 }
 
-function validatePaises(paises: PaisBacenRecord[]): void {
-  if (paises.length < MIN_PAISES_BACEN || paises.length > MAX_PAISES_BACEN) {
-    throw new SourceDataError(
-      `Expected ${String(MIN_PAISES_BACEN)}–${String(MAX_PAISES_BACEN)} countries, got ${String(paises.length)}`,
-    );
-  }
-  const brasil = paises.find((pais) => pais.codigo === '1058');
-  if (brasil === undefined || !brasil.nome.toUpperCase().includes('BRASIL')) {
-    throw new SourceDataError('Golden country 1058 (Brasil) missing from paises-bacen dataset');
-  }
-  const codigoSet = new Set(paises.map((pais) => pais.codigo));
-  if (codigoSet.size !== paises.length) {
-    throw new SourceDataError('Duplicate Bacen country codes detected');
-  }
-}
-
-async function resolvePaises(): Promise<{
-  paises: PaisBacenRecord[];
-  source: 'nfe-fetch' | 'embedded';
-  attemptsUsed: number;
-  fetchDetail: string | null;
-}> {
-  try {
-    const { text, attemptsUsed } = await fetchNfePaisesTableText(
-      NFE_PAISES_TABLE_URL,
-      MIN_PAISES_BACEN,
-    );
-    const parsed = parseNfePaisesTable(text);
-    if (parsed.length >= MIN_PAISES_BACEN) {
-      return { paises: parsed, source: 'nfe-fetch', attemptsUsed, fetchDetail: null };
-    }
-  } catch (error) {
-    const detail = error instanceof Error ? error.message : 'Unknown NF-e portal fetch error';
-    return {
-      paises: loadOfficialPaisesBacen(),
-      source: 'embedded',
-      attemptsUsed: FETCH_MAX_ATTEMPTS,
-      fetchDetail: detail,
-    };
-  }
-  return {
-    paises: loadOfficialPaisesBacen(),
-    source: 'embedded',
-    attemptsUsed: FETCH_MAX_ATTEMPTS,
-    fetchDetail: 'Portal payload did not meet minimum country count',
-  };
-}
-
 async function main(): Promise<void> {
   const paisesPath = path.join(PAISES_DATA_DIR, 'paises.json');
   const metadataPath = path.join(PAISES_DATA_DIR, 'metadata.json');
   const previousMetadata = await readJsonIfExists<{ capturadoEm: string }>(metadataPath);
-  const endpoints = [NFE_PAISES_TABLE_URL];
+  const endpoints = [NFE_PAISES_TABLE_URL, NFE_DIVERSOS_LIST_URL, BACEN_PAISES_FTP_URL];
 
   try {
-    const { paises, source, attemptsUsed, fetchDetail } = await resolvePaises();
-    validatePaises(paises);
+    const { paises, source, attemptsUsed, fetchDetail, winningEndpoint } = await resolvePaisesBacen(
+      MIN_PAISES_BACEN,
+    );
+    validatePaisesBacenRecords(paises, MIN_PAISES_BACEN, MAX_PAISES_BACEN);
 
     await mkdir(PAISES_DATA_DIR, { recursive: true });
 
@@ -106,11 +63,18 @@ async function main(): Promise<void> {
       comparadoCom,
     );
 
+    const fonte =
+      source === 'bacen-fetch'
+        ? 'Banco Central FTP paises.txt + NF-e supplemental codes'
+        : source === 'nfe-fetch'
+          ? 'Portal Nacional NF-e — Tabela de Países (Bacen)'
+          : 'Portal Nacional NF-e — Tabela de Países (Bacen)';
+
     const metadata = buildMetadata(
       {
         id: 'paises-bacen',
         nome: 'NF-e Bacen Country Codes',
-        fonte: 'Portal Nacional NF-e — Tabela de Países (Bacen)',
+        fonte,
         endpoints,
         contagens: { paises: paises.length },
         documentacao: 'docs/OFFICIAL-SOURCES.md#paises-bacen',
@@ -130,7 +94,19 @@ async function main(): Promise<void> {
         attempts: attemptsUsed,
         checkedAt: new Date().toISOString(),
         retainedEmbeddedDataFrom: metadata.capturadoEm,
-        message: 'Official NF-e country table fetch succeeded.',
+        message: `Official NF-e country table fetch succeeded (${winningEndpoint ?? NFE_PAISES_TABLE_URL}).`,
+      });
+    } else if (source === 'bacen-fetch') {
+      await writeSourceFetchOutcome(FETCH_OUTCOME_DIR, {
+        datasetId: 'paises-bacen',
+        status: 'ok',
+        endpoints,
+        attempts: attemptsUsed,
+        checkedAt: new Date().toISOString(),
+        retainedEmbeddedDataFrom: metadata.capturadoEm,
+        message:
+          fetchDetail ??
+          'Official Bacen FTP country table fetch succeeded (merged with NF-e supplemental codes).',
       });
     } else {
       const detail =

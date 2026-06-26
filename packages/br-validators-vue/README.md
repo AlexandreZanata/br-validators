@@ -4,7 +4,7 @@
 [![MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/AlexandreZanata/br-validators/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/AlexandreZanata/br-validators)](https://github.com/AlexandreZanata/br-validators/releases)
 
-[Vue 3](https://vuejs.org/) composables that delegate validation and formatting to [`@br-validators/core`](../br-validators) **v1.8.2**.
+[Vue 3](https://vuejs.org/) composables that delegate validation and formatting to [`@br-validators/core`](../br-validators) **v1.8.3**.
 
 ## Install
 

@@ -3,12 +3,12 @@
   "endpoints": [
     "https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18"
   ],
-  "consecutiveFailureDays": 1,
-  "firstFailureDate": "2026-06-26",
-  "lastFailureDate": "2026-06-26",
-  "lastSuccessDate": "2026-06-25",
-  "severity": "warning",
-  "message": "Possible link deprecation — official source unreachable after 5 attempts (2 min interval).",
-  "retainedEmbeddedDataFrom": "2026-06-25",
-  "outcomeStatus": "source_unavailable"
+  "consecutiveFailureDays": 0,
+  "firstFailureDate": null,
+  "lastFailureDate": null,
+  "lastSuccessDate": "2026-06-26",
+  "severity": "ok",
+  "message": "Official source responded successfully.",
+  "retainedEmbeddedDataFrom": "2026-06-26",
+  "outcomeStatus": "ok"
 }

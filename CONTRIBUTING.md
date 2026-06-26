@@ -35,8 +35,17 @@ By contributing, you agree your contributions are licensed under MIT.
 
 ### 1. Find or open an issue
 
-- Bug reports: include input, expected vs actual, library version
-- Features: check roadmap first; IE/PIS need official sources
+Use a [GitHub issue template](.github/ISSUE_TEMPLATE/config.yml):
+
+| Template | Labels | When to use |
+|----------|--------|-------------|
+| **Bug report** | `bug` | Wrong validation, formatting, or API behavior |
+| **Data source alert** | `data-source` | Daily bot / `CRITICAL-ALERTS.md` — endpoint moved or failing |
+| **Feature request** | `enhancement` | New validator or dataset — check [ROADMAP](docs/ROADMAP.md) first |
+| **RG UF contribution** | `good first issue`, `rg-uf` | Add RG validation for a Brazilian state |
+
+Bot automation PRs use `data-refresh` and `automated-release` (do not open manually).
+
 - **Security:** see [SECURITY.md](SECURITY.md) — no public issues
 
 ### 2. Fork and branch
