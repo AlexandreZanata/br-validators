@@ -1,13 +1,14 @@
-# RG good first issues — remaining 21 UFs
+# RG good first issues — remaining UFs
 
 > **Labels:** `good first issue`, `rg-uf`  
 > **Template:** [.github/ISSUE_TEMPLATE/rg-uf-contribution.md](../../.github/ISSUE_TEMPLATE/rg-uf-contribution.md)  
 > **Depends on:** Phase 27c RG phase 1 (SP, RJ, MG, PR, RS, SC shipped)
 
-> **Contributor guide:** `packages/br-validators/src/core/rg/CONTRIBUTING-UF.md`  
+> **Contributor guide (how to open issues, official sources, algorithm reporting):** [RG-CONTRIBUTOR-GUIDE.md](RG-CONTRIBUTOR-GUIDE.md)  
+> **Implementation checklist:** `packages/br-validators/src/core/rg/CONTRIBUTING-UF.md`  
 > **Pending list API:** `getRgPendingUfs()` · **Research URLs:** `getRgResearchUrl(uf)`
 
-Phase 1 covers six states (~70% of population). The remaining **21 UFs** are ideal **good first issues** for contributors who can cite a state **SSP / Polícia Civil** official source (not SEFAZ-IE calculators — those validate Inscrição Estadual, not RG).
+Phase 1 covers six states (~70% of population). Remaining UFs are **good first issues** for contributors who can cite state **SSP / Polícia Civil** sources. **Most UFs lack a single consistent official RG/DV publication** — see the contributor guide before opening an issue.
 
 ## Shipped (do not re-open)
 

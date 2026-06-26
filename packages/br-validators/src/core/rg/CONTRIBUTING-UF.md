@@ -1,13 +1,15 @@
 # Contributing an RG UF validator
 
 > One UF per PR · Label: `good-first-issue`, `rg-uf`  
+> **How to open issues and cite official sources:** [docs/community/RG-CONTRIBUTOR-GUIDE.md](../../../../docs/community/RG-CONTRIBUTOR-GUIDE.md)  
 > Issue template: [.github/ISSUE_TEMPLATE/rg-uf-contribution.md](../../../../.github/ISSUE_TEMPLATE/rg-uf-contribution.md)
 
 ## Before coding
 
-1. Cite an **official SSP/IGP walkthrough** (not SEFAZ-IE calculators — those validate Inscrição Estadual, not RG).
-2. Ghiorzi documents RG DV only for **SP, RJ, MG** — other states need state-specific sources.
-3. Add `tests/vectors/rg.<uf>.official.json` with `source` URL before implementation.
+1. Open (or claim) a GitHub issue using the RG UF template — see [RG-CONTRIBUTOR-GUIDE.md](../../../../docs/community/RG-CONTRIBUTOR-GUIDE.md).
+2. Cite an **official SSP/IGP walkthrough** (not SEFAZ-IE calculators — those validate Inscrição Estadual, not RG).
+3. Ghiorzi documents RG DV only for **SP, RJ, MG** — other states need state-specific sources; **most UFs have no consistent official legacy RG/DV doc**.
+4. Add `tests/vectors/rg.<uf>.official.json` with `source` URL before implementation.
 
 ## Files to add or update
 

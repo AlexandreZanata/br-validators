@@ -164,7 +164,7 @@ Negative cross-UF cases: `ie.negative.official.json`.
 ## RG — reference index
 
 > **Vectors:** `packages/br-validators/tests/vectors/rg.{sp,rj,mg,pr,rs,sc}.official.json`  
-> **Caveat:** No single federal RG algorithm — each state issues its own format. `validateRg(raw, { uf })` requires UF; `detect()` does **not** auto-classify RG (too ambiguous without UF). Remaining 13 UFs: community contributions via [rg-uf-contribution issue template](../.github/ISSUE_TEMPLATE/rg-uf-contribution.md).
+> **Caveat:** No single federal RG algorithm — each state issues its own format. `validateRg(raw, { uf })` requires UF; `detect()` does **not** auto-classify RG (too ambiguous without UF). Remaining 13 UFs: community contributions via [rg-uf-contribution issue template](../.github/ISSUE_TEMPLATE/rg-uf-contribution.md) and [RG contributor guide](community/RG-CONTRIBUTOR-GUIDE.md). For most UFs, **consistent official legacy RG/DV documentation does not exist** — shipped format-only rules cite state issuers where DV is unpublished.
 
 | UF | Coverage | Algorithm | Official / reference source | Golden vector |
 |----|----------|-----------|----------------------------|---------------|

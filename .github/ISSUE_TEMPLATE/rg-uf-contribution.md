@@ -10,6 +10,8 @@ assignees: ''
 
 - [ ] UF code: __ (e.g. `BA`, `GO`, `DF`)
 
+> **Read first:** [docs/community/RG-CONTRIBUTOR-GUIDE.md](docs/community/RG-CONTRIBUTOR-GUIDE.md) — how to cite official sources and report algorithms. Most UFs **lack consistent official legacy RG/DV documentation**; format-only is acceptable only with a state issuer URL and honest algorithm scope.
+
 ## Official source
 
 - [ ] State secretariat / IGP / SSP URL: __
