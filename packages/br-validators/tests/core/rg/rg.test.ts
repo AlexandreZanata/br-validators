@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  RG_AC_GOLDEN,
   RG_BA_GOLDEN,
   RG_MG_GOLDEN,
   RG_MG_GOLDEN_MASKED,
@@ -35,6 +36,7 @@ import {
   isValidRg,
   stripRg,
   validateRg,
+  validateRgAc,
   validateRgBa,
   validateRgMg,
   validateRgPr,
@@ -47,6 +49,7 @@ import type { ValidateRgOptions } from '../../../src/core/rg/types.js';
 import * as rgBarrel from '../../../src/rg.js';
 import { formatRg as formatRgBarrel } from '../../../src/format/rg.js';
 import { stripRg as stripRgBarrel } from '../../../src/strip/rg.js';
+import acVectors from '../../vectors/rg.ac.official.json';
 import baVectors from '../../vectors/rg.ba.official.json';
 import spVectors from '../../vectors/rg.sp.official.json';
 import rjVectors from '../../vectors/rg.rj.official.json';
@@ -117,11 +120,18 @@ describe('RG golden vectors — per UF', () => {
     expect(RG_BA_GOLDEN).toBe(baVectors.valid.raw);
   });
 
+  it('validates AC format-only vectors', () => {
+    expect(isValidRg(acVectors.valid.raw, { uf: 'AC' })).toBe(true);
+    expect(validateRg(acVectors.invalid.raw, { uf: 'AC' }).ok).toBe(false);
+    expect(RG_AC_GOLDEN).toBe(acVectors.valid.raw);
+  });
+
   it('exports official source URLs', () => {
     expect(RG_OFFICIAL_SOURCE_URL).toBe(spVectors.url);
     expect(getRgOfficialSourceUrl('SP')).toBe(RG_OFFICIAL_SOURCE_URLS.SP);
     expect(getRgOfficialSourceUrl('PR')).toBe(prVectors.url);
     expect(getRgOfficialSourceUrl('BA')).toBe(baVectors.url);
+    expect(getRgOfficialSourceUrl('AC')).toBe(acVectors.url);
   });
 });
 
@@ -132,27 +142,29 @@ describe('RG registry', () => {
   });
 
   it('returns UF_NOT_IMPLEMENTED for unsupported UF', () => {
-    const result = validateRg('123', { uf: 'AC' as ValidateRgOptions['uf'] });
+    const result = validateRg('123', { uf: 'AL' as ValidateRgOptions['uf'] });
     expect(result).toEqual({
       ok: false,
       code: 'UF_NOT_IMPLEMENTED',
-      message: 'UF AC is not implemented for RG validation',
+      message: 'UF AL is not implemented for RG validation',
     });
   });
 
   it('reports implemented vs pending UFs', () => {
     expect(getRgPendingUfs()).toEqual(RG_PENDING_UFS);
-    expect(getRgPendingUfs()).toHaveLength(20);
+    expect(getRgPendingUfs()).toHaveLength(19);
     expect(isRgUfImplemented('SP')).toBe(true);
     expect(isRgUfImplemented('BA')).toBe(true);
+    expect(isRgUfImplemented('AC')).toBe(true);
     expect(getRgResearchUrl('SP')).toBe(RG_OFFICIAL_SOURCE_URLS.SP);
     expect(getRgResearchUrl('BA')).toBe(RG_OFFICIAL_SOURCE_URLS.BA);
-    expect(getRgResearchUrl('CE')).toBe(RG_RESEARCH_URLS.CE);
+    expect(getRgResearchUrl('AC')).toBe(RG_OFFICIAL_SOURCE_URLS.AC);
+    expect(getRgResearchUrl('AL')).toBe(RG_RESEARCH_URLS.AL);
     expect(getRgResearchUrl('ZZ' as never)).toBeUndefined();
   });
 
   it('strips with unsupported UF fallback', () => {
-    expect(stripRg('12.3', { uf: 'AC' as ValidateRgOptions['uf'] })).toBe('123');
+    expect(stripRg('12.3', { uf: 'AL' as ValidateRgOptions['uf'] })).toBe('123');
   });
 });
 
@@ -179,6 +191,7 @@ describe('RG masks', () => {
     expect(applyRgMask(RG_PR_GOLDEN, 'PR')).toBe(RG_PR_GOLDEN);
     expect(applyRgMask(RG_RS_GOLDEN, 'RS')).toBe(RG_RS_GOLDEN);
     expect(applyRgMask(RG_BA_GOLDEN, 'BA')).toBe(RG_BA_GOLDEN);
+    expect(applyRgMask(RG_AC_GOLDEN, 'AC')).toBe(RG_AC_GOLDEN);
   });
 
   it('throws on invalid mask lengths', () => {
@@ -191,6 +204,7 @@ describe('RG masks', () => {
     expect(formatRg(RG_SP_GOLDEN, { uf: 'SP' })).toEqual({ ok: true, formatted: RG_SP_GOLDEN_MASKED });
     expect(formatRg(RG_PR_GOLDEN, { uf: 'PR' })).toEqual({ ok: true, formatted: RG_PR_GOLDEN });
     expect(formatRg(RG_BA_GOLDEN, { uf: 'BA' })).toEqual({ ok: true, formatted: RG_BA_GOLDEN });
+    expect(formatRg(RG_AC_GOLDEN, { uf: 'AC' })).toEqual({ ok: true, formatted: RG_AC_GOLDEN });
     expect(formatRgBarrel(RG_SC_GOLDEN, { uf: 'SC' })).toEqual({
       ok: true,
       formatted: scVectors.valid.masked,
@@ -237,6 +251,12 @@ describe('RG per-UF edge cases', () => {
     expect(validateRgRs('123456789')).toMatchObject({ ok: false, code: 'INVALID_LENGTH' });
   });
 
+  it('AC rejects empty, invalid chars, wrong length', () => {
+    expect(validateRgAc('')).toMatchObject({ ok: false, code: 'EMPTY_INPUT' });
+    expect(validateRgAc('12A')).toMatchObject({ ok: false, code: 'INVALID_CHARACTER' });
+    expect(validateRgAc('12345')).toMatchObject({ ok: false, code: 'INVALID_LENGTH' });
+  });
+
   it('BA rejects empty, invalid chars, wrong length', () => {
     expect(validateRgBa('')).toMatchObject({ ok: false, code: 'EMPTY_INPUT' });
     expect(validateRgBa('12A')).toMatchObject({ ok: false, code: 'INVALID_CHARACTER' });
@@ -257,5 +277,6 @@ describe('RG per-UF edge cases', () => {
     expect(stripRg(RG_RS_GOLDEN, { uf: 'RS' })).toBe(RG_RS_GOLDEN);
     expect(stripRg(RG_SC_GOLDEN, { uf: 'SC' })).toBe(RG_SC_GOLDEN);
     expect(stripRg(RG_BA_GOLDEN, { uf: 'BA' })).toBe(RG_BA_GOLDEN);
+    expect(stripRg(RG_AC_GOLDEN, { uf: 'AC' })).toBe(RG_AC_GOLDEN);
   });
 });

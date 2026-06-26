@@ -1,0 +1,11 @@
+{
+  "source": "SSP-AC / Polícia Civil do Acre — legacy RG, format-only (6 digits; DV algorithm not published)",
+  "url": "https://www.policiacivil.ac.gov.br/",
+  "valid": {
+    "raw": "123456"
+  },
+  "invalid": {
+    "raw": "12345",
+    "code": "INVALID_LENGTH"
+  }
+}

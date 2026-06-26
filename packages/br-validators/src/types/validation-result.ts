@@ -75,7 +75,7 @@ export type UfCode =
   | 'PA' | 'PB' | 'PE' | 'PI' | 'PR' | 'RJ' | 'RN' | 'RO' | 'RR' | 'RS' | 'SC' | 'SE' | 'SP' | 'TO';
 
 /** Phase-1 RG UFs with implemented validators. */
-export type RgUfCode = 'SP' | 'RJ' | 'MG' | 'PR' | 'RS' | 'SC' | 'BA';
+export type RgUfCode = 'SP' | 'RJ' | 'MG' | 'PR' | 'RS' | 'SC' | 'BA' | 'AC';
 
 export type CardBrand = 'visa' | 'mastercard' | 'amex' | 'elo' | 'hipercard' | 'unknown';
 
