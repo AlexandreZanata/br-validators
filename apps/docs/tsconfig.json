@@ -9,5 +9,5 @@
     "isolatedModules": true,
     "types": ["node"]
   },
-  "include": [".vitepress/**/*.ts", "scripts/**/*.ts"]
+  "include": [".vitepress/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts", "vitest.config.ts"]
 }

@@ -1,0 +1,13 @@
+{
+  "datasetId": "nfe-cuf",
+  "status": "ok",
+  "endpoints": [
+    "http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=Il8k4BIjb48=",
+    "http://www.nfe.fazenda.gov.br/portal/principal.aspx",
+    "https://www.ibge.gov.br/explica/codigos-dos-municipios.php"
+  ],
+  "attempts": 5,
+  "checkedAt": "2026-06-26T16:53:43.608Z",
+  "retainedEmbeddedDataFrom": "2026-06-26",
+  "message": "Static NF-e cUF table generated with IBGE cross-ref."
+}

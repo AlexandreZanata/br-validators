@@ -11,5 +11,11 @@
       "codigo": "12011000",
       "descricaoContains": "semeadura"
     }
+  },
+  "negative": {
+    "notFound": "99999999",
+    "invalidFormat": "abc",
+    "shortCode": "123",
+    "punctuationInput": "0101.21.00"
   }
 }

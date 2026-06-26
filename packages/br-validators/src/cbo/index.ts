@@ -1,4 +1,4 @@
-export { getCbos, getCboPorCodigo, searchCbo } from './lookup.js';
+export { getAllCbo, getCbos, getCboPorCodigo, lookupCboPorCodigo, searchCbo } from './lookup.js';
 export {
   CBO_GOLDEN_ANALISTA_SISTEMAS,
   CBO_GOLDEN_OFICIAL_AERONAUTICA,

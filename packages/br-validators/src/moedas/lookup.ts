@@ -4,6 +4,11 @@
  */
 
 import moedasData from './data/moedas.json';
+import { resolveStringCodeLookup } from '../lookup/resolve.js';
+import {
+  unwrapLookupValue,
+  type LookupResult,
+} from '../types/lookup-result.js';
 import type { Moeda } from './types.js';
 
 const moedas: readonly Moeda[] = moedasData as Moeda[];
@@ -12,16 +17,29 @@ function normalizeCodigo(codigo: string): string {
   return codigo.trim().toUpperCase();
 }
 
-export function getMoedas(): readonly Moeda[] {
+/** Returns every embedded ISO 4217 / Bacen currency row (in-memory reference, not a copy). */
+export function getAllMoedas(): readonly Moeda[] {
   return moedas;
 }
 
+/** @deprecated Use {@link getAllMoedas} instead. Removed in v2.0. */
+export function getMoedas(): readonly Moeda[] {
+  return getAllMoedas();
+}
+
+export function lookupMoedaPorCodigo(codigo: string): LookupResult<Moeda> {
+  return resolveStringCodeLookup({
+    input: codigo,
+    entityLabel: 'Currency',
+    normalize: normalizeCodigo,
+    isValidNormalized: (normalized) => /^[A-Z]{3}$/.test(normalized),
+    invalidFormatMessage: 'Currency code must be 3 uppercase letters (ISO 4217)',
+    find: (normalized) => moedas.find((moeda) => moeda.codigo === normalized),
+  });
+}
+
 export function getMoedaPorCodigo(codigo: string): Moeda | undefined {
-  const normalized = normalizeCodigo(codigo);
-  if (!/^[A-Z]{3}$/.test(normalized)) {
-    return undefined;
-  }
-  return moedas.find((moeda) => moeda.codigo === normalized);
+  return unwrapLookupValue(lookupMoedaPorCodigo(codigo));
 }
 
 export function searchMoedas(query: string, options?: { limit?: number }): readonly Moeda[] {

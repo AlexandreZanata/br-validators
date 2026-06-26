@@ -1,8 +1,10 @@
 export {
   computeIbptCargaTotal,
+  getAllIbptCargas,
   getIbptCargaPorNcmUf,
   getIbptCargas,
   getIbptTabelaAtual,
+  lookupIbptCargaPorNcmUf,
 } from './lookup.js';
 export {
   IBPT_GOLDEN_NCM_CAVALOS,

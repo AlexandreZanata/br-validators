@@ -1,0 +1,29 @@
+{
+  "id": "inss",
+  "nome": "INSS — tabela progressiva de contribuição (empregado)",
+  "fonte": "Portaria Interministerial MPS/MF nº 6/2025 — Anexo II (static reference)",
+  "endpoints": [
+    "https://www.in.gov.br/web/dou/-/portaria-interministerial-mps/mf-n-6-de-10-de-janeiro-de-2025-606526848",
+    "https://www.gov.br/previdencia/pt-br/assuntos/rpps/legislacao-dos-rpps/2025/PortariaInterministerialMPSMFn6de10jan2025.pdf",
+    "https://www.gov.br/inss/pt-br/noticias/confira-como-ficaram-as-aliquotas-de-contribuicao-ao-inss",
+    "https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2004/lei/l10887.htm"
+  ],
+  "capturadoEm": "2026-06-26",
+  "atualizadoEm": "2026-06-26T17:42:21.980Z",
+  "contagens": {
+    "anos": 1,
+    "faixas": 4
+  },
+  "alteracoes": {
+    "adicionados": 0,
+    "removidos": 0,
+    "alterados": 0,
+    "comparadoCom": "2026-06-26"
+  },
+  "verificacao": {
+    "agendamento": "manual",
+    "workflow": "data-refresh-bot.yml",
+    "ultimaExecucao": "2026-06-26T17:42:21.980Z"
+  },
+  "documentacao": "docs/OFFICIAL-SOURCES.md#inss"
+}

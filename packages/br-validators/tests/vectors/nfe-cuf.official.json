@@ -1,0 +1,34 @@
+{
+  "source": "http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=Il8k4BIjb48=",
+  "ibgeCrossRef": "https://www.ibge.gov.br/explica/codigos-dos-municipios.php",
+  "count": 27,
+  "golden": {
+    "saoPaulo": {
+      "codigo": "35",
+      "uf": "SP",
+      "nome": "São Paulo",
+      "codigoIbge": "35"
+    },
+    "distritoFederal": {
+      "codigo": "53",
+      "uf": "DF",
+      "nome": "Distrito Federal",
+      "codigoIbge": "53"
+    },
+    "rondonia": {
+      "codigo": "11",
+      "uf": "RO",
+      "nome": "Rondônia",
+      "codigoIbge": "11"
+    }
+  },
+  "negative": {
+    "notFound": "19",
+    "invalidFormat": "abc",
+    "invalidUf": "XX"
+  },
+  "allUfs": [
+    "RO", "AC", "AM", "RR", "PA", "AP", "TO", "MA", "PI", "CE", "RN", "PB", "PE", "AL", "SE", "BA",
+    "MG", "ES", "RJ", "SP", "PR", "SC", "RS", "MS", "MT", "GO", "DF"
+  ]
+}

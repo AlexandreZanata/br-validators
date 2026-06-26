@@ -12,7 +12,16 @@ import { EXIT } from '../src/constants.js';
 describe('rg CLI', () => {
   it('resolves supported UF codes', () => {
     expect(resolveRgUf('sp')).toBe('SP');
-    expect(resolveRgUf('AC')).toBeNull();
+    expect(resolveRgUf('ac')).toBe('AC');
+    expect(resolveRgUf('al')).toBe('AL');
+    expect(resolveRgUf('am')).toBe('AM');
+    expect(resolveRgUf('ap')).toBe('AP');
+    expect(resolveRgUf('df')).toBe('DF');
+    expect(resolveRgUf('es')).toBe('ES');
+    expect(resolveRgUf('go')).toBe('GO');
+    expect(resolveRgUf('ma')).toBe('MA');
+    expect(resolveRgUf('ce')).toBe('CE');
+    expect(resolveRgUf('ZZ')).toBeNull();
     expect(resolveRgUf(undefined)).toBeNull();
   });
 

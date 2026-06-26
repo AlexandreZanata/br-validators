@@ -26,6 +26,11 @@ import portosMetadata from '../portos/data/metadata.json';
 import anpCombustiveisMetadata from '../anp-combustiveis/data/metadata.json';
 import pncpReferenceMetadata from '../pncp-reference/data/metadata.json';
 import transparenciaSnapshotsMetadata from '../transparencia-snapshots/data/metadata.json';
+import nfeCufMetadata from '../nfe-cuf/data/metadata.json';
+import irpfMetadata from '../irpf/data/metadata.json';
+import inssMetadata from '../inss/data/metadata.json';
+import selicMetadata from '../selic/data/metadata.json';
+import issMunicipalMetadata from '../iss-municipal/data/metadata.json';
 import type { DatasetMetadata } from './types.js';
 
 export interface DatasetRegistryEntry {
@@ -62,4 +67,9 @@ export const DATASET_REGISTRY: readonly DatasetRegistryEntry[] = [
   { id: 'anp-combustiveis', metadata: anpCombustiveisMetadata as DatasetMetadata },
   { id: 'pncp-reference', metadata: pncpReferenceMetadata as DatasetMetadata },
   { id: 'transparencia-snapshots', metadata: transparenciaSnapshotsMetadata as DatasetMetadata },
+  { id: 'nfe-cuf', metadata: nfeCufMetadata as DatasetMetadata },
+  { id: 'irpf', metadata: irpfMetadata as DatasetMetadata },
+  { id: 'inss', metadata: inssMetadata as DatasetMetadata },
+  { id: 'selic', metadata: selicMetadata as DatasetMetadata },
+  { id: 'iss-municipal', metadata: issMunicipalMetadata as DatasetMetadata },
 ];

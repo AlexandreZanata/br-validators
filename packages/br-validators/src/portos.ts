@@ -1,6 +1,8 @@
 export {
+  getAllPortos,
   getPortos,
   getPortoPorCodigo,
+  lookupPortoPorCodigo,
   getPortosPorMunicipio,
   searchPortos,
   ANTAQ_PORTOS_ZIP_URL,

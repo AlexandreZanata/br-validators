@@ -11,7 +11,7 @@ import {
   CEST_HTML_URL,
   getCestPorCodigo,
   getCestPorNcm,
-  getCests,
+  getAllCest,
   searchCest,
 } from '../../../src/cest/index.js';
 import vectors from '../../vectors/cest.official.json';
@@ -65,7 +65,7 @@ describe('CEST — NCM cross-reference', () => {
 
 describe('CEST — coverage and search', () => {
   it('lists codes within expected CONFAZ range', () => {
-    const list = getCests();
+    const list = getAllCest();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minCodes);
     expect(list.length).toBeLessThanOrEqual(vectors.maxCodes);
     expect(new Set(list.map((cest) => cest.codigo)).size).toBe(list.length);
@@ -97,6 +97,6 @@ describe('CEST — coverage and search', () => {
     expect(CEST_DATA_VERSION.id).toBe('cest');
     expect(CEST_DATA_VERSION.endpoints).toContain(CEST_HTML_URL);
     expect(CEST_DATA_VERSION.endpoints).toContain(vectors.source);
-    expect(CEST_DATA_VERSION.contagens.cest).toBe(getCests().length);
+    expect(CEST_DATA_VERSION.contagens.cest).toBe(getAllCest().length);
   });
 });

@@ -11,5 +11,10 @@
       "codigo": "5102",
       "descricaoContains": "terceiros"
     }
+  },
+  "negative": {
+    "notFound": "9999",
+    "invalidFormat": "abc",
+    "shortCode": "12"
   }
 }

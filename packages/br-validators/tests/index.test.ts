@@ -21,6 +21,11 @@ import * as moedasEntry from '../src/moedas.js';
 import * as ptaxEntry from '../src/ptax.js';
 import * as paisesBacenEntry from '../src/paises-bacen.js';
 import * as incotermsEntry from '../src/incoterms.js';
+import * as nfeCufEntry from '../src/nfe-cuf.js';
+import * as irpfEntry from '../src/irpf.js';
+import * as inssEntry from '../src/inss.js';
+import * as selicEntry from '../src/selic.js';
+import * as issMunicipalEntry from '../src/iss-municipal.js';
 import * as feriadosEntry from '../src/feriados.js';
 import * as cnaesEntry from '../src/cnaes.js';
 import * as cfopEntry from '../src/cfop.js';
@@ -208,8 +213,8 @@ describe('package exports', () => {
   });
 
   it('re-exports IBGE API from ibge entry', () => {
-    expect(ibgeEntry.getEstados).toBeTypeOf('function');
-    expect(ibgeEntry.getMunicipios).toBeTypeOf('function');
+    expect(ibgeEntry.getAllEstados).toBeTypeOf('function');
+    expect(ibgeEntry.getAllMunicipios).toBeTypeOf('function');
     expect(ibgeEntry.getMunicipioPorCodigo).toBeTypeOf('function');
     expect(ibgeEntry.toCmunFg).toBeTypeOf('function');
     expect(ibgeEntry.parseCmunFg).toBeTypeOf('function');
@@ -218,14 +223,14 @@ describe('package exports', () => {
   });
 
   it('re-exports Bancos API from bancos entry', () => {
-    expect(bancosEntry.getBancos).toBeTypeOf('function');
+    expect(bancosEntry.getAllBancos).toBeTypeOf('function');
     expect(bancosEntry.getBancoPorCodigo).toBeTypeOf('function');
     expect(bancosEntry.getBancoPorIspb).toBeTypeOf('function');
     expect(bancosEntry.BANCOS_DATA_VERSION.id).toBe('bancos');
   });
 
   it('re-exports Aeroportos API from aeroportos entry', () => {
-    expect(aeroportosEntry.getAeroportos).toBeTypeOf('function');
+    expect(aeroportosEntry.getAllAeroportos).toBeTypeOf('function');
     expect(aeroportosEntry.getAeroportoPorIata).toBeTypeOf('function');
     expect(aeroportosEntry.getAeroportoPorIcao).toBeTypeOf('function');
     expect(aeroportosEntry.getAeroportosPorMunicipio).toBeTypeOf('function');
@@ -240,7 +245,7 @@ describe('package exports', () => {
   });
 
   it('re-exports Moedas API from moedas entry', () => {
-    expect(moedasEntry.getMoedas).toBeTypeOf('function');
+    expect(moedasEntry.getAllMoedas).toBeTypeOf('function');
     expect(moedasEntry.getMoedaPorCodigo).toBeTypeOf('function');
     expect(moedasEntry.searchMoedas).toBeTypeOf('function');
     expect(moedasEntry.MOEDAS_DATA_VERSION.id).toBe('moedas');
@@ -254,40 +259,80 @@ describe('package exports', () => {
   });
 
   it('re-exports Paises Bacen API from paises-bacen entry', () => {
-    expect(paisesBacenEntry.getPaisesBacen).toBeTypeOf('function');
+    expect(paisesBacenEntry.getAllPaisesBacen).toBeTypeOf('function');
     expect(paisesBacenEntry.getPaisPorCodigoBacen).toBeTypeOf('function');
     expect(paisesBacenEntry.PAISES_BACEN_DATA_VERSION.id).toBe('paises-bacen');
   });
 
   it('re-exports Incoterms API from incoterms entry', () => {
-    expect(incotermsEntry.getIncoterms).toBeTypeOf('function');
+    expect(incotermsEntry.getAllIncoterms).toBeTypeOf('function');
     expect(incotermsEntry.getIncotermPorCodigo).toBeTypeOf('function');
     expect(incotermsEntry.INCOTERMS_DATA_VERSION.id).toBe('incoterms');
   });
 
+  it('re-exports NF-e cUF API from nfe-cuf entry', () => {
+    expect(nfeCufEntry.getAllCuf).toBeTypeOf('function');
+    expect(nfeCufEntry.getCufPorCodigo).toBeTypeOf('function');
+    expect(nfeCufEntry.getCufPorUf).toBeTypeOf('function');
+    expect(nfeCufEntry.lookupCufPorCodigo).toBeTypeOf('function');
+    expect(nfeCufEntry.NFE_CUF_DATA_VERSION.id).toBe('nfe-cuf');
+  });
+
+  it('re-exports SELIC API from selic entry', () => {
+    expect(selicEntry.getSelicMeta).toBeTypeOf('function');
+    expect(selicEntry.getSelicMetaPorData).toBeTypeOf('function');
+    expect(selicEntry.getSelicHistorico).toBeTypeOf('function');
+    expect(selicEntry.getSelicList).toBeTypeOf('function');
+    expect(selicEntry.SELIC_DATA_VERSION.id).toBe('selic');
+  });
+
+  it('re-exports ISS municipal API from iss-municipal entry', () => {
+    expect(issMunicipalEntry.getAllIssMunicipal).toBeTypeOf('function');
+    expect(issMunicipalEntry.getIssMunicipalPorIbge).toBeTypeOf('function');
+    expect(issMunicipalEntry.getIssMunicipalPorUfMunicipio).toBeTypeOf('function');
+    expect(issMunicipalEntry.searchIssMunicipal).toBeTypeOf('function');
+    expect(issMunicipalEntry.ISS_MUNICIPAL_DATA_VERSION.id).toBe('iss-municipal');
+  });
+
+  it('re-exports INSS API from inss entry', () => {
+    expect(inssEntry.getInssTabelaContribuicao).toBeTypeOf('function');
+    expect(inssEntry.calcularInssMensal).toBeTypeOf('function');
+    expect(inssEntry.getInssFaixaPorSalario).toBeTypeOf('function');
+    expect(inssEntry.getInssAnosDisponiveis).toBeTypeOf('function');
+    expect(inssEntry.INSS_DATA_VERSION.id).toBe('inss');
+  });
+
+  it('re-exports IRPF API from irpf entry', () => {
+    expect(irpfEntry.getIrpfTabelaProgressiva).toBeTypeOf('function');
+    expect(irpfEntry.calcularIrpfMensal).toBeTypeOf('function');
+    expect(irpfEntry.getIrpfFaixaPorValor).toBeTypeOf('function');
+    expect(irpfEntry.getIrpfAnosDisponiveis).toBeTypeOf('function');
+    expect(irpfEntry.IRPF_DATA_VERSION.id).toBe('irpf');
+  });
+
   it('re-exports Feriados API from feriados entry', () => {
     expect(feriadosEntry.isFeriadoNacional).toBeTypeOf('function');
-    expect(feriadosEntry.getFeriadosNacionais).toBeTypeOf('function');
+    expect(feriadosEntry.getAllFeriados).toBeTypeOf('function');
     expect(feriadosEntry.getProximoDiaUtil).toBeTypeOf('function');
     expect(feriadosEntry.FERIADOS_DATA_VERSION.id).toBe('feriados');
   });
 
   it('re-exports CNAE API from cnaes entry', () => {
-    expect(cnaesEntry.getCnaes).toBeTypeOf('function');
+    expect(cnaesEntry.getAllCnae).toBeTypeOf('function');
     expect(cnaesEntry.getCnaePorCodigo).toBeTypeOf('function');
     expect(cnaesEntry.searchCnaes).toBeTypeOf('function');
     expect(cnaesEntry.CNAES_DATA_VERSION.id).toBe('cnaes');
   });
 
   it('re-exports CFOP API from cfop entry', () => {
-    expect(cfopEntry.getCfops).toBeTypeOf('function');
+    expect(cfopEntry.getAllCfop).toBeTypeOf('function');
     expect(cfopEntry.getCfopPorCodigo).toBeTypeOf('function');
     expect(cfopEntry.searchCfop).toBeTypeOf('function');
     expect(cfopEntry.CFOP_DATA_VERSION.id).toBe('cfop');
   });
 
   it('re-exports Natureza juridica API from natureza-juridica entry', () => {
-    expect(naturezaJuridicaEntry.getNaturezasJuridicas).toBeTypeOf('function');
+    expect(naturezaJuridicaEntry.getAllNaturezaJuridica).toBeTypeOf('function');
     expect(naturezaJuridicaEntry.getNaturezaJuridicaPorCodigo).toBeTypeOf('function');
     expect(naturezaJuridicaEntry.NATUREZA_JURIDICA_DATA_VERSION.id).toBe('natureza-juridica');
   });
@@ -301,19 +346,19 @@ describe('package exports', () => {
   it('re-exports IBPT API from ibpt entry', () => {
     expect(ibptEntry.getIbptCargaPorNcmUf).toBeTypeOf('function');
     expect(ibptEntry.computeIbptCargaTotal).toBeTypeOf('function');
-    expect(ibptEntry.getIbptCargas).toBeTypeOf('function');
+    expect(ibptEntry.getAllIbptCargas).toBeTypeOf('function');
     expect(ibptEntry.IBPT_DATA_VERSION.id).toBe('ibpt');
   });
 
   it('re-exports NBS API from nbs entry', () => {
-    expect(nbsEntry.getNbsList).toBeTypeOf('function');
+    expect(nbsEntry.getAllNbs).toBeTypeOf('function');
     expect(nbsEntry.getNbsPorCodigo).toBeTypeOf('function');
     expect(nbsEntry.searchNbs).toBeTypeOf('function');
     expect(nbsEntry.NBS_DATA_VERSION.id).toBe('nbs');
   });
 
   it('re-exports CEST API from cest entry', () => {
-    expect(cestEntry.getCests).toBeTypeOf('function');
+    expect(cestEntry.getAllCest).toBeTypeOf('function');
     expect(cestEntry.getCestPorCodigo).toBeTypeOf('function');
     expect(cestEntry.getCestPorNcm).toBeTypeOf('function');
     expect(cestEntry.searchCest).toBeTypeOf('function');
@@ -330,21 +375,21 @@ describe('package exports', () => {
   });
 
   it('re-exports LC 116 API from lc116 entry', () => {
-    expect(lc116Entry.getLc116List).toBeTypeOf('function');
+    expect(lc116Entry.getAllLc116).toBeTypeOf('function');
     expect(lc116Entry.getLc116PorCodigo).toBeTypeOf('function');
     expect(lc116Entry.searchLc116).toBeTypeOf('function');
     expect(lc116Entry.LC116_DATA_VERSION.id).toBe('lc116');
   });
 
   it('re-exports eSocial API from esocial entry', () => {
-    expect(esocialEntry.getEsocialCategorias).toBeTypeOf('function');
+    expect(esocialEntry.getAllEsocialCategorias).toBeTypeOf('function');
     expect(esocialEntry.getEsocialCategoriaPorCodigo).toBeTypeOf('function');
     expect(esocialEntry.searchEsocialCategorias).toBeTypeOf('function');
     expect(esocialEntry.ESOCIAL_DATA_VERSION.id).toBe('esocial');
   });
 
   it('re-exports Simples Nacional API from simples-nacional entry', () => {
-    expect(simplesNacionalEntry.getSimplesAnexos).toBeTypeOf('function');
+    expect(simplesNacionalEntry.getAllSimplesAnexos).toBeTypeOf('function');
     expect(simplesNacionalEntry.getSimplesAnexo).toBeTypeOf('function');
     expect(simplesNacionalEntry.getSimplesFaixa).toBeTypeOf('function');
     expect(simplesNacionalEntry.computeSimplesAliquotaEfetiva).toBeTypeOf('function');
@@ -360,21 +405,21 @@ describe('package exports', () => {
   });
 
   it('re-exports NCM API from ncm entry', () => {
-    expect(ncmEntry.getNcms).toBeTypeOf('function');
+    expect(ncmEntry.getAllNcm).toBeTypeOf('function');
     expect(ncmEntry.getNcmPorCodigo).toBeTypeOf('function');
     expect(ncmEntry.searchNcm).toBeTypeOf('function');
     expect(ncmEntry.NCM_DATA_VERSION.id).toBe('ncm');
   });
 
   it('re-exports CBO API from cbo entry', () => {
-    expect(cboEntry.getCbos).toBeTypeOf('function');
+    expect(cboEntry.getAllCbo).toBeTypeOf('function');
     expect(cboEntry.getCboPorCodigo).toBeTypeOf('function');
     expect(cboEntry.searchCbo).toBeTypeOf('function');
     expect(cboEntry.CBO_DATA_VERSION.id).toBe('cbo');
   });
 
   it('re-exports Portos API from portos entry', () => {
-    expect(portosEntry.getPortos).toBeTypeOf('function');
+    expect(portosEntry.getAllPortos).toBeTypeOf('function');
     expect(portosEntry.getPortoPorCodigo).toBeTypeOf('function');
     expect(portosEntry.getPortosPorMunicipio).toBeTypeOf('function');
     expect(portosEntry.searchPortos).toBeTypeOf('function');
@@ -385,14 +430,14 @@ describe('package exports', () => {
     expect(anpCombustiveisEntry.getAnpPrecosMedios).toBeTypeOf('function');
     expect(anpCombustiveisEntry.getAnpPrecosMediosPorIbge).toBeTypeOf('function');
     expect(anpCombustiveisEntry.getAnpSemanaAtual).toBeTypeOf('function');
-    expect(anpCombustiveisEntry.getAnpSemanasPesquisa).toBeTypeOf('function');
+    expect(anpCombustiveisEntry.getAllAnpSemanasPesquisa).toBeTypeOf('function');
     expect(anpCombustiveisEntry.ANP_COMBUSTIVEIS_DATA_VERSION.id).toBe('anp-combustiveis');
   });
 
   it('re-exports PNCP reference API from pncp-reference entry', () => {
-    expect(pncpReferenceEntry.getPncpModalidades).toBeTypeOf('function');
+    expect(pncpReferenceEntry.getAllPncpModalidades).toBeTypeOf('function');
     expect(pncpReferenceEntry.getPncpModalidadePorId).toBeTypeOf('function');
-    expect(pncpReferenceEntry.getPncpReferenceTable).toBeTypeOf('function');
+    expect(pncpReferenceEntry.getAllPncpReference).toBeTypeOf('function');
     expect(pncpReferenceEntry.normalizePncpCnpj).toBeTypeOf('function');
     expect(pncpReferenceEntry.PNCP_REFERENCE_DATA_VERSION.id).toBe('pncp-reference');
   });

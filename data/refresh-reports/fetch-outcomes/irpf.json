@@ -1,0 +1,13 @@
+{
+  "datasetId": "irpf",
+  "status": "ok",
+  "endpoints": [
+    "https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas",
+    "https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas/tabela-progressiva-mensal",
+    "https://www.planalto.gov.br/ccivil_03/leis/l7713.htm"
+  ],
+  "attempts": 5,
+  "checkedAt": "2026-06-26T17:23:43.115Z",
+  "retainedEmbeddedDataFrom": "2026-06-26",
+  "message": "Static IRPF progressive monthly table generated."
+}

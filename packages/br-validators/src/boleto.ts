@@ -60,6 +60,7 @@ export type {
   ValorDocumentoValidationResult,
 } from './core/boleto/index.js';
 export type {
+  Arrecadacao,
   BoletoInputKind,
   BoletoSituacao,
   BoletoValidationResult,

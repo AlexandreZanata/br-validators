@@ -1,6 +1,6 @@
 import {
   FERIADOS_DATA_VERSION,
-  getFeriadosNacionais,
+  getAllFeriados,
   type FeriadoNacional,
 } from '@br-validators/core/feriados';
 import { EXIT } from '../../constants.js';
@@ -27,7 +27,7 @@ export function runFeriadosListCommand(
   io: { stdout: string[]; stderr: string[] } = { stdout: [], stderr: [] },
 ): number {
   const year = resolveYear(options.year);
-  const feriados = getFeriadosNacionais(year);
+  const feriados = getAllFeriados(year);
 
   if (options.json) {
     const payload: {

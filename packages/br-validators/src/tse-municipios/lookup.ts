@@ -4,6 +4,11 @@
  */
 
 import mapeamentoData from './data/mapeamento.json';
+import { resolveFixedLengthCodeLookup } from '../lookup/resolve.js';
+import {
+  unwrapLookupValue,
+  type LookupResult,
+} from '../types/lookup-result.js';
 import type { TseMunicipioMapping } from './types.js';
 
 const mapeamento: readonly TseMunicipioMapping[] = mapeamentoData;
@@ -20,12 +25,20 @@ export function getMapeamentoTseIbge(): readonly TseMunicipioMapping[] {
   return mapeamento;
 }
 
+export function lookupMunicipioIbgePorCodigoTse(codigo: string): LookupResult<number> {
+  return resolveFixedLengthCodeLookup({
+    input: codigo,
+    entityLabel: 'TSE municipality code',
+    normalize: normalizeCodigoTse,
+    expectedLength: 5,
+    lengthLabel: '5 digits',
+    find: (normalized) =>
+      mapeamento.find((entry) => entry.codigoTse === normalized)?.ibgeCodigo,
+  });
+}
+
 export function getMunicipioIbgePorCodigoTse(codigo: string): number | undefined {
-  const normalized = normalizeCodigoTse(codigo);
-  if (normalized.length !== 5) {
-    return undefined;
-  }
-  return mapeamento.find((entry) => entry.codigoTse === normalized)?.ibgeCodigo;
+  return unwrapLookupValue(lookupMunicipioIbgePorCodigoTse(codigo));
 }
 
 export function getCodigosTsePorMunicipio(ibgeCodigo: number): readonly string[] {

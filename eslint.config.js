@@ -12,6 +12,8 @@ export default tseslint.config(
       '**/.vitepress/cache/**',
       '**/.vitepress/dist/**',
       'apps/docs/api/**',
+      'apps/docs/api-reference/**',
+      'tests/integration/subpath-imports/.tmp/**',
       'apps/playground/playwright-report/**',
       'apps/playground/test-results/**',
       'agent-harness/**',
@@ -62,6 +64,16 @@ export default tseslint.config(
     },
   },
   {
+    files: ['tests/integration/subpath-imports/**/*.{ts,mts}'],
+    languageOptions: {
+      parserOptions: {
+        project: './tests/integration/subpath-imports/tsconfig.json',
+        tsconfigRootDir: import.meta.dirname,
+        projectService: false,
+      },
+    },
+  },
+  {
     files: ['apps/playground/**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-misused-promises': 'off',
@@ -80,6 +92,16 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
+    },
+  },
+  {
+    files: [
+      'packages/br-validators/src/**/index.ts',
+      'packages/br-validators/src/*.ts',
+    ],
+    rules: {
+      // Public barrels intentionally re-export deprecated v1 aliases until v2.0.
+      '@typescript-eslint/no-deprecated': 'off',
     },
   },
 );

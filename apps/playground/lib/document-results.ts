@@ -64,10 +64,10 @@ import {
   validateRg,
   validateTelefone,
   validateTituloEleitor,
+  isRgUfImplemented,
   type SanitizeResult,
   type RgUfCode,
   type UfCode,
-  RG_SUPPORTED_UFS,
 } from '@br-validators/core';
 import type { DocumentSlug } from './nav';
 
@@ -82,8 +82,8 @@ export type DocumentResults = {
 };
 
 function resolveRgUf(uf: UfCode): RgUfCode {
-  if ((RG_SUPPORTED_UFS as readonly string[]).includes(uf)) {
-    return uf as RgUfCode;
+  if (isRgUfImplemented(uf)) {
+    return uf;
   }
   return 'SP';
 }

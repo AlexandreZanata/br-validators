@@ -7,7 +7,7 @@ import {
   CNAES_RFB_CNAES_ZIP_BASE_URL,
   CNAES_SUBCLASSES_URL,
   getCnaePorCodigo,
-  getCnaes,
+  getAllCnae,
   searchCnaes,
 } from '../../../src/cnaes/index.js';
 import vectors from '../../vectors/cnaes.official.json';
@@ -38,7 +38,7 @@ describe('CNAE — official golden vectors', () => {
 
 describe('CNAE — coverage and search', () => {
   it('lists subclasses within expected IBGE range', () => {
-    const list = getCnaes();
+    const list = getAllCnae();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minSubclasses);
     expect(list.length).toBeLessThanOrEqual(vectors.maxSubclasses);
     expect(new Set(list.map((cnae) => cnae.codigo)).size).toBe(list.length);
@@ -70,7 +70,7 @@ describe('CNAE — coverage and search', () => {
     expect(CNAES_DATA_VERSION.id).toBe('cnaes');
     expect(CNAES_DATA_VERSION.endpoints).toContain(CNAES_SUBCLASSES_URL);
     expect(CNAES_DATA_VERSION.endpoints).toContain(vectors.source);
-    expect(CNAES_DATA_VERSION.contagens.cnaes).toBe(getCnaes().length);
+    expect(CNAES_DATA_VERSION.contagens.cnaes).toBe(getAllCnae().length);
   });
 
   it('documents RFB Cnaes.zip as complementary official source (subclass parity)', () => {

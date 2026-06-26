@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import {
-  getEstados,
+  getAllEstados,
   getMunicipioPorCodigo,
   IBGE_DATA_VERSION,
   IBGE_OFFICIAL_DOCS_URL,
@@ -33,7 +33,7 @@ export function DataIbgeExplorer() {
   const [codeInput, setCodeInput] = useState('3550308');
   const [tseInput, setTseInput] = useState(TSE_MUNICIPIOS_GOLDEN_CODIGO_TSE_SAO_PAULO);
 
-  const estados = useMemo(() => getEstados(), []);
+  const estados = useMemo(() => getAllEstados(), []);
   const municipios = useMemo(() => getMunicipiosForUf(uf), [uf]);
   const filteredMunicipios = useMemo(
     () => filterMunicipiosByName(municipios, nameQuery),

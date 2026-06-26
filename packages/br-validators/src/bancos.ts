@@ -1,7 +1,10 @@
 export {
+  getAllBancos,
   getBancos,
   getBancoPorCodigo,
   getBancoPorIspb,
+  lookupBancoPorCodigo,
+  lookupBancoPorIspb,
   BANCOS_DATA_VERSION,
   BANCOS_STR_URL,
   BANCOS_GOLDEN_COMPE_BB,

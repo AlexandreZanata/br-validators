@@ -6,6 +6,13 @@
 
 import anexosData from './data/anexos.json';
 import { SIMPLES_MAX_RBT12 } from './constants.js';
+import {
+  lookupFound,
+  lookupInvalidFormat,
+  lookupInvalidInput,
+  unwrapLookupValue,
+  type LookupResult,
+} from '../types/lookup-result.js';
 import type { SimplesAnexo, SimplesAnexoId, SimplesFaixaLookup } from './types.js';
 
 const anexos: readonly SimplesAnexo[] = anexosData as SimplesAnexo[];
@@ -18,20 +25,15 @@ const ROMAN_TO_ID: Record<string, SimplesAnexoId> = {
   V: 'V',
 };
 
-function normalizeAnexoId(anexo: string): SimplesAnexoId | '' {
-  const trimmed = anexo.trim().toUpperCase();
-  if (trimmed.length === 0) {
-    return '';
-  }
-
-  const romanMatch = /^ANEXO\s+([IV]+)$/u.exec(trimmed);
+function normalizeAnexoId(trimmedUpper: string): SimplesAnexoId | '' {
+  const romanMatch = /^ANEXO\s+([IV]+)$/u.exec(trimmedUpper);
   if (romanMatch !== null) {
     const roman = romanMatch[1];
     return ROMAN_TO_ID[roman] ?? '';
   }
 
-  if (trimmed in ROMAN_TO_ID) {
-    return ROMAN_TO_ID[trimmed];
+  if (trimmedUpper in ROMAN_TO_ID) {
+    return ROMAN_TO_ID[trimmedUpper];
   }
 
   const digitMap: Record<string, SimplesAnexoId> = {
@@ -41,7 +43,7 @@ function normalizeAnexoId(anexo: string): SimplesAnexoId | '' {
     '4': 'IV',
     '5': 'V',
   };
-  const digits = trimmed.replace(/\D/g, '');
+  const digits = trimmedUpper.replace(/\D/g, '');
   if (digits.length === 1 && digits in digitMap) {
     return digitMap[digits];
   }
@@ -53,16 +55,33 @@ function isValidReceitaBruta(receitaBruta: number): boolean {
   return Number.isFinite(receitaBruta) && receitaBruta > 0 && receitaBruta <= SIMPLES_MAX_RBT12;
 }
 
-export function getSimplesAnexos(): readonly SimplesAnexo[] {
+/** Returns every Simples Nacional annex table (in-memory reference, not a copy). */
+export function getAllSimplesAnexos(): readonly SimplesAnexo[] {
   return anexos;
 }
 
-export function getSimplesAnexo(anexo: string): SimplesAnexo | undefined {
-  const normalized = normalizeAnexoId(anexo);
-  if (normalized.length === 0) {
-    return undefined;
+/** @deprecated Use {@link getAllSimplesAnexos} instead. Removed in v2.0. */
+export function getSimplesAnexos(): readonly SimplesAnexo[] {
+  return getAllSimplesAnexos();
+}
+
+export function lookupSimplesAnexo(anexo: string): LookupResult<SimplesAnexo> {
+  const trimmed = anexo.trim();
+  if (trimmed.length === 0) {
+    return lookupInvalidInput('Simples Nacional annex code is required');
   }
-  return anexos.find((entry) => entry.id === normalized);
+
+  const normalized = normalizeAnexoId(trimmed.toUpperCase());
+  if (normalized.length === 0) {
+    return lookupInvalidFormat('Simples Nacional annex must be I–V (roman or digit 1–5)');
+  }
+
+  const found = anexos.find((entry) => entry.id === normalized);
+  return lookupFound(found as SimplesAnexo);
+}
+
+export function getSimplesAnexo(anexo: string): SimplesAnexo | undefined {
+  return unwrapLookupValue(lookupSimplesAnexo(anexo));
 }
 
 const FAIXA_MAX_RECEITAS = [180_000, 360_000, 720_000, 1_800_000, 3_600_000, 4_800_000] as const;
@@ -86,16 +105,33 @@ function resolveFaixaIndex(receitaBruta: number): number {
   return 5;
 }
 
+export function lookupSimplesFaixa(options: {
+  anexo: string;
+  receitaBruta: number;
+}): LookupResult<SimplesFaixaLookup> {
+  const anexoResult = lookupSimplesAnexo(options.anexo);
+  if (!anexoResult.ok) {
+    if (anexoResult.code === 'INVALID_INPUT') {
+      return lookupInvalidInput(anexoResult.message);
+    }
+    return lookupInvalidFormat(anexoResult.message);
+  }
+
+  if (!isValidReceitaBruta(options.receitaBruta)) {
+    return lookupInvalidFormat(
+      `Receita bruta must be a positive number up to ${String(SIMPLES_MAX_RBT12)}`,
+    );
+  }
+
+  const faixa = anexoResult.value.faixas[resolveFaixaIndex(options.receitaBruta)];
+  return lookupFound({ ...faixa, anexo: anexoResult.value.id });
+}
+
 export function getSimplesFaixa(options: {
   anexo: string;
   receitaBruta: number;
 }): SimplesFaixaLookup | undefined {
-  const anexoEntry = getSimplesAnexo(options.anexo);
-  if (anexoEntry === undefined || !isValidReceitaBruta(options.receitaBruta)) {
-    return undefined;
-  }
-  const faixa = anexoEntry.faixas[resolveFaixaIndex(options.receitaBruta)];
-  return { ...faixa, anexo: anexoEntry.id };
+  return unwrapLookupValue(lookupSimplesFaixa(options));
 }
 
 export function computeSimplesAliquotaEfetiva(options: {

@@ -30,29 +30,46 @@ describe('normalizeBancosLookupInput', () => {
 
 describe('lookupBanco golden vectors', () => {
   it('resolves BB COMPE 001', () => {
-    const banco = lookupBanco('001');
-    expect(banco?.codigo).toBe('001');
-    expect(banco?.nome).toContain('Brasil');
+    const result = lookupBanco('001');
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.codigo).toBe('001');
+      expect(result.value.nome).toContain('Brasil');
+    }
   });
 
   it('resolves Itaú COMPE 341', () => {
-    const banco = lookupBanco('341');
-    expect(banco?.codigo).toBe('341');
-    expect(banco?.nome.toUpperCase()).toContain('ITA');
+    const result = lookupBanco('341');
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.codigo).toBe('341');
+      expect(result.value.nome.toUpperCase()).toContain('ITA');
+    }
   });
 
   it('resolves Nubank ISPB', () => {
-    const banco = lookupBanco(NUBANK_ISPB);
-    expect(banco?.ispb).toBe(NUBANK_ISPB);
-    expect(banco?.nome.toUpperCase()).toContain('NU PAGAMENTOS');
+    const result = lookupBanco(NUBANK_ISPB);
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.ispb).toBe(NUBANK_ISPB);
+      expect(result.value.nome.toUpperCase()).toContain('NU PAGAMENTOS');
+    }
   });
 
-  it('returns undefined for invalid input shape', () => {
-    expect(lookupBanco('12345')).toBeUndefined();
+  it('returns failure for invalid input shape', () => {
+    const result = lookupBanco('12345');
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.code).toBe('INVALID_FORMAT');
+    }
   });
 
-  it('returns undefined for unknown code', () => {
-    expect(lookupBanco('999')).toBeUndefined();
+  it('returns failure for unknown code', () => {
+    const result = lookupBanco('999');
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.code).toBe('NOT_FOUND');
+    }
   });
 });
 
@@ -82,7 +99,15 @@ describe('runBancosLookupCommand', () => {
   it('returns invalid for unknown bank', () => {
     const io = { stdout: [] as string[], stderr: [] as string[] };
     expect(runBancosLookupCommand('999', { json: false, verbose: false }, io)).toBe(EXIT.INVALID);
-    expect(io.stderr[0]).toContain('not found');
+    expect(io.stderr[0]).toContain('not in embedded table');
+  });
+
+  it('emits JSON failure for unknown bank', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(runBancosLookupCommand('999', { json: true, verbose: false }, io)).toBe(EXIT.INVALID);
+    const parsed = JSON.parse(io.stdout[0]) as { ok: boolean; code: string; message: string };
+    expect(parsed.ok).toBe(false);
+    expect(parsed.code).toBe('NOT_FOUND');
   });
 
   it('returns usage for invalid input length', () => {

@@ -25,5 +25,12 @@
       "cotacaoCompra": 5.9062,
       "cotacaoVenda": 5.9079
     }
+  },
+  "staleness": {
+    "asOfFresh": "2026-06-26",
+    "freshReferenceDate": "2026-06-25",
+    "staleReferenceDate": "2026-06-23",
+    "capturadoEm": "2026-06-26",
+    "staleWarning": "Embedded data. For real-time use @br-validators/adapters-ptax"
   }
 }

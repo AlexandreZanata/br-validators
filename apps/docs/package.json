@@ -6,18 +6,23 @@
   "type": "module",
   "scripts": {
     "sync": "tsx scripts/sync-library-api.ts",
-    "predev": "pnpm sync",
+    "api": "typedoc --options ../../typedoc.json && tsx scripts/prepare-api-reference.ts",
+    "predev": "pnpm sync && pnpm api",
     "dev": "vitepress dev",
-    "prebuild": "pnpm sync",
+    "prebuild": "pnpm sync && pnpm api",
     "build": "vitepress build",
     "preview": "vitepress preview",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/node": "^22.15.21",
     "tsx": "^4.19.4",
+    "typedoc": "^0.28.19",
+    "typedoc-plugin-markdown": "^4.12.0",
     "typescript": "^5.8.3",
     "vitepress": "^1.6.3",
+    "vitest": "^3.2.1",
     "vue": "^3.5.17"
   }
 }

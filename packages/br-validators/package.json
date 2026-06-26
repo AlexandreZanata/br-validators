@@ -1,6 +1,6 @@
 {
   "name": "@br-validators/core",
-  "version": "1.8.3-data.0001",
+  "version": "1.9.0",
   "description": "The Brazilian document validation library for TypeScript — CPF, CNPJ (alphanumeric), NF-e, PIX, boleto, IE (27 UFs), offline IBGE/ANP/NCM/CST/LC116 reference data, and 15+ more. Zero deps, fully typed, never throws.",
   "homepage": "https://www.npmjs.com/package/@br-validators/core",
   "license": "MIT",
@@ -113,6 +113,26 @@
     "./nfe-chave": {
       "types": "./dist/nfe-chave.d.ts",
       "import": "./dist/nfe-chave.js"
+    },
+    "./nfe-cuf": {
+      "types": "./dist/nfe-cuf.d.ts",
+      "import": "./dist/nfe-cuf.js"
+    },
+    "./irpf": {
+      "types": "./dist/irpf.d.ts",
+      "import": "./dist/irpf.js"
+    },
+    "./inss": {
+      "types": "./dist/inss.d.ts",
+      "import": "./dist/inss.js"
+    },
+    "./selic": {
+      "types": "./dist/selic.d.ts",
+      "import": "./dist/selic.js"
+    },
+    "./iss-municipal": {
+      "types": "./dist/iss-municipal.d.ts",
+      "import": "./dist/iss-municipal.js"
     },
     "./processo-judicial": {
       "types": "./dist/processo-judicial.d.ts",
@@ -297,6 +317,10 @@
     "./data-catalog": {
       "types": "./dist/data-catalog.d.ts",
       "import": "./dist/data-catalog.js"
+    },
+    "./lookup": {
+      "types": "./dist/lookup.d.ts",
+      "import": "./dist/lookup.js"
     }
   },
   "files": [

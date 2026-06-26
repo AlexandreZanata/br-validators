@@ -1,5 +1,5 @@
 import { stripCnpj } from '../../strip/cnpj.js';
-import type { DocumentFormat, ValidationResult } from '../../types/validation-result.js';
+import type { Cnpj, DocumentFormat, ValidationResult } from '../../types/validation-result.js';
 import { brandCnpj } from '../../types/validation-result.js';
 import { isValidCnpjAlphanumeric } from './alphanumeric.js';
 import { CNPJ_LENGTH } from './constants.js';
@@ -52,7 +52,7 @@ export function isValidCnpj(input: string): boolean {
   return validateCnpj(input).ok;
 }
 
-export function validateCnpj(input: string): ValidationResult {
+export function validateCnpj(input: string): ValidationResult<Cnpj> {
   const stripped = stripCnpj(input);
   const structural = validateStructure(input, stripped);
   if ('ok' in structural) {

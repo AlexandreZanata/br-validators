@@ -1,0 +1,11 @@
+{
+  "source": "IIPM/DPT — legacy SSP-BA RG, format-only (10 digits; DV algorithm not published by SSP-BA)",
+  "url": "https://www.ba.gov.br/policiatecnica/972/instituto-de-identificacao-pedro-mello-iipm",
+  "valid": {
+    "raw": "1234567800"
+  },
+  "invalid": {
+    "raw": "123456789",
+    "code": "INVALID_LENGTH"
+  }
+}

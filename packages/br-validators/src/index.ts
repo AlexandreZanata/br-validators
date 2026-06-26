@@ -61,6 +61,7 @@ export {
   computeArrecadacaoModulo11Dv,
 } from './boleto.js';
 export type {
+  Arrecadacao,
   ArrecadacaoInputKind,
   ArrecadacaoValidationResult,
   ArrecadacaoValueType,

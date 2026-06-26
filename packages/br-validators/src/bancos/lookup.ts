@@ -4,6 +4,11 @@
  */
 
 import bancosData from './data/bancos.json';
+import { resolveFixedLengthCodeLookup } from '../lookup/resolve.js';
+import {
+  unwrapLookupValue,
+  type LookupResult,
+} from '../types/lookup-result.js';
 import type { Banco } from './types.js';
 
 const bancos: readonly Banco[] = bancosData;
@@ -24,22 +29,42 @@ function normalizeIspb(ispb: string): string {
   return digits.padStart(8, '0');
 }
 
-export function getBancos(): readonly Banco[] {
+/** Returns every embedded Bacen STR participant (in-memory reference, not a copy). */
+export function getAllBancos(): readonly Banco[] {
   return bancos;
 }
 
+/** @deprecated Use {@link getAllBancos} instead. Removed in v2.0. */
+export function getBancos(): readonly Banco[] {
+  return getAllBancos();
+}
+
+export function lookupBancoPorCodigo(codigo: string): LookupResult<Banco> {
+  return resolveFixedLengthCodeLookup({
+    input: codigo,
+    entityLabel: 'Bank COMPE',
+    normalize: normalizeCodigo,
+    expectedLength: 3,
+    lengthLabel: '3 digits',
+    find: (normalized) => bancos.find((banco) => banco.codigo === normalized),
+  });
+}
+
+export function lookupBancoPorIspb(ispb: string): LookupResult<Banco> {
+  return resolveFixedLengthCodeLookup({
+    input: ispb,
+    entityLabel: 'Bank ISPB',
+    normalize: normalizeIspb,
+    expectedLength: 8,
+    lengthLabel: '8 digits',
+    find: (normalized) => bancos.find((banco) => banco.ispb === normalized),
+  });
+}
+
 export function getBancoPorCodigo(codigo: string): Banco | undefined {
-  const normalized = normalizeCodigo(codigo);
-  if (normalized.length !== 3) {
-    return undefined;
-  }
-  return bancos.find((banco) => banco.codigo === normalized);
+  return unwrapLookupValue(lookupBancoPorCodigo(codigo));
 }
 
 export function getBancoPorIspb(ispb: string): Banco | undefined {
-  const normalized = normalizeIspb(ispb);
-  if (normalized.length !== 8) {
-    return undefined;
-  }
-  return bancos.find((banco) => banco.ispb === normalized);
+  return unwrapLookupValue(lookupBancoPorIspb(ispb));
 }

@@ -1,6 +1,6 @@
 import {
-  getEstados,
-  getMunicipios,
+  getAllEstados,
+  getAllMunicipios,
   IBGE_DATA_VERSION,
   type Estado,
   type Municipio,
@@ -30,7 +30,7 @@ export function runIbgeListEstadosCommand(
   options: IbgeListOptions,
   io: { stdout: string[]; stderr: string[] } = { stdout: [], stderr: [] },
 ): number {
-  const estados = sliceRows(getEstados(), options.limit);
+  const estados = sliceRows(getAllEstados(), options.limit);
 
   if (options.json) {
     const payload: { ok: true; total: number; estados: readonly Estado[]; capturadoEm?: string } = {
@@ -59,7 +59,7 @@ export function runIbgeListMunicipiosCommand(
   io: { stdout: string[]; stderr: string[] } = { stdout: [], stderr: [] },
 ): number {
   const uf = options.uf?.trim().toUpperCase();
-  const municipios = sliceRows(getMunicipios(uf ? { uf } : undefined), options.limit);
+  const municipios = sliceRows(getAllMunicipios(uf ? { uf } : undefined), options.limit);
 
   if (options.json) {
     const payload: {

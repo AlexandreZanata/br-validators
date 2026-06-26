@@ -6,7 +6,7 @@ import {
   CFOP_GOLDEN_VENDA_TERCEIROS,
   CFOP_HTML_URL,
   getCfopPorCodigo,
-  getCfops,
+  getAllCfop,
   searchCfop,
 } from '../../../src/cfop/index.js';
 import vectors from '../../vectors/cfop.official.json';
@@ -39,7 +39,7 @@ describe('CFOP — official golden vectors', () => {
 
 describe('CFOP — coverage and search', () => {
   it('lists codes within expected CONFAZ range', () => {
-    const list = getCfops();
+    const list = getAllCfop();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minCodes);
     expect(list.length).toBeLessThanOrEqual(vectors.maxCodes);
     expect(new Set(list.map((cfop) => cfop.codigo)).size).toBe(list.length);
@@ -71,6 +71,6 @@ describe('CFOP — coverage and search', () => {
     expect(CFOP_DATA_VERSION.id).toBe('cfop');
     expect(CFOP_DATA_VERSION.endpoints).toContain(CFOP_HTML_URL);
     expect(CFOP_DATA_VERSION.endpoints).toContain(vectors.source);
-    expect(CFOP_DATA_VERSION.contagens.cfop).toBe(getCfops().length);
+    expect(CFOP_DATA_VERSION.contagens.cfop).toBe(getAllCfop().length);
   });
 });

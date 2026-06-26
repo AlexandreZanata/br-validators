@@ -6,7 +6,7 @@ import {
   CBO_GOLDEN_OFICIAL_AERONAUTICA,
   CBO_OCUPACAO_CSV_URL,
   getCboPorCodigo,
-  getCbos,
+  getAllCbo,
   searchCbo,
 } from '../../../src/cbo/index.js';
 import vectors from '../../vectors/cbo.official.json';
@@ -37,7 +37,7 @@ describe('CBO — official golden vectors', () => {
 
 describe('CBO — coverage and search', () => {
   it('lists occupations within expected MTE range', () => {
-    const list = getCbos();
+    const list = getAllCbo();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minOcupacoes);
     expect(list.length).toBeLessThanOrEqual(vectors.maxOcupacoes);
     expect(new Set(list.map((cbo) => cbo.codigo)).size).toBe(list.length);
@@ -69,6 +69,6 @@ describe('CBO — coverage and search', () => {
     expect(CBO_DATA_VERSION.id).toBe('cbo');
     expect(CBO_DATA_VERSION.endpoints).toContain(CBO_OCUPACAO_CSV_URL);
     expect(CBO_DATA_VERSION.endpoints).toContain(vectors.source);
-    expect(CBO_DATA_VERSION.contagens.cbo).toBe(getCbos().length);
+    expect(CBO_DATA_VERSION.contagens.cbo).toBe(getAllCbo().length);
   });
 });

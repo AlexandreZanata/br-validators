@@ -1,4 +1,5 @@
-export { getCfops, getCfopPorCodigo, searchCfop } from './lookup.js';
+export { getAllCfop, getCfops, getCfopPorCodigo, lookupCfopPorCodigo, searchCfop } from './lookup.js';
+export { formatCfopDisplay, isValidCfop, validateCfop } from './validate.js';
 export {
   CFOP_GOLDEN_COMPRA_COMERCIALIZACAO,
   CFOP_GOLDEN_VENDA_TERCEIROS,

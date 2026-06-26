@@ -1,0 +1,36 @@
+{
+  "source": "https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas/tabela-progressiva-mensal",
+  "leiBase": "https://www.planalto.gov.br/ccivil_03/leis/l7713.htm",
+  "ano": 2025,
+  "faixas": 5,
+  "golden": {
+    "isento2000": {
+      "baseCalculo": 2000,
+      "faixa": 1,
+      "aliquota": 0,
+      "imposto": 0
+    },
+    "faixa2Limite": {
+      "baseCalculo": 2826.65,
+      "faixa": 2,
+      "aliquota": 0.075,
+      "imposto": 42.56
+    },
+    "faixa3Exemplo": {
+      "baseCalculo": 3000,
+      "faixa": 3,
+      "aliquota": 0.15,
+      "imposto": 68.56
+    },
+    "faixa5Exemplo": {
+      "baseCalculo": 5000,
+      "faixa": 5,
+      "aliquota": 0.275,
+      "imposto": 479
+    }
+  },
+  "negative": {
+    "invalidBase": -1,
+    "unknownYear": 1999
+  }
+}

@@ -50,7 +50,11 @@ export type Cnpj = string & { readonly __brand: 'Cnpj' };
 
 export function validateCpf(input: string): ValidationResult<Cpf>;
 export function validateCnpj(input: string): ValidationResult<Cnpj>;
+export function validateCep(input: string): ValidationResult<Cep>;
+export function validatePisPasep(input: string): ValidationResult<PisPasep>;
 ```
+
+Full inventory: [LIBRARY-API.md — Branded types](LIBRARY-API.md#branded-types--only-produced-by-successful-validate).
 
 Consumers get compile-time safety: a `string` from user input cannot be passed where `Cpf` is required without going through validation.
 

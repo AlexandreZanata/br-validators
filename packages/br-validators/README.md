@@ -31,7 +31,7 @@ Every Brazilian SaaS eventually reinvents CPF validation — usually wrong.
 - ✅ **Zero runtime dependencies** — pure TypeScript logic, no HTTP calls
 - ✅ **Never throws** — every function returns `{ ok: true, value } | { ok: false, message, code }`
 - ✅ **Tree-shakeable** — subpath imports per document type
-- ✅ **Reference data** — IBGE (municipalities + NF-e `cMunFG`), Bacen banks, DDD lookup, national holidays, CNAE, CFOP, CST, LC 116, NCM, IBPT tax burden, Simples Nacional, CBO, natureza jurídica, NBS, CEST, eSocial categorias, CNPJ motivos, moedas, PTAX cotações, países Bacen, Incoterms, portos, aeroportos, **ANP fuel prices (LPC)** — embedded offline with daily freshness ([DATA-FRESHNESS.md](../../docs/DATA-FRESHNESS.md); ANP weekly)
+- ✅ **Reference data** — IBGE (municipalities + NF-e `cMunFG`), Bacen banks, DDD lookup, national holidays, CNAE, CFOP, CST, LC 116, NCM, IBPT tax burden, Simples Nacional, CBO, natureza jurídica, NBS, CEST, eSocial categorias, CNPJ motivos, moedas, PTAX cotações, países Bacen, NF-e cUF, IRPF / INSS tables, SELIC meta, ISS municipal (sample), Incoterms, portos, aeroportos, **ANP fuel prices (LPC)** — embedded offline with daily freshness ([DATA-FRESHNESS.md](../../docs/DATA-FRESHNESS.md); ANP weekly)
 - ✅ **ESM only**, Node ≥ 18, works in browser, Bun, Deno
 
 ---
@@ -189,6 +189,21 @@ diff('12345678909', '12345678901', 'cpf');
 // { changed: true, fields: [{ field: 'dv', a: '09', b: '01' }] }
 ```
 
+### Fiscal code validators (NCM, CFOP, CST)
+
+```typescript
+import { validateNcm } from '@br-validators/core/ncm';
+import { validateCfop } from '@br-validators/core/cfop';
+import { validateCst } from '@br-validators/core/cst';
+import { lookupNcmPorCodigo } from '@br-validators/core/ncm';
+
+validateNcm('01012100');   // { ok: true, value: '01012100', row: { ... } }
+validateCfop('1102');      // dotted or plain CONFAZ codes
+validateCst('00', { tax: 'icms' });
+
+lookupNcmPorCodigo('01012100'); // LookupResult — ok / not-found / invalid-format
+```
+
 Per-type rules and official sources: [docs/OFFICIAL-SOURCES.md](https://github.com/open-data-brazil/br-validators/blob/main/docs/OFFICIAL-SOURCES.md) · API contract: [docs/LIBRARY-API.md](https://github.com/open-data-brazil/br-validators/blob/main/docs/LIBRARY-API.md)
 
 > **Backend / form integration:** `format*` and `mask()` validate first — they **never** left-pad partial input (`"0"` will not become `000.000.000-00`). Do not combine `padStart` with display formatting in `onChange`; pad to full width only at submit if your API requires it. Details: [LIBRARY-API.md — display vs backend normalization](https://github.com/open-data-brazil/br-validators/blob/main/docs/LIBRARY-API.md#consumer-warning--display-formatting-vs-backend-normalization).
@@ -244,7 +259,7 @@ br-validators generate inscricao-estadual-produtor-rural --masked --seed 42
 | RENAVAM | `@br-validators/core/renavam` | `br-validators renavam …` | `/renavam` |
 | Título de Eleitor | `@br-validators/core/titulo-eleitor` | `br-validators titulo-eleitor …` | `/titulo-eleitor` |
 | Processo judicial CNJ | `@br-validators/core/processo-judicial` | `br-validators processo-judicial …` | `/processo-judicial` |
-| RG (per-UF identity card) | `@br-validators/core/rg` | `br-validators rg … --uf SP` | `/rg` |
+| RG (27 UFs — identity card) | `@br-validators/core/rg` | `br-validators rg … --uf SP` | `/rg` |
 | Placa (Mercosul + legada) | `@br-validators/core/placa` | `br-validators placa …` | `/placa` |
 | PIS / PASEP / NIS | `@br-validators/core/pis-pasep` | `br-validators pis-pasep …` | `/pis` |
 | CNIS / NIT (worker ID) | `@br-validators/core/cnis` | `br-validators cnis …` | `/cnis` |
@@ -259,10 +274,10 @@ br-validators generate inscricao-estadual-produtor-rural --masked --seed 42
 | IE Produtor Rural | `@br-validators/core/inscricao-estadual-produtor-rural` | `br-validators ie …` (auto `P`) | `/ie` |
 | **detect()** | `@br-validators/core/detect` | `br-validators detect …` | `/detect` |
 | **sanitize()** | `@br-validators/core/sanitize` | `br-validators sanitize …` | `/sanitize` |
-| **mask()** | `@br-validators/core/mask` | — | via per-type `format` |
-| **compare()** | `@br-validators/core/compare` | — | — |
-| **batch()** | `@br-validators/core/batch` | — | — |
-| **diff()** | `@br-validators/core/diff` | — | — |
+| **mask()** | `@br-validators/core/mask` | `br-validators mask …` | via per-type `format` |
+| **compare()** | `@br-validators/core/compare` | `br-validators compare …` | `/compare` |
+| **batch()** | `@br-validators/core/batch` | `br-validators batch …` | `/batch` |
+| **diff()** | `@br-validators/core/diff` | `br-validators diff …` | `/diff` |
 | **generate()** | `@br-validators/core/generate` | `br-validators generate …` | `/generate` |
 | **buildStaticPixBrCode()** | `@br-validators/core/brcode` | — | `/pix` (QR panel) |
 
@@ -295,6 +310,11 @@ Embedded JSON from official `.gov.br` sources — **no runtime HTTP**. Each modu
 | ISO 4217 + Bacen PTAX moedas | `@br-validators/core/moedas` | `moedas lookup` | `/data/trade` | `getMoedaPorCodigo`, `searchMoedas` | [Bacen PTAX Moedas API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas) |
 | Bacen PTAX Fechamento | `@br-validators/core/ptax` | — | `/data/trade` | `getPtaxCotacao`, `getPtaxUltimoDiaUtil` | [Bacen Olinda PTAX API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3) |
 | NF-e Bacen country codes | `@br-validators/core/paises-bacen` | `paises-bacen lookup` | `/data/trade` | `getPaisPorCodigoBacen`, `getPaisesBacen` | [NF-e country table](http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50=) |
+| NF-e cUF (IBGE state codes) | `@br-validators/core/nfe-cuf` | `nfe-cuf lookup` | `/data/fiscal` | `getCufPorCodigo`, `lookupCufPorCodigo` | [NF-e cUF table](http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50=) |
+| IRPF progressive brackets | `@br-validators/core/irpf` | `irpf tabela` · `irpf calc` | `/data/payroll` | `getIrpfTabelaProgressiva`, `calcularIrpfMensal` | [RFB IRPF tables](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas) |
+| INSS contribution brackets | `@br-validators/core/inss` | `inss tabela` · `inss calc` | `/data/payroll` | `getInssTabelaContribuicao`, `calcularInssMensal` | [INSS contribution rates](https://www.gov.br/inss/pt-br/direitos-e-deveres/inscricao-e-contribuicao/tabelas-de-contribuicao) |
+| Bacen SELIC meta | `@br-validators/core/selic` | `selic` | `/data/finance` | `getSelicMeta`, `getSelicMetaPorData` | [Bacen SGS série 432](https://www3.bcb.gov.br/sgspub/localizarseries/localizarSeries.do?method=prepararTelaLocalizarSeries) |
+| ISS municipal rates (sample) | `@br-validators/core/iss-municipal` | `iss-municipal lookup` · `search` | `/data/fiscal` | `getIssMunicipalPorIbge`, `searchIssMunicipal` | [IBGE PIB municipal 2022](https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/19567-pib-dos-municipios.html) |
 | ICC Incoterms 2020 | `@br-validators/core/incoterms` | `incoterms lookup` | `/data/trade` | `getIncotermPorCodigo`, `getIncoterms` | [ICC Incoterms rules](https://iccwbo.org/resources-for-business/incoterms-rules/) |
 | CBO 2002 occupations | `@br-validators/core/cbo` | `cbo lookup` · `search` | `/data/fiscal` | `getCboPorCodigo`, `searchCbo` | [MTE CBO downloads](https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/cbo/servicos/downloads) |
 | CEP prefix lookup | `@br-validators/core/cep` | `cep faixa` | — | `getCepFaixaInfo`, `getCepFaixas` | [IBGE CNEFE 2022](https://www.ibge.gov.br/estatisticas/sociais/populacao/38734-cadastro-nacional-de-enderecos-para-fins-estatisticos.html) |
@@ -320,6 +340,11 @@ import { getIncotermPorCodigo } from '@br-validators/core/incoterms';
 import { getAeroportoPorIata } from '@br-validators/core/aeroportos';
 import { getPortoPorCodigo } from '@br-validators/core/portos';
 import { getAnpPrecosMedios } from '@br-validators/core/anp-combustiveis';
+import { getSelicMeta } from '@br-validators/core/selic';
+import { getIrpfTabelaProgressiva } from '@br-validators/core/irpf';
+import { getInssTabelaContribuicao } from '@br-validators/core/inss';
+import { getCufPorCodigo } from '@br-validators/core/nfe-cuf';
+import { getIssMunicipalPorIbge } from '@br-validators/core/iss-municipal';
 import { getDataCatalog } from '@br-validators/core/data-catalog';
 
 getMunicipioPorCodigo(3550308)?.nome; // São Paulo
@@ -339,6 +364,11 @@ getIncotermPorCodigo('FOB')?.nome;    // Free On Board
 getAeroportoPorIata('GRU')?.nome;     // Guarulhos — SP
 getPortoPorCodigo('BRSSZ')?.nome;     // Santos organized port
 getAnpPrecosMedios({ uf: 'SP', municipio: 'São Paulo', produto: 'GASOLINE_REGULAR' })?.precoMedio;
+getSelicMeta()?.valor;              // latest Bacen SELIC meta (% a.a.)
+getIrpfTabelaProgressiva(2026);     // progressive monthly brackets
+getInssTabelaContribuicao(2026);    // INSS contribution table
+getCufPorCodigo('35')?.uf;          // SP (NF-e cUF)
+getIssMunicipalPorIbge(3550308);    // São Paulo ISS sample row
 getDataCatalog().length;              // registered datasets
 ```
 
@@ -348,7 +378,7 @@ Freshness table (auto-updated daily; ANP weekly): [docs/DATA-FRESHNESS.md](https
 
 ## Current release
 
-**v1.8.3** — NF-e ODS país-table fetch, Bacen FTP fallback, data-bot PATCH gate fix, paises-bacen embedded refresh (253 countries). v1.8.0 added ten core subpaths. [CHANGELOG](https://github.com/open-data-brazil/br-validators/blob/main/CHANGELOG.md#183---2026-06-26)
+**v1.9.0** — Phase 33 maturity: `LookupResult` API, fiscal validators, IRPF / INSS / SELIC / ISS municipal / NF-e cUF datasets, platform CLI (`compare` / `batch` / `diff` / `mask`), RG 27/27 UFs, `MIGRATION.md`, TypeDoc API reference. [CHANGELOG](https://github.com/open-data-brazil/br-validators/blob/main/CHANGELOG.md#190---2026-06-26)
 
 ---
 

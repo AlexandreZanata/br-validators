@@ -22,17 +22,20 @@ describe('normalizeIbgeMunicipioCode', () => {
 
 describe('lookupMunicipio', () => {
   it('resolves São Paulo capital', () => {
-    const municipio = lookupMunicipio(String(IBGE_GOLDEN_MUNICIPIO_SP));
-    expect(municipio?.uf).toBe('SP');
-    expect(municipio?.nome).toContain('Paulo');
+    const result = lookupMunicipio(String(IBGE_GOLDEN_MUNICIPIO_SP));
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.uf).toBe('SP');
+      expect(result.value.nome).toContain('Paulo');
+    }
   });
 
-  it('returns undefined for invalid code shape', () => {
-    expect(lookupMunicipio('123')).toBeUndefined();
+  it('returns failure for invalid code shape', () => {
+    expect(lookupMunicipio('123').ok).toBe(false);
   });
 
-  it('returns undefined for unknown code', () => {
-    expect(lookupMunicipio('9999999')).toBeUndefined();
+  it('returns failure for unknown code', () => {
+    expect(lookupMunicipio('9999999').ok).toBe(false);
   });
 });
 
@@ -56,10 +59,10 @@ describe('runIbgeLookupCommand', () => {
   });
 
   it('prints human output', () => {
-    const municipio = lookupMunicipio(String(IBGE_GOLDEN_MUNICIPIO_SP));
-    expect(municipio).toBeDefined();
-    if (municipio) {
-      expect(formatMunicipioHuman(municipio)).toContain('SP');
+    const result = lookupMunicipio(String(IBGE_GOLDEN_MUNICIPIO_SP));
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(formatMunicipioHuman(result.value)).toContain('SP');
     }
   });
 
@@ -71,6 +74,22 @@ describe('runIbgeLookupCommand', () => {
   it('returns usage for invalid code length', () => {
     const io = { stdout: [] as string[], stderr: [] as string[] };
     expect(runIbgeLookupCommand('123', { json: false, verbose: false }, io)).toBe(EXIT.USAGE);
+  });
+
+  it('emits JSON failure for invalid municipality code', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(runIbgeLookupCommand('123', { json: true, verbose: false }, io)).toBe(EXIT.USAGE);
+    const parsed = JSON.parse(io.stdout[0]) as { ok: boolean; code: string };
+    expect(parsed.ok).toBe(false);
+    expect(parsed.code).toBe('INVALID_FORMAT');
+  });
+
+  it('emits JSON failure for unknown municipality', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(runIbgeLookupCommand('9999999', { json: true, verbose: false }, io)).toBe(EXIT.INVALID);
+    const parsed = JSON.parse(io.stdout[0]) as { ok: boolean; code: string };
+    expect(parsed.ok).toBe(false);
+    expect(parsed.code).toBe('NOT_FOUND');
   });
 });
 

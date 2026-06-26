@@ -1,4 +1,8 @@
 export {
+  getAllCstCofins,
+  getAllCstIcms,
+  getAllCstIpi,
+  getAllCstPis,
   getCstCofins,
   getCstCofinsPorCodigo,
   getCstIcms,
@@ -7,11 +11,16 @@ export {
   getCstIpiPorCodigo,
   getCstPis,
   getCstPisPorCodigo,
+  lookupCstCofinsPorCodigo,
+  lookupCstIcmsPorCodigo,
+  lookupCstIpiPorCodigo,
+  lookupCstPisPorCodigo,
   searchCstCofins,
   searchCstIcms,
   searchCstIpi,
   searchCstPis,
 } from './lookup.js';
+export { isValidCst, validateCst, type CstTax } from './validate.js';
 export {
   CST_COFINS_DOC_URL,
   CST_GOLDEN_COFINS_ISENTA,

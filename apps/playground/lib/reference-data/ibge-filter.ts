@@ -1,7 +1,7 @@
-import { getMunicipios, type Municipio } from '@br-validators/core/ibge';
+import { getAllMunicipios, type Municipio } from '@br-validators/core/ibge';
 
 export function getMunicipiosForUf(uf: string): readonly Municipio[] {
-  return getMunicipios({ uf });
+  return getAllMunicipios({ uf });
 }
 
 export function filterMunicipiosByName(municipios: readonly Municipio[], query: string): readonly Municipio[] {

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   getNaturezaJuridicaPorCodigo,
-  getNaturezasJuridicas,
+  getAllNaturezaJuridica,
   NATUREZA_JURIDICA_BASE_URL,
   NATUREZA_JURIDICA_DATA_VERSION,
   NATUREZA_JURIDICA_GOLDEN_LTDA,
@@ -30,7 +30,7 @@ describe('Natureza juridica — official golden vectors', () => {
 
 describe('Natureza juridica — coverage and metadata', () => {
   it('lists codes within expected RFB range', () => {
-    const list = getNaturezasJuridicas();
+    const list = getAllNaturezaJuridica();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minCodes);
     expect(list.length).toBeLessThanOrEqual(vectors.maxCodes);
     expect(new Set(list.map((natureza) => natureza.codigo)).size).toBe(list.length);
@@ -44,6 +44,6 @@ describe('Natureza juridica — coverage and metadata', () => {
       ) ||
         NATUREZA_JURIDICA_DATA_VERSION.endpoints.some((endpoint) => endpoint.includes('Naturezas.zip')),
     ).toBe(true);
-    expect(NATUREZA_JURIDICA_DATA_VERSION.contagens.naturezas).toBe(getNaturezasJuridicas().length);
+    expect(NATUREZA_JURIDICA_DATA_VERSION.contagens.naturezas).toBe(getAllNaturezaJuridica().length);
   });
 });

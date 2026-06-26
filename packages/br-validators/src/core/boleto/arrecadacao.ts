@@ -3,7 +3,8 @@
  * @see docs/use-cases/UC-007-validate-boleto.md
  * @see BOLETO_ARRECADACAO_OFFICIAL_SOURCE_URL
  */
-import type { ValidationErrorCode } from '../../types/validation-result.js';
+import type { Arrecadacao, ValidationErrorCode } from '../../types/validation-result.js';
+import { brandArrecadacao } from '../../types/validation-result.js';
 import {
   BOLETO_ARRECADACAO_CODIGO_BARRAS_LENGTH,
   BOLETO_ARRECADACAO_LINHA_LENGTH,
@@ -21,7 +22,7 @@ export type ArrecadacaoInputKind = 'arrecadacao-linha' | 'arrecadacao-codigo-bar
 export type ArrecadacaoValidationResult =
   | {
       ok: true;
-      value: string;
+      value: Arrecadacao;
       inputKind: ArrecadacaoInputKind;
       format: 'arrecadacao';
       segment: string;
@@ -121,7 +122,7 @@ export function validateArrecadacaoLinha(input: string): ArrecadacaoValidationRe
 
   return {
     ok: true,
-    value: stripped,
+    value: brandArrecadacao(stripped),
     inputKind: 'arrecadacao-linha',
     format: 'arrecadacao',
     segment: stripped.charAt(1),
@@ -163,7 +164,7 @@ export function validateArrecadacaoCodigoBarras(input: string): ArrecadacaoValid
 
   return {
     ok: true,
-    value: trimmed,
+    value: brandArrecadacao(trimmed),
     inputKind: 'arrecadacao-codigo-barras',
     format: 'arrecadacao',
     segment: trimmed.charAt(1),

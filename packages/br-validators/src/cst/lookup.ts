@@ -7,6 +7,11 @@ import cstCofinsData from './data/cst-cofins.json';
 import cstIcmsData from './data/cst-icms.json';
 import cstIpiData from './data/cst-ipi.json';
 import cstPisData from './data/cst-pis.json';
+import { resolveFixedLengthCodeLookup } from '../lookup/resolve.js';
+import {
+  unwrapLookupValue,
+  type LookupResult,
+} from '../types/lookup-result.js';
 import type { Cst } from './types.js';
 
 const cstIcms: readonly Cst[] = cstIcmsData;
@@ -22,12 +27,19 @@ function normalizeCodigo(codigo: string, length: number): string {
   return digits.padStart(length, '0').slice(-length);
 }
 
-function lookupPorCodigo(list: readonly Cst[], codigo: string, length: number): Cst | undefined {
-  const normalized = normalizeCodigo(codigo, length);
-  if (normalized.length !== length) {
-    return undefined;
-  }
-  return list.find((entry) => entry.codigo === normalized);
+function resolveCstLookup(
+  list: readonly Cst[],
+  codigo: string,
+  taxLabel: string,
+): LookupResult<Cst> {
+  return resolveFixedLengthCodeLookup({
+    input: codigo,
+    entityLabel: `CST ${taxLabel}`,
+    normalize: (input) => normalizeCodigo(input, 2),
+    expectedLength: 2,
+    lengthLabel: '2 digits',
+    find: (normalized) => list.find((entry) => entry.codigo === normalized),
+  });
 }
 
 function searchCstList(
@@ -55,36 +67,76 @@ function searchCstList(
   return results;
 }
 
-export function getCstIcms(): readonly Cst[] {
+/** Returns every embedded ICMS CST row (in-memory reference, not a copy). */
+export function getAllCstIcms(): readonly Cst[] {
   return cstIcms;
 }
 
-export function getCstIpi(): readonly Cst[] {
+/** @deprecated Use {@link getAllCstIcms} instead. Removed in v2.0. */
+export function getCstIcms(): readonly Cst[] {
+  return getAllCstIcms();
+}
+
+/** Returns every embedded IPI CST row (in-memory reference, not a copy). */
+export function getAllCstIpi(): readonly Cst[] {
   return cstIpi;
 }
 
-export function getCstPis(): readonly Cst[] {
+/** @deprecated Use {@link getAllCstIpi} instead. Removed in v2.0. */
+export function getCstIpi(): readonly Cst[] {
+  return getAllCstIpi();
+}
+
+/** Returns every embedded PIS CST row (in-memory reference, not a copy). */
+export function getAllCstPis(): readonly Cst[] {
   return cstPis;
 }
 
-export function getCstCofins(): readonly Cst[] {
+/** @deprecated Use {@link getAllCstPis} instead. Removed in v2.0. */
+export function getCstPis(): readonly Cst[] {
+  return getAllCstPis();
+}
+
+/** Returns every embedded COFINS CST row (in-memory reference, not a copy). */
+export function getAllCstCofins(): readonly Cst[] {
   return cstCofins;
 }
 
+/** @deprecated Use {@link getAllCstCofins} instead. Removed in v2.0. */
+export function getCstCofins(): readonly Cst[] {
+  return getAllCstCofins();
+}
+
+export function lookupCstIcmsPorCodigo(codigo: string): LookupResult<Cst> {
+  return resolveCstLookup(cstIcms, codigo, 'ICMS');
+}
+
+export function lookupCstIpiPorCodigo(codigo: string): LookupResult<Cst> {
+  return resolveCstLookup(cstIpi, codigo, 'IPI');
+}
+
+export function lookupCstPisPorCodigo(codigo: string): LookupResult<Cst> {
+  return resolveCstLookup(cstPis, codigo, 'PIS');
+}
+
+export function lookupCstCofinsPorCodigo(codigo: string): LookupResult<Cst> {
+  return resolveCstLookup(cstCofins, codigo, 'COFINS');
+}
+
 export function getCstIcmsPorCodigo(codigo: string): Cst | undefined {
-  return lookupPorCodigo(cstIcms, codigo, 2);
+  return unwrapLookupValue(lookupCstIcmsPorCodigo(codigo));
 }
 
 export function getCstIpiPorCodigo(codigo: string): Cst | undefined {
-  return lookupPorCodigo(cstIpi, codigo, 2);
+  return unwrapLookupValue(lookupCstIpiPorCodigo(codigo));
 }
 
 export function getCstPisPorCodigo(codigo: string): Cst | undefined {
-  return lookupPorCodigo(cstPis, codigo, 2);
+  return unwrapLookupValue(lookupCstPisPorCodigo(codigo));
 }
 
 export function getCstCofinsPorCodigo(codigo: string): Cst | undefined {
-  return lookupPorCodigo(cstCofins, codigo, 2);
+  return unwrapLookupValue(lookupCstCofinsPorCodigo(codigo));
 }
 
 export function searchCstIcms(query: string, options?: { limit?: number }): readonly Cst[] {

@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import {
   FERIADOS_DATA_VERSION,
   FERIADOS_GOV_CALENDARIO_URL,
-  getFeriadosNacionais,
+  getAllFeriados,
 } from '@br-validators/core/feriados';
 import { Label } from '@/components/atoms/Label';
 import { Input } from '@/components/atoms/Input';
@@ -29,7 +29,7 @@ export function DataCalendarExplorer() {
     return parsed;
   }, [yearInput]);
 
-  const feriados = useMemo(() => getFeriadosNacionais(year), [year]);
+  const feriados = useMemo(() => getAllFeriados(year), [year]);
 
   return (
     <main className={styles.panel}>

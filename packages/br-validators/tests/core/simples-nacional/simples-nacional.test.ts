@@ -8,12 +8,13 @@ import {
   SIMPLES_GOLDEN_ANEXO_COMERCIO,
   SIMPLES_GOLDEN_ANEXO_PROFISSIONAIS,
   SIMPLES_GOLDEN_ANEXO_SERVICOS,
-  SIMPLES_MAX_RBT12,
   SIMPLES_NACIONAL_DATA_VERSION,
   computeSimplesAliquotaEfetiva,
   getSimplesAnexo,
-  getSimplesAnexos,
+  getAllSimplesAnexos,
   getSimplesFaixa,
+  lookupSimplesAnexo,
+  lookupSimplesFaixa,
 } from '../../../src/simples-nacional/index.js';
 import vectors from '../../vectors/simples-nacional.official.json';
 import * as simplesNacionalBarrel from '../../../src/simples-nacional.js';
@@ -56,6 +57,83 @@ describe('Simples Nacional — official golden vectors', () => {
   });
 });
 
+describe('Simples Nacional — lookupSimples* structured results', () => {
+  it('returns INVALID_INPUT for empty annex', () => {
+    expect(lookupSimplesAnexo('')).toEqual({
+      ok: false,
+      code: 'INVALID_INPUT',
+      message: 'Simples Nacional annex code is required',
+    });
+  });
+
+  it('returns INVALID_FORMAT for unknown annex alias', () => {
+    const result = lookupSimplesAnexo(vectors.negative.unknownAnnex.anexo);
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.code).toBe('INVALID_FORMAT');
+    }
+  });
+
+  it('propagates annex failures from lookupSimplesFaixa', () => {
+    expect(lookupSimplesFaixa({
+      anexo: vectors.negative.emptyAnnex.anexo,
+      receitaBruta: 100_000,
+    })).toEqual({
+      ok: false,
+      code: 'INVALID_INPUT',
+      message: 'Simples Nacional annex code is required',
+    });
+
+    const invalidAnnex = lookupSimplesFaixa({
+      anexo: vectors.negative.invalidAnnexAlias.anexo,
+      receitaBruta: 100_000,
+    });
+    expect(invalidAnnex.ok).toBe(false);
+    if (!invalidAnnex.ok) {
+      expect(invalidAnnex.code).toBe('INVALID_FORMAT');
+    }
+  });
+
+  it('returns INVALID_FORMAT for out-of-range receita bruta', () => {
+    const result = lookupSimplesFaixa({
+      anexo: 'I',
+      receitaBruta: vectors.negative.revenueAboveMax.receitaBruta,
+    });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.code).toBe('INVALID_FORMAT');
+      expect(result.message).toContain('Receita bruta');
+    }
+  });
+});
+
+describe('Simples Nacional — negative vectors', () => {
+  it.each([
+    ['unknownAnnex', vectors.negative.unknownAnnex],
+    ['invalidAnnexAlias', vectors.negative.invalidAnnexAlias],
+    ['emptyAnnex', vectors.negative.emptyAnnex],
+    ['invalidCnaeAsAnnex', vectors.negative.invalidCnaeAsAnnex],
+  ] as const)('returns undefined for %s lookup', (_label, vector) => {
+    expect(getSimplesAnexo(vector.anexo)).toBeUndefined();
+  });
+
+  it.each([
+    ['revenueZero', vectors.negative.revenueZero],
+    ['revenueAboveMax', vectors.negative.revenueAboveMax],
+    ['negativeRevenue', vectors.negative.negativeRevenue],
+  ] as const)('returns undefined for %s faixa lookup', (_label, vector) => {
+    expect(getSimplesFaixa({ anexo: vector.anexo, receitaBruta: vector.receitaBruta })).toBeUndefined();
+    expect(
+      computeSimplesAliquotaEfetiva({ anexo: vector.anexo, receitaBruta: vector.receitaBruta }),
+    ).toBeUndefined();
+  });
+
+  it('returns undefined for NaN receita bruta', () => {
+    expect(getSimplesFaixa({ anexo: 'I', receitaBruta: Number.NaN })).toBeUndefined();
+    expect(computeSimplesAliquotaEfetiva({ anexo: 'I', receitaBruta: Number.NaN })).toBeUndefined();
+  });
+});
+
 describe('Simples Nacional — lookup normalization', () => {
   it('accepts roman numerals, ANEXO prefix, and digit aliases', () => {
     expect(getSimplesAnexo('i')?.id).toBe('I');
@@ -69,20 +147,7 @@ describe('Simples Nacional — lookup normalization', () => {
     expect(getSimplesAnexo('ANEXO VI')).toBeUndefined();
     expect(getSimplesAnexo('6')).toBeUndefined();
     expect(getSimplesAnexo('10')).toBeUndefined();
-  });
-
-  it('returns undefined for unknown annexes', () => {
-    expect(getSimplesAnexo('VI')).toBeUndefined();
-    expect(getSimplesAnexo('')).toBeUndefined();
-    expect(getSimplesAnexo('abc')).toBeUndefined();
-  });
-
-  it('returns undefined for invalid or out-of-range receita bruta', () => {
-    expect(getSimplesFaixa({ anexo: 'I', receitaBruta: 0 })).toBeUndefined();
-    expect(getSimplesFaixa({ anexo: 'I', receitaBruta: -1 })).toBeUndefined();
-    expect(getSimplesFaixa({ anexo: 'I', receitaBruta: Number.NaN })).toBeUndefined();
-    expect(getSimplesFaixa({ anexo: 'I', receitaBruta: SIMPLES_MAX_RBT12 + 1 })).toBeUndefined();
-    expect(computeSimplesAliquotaEfetiva({ anexo: 'I', receitaBruta: 0 })).toBeUndefined();
+    expect(getSimplesAnexo('   ')).toBeUndefined();
   });
 
   it('maps each RBT12 boundary to the correct faixa', () => {
@@ -96,7 +161,7 @@ describe('Simples Nacional — lookup normalization', () => {
 
 describe('Simples Nacional — coverage and metadata', () => {
   it('lists five annexes with six progressive faixas each', () => {
-    const list = getSimplesAnexos();
+    const list = getAllSimplesAnexos();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minAnexos);
     expect(list.length).toBeLessThanOrEqual(vectors.maxAnexos);
     for (const anexo of list) {
@@ -111,8 +176,8 @@ describe('Simples Nacional — coverage and metadata', () => {
     expect(SIMPLES_NACIONAL_DATA_VERSION.endpoints).toContain(RECEITA_SIMPLES_ANEXO_I_URL);
     expect(SIMPLES_NACIONAL_DATA_VERSION.endpoints).toContain(CGSN_RESOLUCAO_140_URL);
     expect(SIMPLES_NACIONAL_DATA_VERSION.endpoints).toContain(vectors.receitaAnexoIUrl);
-    expect(SIMPLES_NACIONAL_DATA_VERSION.contagens.anexos).toBe(getSimplesAnexos().length);
+    expect(SIMPLES_NACIONAL_DATA_VERSION.contagens.anexos).toBe(getAllSimplesAnexos().length);
     expect(SIMPLES_NACIONAL_DATA_VERSION.verificacao.agendamento).toBe('manual');
-    expect(simplesNacionalBarrel.getSimplesAnexos).toBe(getSimplesAnexos);
+    expect(simplesNacionalBarrel.getAllSimplesAnexos).toBe(getAllSimplesAnexos);
   });
 });

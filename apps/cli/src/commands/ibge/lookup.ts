@@ -1,8 +1,10 @@
 import {
-  getMunicipioPorCodigo,
+  lookupMunicipioPorCodigo,
   IBGE_DATA_VERSION,
   type Municipio,
 } from '@br-validators/core/ibge';
+import type { LookupResult } from '@br-validators/core/lookup';
+import { lookupInvalidFormat } from '@br-validators/core/lookup';
 import { EXIT } from '../../constants.js';
 
 export type IbgeLookupOptions = {
@@ -18,16 +20,31 @@ export function normalizeIbgeMunicipioCode(raw: string): number | null {
   return Number(digits);
 }
 
-export function lookupMunicipio(raw: string): Municipio | undefined {
+export function lookupMunicipio(raw: string): LookupResult<Municipio> {
   const codigo = normalizeIbgeMunicipioCode(raw);
   if (codigo === null) {
-    return undefined;
+    return lookupInvalidFormat('Invalid IBGE municipality code. Use 7 digits (e.g. 3550308).');
   }
-  return getMunicipioPorCodigo(codigo);
+  return lookupMunicipioPorCodigo(codigo);
 }
 
 export function formatMunicipioHuman(municipio: Municipio): string {
   return `${municipio.codigo} — ${municipio.nome} (${municipio.uf})`;
+}
+
+function emitLookupFailure(
+  result: Extract<LookupResult<never>, { ok: false }>,
+  options: IbgeLookupOptions,
+  io: { stdout: string[]; stderr: string[] },
+): number {
+  if (options.json) {
+    io.stdout.push(
+      JSON.stringify({ ok: false, code: result.code, message: result.message }, null, 2),
+    );
+    return result.code === 'INVALID_FORMAT' ? EXIT.USAGE : EXIT.INVALID;
+  }
+  io.stderr.push(result.message);
+  return result.code === 'INVALID_FORMAT' ? EXIT.USAGE : EXIT.INVALID;
 }
 
 export function runIbgeLookupCommand(
@@ -35,22 +52,15 @@ export function runIbgeLookupCommand(
   options: IbgeLookupOptions,
   io: { stdout: string[]; stderr: string[] } = { stdout: [], stderr: [] },
 ): number {
-  const codigo = normalizeIbgeMunicipioCode(input);
-  if (codigo === null) {
-    io.stderr.push('Invalid IBGE municipality code. Use 7 digits (e.g. 3550308).');
-    return EXIT.USAGE;
-  }
-
-  const municipio = getMunicipioPorCodigo(codigo);
-  if (!municipio) {
-    io.stderr.push(`Municipality not found: ${input}`);
-    return EXIT.INVALID;
+  const result = lookupMunicipio(input);
+  if (!result.ok) {
+    return emitLookupFailure(result, options, io);
   }
 
   if (options.json) {
     const payload: { ok: true; municipio: Municipio; capturadoEm?: string } = {
       ok: true,
-      municipio,
+      municipio: result.value,
     };
     if (options.verbose) {
       payload.capturadoEm = IBGE_DATA_VERSION.capturadoEm;
@@ -59,7 +69,7 @@ export function runIbgeLookupCommand(
     return EXIT.OK;
   }
 
-  io.stdout.push(formatMunicipioHuman(municipio));
+  io.stdout.push(formatMunicipioHuman(result.value));
   if (options.verbose) {
     io.stdout.push(`capturadoEm: ${IBGE_DATA_VERSION.capturadoEm}`);
   }

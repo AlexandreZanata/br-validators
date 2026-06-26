@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   brandBrCodePayload,
   brandCartaoCredito,
+  brandArrecadacao,
   brandCnpj,
   brandCep,
   brandCnh,
@@ -91,6 +92,13 @@ describe('brandCodigoBarras', () => {
   it('casts string to CodigoBarras brand', () => {
     const value = brandCodigoBarras('03396145000000996689025708991834007174230101');
     expect(value).toBe('03396145000000996689025708991834007174230101');
+  });
+});
+
+describe('brandArrecadacao', () => {
+  it('casts string to Arrecadacao brand', () => {
+    const value = brandArrecadacao('8360000000123456789012345678901234567890123456');
+    expect(value).toBe('8360000000123456789012345678901234567890123456');
   });
 });
 

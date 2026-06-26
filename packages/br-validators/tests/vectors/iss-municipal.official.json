@@ -1,0 +1,35 @@
+{
+  "source": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm#art8",
+  "pibSource": "https://ftp.ibge.gov.br/Pib_Municipios/2022_2023/xlsx/tabelas_completas_2022.xlsx",
+  "targetCount": 100,
+  "capitalCount": 27,
+  "golden": {
+    "saoPaulo": {
+      "codigoIbge": 3550308,
+      "aliquotaMin": 2,
+      "aliquotaMax": 5,
+      "leiUrlContains": "legislacao.prefeitura.sp.gov.br"
+    },
+    "rioDeJaneiro": {
+      "codigoIbge": 3304557,
+      "aliquotaMin": 2,
+      "aliquotaMax": 5,
+      "leiUrlContains": "rio.rj.gov.br"
+    },
+    "beloHorizonte": {
+      "codigoIbge": 3106200,
+      "aliquotaMin": 2,
+      "aliquotaMax": 5,
+      "leiUrlContains": "prefeitura.pbh.gov.br"
+    }
+  },
+  "negative": {
+    "notFoundIbge": 9999999,
+    "invalidIbge": "abc",
+    "unknownUfNome": {
+      "uf": "ZZ",
+      "nome": "Nowhere"
+    },
+    "searchNoMatch": "zzzznonexistentmunicipio"
+  }
+}

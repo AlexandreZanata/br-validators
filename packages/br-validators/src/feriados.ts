@@ -1,5 +1,6 @@
 export {
   isFeriadoNacional,
+  getAllFeriados,
   getFeriadosNacionais,
   getProximoDiaUtil,
   getPontosFacultativosFederais,

@@ -4,7 +4,8 @@
  */
 
 import ptaxData from './data/ptax.json';
-import type { PtaxCotacao } from './types.js';
+import { buildPtaxCotacaoResult } from './staleness.js';
+import type { PtaxCotacao, PtaxCotacaoResult, PtaxLookupOptions } from './types.js';
 
 const cotacoes: readonly PtaxCotacao[] = ptaxData as PtaxCotacao[];
 
@@ -64,7 +65,10 @@ export function getPtaxCotacoesPorMoeda(moeda: string): readonly PtaxCotacao[] {
     .sort(compareByDateDesc);
 }
 
-export function getPtaxCotacao(moeda: string, data?: string): PtaxCotacao | undefined {
+function resolvePtaxCotacao(
+  moeda: string,
+  data?: string,
+): PtaxCotacao | undefined {
   const normalizedMoeda = normalizeMoeda(moeda);
   if (normalizedMoeda.length === 0) {
     return undefined;
@@ -84,6 +88,25 @@ export function getPtaxCotacao(moeda: string, data?: string): PtaxCotacao | unde
   );
 }
 
-export function getPtaxUltimoDiaUtil(moeda: string): PtaxCotacao | undefined {
-  return pickLatestPtaxCotacao(cotacoes, moeda);
+export function getPtaxCotacao(
+  moeda: string,
+  data?: string,
+  options?: PtaxLookupOptions,
+): PtaxCotacaoResult | undefined {
+  const cotacao = resolvePtaxCotacao(moeda, data);
+  if (cotacao === undefined) {
+    return undefined;
+  }
+  return buildPtaxCotacaoResult(cotacao, options);
+}
+
+export function getPtaxUltimoDiaUtil(
+  moeda: string,
+  options?: PtaxLookupOptions,
+): PtaxCotacaoResult | undefined {
+  const cotacao = pickLatestPtaxCotacao(cotacoes, moeda);
+  if (cotacao === undefined) {
+    return undefined;
+  }
+  return buildPtaxCotacaoResult(cotacao, options);
 }

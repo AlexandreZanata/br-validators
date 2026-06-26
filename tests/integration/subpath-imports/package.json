@@ -1,0 +1,21 @@
+{
+  "name": "@br-validators/subpath-imports-e2e",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "dependencies": {
+    "@br-validators/core": "workspace:*"
+  },
+  "scripts": {
+    "sync": "tsx scripts/sync-export-manifest.ts",
+    "pretest": "pnpm sync",
+    "test": "tsx src/run-smokes.mts && tsx src/tree-shake.mts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "esbuild": "^0.25.12",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}

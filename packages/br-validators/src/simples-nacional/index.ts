@@ -1,7 +1,10 @@
 export {
+  getAllSimplesAnexos,
   getSimplesAnexos,
   getSimplesAnexo,
   getSimplesFaixa,
+  lookupSimplesAnexo,
+  lookupSimplesFaixa,
   computeSimplesAliquotaEfetiva,
 } from './lookup.js';
 export {

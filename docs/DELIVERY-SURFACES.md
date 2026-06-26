@@ -56,10 +56,10 @@ As each module ships, **all three** must be updated:
 | IE produtor rural (SP) | `@br-validators/core/inscricao-estadual-produtor-rural` | `br-validators ie … --uf SP` (auto `P` prefix) | `/ie` badge | [SINTEGRA cad_SP Bloco II](http://www.sintegra.gov.br/Cad_Estados/cad_SP.html) |
 | **detect()** | `@br-validators/core/detect` | `br-validators detect …` | `/detect` | Composes per-type [OFFICIAL-SOURCES](OFFICIAL-SOURCES.md) |
 | **sanitize()** | `@br-validators/core/sanitize` | `br-validators sanitize <type> …` | `/sanitize` | Same validators as per-type rows |
-| **mask()** | `@br-validators/core/mask` | — | via per-type `format` | Per-type masks — [OFFICIAL-SOURCES](OFFICIAL-SOURCES.md) |
-| **compare()** | `@br-validators/core/compare` | — | — | Normalized equality via per-type `validate*` |
-| **batch()** | `@br-validators/core/batch` | — | — | Bulk validate + summary |
-| **diff()** | `@br-validators/core/diff` | — | — | Field-level diff per official structures |
+| **mask()** | `@br-validators/core/mask` | `br-validators mask <type> …` | via per-type `format` | Per-type masks — [OFFICIAL-SOURCES](OFFICIAL-SOURCES.md) |
+| **compare()** | `@br-validators/core/compare` | `br-validators compare <type> …` | `/compare` | Normalized equality via per-type `validate*` |
+| **batch()** | `@br-validators/core/batch` | `br-validators batch <type> …` | `/batch` | Bulk validate + summary |
+| **diff()** | `@br-validators/core/diff` | `br-validators diff <type> …` | `/diff` | Field-level diff per official structures |
 | **generate()** | `@br-validators/core/generate` | `br-validators generate <type> …` | `/generate` | DV sources per generatable type — [OFFICIAL-SOURCES](OFFICIAL-SOURCES.md) |
 | **PIX static QR** | `buildStaticPixBrCode` (core) | — | `/pix` QR panel | [Bacen Manual BR Code](OFFICIAL-SOURCES.md) + [Manual de Padrões PIX](OFFICIAL-SOURCES.md) |
 
@@ -99,11 +99,19 @@ br-validators <type> strip <value>
 |---------|-------------|
 | `detect [value]` | Classify raw input; `--uf` required for IE detection |
 | `sanitize <type> [value]` | Apply ETL fixes then validate; `--uf` for `inscricao-estadual` |
+| `mask <type> [value]` | Unified display mask; `--uf` for IE / RG |
+| `compare <type> <valueA> <valueB>` | Normalized equality; `--uf` for IE / RG / título |
+| `batch <type>` | Bulk validate from stdin or `--file`; `--uf`, `--limit` |
+| `diff <type> <valueA> <valueB>` | Field-level diff; `--uf` for IE / RG / título |
 | `generate <type>` | Synthetic valid document; `--seed`, `--masked`, `--format` |
 
 ```bash
 br-validators detect '123.456.789-09' --json
 br-validators sanitize cpf ' 123.456.789-09 ' --json
+br-validators mask cpf 12345678909 --json
+br-validators compare cpf '123.456.789-09' 12345678909 --json
+br-validators batch cpf --file values.txt --json
+br-validators diff cpf 12345678909 12345678901 --json
 br-validators generate cpf --seed 42 --masked
 ```
 
@@ -150,6 +158,9 @@ Production: [doc-raiz-playground.vercel.app](https://doc-raiz-playground.vercel.
 | `/` | Landing + type selector |
 | `/detect` | Live type detection demo |
 | `/sanitize` | Sanitize + fixes display |
+| `/compare` | Normalized equality demo |
+| `/batch` | Bulk validate textarea |
+| `/diff` | Field-level structural diff |
 | `/generate` | Synthetic document generator |
 | `/cnpj` | CNPJ tester |
 | `/cpf` | CPF tester |

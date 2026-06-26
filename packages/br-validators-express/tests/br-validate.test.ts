@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import type { UfCode } from '@br-validators/core';
 import {
   listBrValidateFields,
   resolveBrValidateUf,
@@ -69,7 +70,15 @@ describe('runBrValidator', () => {
     expect(runBrValidator('inscricao-estadual', GOLDEN.ie, {}).ok).toBe(false);
     expect(runBrValidator('inscricao-estadual', GOLDEN.ie, { uf: 'SP' }).ok).toBe(true);
     expect(runBrValidator('rg', GOLDEN.rg, { uf: 'SP' }).ok).toBe(true);
-    expect(runBrValidator('rg', GOLDEN.rg, { uf: 'AC' }).ok).toBe(false);
+    expect(runBrValidator('rg', '123456', { uf: 'AC' }).ok).toBe(true);
+    expect(runBrValidator('rg', '1234567', { uf: 'AL' }).ok).toBe(true);
+    expect(runBrValidator('rg', '123456789', { uf: 'AM' }).ok).toBe(true);
+    expect(runBrValidator('rg', '123456789', { uf: 'AP' }).ok).toBe(true);
+    expect(runBrValidator('rg', '1234567', { uf: 'DF' }).ok).toBe(true);
+    expect(runBrValidator('rg', '123456789', { uf: 'ES' }).ok).toBe(true);
+    expect(runBrValidator('rg', '123456789', { uf: 'GO' }).ok).toBe(true);
+    expect(runBrValidator('rg', '123456789', { uf: 'CE' }).ok).toBe(true);
+    expect(runBrValidator('rg', GOLDEN.rg, { uf: 'ZZ' as UfCode }).ok).toBe(false);
     expect(runBrValidator('inscricao-estadual-produtor-rural', GOLDEN.ieRural, { uf: 'SP' }).ok).toBe(true);
   });
 });

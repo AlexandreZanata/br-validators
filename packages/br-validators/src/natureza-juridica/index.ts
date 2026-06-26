@@ -1,6 +1,8 @@
 export {
+  getAllNaturezaJuridica,
   getNaturezaJuridicaPorCodigo,
   getNaturezasJuridicas,
+  lookupNaturezaJuridicaPorCodigo,
 } from './lookup.js';
 export {
   NATUREZA_JURIDICA_BASE_URL,

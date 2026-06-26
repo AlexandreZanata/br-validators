@@ -1,0 +1,33 @@
+{
+  "id": "iss-municipal",
+  "nome": "ISS municipal alíquotas — partial embed (capitals + top PIB)",
+  "fonte": "Municipal legislation + LC 116/2003 Art. 8 band + IBGE PIB municipal ranking",
+  "endpoints": [
+    "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm",
+    "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9088-produto-interno-bruto-dos-municipios.html",
+    "https://www.ibge.gov.br/explica/codigos-dos-municipios.php",
+    "https://ftp.ibge.gov.br/Pib_Municipios/2022_2023/xlsx/tabelas_completas_2022.xlsx",
+    "https://www.cnm.org.br/",
+    "https://www.gov.br/nfse/pt-br"
+  ],
+  "capturadoEm": "2026-06-26",
+  "atualizadoEm": "2026-06-26T18:48:41.423Z",
+  "contagens": {
+    "municipios": 100,
+    "capitais": 27,
+    "estimativaRows": 73
+  },
+  "alteracoes": {
+    "adicionados": 100,
+    "removidos": 0,
+    "alterados": 0,
+    "comparadoCom": null
+  },
+  "verificacao": {
+    "agendamento": "manual",
+    "workflow": "data-refresh-bot.yml",
+    "ultimaExecucao": "2026-06-26T18:48:41.423Z"
+  },
+  "documentacao": "docs/OFFICIAL-SOURCES.md#iss-municipal",
+  "estimativa": true
+}

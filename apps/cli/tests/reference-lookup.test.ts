@@ -131,8 +131,31 @@ describe('runReferenceLookupCommand — errors', () => {
 
   it('returns invalid for unknown code', () => {
     const io = { stdout: [] as string[], stderr: [] as string[] };
-    expect(runReferenceLookupCommand('incoterms', 'ZZZ', { json: false, verbose: false }, io)).toBe(EXIT.INVALID);
-    expect(io.stderr[0]).toContain('Not found');
+    expect(runReferenceLookupCommand('incoterms', 'ZZZ', { json: false, verbose: false }, io)).toBe(
+      EXIT.INVALID,
+    );
+    expect(io.stderr[0]).toContain('not in embedded table');
+  });
+
+  it('emits JSON failure shape', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(runReferenceLookupCommand('incoterms', 'ZZZ', { json: true, verbose: false }, io)).toBe(
+      EXIT.INVALID,
+    );
+    const parsed = JSON.parse(io.stdout[0]) as { ok: boolean; code: string; message: string };
+    expect(parsed.ok).toBe(false);
+    expect(parsed.code).toBe('NOT_FOUND');
+    expect(parsed.message).toContain('not in embedded table');
+  });
+
+  it('emits JSON failure for invalid aeroporto code shape', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(runReferenceLookupCommand('aeroportos', 'ZZZZZ', { json: true, verbose: false }, io)).toBe(
+      EXIT.INVALID,
+    );
+    const parsed = JSON.parse(io.stdout[0]) as { ok: boolean; code: string };
+    expect(parsed.ok).toBe(false);
+    expect(parsed.code).toBe('INVALID_FORMAT');
   });
 });
 
@@ -176,12 +199,17 @@ describe('REFERENCE_LOOKUP_MODULES formatters', () => {
   it('formats aeroporto human line and rejects invalid airport codes', () => {
     const aeroportos = REFERENCE_LOOKUP_MODULES.aeroportos;
     const gru = aeroportos.lookup('GRU');
-    expect(gru).toBeDefined();
-    if (gru) {
-      expect(aeroportos.formatHuman(gru)).toContain('GRU');
+    expect(gru.ok).toBe(true);
+    if (gru.ok) {
+      expect(aeroportos.formatHuman(gru.value)).toContain('GRU');
     }
-    expect(aeroportos.lookup('ZZ')).toBeUndefined();
-    expect(aeroportos.lookup('ZZZZZ')).toBeUndefined();
+    expect(aeroportos.lookup('ZZ').ok).toBe(false);
+    expect(aeroportos.lookup('ZZZZZ').ok).toBe(false);
+    const empty = aeroportos.lookup('');
+    expect(empty.ok).toBe(false);
+    if (!empty.ok) {
+      expect(empty.code).toBe('INVALID_INPUT');
+    }
     expect(
       aeroportos.formatHuman({
         iata: null,

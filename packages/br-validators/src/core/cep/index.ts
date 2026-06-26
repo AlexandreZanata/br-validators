@@ -4,7 +4,7 @@
  * @see docs/VALIDATION-RULES.md BR-CEP-001 — golden vector 01310100
  */
 import { stripCep } from '../../strip/index.js';
-import type { ValidationResult } from '../../types/validation-result.js';
+import type { Cep, ValidationResult } from '../../types/validation-result.js';
 import { brandCep } from '../../types/validation-result.js';
 import { CEP_LENGTH } from './constants.js';
 
@@ -50,7 +50,7 @@ export function isValidCep(input: string): boolean {
   return validateCep(input).ok;
 }
 
-export function validateCep(input: string): ValidationResult {
+export function validateCep(input: string): ValidationResult<Cep> {
   const stripped = stripCep(input);
   const structural = validateStructure(input, stripped);
   if (structural) {

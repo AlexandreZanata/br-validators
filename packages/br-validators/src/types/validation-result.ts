@@ -62,6 +62,7 @@ export type NitValidationResult =
 export type PixKey = string & { readonly __brand: 'PixKey' };
 export type LinhaDigitavel = string & { readonly __brand: 'LinhaDigitavel' };
 export type CodigoBarras = string & { readonly __brand: 'CodigoBarras' };
+export type Arrecadacao = string & { readonly __brand: 'Arrecadacao' };
 export type CartaoCredito = string & { readonly __brand: 'CartaoCredito' };
 export type Ean = string & { readonly __brand: 'Ean' };
 export type InscricaoEstadual = string & { readonly __brand: 'InscricaoEstadual' };
@@ -75,7 +76,34 @@ export type UfCode =
   | 'PA' | 'PB' | 'PE' | 'PI' | 'PR' | 'RJ' | 'RN' | 'RO' | 'RR' | 'RS' | 'SC' | 'SE' | 'SP' | 'TO';
 
 /** Phase-1 RG UFs with implemented validators. */
-export type RgUfCode = 'SP' | 'RJ' | 'MG' | 'PR' | 'RS' | 'SC';
+export type RgUfCode =
+  | 'SP'
+  | 'RJ'
+  | 'MG'
+  | 'PR'
+  | 'RS'
+  | 'SC'
+  | 'BA'
+  | 'AC'
+  | 'AL'
+  | 'AM'
+  | 'AP'
+  | 'DF'
+  | 'ES'
+  | 'GO'
+  | 'MA'
+  | 'MS'
+  | 'MT'
+  | 'PA'
+  | 'PB'
+  | 'CE'
+  | 'PE'
+  | 'PI'
+  | 'RN'
+  | 'RO'
+  | 'RR'
+  | 'SE'
+  | 'TO';
 
 export type CardBrand = 'visa' | 'mastercard' | 'amex' | 'elo' | 'hipercard' | 'unknown';
 
@@ -96,24 +124,48 @@ export type BoletoSituacao = '1' | '2';
 export type CobrancaBoletoValidationResult =
   | {
       ok: true;
-      value: LinhaDigitavel | CodigoBarras;
-      inputKind: 'linha-digitavel' | 'codigo-barras';
-      format: 'linha-digitavel' | 'codigo-barras';
+      value: LinhaDigitavel;
+      inputKind: 'linha-digitavel';
+      format: 'linha-digitavel';
+      situacao: BoletoSituacao;
+    }
+  | {
+      ok: true;
+      value: CodigoBarras;
+      inputKind: 'codigo-barras';
+      format: 'codigo-barras';
       situacao: BoletoSituacao;
     }
   | { ok: false; code: ValidationErrorCode; message: string; inputKind?: BoletoInputKind };
 
+type CobrancaBoletoFailureResult = Extract<CobrancaBoletoValidationResult, { ok: false }>;
+
+export type LinhaDigitavelValidationResult =
+  | Extract<CobrancaBoletoValidationResult, { ok: true; inputKind: 'linha-digitavel' }>
+  | CobrancaBoletoFailureResult;
+
+export type CodigoBarrasValidationResult =
+  | Extract<CobrancaBoletoValidationResult, { ok: true; inputKind: 'codigo-barras' }>
+  | CobrancaBoletoFailureResult;
+
 export type BoletoValidationResult =
   | {
       ok: true;
-      value: LinhaDigitavel | CodigoBarras;
-      inputKind: 'linha-digitavel' | 'codigo-barras';
-      format: 'linha-digitavel' | 'codigo-barras';
+      value: LinhaDigitavel;
+      inputKind: 'linha-digitavel';
+      format: 'linha-digitavel';
       situacao: BoletoSituacao;
     }
   | {
       ok: true;
-      value: string;
+      value: CodigoBarras;
+      inputKind: 'codigo-barras';
+      format: 'codigo-barras';
+      situacao: BoletoSituacao;
+    }
+  | {
+      ok: true;
+      value: Arrecadacao;
       inputKind: 'arrecadacao-linha' | 'arrecadacao-codigo-barras';
       format: 'arrecadacao';
       segment: string;
@@ -239,6 +291,10 @@ export function brandLinhaDigitavel(value: string): LinhaDigitavel {
 
 export function brandCodigoBarras(value: string): CodigoBarras {
   return value as CodigoBarras;
+}
+
+export function brandArrecadacao(value: string): Arrecadacao {
+  return value as Arrecadacao;
 }
 
 export function brandCartaoCredito(value: string): CartaoCredito {

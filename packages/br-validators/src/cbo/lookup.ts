@@ -4,6 +4,11 @@
  */
 
 import cboData from './data/cbo.json';
+import { resolveFixedLengthCodeLookup } from '../lookup/resolve.js';
+import {
+  unwrapLookupValue,
+  type LookupResult,
+} from '../types/lookup-result.js';
 import type { Cbo } from './types.js';
 
 const cbos: readonly Cbo[] = cboData;
@@ -16,16 +21,29 @@ function normalizeCodigo(codigo: string): string {
   return digits.padStart(6, '0').slice(-6);
 }
 
-export function getCbos(): readonly Cbo[] {
+/** Returns every embedded CBO occupation (in-memory reference, not a copy). */
+export function getAllCbo(): readonly Cbo[] {
   return cbos;
 }
 
+/** @deprecated Use {@link getAllCbo} instead. Removed in v2.0. */
+export function getCbos(): readonly Cbo[] {
+  return getAllCbo();
+}
+
+export function lookupCboPorCodigo(codigo: string): LookupResult<Cbo> {
+  return resolveFixedLengthCodeLookup({
+    input: codigo,
+    entityLabel: 'CBO',
+    normalize: normalizeCodigo,
+    expectedLength: 6,
+    lengthLabel: '6 digits',
+    find: (normalized) => cbos.find((cbo) => cbo.codigo === normalized),
+  });
+}
+
 export function getCboPorCodigo(codigo: string): Cbo | undefined {
-  const normalized = normalizeCodigo(codigo);
-  if (normalized.length !== 6) {
-    return undefined;
-  }
-  return cbos.find((cbo) => cbo.codigo === normalized);
+  return unwrapLookupValue(lookupCboPorCodigo(codigo));
 }
 
 export function searchCbo(query: string, options?: { limit?: number }): readonly Cbo[] {

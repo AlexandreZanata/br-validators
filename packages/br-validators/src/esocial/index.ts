@@ -1,6 +1,8 @@
 export {
+  getAllEsocialCategorias,
   getEsocialCategorias,
   getEsocialCategoriaPorCodigo,
+  lookupEsocialCategoriaPorCodigo,
   searchEsocialCategorias,
 } from './lookup.js';
 export {

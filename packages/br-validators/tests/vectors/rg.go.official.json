@@ -1,0 +1,11 @@
+{
+  "source": "PCGO / Superintendência de Identificação Humana — legacy RG, format-only (9 digits; DV algorithm not published)",
+  "url": "https://identificacao.policiacivil.go.gov.br/1a-via-do-rg-goias/",
+  "valid": {
+    "raw": "123456789"
+  },
+  "invalid": {
+    "raw": "12345678",
+    "code": "INVALID_LENGTH"
+  }
+}

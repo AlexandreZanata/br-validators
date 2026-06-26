@@ -23,13 +23,30 @@ import {
   handleIeCli,
   handleDetectCli,
   handleSanitizeCli,
+  handleMaskCli,
+  handleCompareCli,
+  handleBatchCli,
+  handleDiffCli,
   handleGenerateCli,
   handlePlacaCli,
   handleBancosLookupCli,
   handleBancosListCli,
   handleCepFaixaCli,
   handleDddLookupCli,
+  handleNfeCufLookupCli,
+  handleSelicCli,
+  handleIssMunicipalLookupCli,
+  handleIssMunicipalResolveCli,
+  handleIssMunicipalSearchCli,
+  handlePtaxLookupCli,
+  handleCstLookupCli,
+  handleCstSearchCli,
+  handleCstValidateCli,
   handleFeriadosListCli,
+  handleInssCalcCli,
+  handleInssTabelaCli,
+  handleIrpfCalcCli,
+  handleIrpfTabelaCli,
   handleIbgeListCli,
   handleIbgeLookupCli,
   handleTseMunicipiosLookupCli,
@@ -55,11 +72,16 @@ import {
   type IeCliOptions,
   type DetectCliOptions,
   type SanitizeCliOptions,
+  type MaskCliOptions,
+  type CompareCliOptions,
+  type BatchCliOptions,
+  type DiffCliOptions,
   type GenerateCliOptions,
   type PisPasepCliOptions,
   type CnisCliOptions,
   type PixCliOptions,
   type PlacaCliOptions,
+  type CstCliOptions,
 } from './handlers.js';
 
 export function createProgram(): Command {
@@ -637,6 +659,60 @@ export function createProgram(): Command {
       writeCliIo(io);
     });
 
+  const inss = program.command('inss').description('INSS employee contribution progressive table — offline');
+
+  inss
+    .command('tabela')
+    .description('Show embedded progressive contribution brackets')
+    .option('--ano <yyyy>', 'Competência year', (v: string) => Number(v))
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include dataset capture date')
+    .action((opts: ReferenceDatasetCliOptions & { ano?: number }) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleInssTabelaCli({ ...opts, year: opts.ano ?? opts.year }, io);
+      writeCliIo(io);
+    });
+
+  inss
+    .command('calc')
+    .description('Estimate monthly INSS contribution from salary')
+    .argument('<salario>', 'Monthly contribution salary (BRL)')
+    .option('--ano <yyyy>', 'Competência year', (v: string) => Number(v))
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include dataset capture date')
+    .action((salario: string, opts: ReferenceDatasetCliOptions & { ano?: number }) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleInssCalcCli(salario, { ...opts, year: opts.ano ?? opts.year }, io);
+      writeCliIo(io);
+    });
+
+  const irpf = program.command('irpf').description('RFB IRPF progressive monthly table — offline');
+
+  irpf
+    .command('tabela')
+    .description('Show embedded monthly progressive brackets')
+    .option('--ano <yyyy>', 'Tax year', (v: string) => Number(v))
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include dataset capture date')
+    .action((opts: ReferenceDatasetCliOptions & { ano?: number }) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleIrpfTabelaCli({ ...opts, year: opts.ano ?? opts.year }, io);
+      writeCliIo(io);
+    });
+
+  irpf
+    .command('calc')
+    .description('Estimate monthly IRPF from taxable base')
+    .argument('<base>', 'Monthly taxable base (BRL)')
+    .option('--ano <yyyy>', 'Tax year', (v: string) => Number(v))
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include dataset capture date')
+    .action((base: string, opts: ReferenceDatasetCliOptions & { ano?: number }) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleIrpfCalcCli(base, { ...opts, year: opts.ano ?? opts.year }, io);
+      writeCliIo(io);
+    });
+
   const tseMunicipios = program
     .command('tse-municipios')
     .description('TSE ↔ IBGE municipality cross-walk — offline lookup');
@@ -664,6 +740,131 @@ export function createProgram(): Command {
     .action((code: string, opts: ReferenceDatasetCliOptions) => {
       const io = { stdout: [] as string[], stderr: [] as string[] };
       process.exitCode = handleDddLookupCli(code, opts, io);
+      writeCliIo(io);
+    });
+
+  const nfeCuf = program.command('nfe-cuf').description('NF-e cUF — SEFAZ federative unit codes (offline)');
+
+  nfeCuf
+    .command('lookup')
+    .description('Resolve NF-e cUF code to UF sigla and IBGE cross-ref')
+    .argument('<code>', '2-digit cUF code (e.g. 35 for SP)')
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include dataset capture date')
+    .action((code: string, opts: ReferenceDatasetCliOptions) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleNfeCufLookupCli(code, opts, io);
+      writeCliIo(io);
+    });
+
+  const selic = program.command('selic').description('Bacen SELIC meta (SGS 432) — offline embedded series');
+
+  selic
+    .description('Resolve Copom SELIC meta rate (optional historical date)')
+    .option('--date <yyyy-mm-dd>', 'Observation date (ISO or MM-DD-YYYY)')
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include dataReferencia, staleness, and dataset capture date')
+    .action((opts: ReferenceDatasetCliOptions & { date?: string }) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleSelicCli(opts, io);
+      writeCliIo(io);
+    });
+
+  const issMunicipal = program
+    .command('iss-municipal')
+    .description('Municipal ISS alíquotas — partial embed (estimation only, not NFSe)');
+
+  issMunicipal
+    .command('lookup')
+    .description('Resolve ISS band by IBGE municipality code')
+    .argument('<codigoIbge>', 'IBGE municipality code (7 digits)')
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include leiUrl, estimativa flag, and dataset capture date')
+    .action((codigoIbge: string, opts: ReferenceDatasetCliOptions) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleIssMunicipalLookupCli(codigoIbge, opts, io);
+      writeCliIo(io);
+    });
+
+  issMunicipal
+    .command('resolve')
+    .description('Resolve ISS band by UF and municipality name')
+    .argument('<uf>', 'UF sigla (2 letters)')
+    .argument('<nome>', 'Municipality name')
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include leiUrl, estimativa flag, and dataset capture date')
+    .action((uf: string, nome: string, opts: ReferenceDatasetCliOptions) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleIssMunicipalResolveCli(uf, nome, opts, io);
+      writeCliIo(io);
+    });
+
+  issMunicipal
+    .command('search')
+    .description('Search embedded municipalities by name, UF, or IBGE code fragment')
+    .argument('<query>', 'Search query')
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include dataset capture date in JSON responses')
+    .option('--limit <n>', 'Maximum rows', (value: string) => Number(value))
+    .action((query: string, opts: ReferenceDatasetCliOptions & { limit?: number }) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleIssMunicipalSearchCli(query, opts, io);
+      writeCliIo(io);
+    });
+
+  const ptax = program.command('ptax').description('Bacen PTAX Fechamento — offline embedded rates');
+
+  ptax
+    .command('lookup')
+    .description('Resolve Fechamento PTAX for currency (optional ISO or Bacen date)')
+    .argument('<moeda>', 'ISO 4217 currency code (e.g. USD)')
+    .argument('[data]', 'Quote date — YYYY-MM-DD or MM-DD-YYYY')
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include dataReferencia, staleness, and dataset capture date')
+    .action((moeda: string, data: string | undefined, opts: ReferenceDatasetCliOptions) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handlePtaxLookupCli(moeda, data, opts, io);
+      writeCliIo(io);
+    });
+
+  const cst = program.command('cst').description('RFB SPED CST — offline ICMS, IPI, PIS, COFINS tables');
+
+  cst
+    .command('lookup')
+    .description('Resolve CST by code and tax')
+    .argument('<codigo>', 'CST code')
+    .requiredOption('--tax <tax>', 'Tax table: icms | ipi | pis | cofins')
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include dataset capture date')
+    .action((codigo: string, opts: CstCliOptions) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleCstLookupCli(codigo, opts, io);
+      writeCliIo(io);
+    });
+
+  cst
+    .command('search')
+    .description('Search CST descriptions by tax')
+    .argument('<query>', 'Search query')
+    .requiredOption('--tax <tax>', 'Tax table: icms | ipi | pis | cofins')
+    .option('--json', 'JSON output')
+    .option('--limit <n>', 'Maximum rows', (v: string) => Number(v))
+    .action((query: string, opts: CstCliOptions) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleCstSearchCli(query, opts, io);
+      writeCliIo(io);
+    });
+
+  cst
+    .command('validate')
+    .description('Validate CST format and embedded table')
+    .argument('<codigo>', 'CST code')
+    .requiredOption('--tax <tax>', 'Tax table: icms | ipi | pis | cofins')
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include tax metadata')
+    .action((codigo: string, opts: CstCliOptions) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleCstValidateCli(codigo, opts, io);
       writeCliIo(io);
     });
 
@@ -697,11 +898,25 @@ export function createProgram(): Command {
     });
 
   program
+    .command('mask <type> [value]')
+    .description('Apply unified display mask (validate first)')
+    .option('--uf <uf>', 'State code (required for inscricao-estadual and rg)')
+    .option('--json', 'JSON output')
+    .option('-q, --quiet', 'Exit code only')
+    .option('-f, --file <path>', 'Read value from file')
+    .action((type: string, value: string | undefined, opts: MaskCliOptions) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleMaskCli(type, value, opts, io);
+      writeCliIo(io);
+    });
+
+  program
     .command('generate <type>')
     .description('Generate synthetic valid test document')
     .option('--json', 'JSON output')
     .option('-q, --quiet', 'Exit code only')
     .option('--masked', 'Return masked/formatted output')
+    .option('--stripped', 'Return canonical stripped digits (default; explicit flag)')
     .option('--format <format>', 'Format variant (numeric, alphanumeric, legacy, mercosul, celular, fixo)')
     .option('--seed <number>', 'Deterministic PRNG seed', (v: string) => Number(v))
     .option('--uf <uf>', 'State code (required for inscricao-estadual and titulo-eleitor)')
@@ -709,6 +924,44 @@ export function createProgram(): Command {
     .action((type: string, opts: GenerateCliOptions) => {
       const io = { stdout: [] as string[], stderr: [] as string[] };
       process.exitCode = handleGenerateCli(type, opts, io);
+      writeCliIo(io);
+    });
+
+  program
+    .command('compare <type> <valueA> [valueB...]')
+    .description('Compare two values for normalized equality')
+    .option('--uf <uf>', 'State code (required for inscricao-estadual, rg, titulo-eleitor)')
+    .option('--json', 'JSON output')
+    .option('-q, --quiet', 'Exit code only')
+    .action((type: string, valueA: string, valueB: string[], opts: CompareCliOptions) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleCompareCli(type, valueA, valueB.join(' ') || undefined, opts, io);
+      writeCliIo(io);
+    });
+
+  program
+    .command('batch <type>')
+    .description('Bulk validate values from stdin or --file')
+    .option('--uf <uf>', 'State code (required for inscricao-estadual, rg, titulo-eleitor)')
+    .option('--json', 'JSON output')
+    .option('-q, --quiet', 'Exit code only')
+    .option('-f, --file <path>', 'Read values from file (one per line)')
+    .option('--limit <n>', 'Max number of values to process', (v: string) => Number(v))
+    .action((type: string, opts: BatchCliOptions) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleBatchCli(type, opts, io);
+      writeCliIo(io);
+    });
+
+  program
+    .command('diff <type> <valueA> [valueB...]')
+    .description('Field-level structural diff between two values')
+    .option('--uf <uf>', 'State code (required for inscricao-estadual, rg, titulo-eleitor)')
+    .option('--json', 'JSON output')
+    .option('-q, --quiet', 'Exit code only')
+    .action((type: string, valueA: string, valueB: string[], opts: DiffCliOptions) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleDiffCli(type, valueA, valueB.join(' ') || undefined, opts, io);
       writeCliIo(io);
     });
 

@@ -11,7 +11,7 @@
     "lint": "eslint . --max-warnings 0",
     "typecheck": "pnpm --filter @br-validators/core build && pnpm -r --sequential typecheck && pnpm typecheck:scripts",
     "typecheck:scripts": "tsc -p scripts/tsconfig.json --noEmit",
-    "verify": "pnpm --filter @br-validators/core build && pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm test:scripts && pnpm build",
+    "verify": "pnpm --filter @br-validators/core build && pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm test:scripts && pnpm test:integration && pnpm build",
     "fetch:data:ibge": "tsx scripts/fetch-ibge.ts",
     "fetch:data:bancos": "tsx scripts/fetch-bancos.ts",
     "fetch:data:aeroportos": "tsx scripts/fetch-aeroportos.ts",
@@ -39,10 +39,19 @@
     "fetch:data:ncm": "tsx scripts/fetch-ncm.ts",
     "fetch:data:cbo": "tsx scripts/fetch-cbo.ts",
     "fetch:data:cep-faixas": "tsx scripts/fetch-cep-faixas.ts",
-    "fetch:data": "pnpm fetch:data:ibge && pnpm fetch:data:bancos && pnpm fetch:data:aeroportos && pnpm fetch:data:tse-municipios && pnpm fetch:data:moedas && pnpm fetch:data:ptax && pnpm fetch:data:paises-bacen && pnpm fetch:data:incoterms && pnpm fetch:data:ddd && pnpm fetch:data:cnaes && pnpm fetch:data:cfop && pnpm fetch:data:natureza-juridica && pnpm fetch:data:cnpj-motivos && pnpm fetch:data:ibpt && pnpm fetch:data:nbs && pnpm fetch:data:cest && pnpm fetch:data:cst && pnpm fetch:data:lc116 && pnpm fetch:data:esocial && pnpm fetch:data:simples-nacional && pnpm fetch:data:portos && pnpm fetch:data:anp-combustiveis && pnpm fetch:data:pncp-reference && pnpm fetch:data:transparencia && pnpm fetch:data:ncm && pnpm fetch:data:cbo && pnpm fetch:data:cep-faixas",
+    "fetch:data:nfe-cuf": "tsx scripts/fetch-nfe-cuf.ts",
+    "fetch:data:irpf": "tsx scripts/fetch-irpf.ts",
+    "fetch:data:inss": "tsx scripts/fetch-inss.ts",
+    "fetch:data:selic": "tsx scripts/fetch-selic.ts",
+    "fetch:data:iss-municipal": "tsx scripts/fetch-iss-municipal.ts",
+    "fetch:data": "pnpm fetch:data:ibge && pnpm fetch:data:bancos && pnpm fetch:data:aeroportos && pnpm fetch:data:tse-municipios && pnpm fetch:data:moedas && pnpm fetch:data:ptax && pnpm fetch:data:paises-bacen && pnpm fetch:data:incoterms && pnpm fetch:data:ddd && pnpm fetch:data:cnaes && pnpm fetch:data:cfop && pnpm fetch:data:natureza-juridica && pnpm fetch:data:cnpj-motivos && pnpm fetch:data:ibpt && pnpm fetch:data:nbs && pnpm fetch:data:cest && pnpm fetch:data:cst && pnpm fetch:data:lc116 && pnpm fetch:data:esocial && pnpm fetch:data:simples-nacional && pnpm fetch:data:portos && pnpm fetch:data:anp-combustiveis && pnpm fetch:data:pncp-reference && pnpm fetch:data:transparencia && pnpm fetch:data:ncm && pnpm fetch:data:cbo && pnpm fetch:data:cep-faixas && pnpm fetch:data:nfe-cuf && pnpm fetch:data:irpf && pnpm fetch:data:inss && pnpm fetch:data:selic",
     "data:refresh": "tsx scripts/data-refresh-bot.ts",
     "data:refresh:report": "tsx scripts/data-refresh-bot.ts --report-only",
-    "test:scripts": "vitest run --config scripts/vitest.config.ts"
+    "test:scripts": "vitest run --config scripts/vitest.config.ts",
+    "test:integration": "pnpm --filter @br-validators/core build && pnpm --filter @br-validators/subpath-imports-e2e test",
+    "docs:api": "pnpm --filter @br-validators/docs api",
+    "docs:build": "pnpm docs:api && pnpm --filter @br-validators/docs build",
+    "docs:dev": "pnpm docs:api && pnpm --filter @br-validators/docs dev"
   },
   "engines": {
     "node": ">=18"

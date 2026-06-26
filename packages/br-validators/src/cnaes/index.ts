@@ -1,4 +1,4 @@
-export { getCnaes, getCnaePorCodigo, searchCnaes } from './lookup.js';
+export { getAllCnae, getCnaes, getCnaePorCodigo, lookupCnaePorCodigo, searchCnaes } from './lookup.js';
 export {
   CNAES_GOLDEN_DESENVOLVIMENTO_PROGRAMAS,
   CNAES_GOLDEN_WEB_DESIGN,

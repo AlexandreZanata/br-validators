@@ -15,7 +15,7 @@ import {
   ANAC_AERODROMOS_PUBLICOS_CSV_URL,
   getAeroportoPorIata,
   getAeroportoPorIcao,
-  getAeroportos,
+  getAllAeroportos,
   getAeroportosPorMunicipio,
 } from '../../../src/aeroportos/index.js';
 import vectors from '../../vectors/aeroportos.official.json';
@@ -99,7 +99,7 @@ describe('Aeroportos — municipality lookup', () => {
 
 describe('Aeroportos — national coverage', () => {
   it('lists aerodromos within expected ANAC range', () => {
-    const list = getAeroportos();
+    const list = getAllAeroportos();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minAerodromos);
     expect(list.length).toBeLessThanOrEqual(vectors.maxAerodromos);
     expect(new Set(list.map((aeroporto) => aeroporto.icao)).size).toBe(list.length);
@@ -112,6 +112,6 @@ describe('Aeroportos — national coverage', () => {
     expect(AEROPORTOS_DATA_VERSION.id).toBe('aeroportos');
     expect(AEROPORTOS_DATA_VERSION.endpoints).toContain(ANAC_AERODROMOS_PUBLICOS_CSV_URL);
     expect(AEROPORTOS_DATA_VERSION.endpoints).toContain(vectors.source);
-    expect(AEROPORTOS_DATA_VERSION.contagens.aeroportos).toBe(getAeroportos().length);
+    expect(AEROPORTOS_DATA_VERSION.contagens.aeroportos).toBe(getAllAeroportos().length);
   });
 });

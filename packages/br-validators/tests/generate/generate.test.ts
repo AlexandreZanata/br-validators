@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { generate } from '../../src/generate/index.js';
+import { generate, shouldApplyGenerateMask } from '../../src/generate/index.js';
 import type { GeneratableDocumentType } from '../../src/generate/index.js';
 import {
   computeLuhnCheckDigit,
@@ -117,6 +117,51 @@ describe('generate()', () => {
     const masked = generate('cpf', { masked: true, seed: 99 });
     expect(masked.replace(/\D/g, '')).toHaveLength(11);
     expect(validateCpf(masked).ok).toBe(true);
+  });
+
+  describe('output options — stripped vs masked', () => {
+    it('shouldApplyGenerateMask precedence', () => {
+      expect(shouldApplyGenerateMask({})).toBe(false);
+      expect(shouldApplyGenerateMask({ masked: true })).toBe(true);
+      expect(shouldApplyGenerateMask({ stripped: true })).toBe(false);
+      expect(shouldApplyGenerateMask({ masked: true, stripped: true })).toBe(false);
+    });
+
+    it('default and explicit stripped return canonical digits for CPF', () => {
+      const seed = 42;
+      const implicit = generate('cpf', { seed });
+      const explicit = generate('cpf', { seed, stripped: true });
+      expect(implicit).toBe(explicit);
+      expect(implicit).toMatch(/^\d{11}$/);
+      expect(validateCpf(implicit).ok).toBe(true);
+    });
+
+    it('explicit stripped returns canonical digits for CNPJ', () => {
+      const value = generate('cnpj', { stripped: true, seed: 7 });
+      expect(value).toMatch(/^[A-Z0-9]{14}$/);
+      expect(validateCnpj(value).ok).toBe(true);
+    });
+
+    it('explicit stripped returns 47-digit linha for boleto', () => {
+      const value = generate('boleto', { stripped: true, seed: 11 });
+      expect(value).toHaveLength(47);
+      expect(/^\d+$/.test(value)).toBe(true);
+      expect(validateBoleto(value).ok).toBe(true);
+    });
+
+    it('masked + stripped returns stripped (stripped wins)', () => {
+      const seed = 99;
+      const stripped = generate('cpf', { seed, stripped: true, masked: true });
+      const plain = generate('cpf', { seed });
+      expect(stripped).toBe(plain);
+      expect(stripped).toMatch(/^\d{11}$/);
+    });
+
+    it('masked CNPJ returns formatted output when stripped is not set', () => {
+      const masked = generate('cnpj', { masked: true, seed: 7 });
+      expect(masked).toMatch(/[.\-/]/);
+      expect(validateCnpj(masked).ok).toBe(true);
+    });
   });
 
   it('CNPJ alphanumeric format option', () => {

@@ -1,4 +1,11 @@
-export { getCestPorCodigo, getCestPorNcm, getCests, searchCest } from './lookup.js';
+export {
+  getAllCest,
+  getCestPorCodigo,
+  getCestPorNcm,
+  getCests,
+  lookupCestPorCodigo,
+  searchCest,
+} from './lookup.js';
 export {
   CEST_GOLDEN_CERVEJA_GARRAFA_RETORNAVEL,
   CEST_GOLDEN_NCM_CERVEJA,

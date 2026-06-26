@@ -32,7 +32,7 @@ This library is **pure logic** — no auth, no database, no network in core. Pri
 
 ### Every release
 
-- [ ] `npm audit` / dependency review
+- [ ] `pnpm audit --prod --audit-level=high` (also runs in CI — see [SECURITY.md](../SECURITY.md#dependency-audit-ci))
 - [ ] Tag matches CHANGELOG version
 - [ ] GitHub Release notes include security-relevant changes
 - [ ] No secrets in published tarball

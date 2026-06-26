@@ -54,6 +54,15 @@ export function HomePage() {
             <QuickLink href="/sanitize">{messages.home.sanitizeLink}</QuickLink>
           </li>
           <li>
+            <QuickLink href="/compare">{messages.home.compareLink}</QuickLink>
+          </li>
+          <li>
+            <QuickLink href="/batch">{messages.home.batchLink}</QuickLink>
+          </li>
+          <li>
+            <QuickLink href="/diff">{messages.home.diffLink}</QuickLink>
+          </li>
+          <li>
             <QuickLink href="/generate">{messages.home.generateLink}</QuickLink>
           </li>
         </ul>

@@ -159,10 +159,10 @@ Requires Node ≥ 18. ESM only (`"type": "module"`). Zero runtime dependencies.
 |-----|---------|-----|------------|---------|
 | `detect()` | `/detect` | `br-validators detect …` | `/detect` | Auto-classify raw input |
 | `sanitize()` | `/sanitize` | `br-validators sanitize <type> …` | `/sanitize` | ETL fixes + validate |
-| `mask()` | `/mask` | — | via `format` actions | Unified display mask |
-| `compare()` | `/compare` | — | — | Normalized equality |
-| `batch()` | `/batch` | — | — | Bulk validate + summary |
-| `diff()` | `/diff` | — | — | Field-level structural diff |
+| `mask()` | `/mask` | `br-validators mask <type> …` | via `format` actions | Unified display mask |
+| `compare()` | `/compare` | `br-validators compare <type> …` | `/compare` | Normalized equality |
+| `batch()` | `/batch` | `br-validators batch <type> …` | `/batch` | Bulk validate + summary |
+| `diff()` | `/diff` | `br-validators diff <type> …` | `/diff` | Field-level structural diff |
 | `generate()` | `/generate` | `br-validators generate …` | `/generate` | Synthetic test fixtures — **17/18** document types (alphanumeric CPF blocked until RFB spec) |
 
 ```typescript
@@ -215,6 +215,11 @@ Government classification tables embedded in the library — **zero runtime fetc
 | ISO 4217 + Bacen PTAX moedas | `@br-validators/core/moedas` | `moedas lookup` | `/data/trade` | `getMoedaPorCodigo`, `searchMoedas` | [Bacen PTAX Moedas API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas) |
 | Bacen PTAX Fechamento | `@br-validators/core/ptax` | — | `/data/trade` | `getPtaxCotacao`, `getPtaxUltimoDiaUtil` | [Bacen Olinda PTAX API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3) |
 | NF-e Bacen country codes | `@br-validators/core/paises-bacen` | `paises-bacen lookup` | `/data/trade` | `getPaisPorCodigoBacen`, `getPaisesBacen` | [NF-e country table](http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50=) |
+| NF-e cUF (IBGE state codes) | `@br-validators/core/nfe-cuf` | `nfe-cuf lookup` | `/data/fiscal` | `getCufPorCodigo`, `lookupCufPorCodigo` | [NF-e cUF table](http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50=) |
+| IRPF progressive brackets | `@br-validators/core/irpf` | `irpf tabela` · `irpf calc` | `/data/payroll` | `getIrpfTabelaProgressiva`, `calcularIrpfMensal` | [RFB IRPF tables](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas) |
+| INSS contribution brackets | `@br-validators/core/inss` | `inss tabela` · `inss calc` | `/data/payroll` | `getInssTabelaContribuicao`, `calcularInssMensal` | [INSS contribution rates](https://www.gov.br/inss/pt-br/direitos-e-deveres/inscricao-e-contribuicao/tabelas-de-contribuicao) |
+| Bacen SELIC meta | `@br-validators/core/selic` | `selic` | `/data/finance` | `getSelicMeta`, `getSelicMetaPorData` | [Bacen SGS série 432](https://www3.bcb.gov.br/sgspub/localizarseries/localizarSeries.do?method=prepararTelaLocalizarSeries) |
+| ISS municipal rates (sample) | `@br-validators/core/iss-municipal` | `iss-municipal lookup` · `search` | `/data/fiscal` | `getIssMunicipalPorIbge`, `searchIssMunicipal` | [IBGE PIB municipal 2022](https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/19567-pib-dos-municipios.html) |
 | ICC Incoterms 2020 | `@br-validators/core/incoterms` | `incoterms lookup` | `/data/trade` | `getIncotermPorCodigo`, `getIncoterms` | [ICC Incoterms rules](https://iccwbo.org/resources-for-business/incoterms-rules/) |
 | CBO 2002 occupations | `@br-validators/core/cbo` | `cbo lookup` · `cbo search` | `/data/fiscal` | `getCboPorCodigo`, `searchCbo` | [MTE CBO CSV](https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/cbo/servicos/downloads/cbo2002-ocupacao.csv) |
 | CEP prefix lookup | `@br-validators/core/cep` | `cep faixa` | — | `getCepFaixaInfo`, `getCepFaixas` | [IBGE CNEFE 2022](https://www.ibge.gov.br/estatisticas/sociais/populacao/38734-cadastro-nacional-de-enderecos-para-fins-estatisticos.html) |
@@ -295,6 +300,9 @@ Every shipped type exists in **library + CLI + playground**. See [docs/DELIVERY-
 | [apps/docs/](apps/docs/) | VitePress site — [docs.br-validators.dev](https://docs.br-validators.dev/) (API synced from `LIBRARY-API.md`) |
 | [docs/community/RG-GOOD-FIRST-ISSUES.md](docs/community/RG-GOOD-FIRST-ISSUES.md) | RG remaining 21 UFs — `good first issue` |
 | [CHANGELOG.md](CHANGELOG.md) | Release history |
+| [MIGRATION.md](MIGRATION.md) | v1.x → v2.0 breaking-change guide (lookup + deprecated getters) |
+| [docs/VERSIONING.md](docs/VERSIONING.md) | SemVer policy and deprecation windows |
+| [docs.br-validators.dev/api-reference](https://docs.br-validators.dev/api-reference/) | Auto-generated TypeDoc signatures (`pnpm docs:api`) |
 
 ---
 
@@ -302,14 +310,14 @@ Every shipped type exists in **library + CLI + playground**. See [docs/DELIVERY-
 
 | Package | npm | Version |
 |---------|-----|---------|
-| `@br-validators/core` | [npm](https://www.npmjs.com/package/@br-validators/core) | `1.8.3` |
-| `@br-validators/cli` | [npm](https://www.npmjs.com/package/@br-validators/cli) | `1.8.3` |
-| `@br-validators/zod` | [npm](https://www.npmjs.com/package/@br-validators/zod) | `1.8.3` |
-| `@br-validators/react-hook-form` | [npm](https://www.npmjs.com/package/@br-validators/react-hook-form) | `1.8.3` |
-| `@br-validators/express` | [npm](https://www.npmjs.com/package/@br-validators/express) | `1.8.3` |
-| `@br-validators/vue` | [npm](https://www.npmjs.com/package/@br-validators/vue) | `1.8.3` |
+| `@br-validators/core` | [npm](https://www.npmjs.com/package/@br-validators/core) | `1.9.0` |
+| `@br-validators/cli` | [npm](https://www.npmjs.com/package/@br-validators/cli) | `1.9.0` |
+| `@br-validators/zod` | [npm](https://www.npmjs.com/package/@br-validators/zod) | `1.9.0` |
+| `@br-validators/react-hook-form` | [npm](https://www.npmjs.com/package/@br-validators/react-hook-form) | `1.9.0` |
+| `@br-validators/express` | [npm](https://www.npmjs.com/package/@br-validators/express) | `1.9.0` |
+| `@br-validators/vue` | [npm](https://www.npmjs.com/package/@br-validators/vue) | `1.9.0` |
 
-**v1.8.3** — NF-e ODS país-table fetch for `paises-bacen`, Bacen FTP fallback, data-bot PATCH gate fix (`~alterados` drift), CONFAZ 60s timeout. See [CHANGELOG.md](CHANGELOG.md#183---2026-06-26).
+**v1.9.0** — Phase 33 maturity: `LookupResult` API, fiscal validators (`validateNcm` / `validateCfop` / `validateCst`), IRPF / INSS / SELIC / ISS municipal / NF-e cUF datasets, platform CLI (`compare` / `batch` / `diff` / `mask`), RG 27/27 UFs, `MIGRATION.md`, TypeDoc API reference, security audit CI, E2E subpath import tests. See [CHANGELOG.md](CHANGELOG.md#190---2026-06-26).
 
 See [CHANGELOG.md](CHANGELOG.md) for release notes.
 
@@ -318,7 +326,6 @@ See [CHANGELOG.md](CHANGELOG.md) for release notes.
 | Gap | Status |
 |-----|--------|
 | Alphanumeric CPF | Blocked — RFB spec not published |
-| `compare` / `batch` / `diff` CLI commands | Library-only — use `@br-validators/core` |
 | `@br-validators/adapters-correios` | Planned — CEP HTTP lookup |
 
 ---

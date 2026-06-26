@@ -1,9 +1,11 @@
 import {
   BANCOS_DATA_VERSION,
-  getBancoPorCodigo,
-  getBancoPorIspb,
+  lookupBancoPorCodigo,
+  lookupBancoPorIspb,
   type Banco,
 } from '@br-validators/core/bancos';
+import type { LookupResult } from '@br-validators/core/lookup';
+import { lookupInvalidFormat } from '@br-validators/core/lookup';
 import { EXIT } from '../../constants.js';
 
 export type BancosLookupOptions = {
@@ -24,14 +26,16 @@ export function normalizeBancosLookupInput(
   return null;
 }
 
-export function lookupBanco(raw: string): Banco | undefined {
+export function lookupBanco(raw: string): LookupResult<Banco> {
   const normalized = normalizeBancosLookupInput(raw);
   if (!normalized) {
-    return undefined;
+    return lookupInvalidFormat(
+      'Invalid bank code or ISPB. Use 3-digit COMPE (e.g. 001) or 8-digit ISPB.',
+    );
   }
   return normalized.kind === 'ispb'
-    ? getBancoPorIspb(normalized.value)
-    : getBancoPorCodigo(normalized.value);
+    ? lookupBancoPorIspb(normalized.value)
+    : lookupBancoPorCodigo(normalized.value);
 }
 
 export function formatBancoHuman(banco: Banco): string {
@@ -43,20 +47,20 @@ export function runBancosLookupCommand(
   options: BancosLookupOptions,
   io: { stdout: string[]; stderr: string[] } = { stdout: [], stderr: [] },
 ): number {
-  const normalized = normalizeBancosLookupInput(input);
-  if (!normalized) {
-    io.stderr.push('Invalid bank code or ISPB. Use 3-digit COMPE (e.g. 001) or 8-digit ISPB.');
-    return EXIT.USAGE;
-  }
-
-  const banco = lookupBanco(input);
-  if (!banco) {
-    io.stderr.push(`Bank not found: ${input}`);
-    return EXIT.INVALID;
+  const result = lookupBanco(input);
+  if (!result.ok) {
+    if (options.json) {
+      io.stdout.push(
+        JSON.stringify({ ok: false, code: result.code, message: result.message }, null, 2),
+      );
+    } else {
+      io.stderr.push(result.message);
+    }
+    return normalizeBancosLookupInput(input) === null ? EXIT.USAGE : EXIT.INVALID;
   }
 
   if (options.json) {
-    const payload: { ok: true; banco: Banco; capturadoEm?: string } = { ok: true, banco };
+    const payload: { ok: true; banco: Banco; capturadoEm?: string } = { ok: true, banco: result.value };
     if (options.verbose) {
       payload.capturadoEm = BANCOS_DATA_VERSION.capturadoEm;
     }
@@ -64,7 +68,7 @@ export function runBancosLookupCommand(
     return EXIT.OK;
   }
 
-  io.stdout.push(formatBancoHuman(banco));
+  io.stdout.push(formatBancoHuman(result.value));
   if (options.verbose) {
     io.stdout.push(`capturadoEm: ${BANCOS_DATA_VERSION.capturadoEm}`);
   }

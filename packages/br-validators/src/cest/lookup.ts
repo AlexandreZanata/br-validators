@@ -4,6 +4,11 @@
  */
 
 import cestData from './data/cest.json';
+import { resolveFixedLengthCodeLookup } from '../lookup/resolve.js';
+import {
+  unwrapLookupValue,
+  type LookupResult,
+} from '../types/lookup-result.js';
 import type { Cest } from './types.js';
 
 const cests: readonly Cest[] = cestData;
@@ -24,16 +29,29 @@ function normalizeNcm(codigo: string): string {
   return digits.padStart(8, '0').slice(0, 8);
 }
 
-export function getCests(): readonly Cest[] {
+/** Returns every embedded CEST row (in-memory reference, not a copy). */
+export function getAllCest(): readonly Cest[] {
   return cests;
 }
 
+/** @deprecated Use {@link getAllCest} instead. Removed in v2.0. */
+export function getCests(): readonly Cest[] {
+  return getAllCest();
+}
+
+export function lookupCestPorCodigo(codigo: string): LookupResult<Cest> {
+  return resolveFixedLengthCodeLookup({
+    input: codigo,
+    entityLabel: 'CEST',
+    normalize: normalizeCestCodigo,
+    expectedLength: 7,
+    lengthLabel: '7 digits',
+    find: (normalized) => cests.find((cest) => cest.codigo === normalized),
+  });
+}
+
 export function getCestPorCodigo(codigo: string): Cest | undefined {
-  const normalized = normalizeCestCodigo(codigo);
-  if (normalized.length !== 7) {
-    return undefined;
-  }
-  return cests.find((cest) => cest.codigo === normalized);
+  return unwrapLookupValue(lookupCestPorCodigo(codigo));
 }
 
 export function searchCest(query: string, options?: { limit?: number }): readonly Cest[] {

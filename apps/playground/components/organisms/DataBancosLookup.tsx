@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { BANCOS_DATA_VERSION, getBancos } from '@br-validators/core/bancos';
+import { BANCOS_DATA_VERSION, getAllBancos } from '@br-validators/core/bancos';
 import { Label } from '@/components/atoms/Label';
 import { Input } from '@/components/atoms/Input';
 import { OfficialSourceLink } from '@/components/molecules/OfficialSourceLink';
@@ -22,7 +22,7 @@ export function DataBancosLookup() {
 
   const banco = useMemo(() => resolveBancoFromInput(lookupInput), [lookupInput]);
   const listSample = useMemo(() => {
-    const filtered = filterBancosByQuery(getBancos(), listQuery);
+    const filtered = filterBancosByQuery(getAllBancos(), listQuery);
     return filtered.slice(0, LIST_SAMPLE_LIMIT);
   }, [listQuery]);
 

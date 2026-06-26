@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   ANTAQ_PORTOS_ZIP_URL,
   getPortoPorCodigo,
-  getPortos,
+  getAllPortos,
   getPortosPorMunicipio,
   PORTOS_DATA_VERSION,
   PORTOS_GOLDEN_SANTOS,
@@ -69,7 +69,7 @@ describe('Portos — search and municipality lookup', () => {
 
 describe('Portos — coverage and metadata', () => {
   it('lists unique port codes within expected ANTAQ range', () => {
-    const list = getPortos();
+    const list = getAllPortos();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minPortos);
     expect(list.length).toBeLessThanOrEqual(vectors.maxPortos);
     expect(new Set(list.map((porto) => porto.codigo)).size).toBe(list.length);
@@ -80,6 +80,6 @@ describe('Portos — coverage and metadata', () => {
     expect(PORTOS_DATA_VERSION.endpoints.some((endpoint) => endpoint.includes(ANTAQ_PORTOS_ZIP_URL))).toBe(
       true,
     );
-    expect(PORTOS_DATA_VERSION.contagens.portos).toBe(getPortos().length);
+    expect(PORTOS_DATA_VERSION.contagens.portos).toBe(getAllPortos().length);
   });
 });

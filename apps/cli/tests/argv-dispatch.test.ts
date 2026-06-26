@@ -1,4 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { mkdtempSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 import {
   BOLETO_GOLDEN_LINHA_STRIPPED,
   CARTAO_GOLDEN_VISA,
@@ -7,6 +10,7 @@ import {
   CNPJ_GOLDEN_ALPHANUMERIC,
   CPF_GOLDEN_PRIMARY,
   CPF_GOLDEN_PRIMARY_MASKED,
+  CPF_GOLDEN_SECONDARY,
   IE_SP_GOLDEN,
   NFE_CHAVE_GOLDEN_PRIMARY,
   PIX_GOLDEN_EMAIL,
@@ -249,13 +253,56 @@ describe('dispatchArgv', () => {
     const sanitizeEmpty = io();
     expect(dispatchArgv(['sanitize'], sanitizeEmpty)).toBe(EXIT.USAGE);
 
+    const mask = io();
+    expect(dispatchArgv(['mask', 'cpf', CPF_GOLDEN_PRIMARY, '--quiet'], mask)).toBe(EXIT.OK);
+
+    const maskEmpty = io();
+    expect(dispatchArgv(['mask'], maskEmpty)).toBe(EXIT.USAGE);
+
     const generate = io();
     expect(dispatchArgv(['generate', 'cpf', '--quiet', '--seed', '42', '--uf', 'SP'], generate)).toBe(
       EXIT.OK,
     );
 
+    const generateStripped = io();
+    expect(
+      dispatchArgv(['generate', 'cpf', '--quiet', '--seed', '42', '--stripped'], generateStripped),
+    ).toBe(EXIT.OK);
+
     const generateEmpty = io();
     expect(dispatchArgv(['generate'], generateEmpty)).toBe(EXIT.USAGE);
+  });
+
+  it('dispatches compare batch and diff', () => {
+    const compare = io();
+    expect(
+      dispatchArgv(['compare', 'cpf', CPF_GOLDEN_PRIMARY_MASKED, CPF_GOLDEN_PRIMARY, '--quiet'], compare),
+    ).toBe(EXIT.OK);
+
+    const compareEmpty = io();
+    expect(dispatchArgv(['compare'], compareEmpty)).toBe(EXIT.USAGE);
+
+    const diff = io();
+    expect(
+      dispatchArgv(['diff', 'cpf', CPF_GOLDEN_PRIMARY, CPF_GOLDEN_SECONDARY, '--quiet'], diff),
+    ).toBe(EXIT.INVALID);
+
+    const diffEmpty = io();
+    expect(dispatchArgv(['diff'], diffEmpty)).toBe(EXIT.USAGE);
+
+    const batchEmpty = io();
+    expect(dispatchArgv(['batch', 'cpf'], batchEmpty)).toBe(EXIT.USAGE);
+
+    const batchNoType = io();
+    expect(dispatchArgv(['batch'], batchNoType)).toBe(EXIT.USAGE);
+  });
+
+  it('dispatches batch with file', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'br-validators-batch-'));
+    const file = join(dir, 'values.txt');
+    writeFileSync(file, `${CPF_GOLDEN_PRIMARY}\ninvalid`, 'utf8');
+    const batch = io();
+    expect(dispatchArgv(['batch', 'cpf', '--file', file, '--quiet'], batch)).toBe(EXIT.INVALID);
   });
 
   it('parses verbose and limit flags', () => {
@@ -265,6 +312,12 @@ describe('dispatchArgv', () => {
     });
     expect(parseArgv(['feriados', 'list', '--year', '2026']).opts).toMatchObject({
       year: 2026,
+    });
+    expect(parseArgv(['inss', 'tabela', '--ano', '2025']).opts).toMatchObject({
+      year: 2025,
+    });
+    expect(parseArgv(['irpf', 'tabela', '--ano', '2025']).opts).toMatchObject({
+      year: 2025,
     });
   });
 
@@ -323,7 +376,7 @@ describe('dispatchArgv', () => {
     expect(dispatchArgv(['incoterms', 'lookup'], missing)).toBe(EXIT.USAGE);
   });
 
-  it('dispatches ibge, feriados, tse-municipios, ddd, cep faixa, and search', () => {
+  it('dispatches ibge, feriados, tse-municipios, ddd, ptax, cep faixa, and search', () => {
     const ibge = io();
     expect(dispatchArgv(['ibge', 'lookup', '3550308', '--json'], ibge)).toBe(EXIT.OK);
 
@@ -334,17 +387,90 @@ describe('dispatchArgv', () => {
     const feriados = io();
     expect(dispatchArgv(['feriados', 'list', '--year', '2026', '--json'], feriados)).toBe(EXIT.OK);
 
+    const inss = io();
+    expect(dispatchArgv(['inss', 'tabela', '--ano', '2025', '--json'], inss)).toBe(EXIT.OK);
+    expect(dispatchArgv(['inss', 'calc', '3000', '--json'], io())).toBe(EXIT.OK);
+
+    const inssCalcMissing = io();
+    expect(dispatchArgv(['inss', 'calc', '--json'], inssCalcMissing)).toBe(EXIT.USAGE);
+
+    const irpf = io();
+    expect(dispatchArgv(['irpf', 'tabela', '--ano', '2025', '--json'], irpf)).toBe(EXIT.OK);
+    expect(dispatchArgv(['irpf', 'calc', '3000', '--json'], io())).toBe(EXIT.OK);
+
+    const irpfCalcMissing = io();
+    expect(dispatchArgv(['irpf', 'calc', '--json'], irpfCalcMissing)).toBe(EXIT.USAGE);
+
     const tse = io();
     expect(dispatchArgv(['tse-municipios', 'lookup', '71072', '--json'], tse)).toBe(EXIT.OK);
 
     const ddd = io();
     expect(dispatchArgv(['ddd', 'lookup', '11', '--json'], ddd)).toBe(EXIT.OK);
 
+    const nfeCuf = io();
+    expect(dispatchArgv(['nfe-cuf', 'lookup', '35', '--json'], nfeCuf)).toBe(EXIT.OK);
+
+    const ptax = io();
+    expect(dispatchArgv(['ptax', 'lookup', 'USD', '--json', '--verbose'], ptax)).toBe(EXIT.OK);
+
+    const selic = io();
+    expect(dispatchArgv(['selic', '--json'], selic)).toBe(EXIT.OK);
+    expect(dispatchArgv(['selic', '--date', '2026-06-18', '--json'], io())).toBe(EXIT.OK);
+
+    const issMunicipal = io();
+    expect(dispatchArgv(['iss-municipal', 'lookup', '3550308', '--json'], issMunicipal)).toBe(EXIT.OK);
+    expect(dispatchArgv(['iss-municipal', 'resolve', 'SP', 'São Paulo', '--json'], io())).toBe(EXIT.OK);
+    expect(dispatchArgv(['iss-municipal', 'search', 'campinas', '--json'], io())).toBe(EXIT.OK);
+
     const faixa = io();
     expect(dispatchArgv(['cep', 'faixa', '01310', '--json'], faixa)).toBe(EXIT.OK);
 
     const search = io();
     expect(dispatchArgv(['cnae', 'search', 'software', '--json', '--limit', '3'], search)).toBe(EXIT.OK);
+  });
+
+  it('dispatches fiscal validate and cst commands', () => {
+    const ncmValidate = io();
+    expect(dispatchArgv(['ncm', 'validate', '01012100', '--json'], ncmValidate)).toBe(EXIT.OK);
+    const parsed = JSON.parse(ncmValidate.stdout[0]) as { value: string; format: string };
+    expect(parsed.value).toBe('01012100');
+    expect(parsed.format).toBe('0101.21.00');
+
+    const cstValidate = io();
+    expect(dispatchArgv(['cst', 'validate', '00', '--tax', 'icms', '--json'], cstValidate)).toBe(EXIT.OK);
+
+    const cstLookup = io();
+    expect(dispatchArgv(['cst', 'lookup', '00', '--tax', 'icms', '--json'], cstLookup)).toBe(EXIT.OK);
+
+    const cstSearch = io();
+    expect(dispatchArgv(['cst', 'search', 'tributada', '--tax', 'icms', '--limit', '1'], cstSearch)).toBe(EXIT.OK);
+
+    const cfopValidate = io();
+    expect(dispatchArgv(['cfop', 'validate', '5102', '--json'], cfopValidate)).toBe(EXIT.OK);
+
+    const cstSearchMissing = io();
+    expect(dispatchArgv(['cst', 'search', '--tax', 'icms'], cstSearchMissing)).toBe(EXIT.USAGE);
+
+    const cstValidateMissing = io();
+    expect(dispatchArgv(['cst', 'validate', '--tax', 'icms'], cstValidateMissing)).toBe(EXIT.USAGE);
+
+    const cstLookupMissing = io();
+    expect(dispatchArgv(['cst', 'lookup', '--tax', 'icms'], cstLookupMissing)).toBe(EXIT.USAGE);
+
+    const ncmValidateMissing = io();
+    expect(dispatchArgv(['ncm', 'validate', '--json'], ncmValidateMissing)).toBe(EXIT.USAGE);
+
+    const ncmUsage = io();
+    expect(dispatchArgv(['ncm', 'unknown'], ncmUsage)).toBe(EXIT.USAGE);
+    expect(ncmUsage.stderr[0]).toContain('validate');
+
+    const cnaeUsage = io();
+    expect(dispatchArgv(['cnae', 'unknown'], cnaeUsage)).toBe(EXIT.USAGE);
+    expect(cnaeUsage.stderr[0]).not.toContain('validate');
+
+    const cstUsage = io();
+    expect(dispatchArgv(['cst', 'validate', '00'], cstUsage)).toBe(EXIT.USAGE);
+    expect(dispatchArgv(['cst', 'unknown'], cstUsage)).toBe(EXIT.USAGE);
   });
 
   it('returns usage for incomplete reference dataset commands', () => {
@@ -354,11 +480,35 @@ describe('dispatchArgv', () => {
     const feriadosUsage = io();
     expect(dispatchArgv(['feriados', 'unknown'], feriadosUsage)).toBe(EXIT.USAGE);
 
+    const inssUsage = io();
+    expect(dispatchArgv(['inss', 'unknown'], inssUsage)).toBe(EXIT.USAGE);
+
+    const irpfUsage = io();
+    expect(dispatchArgv(['irpf', 'unknown'], irpfUsage)).toBe(EXIT.USAGE);
+
     const tseUsage = io();
     expect(dispatchArgv(['tse-municipios', 'unknown'], tseUsage)).toBe(EXIT.USAGE);
 
     const dddUsage = io();
     expect(dispatchArgv(['ddd', 'unknown'], dddUsage)).toBe(EXIT.USAGE);
+
+    const nfeCufUsage = io();
+    expect(dispatchArgv(['nfe-cuf', 'unknown'], nfeCufUsage)).toBe(EXIT.USAGE);
+
+    const nfeCufMissing = io();
+    expect(dispatchArgv(['nfe-cuf', 'lookup'], nfeCufMissing)).toBe(EXIT.USAGE);
+
+    const ptaxUsage = io();
+    expect(dispatchArgv(['ptax', 'unknown'], ptaxUsage)).toBe(EXIT.USAGE);
+
+    const issMunicipalUsage = io();
+    expect(dispatchArgv(['iss-municipal', 'unknown'], issMunicipalUsage)).toBe(EXIT.USAGE);
+
+    const issMunicipalResolveMissing = io();
+    expect(dispatchArgv(['iss-municipal', 'resolve', 'SP'], issMunicipalResolveMissing)).toBe(EXIT.USAGE);
+
+    const issMunicipalSearchMissing = io();
+    expect(dispatchArgv(['iss-municipal', 'search'], issMunicipalSearchMissing)).toBe(EXIT.USAGE);
 
     const searchUsage = io();
     expect(dispatchArgv(['moedas', 'search', 'real'], searchUsage)).toBe(EXIT.USAGE);
@@ -383,6 +533,9 @@ describe('dispatchArgv', () => {
 
     const tseMissing = io();
     expect(dispatchArgv(['tse-municipios', 'lookup'], tseMissing)).toBe(EXIT.USAGE);
+
+    const ptaxMissing = io();
+    expect(dispatchArgv(['ptax', 'lookup'], ptaxMissing)).toBe(EXIT.USAGE);
 
     const dddMissing = io();
     expect(dispatchArgv(['ddd', 'lookup'], dddMissing)).toBe(EXIT.USAGE);

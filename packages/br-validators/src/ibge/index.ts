@@ -1,7 +1,10 @@
 export {
+  getAllEstados,
+  getAllMunicipios,
   getEstados,
   getMunicipios,
   getMunicipioPorCodigo,
+  lookupMunicipioPorCodigo,
 } from './lookup.js';
 export {
   computeCmunFgCheckDigit,

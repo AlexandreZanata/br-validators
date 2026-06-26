@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-  getNbsList,
+  getAllNbs,
   getNbsPorCodigo,
   NBS_DATA_VERSION,
   NBS_GOLDEN_INTEGRACAO_SISTEMAS,
@@ -30,7 +30,7 @@ describe('NBS — official golden vectors', () => {
 
 describe('NBS — coverage and search', () => {
   it('lists leaf codes within expected NFSe range', () => {
-    const list = getNbsList();
+    const list = getAllNbs();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minCodes);
     expect(list.length).toBeLessThanOrEqual(vectors.maxCodes);
     expect(new Set(list.map((nbs) => nbs.codigo)).size).toBe(list.length);
@@ -62,6 +62,6 @@ describe('NBS — coverage and search', () => {
     expect(NBS_DATA_VERSION.id).toBe('nbs');
     expect(NBS_DATA_VERSION.endpoints).toContain(NBS_XLSX_URL);
     expect(NBS_DATA_VERSION.endpoints).toContain(vectors.source);
-    expect(NBS_DATA_VERSION.contagens.nbs).toBe(getNbsList().length);
+    expect(NBS_DATA_VERSION.contagens.nbs).toBe(getAllNbs().length);
   });
 });

@@ -1,0 +1,11 @@
+{
+  "source": "PCA / Polícia Científica do Amapá — legacy RG, format-only (9 digits; DV algorithm not published)",
+  "url": "https://apdigital.portal.ap.gov.br/carta-de-servico/solicitacao-de-agendamento-para-emissao-da-1o-via-da-carteira-de-identidade-nacional-cin1",
+  "valid": {
+    "raw": "123456789"
+  },
+  "invalid": {
+    "raw": "12345678",
+    "code": "INVALID_LENGTH"
+  }
+}

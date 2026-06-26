@@ -4,7 +4,7 @@
 [![MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/open-data-brazil/br-validators/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/open-data-brazil/br-validators)](https://github.com/open-data-brazil/br-validators/releases)
 
-Zod schemas that delegate to [`@br-validators/core`](../br-validators) **v1.8.3** `validate*` functions — same golden vectors, same error messages.
+Zod schemas that delegate to [`@br-validators/core`](../br-validators) **v1.9.0** `validate*` functions — same golden vectors, same error messages.
 
 ## Install
 

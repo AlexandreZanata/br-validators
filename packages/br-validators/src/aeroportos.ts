@@ -1,7 +1,10 @@
 export {
+  getAllAeroportos,
   getAeroportos,
   getAeroportoPorIata,
   getAeroportoPorIcao,
+  lookupAeroportoPorIata,
+  lookupAeroportoPorIcao,
   getAeroportosPorMunicipio,
   AEROPORTOS_DATA_VERSION,
   ANAC_AERODROMOS_PUBLICOS_CSV_URL,

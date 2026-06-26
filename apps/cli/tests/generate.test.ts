@@ -75,4 +75,28 @@ describe('generate command', () => {
   it('buildGenerateOptions empty', () => {
     expect(buildGenerateOptions({ json: false, quiet: false })).toEqual({});
   });
+
+  it('buildGenerateOptions passes stripped flag', () => {
+    expect(buildGenerateOptions({ json: false, quiet: false, stripped: true, seed: 1 })).toEqual({
+      stripped: true,
+      seed: 1,
+    });
+  });
+
+  it('generates CPF with explicit --stripped semantics', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(runGenerate('cpf', { json: true, quiet: false, seed: 42, stripped: true }, io)).toBe(EXIT.OK);
+    const parsed = JSON.parse(io.stdout[0] ?? '{}') as { value: string };
+    expect(parsed.value).toMatch(/^\d{11}$/);
+    expect(validateCpf(parsed.value).ok).toBe(true);
+  });
+
+  it('stripped wins over masked on CLI', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(
+      runGenerate('cpf', { json: true, quiet: false, seed: 42, masked: true, stripped: true }, io),
+    ).toBe(EXIT.OK);
+    const parsed = JSON.parse(io.stdout[0] ?? '{}') as { value: string };
+    expect(parsed.value).toMatch(/^\d{11}$/);
+  });
 });

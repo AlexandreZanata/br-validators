@@ -1,6 +1,6 @@
 {
   "name": "@br-validators/express",
-  "version": "1.8.3-data.0001",
+  "version": "1.9.0",
   "description": "Express and Fastify middleware for Brazilian document validators — delegates to @br-validators/core",
   "license": "MIT",
   "type": "module",

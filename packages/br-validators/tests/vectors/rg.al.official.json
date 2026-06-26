@@ -1,0 +1,11 @@
+{
+  "source": "POLCAL / Instituto de Identificação de Alagoas — legacy RG, format-only (7 digits; DV algorithm not published)",
+  "url": "https://alagoasdigital.al.gov.br/servico/8",
+  "valid": {
+    "raw": "1234567"
+  },
+  "invalid": {
+    "raw": "123456",
+    "code": "INVALID_LENGTH"
+  }
+}

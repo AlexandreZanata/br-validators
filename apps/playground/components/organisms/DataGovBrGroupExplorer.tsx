@@ -3,11 +3,13 @@
 import { useMemo, useState } from 'react';
 import { Label } from '@/components/atoms/Label';
 import { Input } from '@/components/atoms/Input';
+import { Select } from '@/components/atoms/Select';
 import { OfficialSourceLink } from '@/components/molecules/OfficialSourceLink';
 import { ResultRow } from '@/components/molecules/ResultRow';
 import { ResultSection } from '@/components/molecules/ResultSection';
 import { useI18n } from '@/components/providers/I18nProvider';
 import type { Messages } from '@/lib/i18n/types';
+import type { CstTax } from '@br-validators/core/cst';
 import {
   GOVBR_GROUPS,
   type GovBrGroupId,
@@ -28,6 +30,10 @@ type GroupModuleCopy = {
   fields: Record<string, string>;
 };
 
+type ExplorerMode = 'lookup' | 'validate';
+
+const CST_TAX_OPTIONS: readonly CstTax[] = ['icms', 'ipi', 'pis', 'cofins'];
+
 function getGroupModuleCopy(
   messages: Messages,
   groupId: GovBrGroupId,
@@ -35,7 +41,7 @@ function getGroupModuleCopy(
 ): GroupModuleCopy {
   if (groupId === 'fiscal') {
     return messages.referenceData.fiscal.modules[
-      moduleId as 'naturezaJuridica' | 'nbs' | 'cest' | 'cnae' | 'cfop' | 'ncm' | 'cbo'
+      moduleId as 'naturezaJuridica' | 'nbs' | 'cest' | 'cnae' | 'cfop' | 'ncm' | 'nfeCuf' | 'cbo' | 'cst'
     ];
   }
   if (groupId === 'trade') {
@@ -47,6 +53,7 @@ function getGroupModuleCopy(
 export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
   const { messages } = useI18n();
   const copy = messages.referenceData[groupId];
+  const fiscalCopy = groupId === 'fiscal' ? messages.referenceData.fiscal : null;
   const modules = GOVBR_GROUPS[groupId];
   const [activeModuleId, setActiveModuleId] = useState<GovBrModuleId>(modules[0].id);
   const activeModule = useMemo(
@@ -54,13 +61,29 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
     [activeModuleId, modules],
   );
   const [lookupInput, setLookupInput] = useState(activeModule.defaultCode);
+  const [mode, setMode] = useState<ExplorerMode>('lookup');
+  const [cstTax, setCstTax] = useState<CstTax>(activeModule.defaultCstTax ?? 'icms');
 
   const moduleCopy = getGroupModuleCopy(messages, groupId, activeModule.id);
-  const result = useMemo(() => activeModule.lookup(lookupInput), [activeModule, lookupInput]);
+  const supportsValidate = activeModule.validate !== undefined;
+  const lookupResult = useMemo(
+    () => activeModule.lookup(lookupInput),
+    [activeModule, lookupInput],
+  );
+  const validateResult = useMemo(() => {
+    if (!supportsValidate) {
+      return undefined;
+    }
+    return activeModule.validate?.(lookupInput, { cstTax });
+  }, [activeModule, lookupInput, supportsValidate, cstTax]);
 
   function selectModule(module: GovBrModuleDefinition) {
     setActiveModuleId(module.id);
     setLookupInput(module.defaultCode);
+    setMode('lookup');
+    if (module.defaultCstTax !== undefined) {
+      setCstTax(module.defaultCstTax);
+    }
   }
 
   return (
@@ -95,6 +118,32 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
         })}
       </div>
 
+      {fiscalCopy && activeModule.id === 'issMunicipal' ? (
+        <p className={styles.description}>{fiscalCopy.issMunicipalDisclaimer}</p>
+      ) : null}
+
+      {fiscalCopy && supportsValidate ? (
+        <div className={styles.referenceDataTabs} role="tablist" aria-label={fiscalCopy.modeTabLabel}>
+          {(['lookup', 'validate'] as const).map((tabMode) => {
+            const selected = mode === tabMode;
+            return (
+              <button
+                key={tabMode}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                className={`${styles.referenceDataTab} ${selected ? styles.referenceDataTabActive : ''}`.trim()}
+                onClick={() => {
+                  setMode(tabMode);
+                }}
+              >
+                {tabMode === 'lookup' ? fiscalCopy.lookupModeLabel : fiscalCopy.validateModeLabel}
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
+
       <div>
         <Label htmlFor={`${groupId}-${activeModule.id}-lookup`}>{copy.lookupLabel}</Label>
         <Input
@@ -107,17 +156,54 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
         />
       </div>
 
-      {result ? (
+      {fiscalCopy && activeModule.validateRequiresCstTax && mode === 'validate' ? (
+        <div>
+          <Label htmlFor={`${groupId}-${activeModule.id}-cst-tax`}>{fiscalCopy.cstTaxLabel}</Label>
+          <Select
+            id={`${groupId}-${activeModule.id}-cst-tax`}
+            value={cstTax}
+            onChange={(event) => {
+              setCstTax(event.target.value as CstTax);
+            }}
+          >
+            {CST_TAX_OPTIONS.map((tax) => (
+              <option key={tax} value={tax}>
+                {tax.toUpperCase()}
+              </option>
+            ))}
+          </Select>
+        </div>
+      ) : null}
+
+      {mode === 'validate' && fiscalCopy && validateResult ? (
+        validateResult.ok ? (
+          <ResultSection title={fiscalCopy.validateResultTitle}>
+            <ResultRow label={fiscalCopy.validateFields.value} value={validateResult.value} />
+            <ResultRow label={fiscalCopy.validateFields.description} value={validateResult.description} />
+            {validateResult.format !== undefined ? (
+              <ResultRow label={fiscalCopy.validateFields.format} value={validateResult.format} />
+            ) : null}
+          </ResultSection>
+        ) : lookupInput.trim() ? (
+          <p className={styles.description}>
+            {fiscalCopy.validateError}: {validateResult.code} — {validateResult.message}
+          </p>
+        ) : null
+      ) : null}
+
+      {mode === 'lookup' && lookupResult ? (
         <ResultSection title={copy.resultTitle}>
           {activeModule.fieldKeys.map((fieldKey) => (
             <ResultRow
               key={fieldKey}
               label={moduleCopy.fields[fieldKey] ?? fieldKey}
-              value={formatFieldValue(result[fieldKey] ?? null)}
+              value={formatFieldValue(lookupResult[fieldKey] ?? null)}
             />
           ))}
         </ResultSection>
-      ) : lookupInput.trim() ? (
+      ) : null}
+
+      {mode === 'lookup' && !lookupResult && lookupInput.trim() ? (
         <p className={styles.description}>{copy.notFound}</p>
       ) : null}
     </main>

@@ -1,0 +1,11 @@
+{
+  "source": "PCIES / SESP-ES — legacy RG, format-only (9 digits; DV algorithm not published)",
+  "url": "https://pci.es.gov.br/perguntas-frequentes",
+  "valid": {
+    "raw": "123456789"
+  },
+  "invalid": {
+    "raw": "12345678",
+    "code": "INVALID_LENGTH"
+  }
+}

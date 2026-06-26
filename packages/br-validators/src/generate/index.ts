@@ -61,7 +61,10 @@ export type GenerateFormat =
 
 export type GenerateOptions = {
   format?: GenerateFormat;
+  /** When true, return masked/formatted output. Ignored when `stripped: true`. */
   masked?: boolean;
+  /** When true, return canonical stripped digits (explicit default). Wins over `masked`. */
+  stripped?: boolean;
   seed?: number;
   uf?: UfCode;
   brand?: GeneratableCardBrand;
@@ -72,6 +75,11 @@ export type GenerateOptions = {
   amount?: string;
   txid?: string;
 };
+
+/** @internal Output precedence: stripped wins over masked. */
+export function shouldApplyGenerateMask(options: GenerateOptions): boolean {
+  return options.masked === true && options.stripped !== true;
+}
 
 export type { GeneratableCardBrand } from './cartao-credito.js';
 export {
@@ -286,15 +294,15 @@ export function generate(type: GeneratableDocumentType, options: GenerateOptions
     }
   }
 
-  if (options.masked && type === 'inscricao-estadual') {
+  if (shouldApplyGenerateMask(options) && type === 'inscricao-estadual') {
     return applyInscricaoEstadualGenerateMask(value, options.uf!);
   }
 
-  if (options.masked && type === 'boleto-arrecadacao') {
+  if (shouldApplyGenerateMask(options) && type === 'boleto-arrecadacao') {
     return applyArrecadacaoLinhaMask(value);
   }
 
-  return options.masked ? applyMask(type, value) : value;
+  return shouldApplyGenerateMask(options) ? applyMask(type, value) : value;
 }
 
 const repeatingRng: RandomSource = {

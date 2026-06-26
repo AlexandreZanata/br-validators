@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   getIncotermPorCodigo,
-  getIncoterms,
+  getAllIncoterms,
   ICC_INCOTERMS_2020_URL,
   INCOTERMS_DATA_VERSION,
   INCOTERMS_GOLDEN_FOB,
@@ -45,7 +45,7 @@ describe('Incoterms — official golden vectors', () => {
 
 describe('Incoterms — ICC 2020 static list', () => {
   it('lists all 11 Incoterms 2020 terms', () => {
-    const list = getIncoterms();
+    const list = getAllIncoterms();
     expect(list.length).toBe(INCOTERMS_2020_COUNT);
     expect(list.length).toBe(vectors.count);
     expect(new Set(list.map((entry) => entry.codigo)).size).toBe(list.length);
@@ -56,6 +56,6 @@ describe('Incoterms — ICC 2020 static list', () => {
     expect(INCOTERMS_DATA_VERSION.id).toBe('incoterms');
     expect(INCOTERMS_DATA_VERSION.endpoints).toContain(ICC_INCOTERMS_2020_URL);
     expect(INCOTERMS_DATA_VERSION.endpoints).toContain(vectors.source);
-    expect(INCOTERMS_DATA_VERSION.contagens.incoterms).toBe(getIncoterms().length);
+    expect(INCOTERMS_DATA_VERSION.contagens.incoterms).toBe(getAllIncoterms().length);
   });
 });

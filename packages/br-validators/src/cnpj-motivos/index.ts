@@ -1,6 +1,7 @@
 export {
   getMotivoSituacaoCadastralPorCodigo,
   getMotivosSituacaoCadastral,
+  lookupMotivoSituacaoCadastralPorCodigo,
 } from './lookup.js';
 export {
   CNPJ_MOTIVOS_BASE_URL,

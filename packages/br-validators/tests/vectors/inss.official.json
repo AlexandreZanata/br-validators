@@ -1,0 +1,44 @@
+{
+  "source": "https://www.gov.br/inss/pt-br/noticias/confira-como-ficaram-as-aliquotas-de-contribuicao-ao-inss",
+  "portaria": "https://www.in.gov.br/web/dou/-/portaria-interministerial-mps/mf-n-6-de-10-de-janeiro-de-2025-606526848",
+  "leiBase": "https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2004/lei/l10887.htm",
+  "ano": 2025,
+  "faixas": 4,
+  "teto": 8157.41,
+  "golden": {
+    "salarioMinimo": {
+      "salarioContribuicao": 1518,
+      "faixa": 1,
+      "aliquota": 0.075,
+      "contribuicao": 113.85
+    },
+    "faixa2Limite": {
+      "salarioContribuicao": 2793.88,
+      "faixa": 2,
+      "aliquota": 0.09,
+      "contribuicao": 228.68
+    },
+    "faixa3Exemplo": {
+      "salarioContribuicao": 3000,
+      "faixa": 3,
+      "aliquota": 0.12,
+      "contribuicao": 253.41
+    },
+    "tetoExemplo": {
+      "salarioContribuicao": 8157.41,
+      "faixa": 4,
+      "aliquota": 0.14,
+      "contribuicao": 951.63
+    },
+    "acimaTeto": {
+      "salarioContribuicao": 10000,
+      "salarioEfetivo": 8157.41,
+      "faixa": 4,
+      "contribuicao": 951.63
+    }
+  },
+  "negative": {
+    "invalidSalario": -1,
+    "unknownYear": 1999
+  }
+}

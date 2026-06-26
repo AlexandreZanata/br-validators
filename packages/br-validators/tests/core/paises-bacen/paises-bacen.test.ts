@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   getPaisPorCodigoBacen,
-  getPaisesBacen,
+  getAllPaisesBacen,
   NFE_PAISES_TABLE_URL,
   PAISES_BACEN_DATA_VERSION,
   PAISES_BACEN_GOLDEN_BRASIL,
@@ -30,7 +30,7 @@ describe('Paises Bacen — official golden vectors', () => {
 
 describe('Paises Bacen — national coverage', () => {
   it('lists countries within expected NF-e table range', () => {
-    const list = getPaisesBacen();
+    const list = getAllPaisesBacen();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minPaises);
     expect(list.length).toBeLessThanOrEqual(vectors.maxPaises);
     expect(new Set(list.map((pais) => pais.codigo)).size).toBe(list.length);
@@ -40,6 +40,6 @@ describe('Paises Bacen — national coverage', () => {
     expect(PAISES_BACEN_DATA_VERSION.id).toBe('paises-bacen');
     expect(PAISES_BACEN_DATA_VERSION.endpoints).toContain(NFE_PAISES_TABLE_URL);
     expect(PAISES_BACEN_DATA_VERSION.endpoints).toContain(vectors.source);
-    expect(PAISES_BACEN_DATA_VERSION.contagens.paises).toBe(getPaisesBacen().length);
+    expect(PAISES_BACEN_DATA_VERSION.contagens.paises).toBe(getAllPaisesBacen().length);
   });
 });

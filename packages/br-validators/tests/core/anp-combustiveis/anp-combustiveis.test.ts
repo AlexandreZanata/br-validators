@@ -11,10 +11,12 @@ import {
   ANP_PRODUTO_COUNT,
   ANP_UF_COUNT,
   getAnpPrecosMedios,
-  getAnpPrecosMediosEmbedded,
+  getAllAnpPrecosMedios,
   getAnpPrecosMediosPorIbge,
   getAnpSemanaAtual,
-  getAnpSemanasPesquisa,
+  getAllAnpSemanasPesquisa,
+  lookupAnpPrecosMedios,
+  lookupAnpPrecosMediosPorIbge,
   pickLatestAnpSemana,
 } from '../../../src/anp-combustiveis/index.js';
 import type { AnpCombustivel } from '../../../src/anp-combustiveis/types.js';
@@ -79,6 +81,37 @@ describe('ANP combustíveis — lookup guards', () => {
     expect(getAnpPrecosMediosPorIbge(3550308, 'ETHANOL', 'bad-date')).toBeUndefined();
   });
 
+  it('lookupAnpPrecosMedios returns structured failure codes', () => {
+    expect(lookupAnpPrecosMedios({ uf: ' ', municipio: 'X', produto: 'ETHANOL' })).toEqual({
+      ok: false,
+      code: 'INVALID_INPUT',
+      message: 'UF and municipio are required',
+    });
+
+    const emptyMunicipio = lookupAnpPrecosMedios({
+      uf: 'SP',
+      municipio: '!!!',
+      produto: 'ETHANOL',
+    });
+    expect(emptyMunicipio.ok).toBe(false);
+    if (!emptyMunicipio.ok) {
+      expect(emptyMunicipio.code).toBe('INVALID_FORMAT');
+      expect(emptyMunicipio.message).toContain('Municipio name');
+    }
+
+    const notFound = lookupAnpPrecosMedios({
+      uf: 'SP',
+      municipio: 'CIDADE INEXISTENTE',
+      produto: 'ETHANOL',
+    });
+    expect(notFound.ok).toBe(false);
+    if (!notFound.ok) {
+      expect(notFound.code).toBe('NOT_FOUND');
+    }
+
+    expect(lookupAnpPrecosMediosPorIbge(9999999, 'ETHANOL').ok).toBe(false);
+  });
+
   it('returns undefined for unknown municipality/product combinations', () => {
     expect(getAnpPrecosMedios({ uf: 'SP', municipio: 'ZZZZZZ', produto: 'ETHANOL' })).toBeUndefined();
     expect(getAnpPrecosMediosPorIbge(9999999, 'ETHANOL')).toBeUndefined();
@@ -91,14 +124,14 @@ describe('ANP combustíveis — lookup guards', () => {
 
 describe('ANP combustíveis — embedded catalog', () => {
   it('lists the embedded survey week', () => {
-    const semanas = getAnpSemanasPesquisa();
+    const semanas = getAllAnpSemanasPesquisa();
     expect(semanas).toHaveLength(1);
     expect(getAnpSemanaAtual()).toEqual(vectors.week);
     expect(semanas[0]).toEqual(vectors.week);
   });
 
   it('keeps municipal price rows within official sanity bounds', () => {
-    const records = getAnpPrecosMediosEmbedded();
+    const records = getAllAnpPrecosMedios();
     expect(records.length).toBeGreaterThanOrEqual(vectors.minPrecosMedios);
     expect(records.length).toBeLessThanOrEqual(vectors.maxPrecosMedios);
 
@@ -114,7 +147,7 @@ describe('ANP combustíveis — embedded catalog', () => {
     expect(ANP_COMBUSTIVEIS_DATA_VERSION.verificacao.agendamento).toBe('semanal');
     expect(ANP_COMBUSTIVEIS_DATA_VERSION.endpoints).toContain(ANP_LPC_LISTING_URL);
     expect(ANP_COMBUSTIVEIS_DATA_VERSION.endpoints).toContain(vectors.source);
-    expect(ANP_COMBUSTIVEIS_DATA_VERSION.contagens.precosMedios).toBe(getAnpPrecosMediosEmbedded().length);
+    expect(ANP_COMBUSTIVEIS_DATA_VERSION.contagens.precosMedios).toBe(getAllAnpPrecosMedios().length);
     expect(ANP_COMBUSTIVEL_VALUES).toHaveLength(ANP_PRODUTO_COUNT);
     expect(ANP_MIN_PRECOS_MEDIOS).toBe(vectors.minPrecosMedios);
     expect(ANP_MAX_PRECOS_MEDIOS).toBe(vectors.maxPrecosMedios);

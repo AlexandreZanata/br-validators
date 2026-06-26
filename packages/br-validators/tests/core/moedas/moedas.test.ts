@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   BACEN_PTAX_MOEDAS_URL,
   getMoedaPorCodigo,
-  getMoedas,
+  getAllMoedas,
   MOEDAS_DATA_VERSION,
   MOEDAS_GOLDEN_BRL,
   MOEDAS_GOLDEN_EUR,
@@ -80,7 +80,7 @@ describe('Moedas — search', () => {
 
 describe('Moedas — coverage', () => {
   it('lists ISO 4217 codes within expected range', () => {
-    const list = getMoedas();
+    const list = getAllMoedas();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minMoedas);
     expect(list.length).toBeLessThanOrEqual(vectors.maxMoedas);
     expect(new Set(list.map((moeda) => moeda.codigo)).size).toBe(list.length);
@@ -90,6 +90,6 @@ describe('Moedas — coverage', () => {
     expect(MOEDAS_DATA_VERSION.id).toBe('moedas');
     expect(MOEDAS_DATA_VERSION.endpoints).toContain(BACEN_PTAX_MOEDAS_URL);
     expect(MOEDAS_DATA_VERSION.endpoints).toContain(vectors.source);
-    expect(MOEDAS_DATA_VERSION.contagens.moedas).toBe(getMoedas().length);
+    expect(MOEDAS_DATA_VERSION.contagens.moedas).toBe(getAllMoedas().length);
   });
 });

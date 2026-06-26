@@ -4,7 +4,7 @@
  * @see docs/use-cases/UC-006-validate-pis-pasep.md — golden vector 10027230888
  */
 import { stripPisPasep } from '../../strip/pis-pasep.js';
-import type { ValidationResult } from '../../types/validation-result.js';
+import type { PisPasep, ValidationResult } from '../../types/validation-result.js';
 import { brandPisPasep } from '../../types/validation-result.js';
 import { computeCheckDigit } from '../cnpj/modulo11.js';
 import {
@@ -71,7 +71,7 @@ export function isValidPisPasep(input: string): boolean {
   return validatePisPasep(input).ok;
 }
 
-export function validatePisPasep(input: string): ValidationResult {
+export function validatePisPasep(input: string): ValidationResult<PisPasep> {
   const stripped = stripPisPasep(input);
   const structural = validateStructure(input, stripped);
   if (structural) {

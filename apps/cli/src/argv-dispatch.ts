@@ -1,5 +1,6 @@
 import { EXIT } from './constants.js';
 import { isReferenceLookupCommand, isReferenceSearchCommand } from './commands/reference-lookup/registry.js';
+import { isReferenceValidateCommand } from './commands/reference-lookup/validate.js';
 import {
   handleBoletoCli,
   handleBrCodeCli,
@@ -12,18 +13,35 @@ import {
   handleCpfCli,
   handleDetectCli,
   handleGenerateCli,
+  handleCompareCli,
+  handleBatchCli,
+  handleDiffCli,
   handleIeCli,
   handleRgCli,
   handleBancosListCli,
   handleBancosLookupCli,
   handleReferenceLookupCli,
   handleReferenceSearchCli,
+  handleReferenceValidateCli,
+  handleCstLookupCli,
+  handleCstSearchCli,
+  handleCstValidateCli,
   handleIbgeLookupCli,
   handleIbgeListCli,
   handleFeriadosListCli,
+  handleInssCalcCli,
+  handleInssTabelaCli,
+  handleIrpfCalcCli,
+  handleIrpfTabelaCli,
   handleTseMunicipiosLookupCli,
   handleCepFaixaCli,
   handleDddLookupCli,
+  handleNfeCufLookupCli,
+  handleSelicCli,
+  handleIssMunicipalLookupCli,
+  handleIssMunicipalResolveCli,
+  handleIssMunicipalSearchCli,
+  handlePtaxLookupCli,
   handleListCli,
   handleNfeChaveCli,
   handleProcessoJudicialCli,
@@ -33,6 +51,7 @@ import {
   handlePlacaCli,
   handleRenavamCli,
   handleSanitizeCli,
+  handleMaskCli,
   handleTelefoneCli,
   handleTituloEleitorCli,
   type BoletoCliOptions,
@@ -52,7 +71,7 @@ export type ParsedArgv = {
     PixCliOptions &
     BoletoCliOptions &
     IeCliOptions &
-    GenerateCliOptions & { verbose?: boolean; limit?: number; year?: number };
+    GenerateCliOptions & { verbose?: boolean; limit?: number; year?: number; tax?: string; date?: string };
 };
 
 const STANDARD_ACTIONS = ['validate', 'format', 'strip'] as const;
@@ -88,6 +107,10 @@ export function parseArgv(tokens: string[]): ParsedArgv {
     }
     if (token === '--masked') {
       opts.masked = true;
+      continue;
+    }
+    if (token === '--stripped') {
+      opts.stripped = true;
       continue;
     }
     if (token === '-f' || token === '--file') {
@@ -129,8 +152,23 @@ export function parseArgv(tokens: string[]): ParsedArgv {
       index += 1;
       continue;
     }
+    if (token === '--tax') {
+      opts.tax = tokens[index + 1];
+      index += 1;
+      continue;
+    }
     if (token === '--year') {
       opts.year = Number(tokens[index + 1]);
+      index += 1;
+      continue;
+    }
+    if (token === '--ano') {
+      opts.year = Number(tokens[index + 1]);
+      index += 1;
+      continue;
+    }
+    if (token === '--date') {
+      opts.date = tokens[index + 1];
       index += 1;
       continue;
     }
@@ -165,7 +203,7 @@ export function dispatchArgv(tokens: string[], io: CliIo): number {
   if (tokens.length === 0 || tokens.includes('--help') || tokens.includes('-h')) {
     io.stdout.push('br-validators — 100% open-source Brazilian document validators');
     io.stdout.push('Usage: br-validators <command> ...');
-    io.stdout.push('Commands: list · cpf · cnpj · cep · telefone · cnh · renavam · titulo-eleitor · processo-judicial · rg · nfe-chave · brcode · placa · pis-pasep · cnis · pix · boleto · cartao · cartao-credito · ean · ie · bancos · ibge · feriados · tse-municipios · ddd · natureza-juridica · nbs · cest · cnae · cfop · ncm · cbo · moedas · paises-bacen · incoterms · portos · aeroportos · detect · sanitize · generate');
+    io.stdout.push('Commands: list · cpf · cnpj · cep · telefone · cnh · renavam · titulo-eleitor · processo-judicial · rg · nfe-chave · brcode · placa · pis-pasep · cnis · pix · boleto · cartao · cartao-credito · ean · ie · bancos · ibge · feriados · inss · irpf · tse-municipios · ddd · nfe-cuf · selic · iss-municipal · ptax · cst · natureza-juridica · nbs · cest · cnae · cfop · ncm · cbo · moedas · paises-bacen · incoterms · portos · aeroportos · detect · sanitize · mask · compare · batch · diff · generate');
     return EXIT.OK;
   }
 
@@ -341,6 +379,28 @@ export function dispatchArgv(tokens: string[], io: CliIo): number {
       }
       return usage(io, 'Expected: feriados list [--year YYYY]');
     }
+    case 'inss': {
+      const action = rest[0];
+      if (action === 'tabela') {
+        return handleInssTabelaCli(opts, io);
+      }
+      if (action === 'calc') {
+        const value = rest.slice(1).join(' ') || undefined;
+        return handleInssCalcCli(value, opts, io);
+      }
+      return usage(io, 'Expected: inss tabela [--ano YYYY] | inss calc <salario> [--ano YYYY]');
+    }
+    case 'irpf': {
+      const action = rest[0];
+      if (action === 'tabela') {
+        return handleIrpfTabelaCli(opts, io);
+      }
+      if (action === 'calc') {
+        const value = rest.slice(1).join(' ') || undefined;
+        return handleIrpfCalcCli(value, opts, io);
+      }
+      return usage(io, 'Expected: irpf tabela [--ano YYYY] | irpf calc <base> [--ano YYYY]');
+    }
     case 'tse-municipios': {
       const action = rest[0];
       if (action === 'lookup') {
@@ -357,10 +417,90 @@ export function dispatchArgv(tokens: string[], io: CliIo): number {
       }
       return usage(io, 'Expected: ddd lookup <code>');
     }
+    case 'nfe-cuf': {
+      const action = rest[0];
+      if (action === 'lookup') {
+        const value = rest.slice(1).join(' ') || undefined;
+        return handleNfeCufLookupCli(value, opts, io);
+      }
+      return usage(io, 'Expected: nfe-cuf lookup <code>');
+    }
+    case 'selic': {
+      return handleSelicCli(opts, io);
+    }
+    case 'iss-municipal': {
+      const action = rest[0];
+      if (action === 'lookup') {
+        const value = rest[1];
+        return handleIssMunicipalLookupCli(value, opts, io);
+      }
+      if (action === 'resolve') {
+        const uf = rest[1];
+        const nome = rest.slice(2).join(' ') || undefined;
+        return handleIssMunicipalResolveCli(uf, nome, opts, io);
+      }
+      if (action === 'search') {
+        const value = rest.slice(1).join(' ') || undefined;
+        return handleIssMunicipalSearchCli(value, opts, io);
+      }
+      return usage(io, 'Expected: iss-municipal lookup|resolve|search <args>');
+    }
+    case 'ptax': {
+      const action = rest[0];
+      if (action === 'lookup') {
+        const moeda = rest[1];
+        const data = rest.slice(2).join(' ') || undefined;
+        return handlePtaxLookupCli(moeda, data, opts, io);
+      }
+      return usage(io, 'Expected: ptax lookup <moeda> [data]');
+    }
+    case 'cst': {
+      const action = rest[0];
+      if (action === 'lookup') {
+        const value = rest.slice(1).join(' ') || undefined;
+        return handleCstLookupCli(value, opts, io);
+      }
+      if (action === 'search') {
+        const value = rest.slice(1).join(' ') || undefined;
+        return handleCstSearchCli(value, opts, io);
+      }
+      if (action === 'validate') {
+        const value = rest.slice(1).join(' ') || undefined;
+        return handleCstValidateCli(value, opts, io);
+      }
+      return usage(io, 'Expected: cst lookup|search|validate <codigo|query> --tax icms|ipi|pis|cofins');
+    }
     case 'detect':
       return handleDetectCli(rest.join(' ') || undefined, opts, io);
     case 'sanitize':
       return handleSanitizeCli(rest[0] ?? '', rest.slice(1).join(' ') || undefined, opts, io);
+    case 'mask':
+      return handleMaskCli(rest[0] ?? '', rest.slice(1).join(' ') || undefined, opts, io);
+    case 'compare': {
+      const type = rest[0];
+      const valueA = rest[1];
+      const valueB = rest.slice(2).join(' ') || undefined;
+      if (!type) {
+        return usage(io, 'Expected: compare <type> <valueA> <valueB>');
+      }
+      return handleCompareCli(type, valueA, valueB, opts, io);
+    }
+    case 'batch': {
+      const type = rest[0];
+      if (!type) {
+        return usage(io, 'Expected: batch <type> [--file path]');
+      }
+      return handleBatchCli(type, opts, io);
+    }
+    case 'diff': {
+      const type = rest[0];
+      const valueA = rest[1];
+      const valueB = rest.slice(2).join(' ') || undefined;
+      if (!type) {
+        return usage(io, 'Expected: diff <type> <valueA> <valueB>');
+      }
+      return handleDiffCli(type, valueA, valueB, opts, io);
+    }
     case 'generate':
       return handleGenerateCli(rest[0] ?? '', opts, io);
     default: {
@@ -374,8 +514,13 @@ export function dispatchArgv(tokens: string[], io: CliIo): number {
           const value = rest.slice(1).join(' ') || undefined;
           return handleReferenceSearchCli(root, value, opts, io);
         }
+        if (action === 'validate' && isReferenceValidateCommand(root)) {
+          const value = rest.slice(1).join(' ') || undefined;
+          return handleReferenceValidateCli(root, value, opts, io);
+        }
         const searchHint = isReferenceSearchCommand(root) ? ' | search <query>' : '';
-        return usage(io, `Expected: ${root} lookup <codigo>${searchHint}`);
+        const validateHint = isReferenceValidateCommand(root) ? ' | validate <codigo>' : '';
+        return usage(io, `Expected: ${root} lookup <codigo>${searchHint}${validateHint}`);
       }
       return usage(io, `Unknown command: ${root}`);
     }

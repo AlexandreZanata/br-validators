@@ -1,4 +1,4 @@
-import { BANCOS_DATA_VERSION, getBancos, type Banco } from '@br-validators/core/bancos';
+import { BANCOS_DATA_VERSION, getAllBancos, type Banco } from '@br-validators/core/bancos';
 import { EXIT } from '../../constants.js';
 import { formatBancoHuman } from './lookup.js';
 
@@ -9,7 +9,7 @@ export type BancosListOptions = {
 };
 
 function sliceBancos(limit?: number): readonly Banco[] {
-  const all = getBancos();
+  const all = getAllBancos();
   if (limit === undefined || !Number.isFinite(limit) || limit <= 0) {
     return all;
   }

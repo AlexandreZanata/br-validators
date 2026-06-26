@@ -17,9 +17,31 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Audit production dependencies (fail on high/critical)
+        run: pnpm audit --prod --audit-level=high
+      - name: Audit dev dependencies (warn only)
+        run: |
+          if ! pnpm audit --audit-level=high; then
+            echo "::warning title=Dev dependency audit::High or critical vulnerabilities in devDependencies — review and upgrade tooling. Does not block CI."
+          fi
       - run: pnpm --filter @br-validators/core build
       - run: pnpm --filter @br-validators/cli build
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test:coverage
+      - run: pnpm test:integration
       - run: pnpm build
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm docs:api
+      - run: pnpm --filter @br-validators/docs test
+      - run: pnpm docs:build

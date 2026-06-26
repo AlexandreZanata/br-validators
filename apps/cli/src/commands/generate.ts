@@ -5,6 +5,7 @@ export type GenerateCliOptions = {
   json: boolean;
   quiet: boolean;
   masked?: boolean;
+  stripped?: boolean;
   format?: string;
   seed?: number;
   uf?: string;
@@ -39,6 +40,9 @@ export function buildGenerateOptions(options: GenerateCliOptions): CoreGenerateO
   const core: CoreGenerateOptions = {};
   if (options.masked) {
     core.masked = true;
+  }
+  if (options.stripped) {
+    core.stripped = true;
   }
   if (options.seed !== undefined) {
     core.seed = options.seed;

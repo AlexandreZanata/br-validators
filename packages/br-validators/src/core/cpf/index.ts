@@ -4,7 +4,7 @@
  * @see docs/use-cases/UC-001-validate-cpf.md — golden vector 12345678909
  */
 import { stripCpf } from '../../strip/cpf.js';
-import type { ValidationResult } from '../../types/validation-result.js';
+import type { Cpf, ValidationResult } from '../../types/validation-result.js';
 import { brandCpf } from '../../types/validation-result.js';
 import { computeCheckDigit } from '../cnpj/modulo11.js';
 import {
@@ -76,7 +76,7 @@ export function isValidCpf(input: string): boolean {
   return validateCpf(input).ok;
 }
 
-export function validateCpf(input: string): ValidationResult {
+export function validateCpf(input: string): ValidationResult<Cpf> {
   const stripped = stripCpf(input);
   const structural = validateStructure(input, stripped);
   if (structural) {

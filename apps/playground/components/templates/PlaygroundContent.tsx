@@ -5,11 +5,16 @@ import { DocumentWorkspace } from '@/components/organisms/DocumentWorkspace';
 import { HomePage } from '@/components/organisms/HomePage';
 import { PixWorkspace } from '@/components/organisms/PixWorkspace';
 import { PlatformDetect } from '@/components/organisms/PlatformDetect';
+import { PlatformCompare } from '@/components/organisms/PlatformCompare';
+import { PlatformBatch } from '@/components/organisms/PlatformBatch';
+import { PlatformDiff } from '@/components/organisms/PlatformDiff';
 import { PlatformGenerate } from '@/components/organisms/PlatformGenerate';
 import { PlatformSanitize } from '@/components/organisms/PlatformSanitize';
 import { OfficialSourcesPage } from '@/components/organisms/OfficialSourcesPage';
 import { DataIbgeExplorer } from '@/components/organisms/DataIbgeExplorer';
 import { DataBancosLookup } from '@/components/organisms/DataBancosLookup';
+import { DataFinanceExplorer } from '@/components/organisms/DataFinanceExplorer';
+import { DataPayrollExplorer } from '@/components/organisms/DataPayrollExplorer';
 import { DataCalendarExplorer } from '@/components/organisms/DataCalendarExplorer';
 import { DataCatalogTable } from '@/components/organisms/DataCatalogTable';
 import { DataGovBrGroupExplorer } from '@/components/organisms/DataGovBrGroupExplorer';
@@ -31,6 +36,12 @@ function PlatformPane({ slug }: { slug: PlatformSlug }) {
       return <PlatformDetect />;
     case 'sanitize':
       return <PlatformSanitize />;
+    case 'compare':
+      return <PlatformCompare />;
+    case 'batch':
+      return <PlatformBatch />;
+    case 'diff':
+      return <PlatformDiff />;
     case 'generate':
       return <PlatformGenerate />;
     case 'official-sources':
@@ -44,6 +55,10 @@ function ReferenceDataPane({ slug }: { slug: ReferenceDataSlug }) {
       return <DataIbgeExplorer />;
     case 'data/calendar':
       return <DataCalendarExplorer />;
+    case 'data/payroll':
+      return <DataPayrollExplorer />;
+    case 'data/finance':
+      return <DataFinanceExplorer />;
     case 'data/bancos':
       return <DataBancosLookup />;
     case 'data/fiscal':

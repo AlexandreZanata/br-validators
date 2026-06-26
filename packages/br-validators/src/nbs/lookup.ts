@@ -4,6 +4,11 @@
  */
 
 import nbsData from './data/nbs.json';
+import { resolveStringCodeLookup } from '../lookup/resolve.js';
+import {
+  unwrapLookupValue,
+  type LookupResult,
+} from '../types/lookup-result.js';
 import type { Nbs } from './types.js';
 
 const nbsList: readonly Nbs[] = nbsData;
@@ -24,16 +29,29 @@ function normalizeCodigo(codigo: string): string {
   return `${digits[0]}.${digits.slice(1, 5)}.${digits.slice(5, 7)}.${digits.slice(7, 9)}`;
 }
 
-export function getNbsList(): readonly Nbs[] {
+/** Returns every embedded NBS service code (in-memory reference, not a copy). */
+export function getAllNbs(): readonly Nbs[] {
   return nbsList;
 }
 
+/** @deprecated Use {@link getAllNbs} instead. Removed in v2.0. */
+export function getNbsList(): readonly Nbs[] {
+  return getAllNbs();
+}
+
+export function lookupNbsPorCodigo(codigo: string): LookupResult<Nbs> {
+  return resolveStringCodeLookup({
+    input: codigo,
+    entityLabel: 'NBS',
+    normalize: normalizeCodigo,
+    isValidNormalized: (normalized) => LEAF_CODE_PATTERN.test(normalized),
+    invalidFormatMessage: 'NBS code must match d.dddd.dd.dd after normalization',
+    find: (normalized) => nbsList.find((nbs) => nbs.codigo === normalized),
+  });
+}
+
 export function getNbsPorCodigo(codigo: string): Nbs | undefined {
-  const normalized = normalizeCodigo(codigo);
-  if (!LEAF_CODE_PATTERN.test(normalized)) {
-    return undefined;
-  }
-  return nbsList.find((nbs) => nbs.codigo === normalized);
+  return unwrapLookupValue(lookupNbsPorCodigo(codigo));
 }
 
 export function searchNbs(query: string, options?: { limit?: number }): readonly Nbs[] {

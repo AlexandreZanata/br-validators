@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   getNcmPorCodigo,
-  getNcms,
+  getAllNcm,
   NCM_DATA_VERSION,
   NCM_GOLDEN_CAVALOS_REPRODUTORES,
   NCM_GOLDEN_SOJA_SEMENTES,
@@ -37,7 +37,7 @@ describe('NCM — official golden vectors', () => {
 
 describe('NCM — coverage and search', () => {
   it('lists leaf codes within expected Siscomex range', () => {
-    const list = getNcms();
+    const list = getAllNcm();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minLeafCodes);
     expect(list.length).toBeLessThanOrEqual(vectors.maxLeafCodes);
     expect(new Set(list.map((ncm) => ncm.codigo)).size).toBe(list.length);
@@ -69,6 +69,6 @@ describe('NCM — coverage and search', () => {
     expect(NCM_DATA_VERSION.id).toBe('ncm');
     expect(NCM_DATA_VERSION.endpoints).toContain(NCM_JSON_URL);
     expect(NCM_DATA_VERSION.endpoints).toContain(vectors.source);
-    expect(NCM_DATA_VERSION.contagens.ncm).toBe(getNcms().length);
+    expect(NCM_DATA_VERSION.contagens.ncm).toBe(getAllNcm().length);
   });
 });

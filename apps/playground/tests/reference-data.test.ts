@@ -8,6 +8,7 @@ import { CNAES_GOLDEN_DESENVOLVIMENTO_PROGRAMAS } from '@br-validators/core/cnae
 import { CFOP_GOLDEN_COMPRA_COMERCIALIZACAO } from '@br-validators/core/cfop';
 import { CBO_GOLDEN_ANALISTA_SISTEMAS } from '@br-validators/core/cbo';
 import { NCM_GOLDEN_SOJA_SEMENTES } from '@br-validators/core/ncm';
+import { ISS_MUNICIPAL_GOLDEN_SAO_PAULO } from '@br-validators/core/iss-municipal';
 import { resolveCatalogDocUrl } from '../lib/reference-data/catalog-docs';
 import { FISCAL_MODULES, LOGISTICS_MODULES, TRADE_MODULES } from '../lib/reference-data/govbr-groups';
 import { resolveBancoFromInput } from '../lib/reference-data/bancos-lookup';
@@ -22,6 +23,8 @@ describe('resolvePlaygroundRoute reference data', () => {
     expect(resolvePlaygroundRoute('/data/bancos')).toEqual({ kind: 'reference-data', slug: 'data/bancos' });
     expect(resolvePlaygroundRoute('/data/catalog')).toEqual({ kind: 'reference-data', slug: 'data/catalog' });
     expect(resolvePlaygroundRoute('/data/fiscal')).toEqual({ kind: 'reference-data', slug: 'data/fiscal' });
+    expect(resolvePlaygroundRoute('/data/payroll')).toEqual({ kind: 'reference-data', slug: 'data/payroll' });
+    expect(resolvePlaygroundRoute('/data/finance')).toEqual({ kind: 'reference-data', slug: 'data/finance' });
     expect(resolvePlaygroundRoute('/data/trade')).toEqual({ kind: 'reference-data', slug: 'data/trade' });
     expect(resolvePlaygroundRoute('/data/logistics')).toEqual({ kind: 'reference-data', slug: 'data/logistics' });
   });
@@ -67,9 +70,15 @@ describe('resolveCatalogDocUrl', () => {
 });
 
 describe('Gov.br reference groups', () => {
+  it('resolves fiscal golden NF-e cUF SP', () => {
+    const module = FISCAL_MODULES.find((entry) => entry.id === 'nfeCuf');
+    expect(module?.lookup('35')?.uf).toBe('SP');
+    expect(module?.lookup('SP')?.codigo).toBe('35');
+  });
+
   it('resolves fiscal golden natureza juridica', () => {
-    const module = FISCAL_MODULES[0];
-    expect(module.lookup('2062')?.codigo).toBe('2062');
+    const module = FISCAL_MODULES.find((entry) => entry.id === 'naturezaJuridica');
+    expect(module?.lookup('2062')?.codigo).toBe('2062');
   });
 
   it('resolves fiscal CNAE, CFOP, NCM, and CBO golden codes', () => {
@@ -81,6 +90,12 @@ describe('Gov.br reference groups', () => {
     expect(cfop?.lookup(CFOP_GOLDEN_COMPRA_COMERCIALIZACAO)?.codigo).toBe(CFOP_GOLDEN_COMPRA_COMERCIALIZACAO);
     expect(ncm?.lookup(NCM_GOLDEN_SOJA_SEMENTES)?.codigo).toBe(NCM_GOLDEN_SOJA_SEMENTES);
     expect(cbo?.lookup(CBO_GOLDEN_ANALISTA_SISTEMAS)?.codigo).toBe(CBO_GOLDEN_ANALISTA_SISTEMAS);
+  });
+
+  it('resolves fiscal ISS municipal golden São Paulo IBGE code', () => {
+    const module = FISCAL_MODULES.find((entry) => entry.id === 'issMunicipal');
+    expect(module?.lookup(String(ISS_MUNICIPAL_GOLDEN_SAO_PAULO))?.codigoIbge).toBe(ISS_MUNICIPAL_GOLDEN_SAO_PAULO);
+    expect(module?.lookup(String(ISS_MUNICIPAL_GOLDEN_SAO_PAULO))?.warning).toContain('NFSe');
   });
 
   it('resolves trade golden moeda BRL', () => {

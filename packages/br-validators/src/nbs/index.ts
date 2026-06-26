@@ -1,4 +1,4 @@
-export { getNbsList, getNbsPorCodigo, searchNbs } from './lookup.js';
+export { getAllNbs, getNbsList, getNbsPorCodigo, lookupNbsPorCodigo, searchNbs } from './lookup.js';
 export {
   NBS_GOLDEN_INTEGRACAO_SISTEMAS,
   NBS_MAX_CODES,

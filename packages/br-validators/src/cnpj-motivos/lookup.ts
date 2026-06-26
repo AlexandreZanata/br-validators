@@ -4,6 +4,11 @@
  */
 
 import motivosData from './data/motivos.json';
+import { resolveFixedLengthCodeLookup } from '../lookup/resolve.js';
+import {
+  unwrapLookupValue,
+  type LookupResult,
+} from '../types/lookup-result.js';
 import type { MotivoSituacaoCadastral } from './types.js';
 
 const motivos: readonly MotivoSituacaoCadastral[] = motivosData;
@@ -20,12 +25,21 @@ export function getMotivosSituacaoCadastral(): readonly MotivoSituacaoCadastral[
   return motivos;
 }
 
+export function lookupMotivoSituacaoCadastralPorCodigo(
+  codigo: string,
+): LookupResult<MotivoSituacaoCadastral> {
+  return resolveFixedLengthCodeLookup({
+    input: codigo,
+    entityLabel: 'CNPJ situacao cadastral reason',
+    normalize: normalizeCodigo,
+    expectedLength: 2,
+    lengthLabel: '2 digits',
+    find: (normalized) => motivos.find((motivo) => motivo.codigo === normalized),
+  });
+}
+
 export function getMotivoSituacaoCadastralPorCodigo(
   codigo: string,
 ): MotivoSituacaoCadastral | undefined {
-  const normalized = normalizeCodigo(codigo);
-  if (normalized.length !== 2) {
-    return undefined;
-  }
-  return motivos.find((motivo) => motivo.codigo === normalized);
+  return unwrapLookupValue(lookupMotivoSituacaoCadastralPorCodigo(codigo));
 }

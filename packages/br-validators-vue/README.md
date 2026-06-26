@@ -4,7 +4,7 @@
 [![MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/open-data-brazil/br-validators/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/open-data-brazil/br-validators)](https://github.com/open-data-brazil/br-validators/releases)
 
-[Vue 3](https://vuejs.org/) composables that delegate validation and formatting to [`@br-validators/core`](../br-validators) **v1.8.3**.
+[Vue 3](https://vuejs.org/) composables that delegate validation and formatting to [`@br-validators/core`](../br-validators) **v1.9.0**.
 
 ## Install
 

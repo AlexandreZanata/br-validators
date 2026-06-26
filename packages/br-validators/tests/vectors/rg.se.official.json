@@ -1,0 +1,6 @@
+{
+  "source": "IIRSE / Polícia Civil SE — legacy RG, format-only (9 digits; DV algorithm not published)",
+  "url": "https://www.policiacivil.se.gov.br/",
+  "valid": { "raw": "123456789" },
+  "invalid": { "raw": "12345678", "code": "INVALID_LENGTH" }
+}

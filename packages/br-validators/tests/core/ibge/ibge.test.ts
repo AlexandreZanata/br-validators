@@ -10,9 +10,9 @@ import {
   IBGE_MIN_MUNICIPIOS,
   IBGE_OFFICIAL_DOCS_URL,
   IBGE_UF_SIGLAS,
-  getEstados,
+  getAllEstados,
   getMunicipioPorCodigo,
-  getMunicipios,
+  getAllMunicipios,
 } from '../../../src/ibge/index.js';
 import vectors from '../../vectors/ibge.official.json';
 
@@ -52,7 +52,7 @@ describe('IBGE localities — official golden vectors', () => {
 
 describe('IBGE states — national coverage', () => {
   it('returns all 27 federative units with unique siglas', () => {
-    const estadosList = getEstados();
+    const estadosList = getAllEstados();
     expect(estadosList).toHaveLength(IBGE_EXPECTED_ESTADOS);
     for (const uf of IBGE_UF_SIGLAS) {
       expect(estadosList.some((item) => item.sigla === uf)).toBe(true);
@@ -61,7 +61,7 @@ describe('IBGE states — national coverage', () => {
   });
 
   it('includes São Paulo state (codigo 35)', () => {
-    const sp = getEstados().find((estado) => estado.codigo === IBGE_GOLDEN_ESTADO_SP);
+    const sp = getAllEstados().find((estado) => estado.codigo === IBGE_GOLDEN_ESTADO_SP);
     expect(sp?.sigla).toBe(vectors.estado.sigla);
     expect(sp?.nome).toBe(vectors.estado.nome);
     expect(sp?.regiao.nome).toBe('Sudeste');
@@ -70,23 +70,23 @@ describe('IBGE states — national coverage', () => {
 
 describe('IBGE municipalities — UF filtering', () => {
   it('lists all municipalities when UF is omitted', () => {
-    expect(getMunicipios().length).toBeGreaterThanOrEqual(IBGE_MIN_MUNICIPIOS);
+    expect(getAllMunicipios().length).toBeGreaterThanOrEqual(IBGE_MIN_MUNICIPIOS);
   });
 
   it('filters municipalities by UF case-insensitively', () => {
-    const upper = getMunicipios({ uf: 'MT' });
-    const lower = getMunicipios({ uf: 'mt' });
+    const upper = getAllMunicipios({ uf: 'MT' });
+    const lower = getAllMunicipios({ uf: 'mt' });
     expect(lower).toEqual(upper);
     expect(upper.some((m) => m.codigo === IBGE_GOLDEN_MUNICIPIO_SORRISO)).toBe(true);
     expect(upper.every((m) => m.uf === 'MT')).toBe(true);
   });
 
   it('returns empty list for invalid UF code', () => {
-    expect(getMunicipios({ uf: 'XX' })).toEqual([]);
+    expect(getAllMunicipios({ uf: 'XX' })).toEqual([]);
   });
 
   it('returns SP municipalities including capital', () => {
-    const sp = getMunicipios({ uf: 'SP' });
+    const sp = getAllMunicipios({ uf: 'SP' });
     expect(sp.some((m) => m.codigo === IBGE_GOLDEN_MUNICIPIO_SP)).toBe(true);
   });
 
@@ -106,7 +106,7 @@ describe('IBGE data version — transparency metadata', () => {
   });
 
   it('tracks row counts consistent with embedded datasets', () => {
-    expect(IBGE_DATA_VERSION.contagens.estados).toBe(getEstados().length);
-    expect(IBGE_DATA_VERSION.contagens.municipios).toBe(getMunicipios().length);
+    expect(IBGE_DATA_VERSION.contagens.estados).toBe(getAllEstados().length);
+    expect(IBGE_DATA_VERSION.contagens.municipios).toBe(getAllMunicipios().length);
   });
 });

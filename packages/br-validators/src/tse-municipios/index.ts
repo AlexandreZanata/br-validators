@@ -2,6 +2,7 @@ export {
   getMapeamentoTseIbge,
   getMunicipioIbgePorCodigoTse,
   getCodigosTsePorMunicipio,
+  lookupMunicipioIbgePorCodigoTse,
 } from './lookup.js';
 export {
   TSE_MUNICIPIO_IBGE_ZIP_URL,

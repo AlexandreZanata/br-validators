@@ -27,12 +27,14 @@
 |----------|---------|
 | [OPEN-SOURCE.md](OPEN-SOURCE.md) | 100% MIT open source commitment |
 | [VERSIONING.md](VERSIONING.md) | SemVer, releases, support window |
+| [../MIGRATION.md](../MIGRATION.md) | v1.x → v2.0 breaking changes (lookup API, deprecated getters) |
 | [SECURITY-PRACTICES.md](SECURITY-PRACTICES.md) | Maintainer & integrator security |
 | [GOVERNANCE.md](GOVERNANCE.md) | Document map and decision log |
 | [../LICENSE](../LICENSE) | MIT license text |
 | [../SECURITY.md](../SECURITY.md) | Report vulnerabilities (private) |
 | [../CONTRIBUTING.md](../CONTRIBUTING.md) | How to contribute |
 | [../CHANGELOG.md](../CHANGELOG.md) | Release history |
+| [API Reference (TypeDoc)](https://docs.br-validators.dev/api-reference/) | Auto-generated signatures — `pnpm docs:api` |
 
 ## Use cases
 

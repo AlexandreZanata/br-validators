@@ -29,6 +29,11 @@ const subpaths = [
   'telefone',
   'titulo-eleitor',
   'ibge',
+  'irpf',
+  'inss',
+  'selic',
+  'iss-municipal',
+  'ptax',
   'bancos',
   'data-catalog',
 ];
@@ -50,6 +55,9 @@ const nextConfig = {
     alias['@br-validators/core$'] = path.join(coreDist, 'index.js');
     alias['@playground/cli-run-captured'] = cliRunCaptured;
     alias['node:fs'] = path.join(playgroundRoot, 'lib/cli/stubs/fs.ts');
+    alias.fs = path.join(playgroundRoot, 'lib/cli/stubs/fs.ts');
+    alias['node:module'] = path.join(playgroundRoot, 'lib/cli/stubs/module.ts');
+    alias.module = path.join(playgroundRoot, 'lib/cli/stubs/module.ts');
     for (const subpath of subpaths) {
       alias[`@br-validators/core/${subpath}$`] = path.join(coreDist, `${subpath}.js`);
     }

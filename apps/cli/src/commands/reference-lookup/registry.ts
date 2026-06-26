@@ -1,48 +1,53 @@
 import {
   CEST_DATA_VERSION,
-  getCestPorCodigo,
+  lookupCestPorCodigo,
   type Cest,
 } from '@br-validators/core/cest';
 import {
   INCOTERMS_DATA_VERSION,
-  getIncotermPorCodigo,
+  lookupIncotermPorCodigo,
   type Incoterm,
 } from '@br-validators/core/incoterms';
 import {
   MOEDAS_DATA_VERSION,
-  getMoedaPorCodigo,
+  lookupMoedaPorCodigo,
   type Moeda,
 } from '@br-validators/core/moedas';
 import {
   NATUREZA_JURIDICA_DATA_VERSION,
-  getNaturezaJuridicaPorCodigo,
+  lookupNaturezaJuridicaPorCodigo,
   type NaturezaJuridica,
 } from '@br-validators/core/natureza-juridica';
-import { NBS_DATA_VERSION, getNbsPorCodigo, type Nbs } from '@br-validators/core/nbs';
+import { NBS_DATA_VERSION, lookupNbsPorCodigo, type Nbs } from '@br-validators/core/nbs';
 import {
   PAISES_BACEN_DATA_VERSION,
-  getPaisPorCodigoBacen,
+  lookupPaisPorCodigoBacen,
   type PaisBacen,
 } from '@br-validators/core/paises-bacen';
 import {
   AEROPORTOS_DATA_VERSION,
-  getAeroportoPorIata,
-  getAeroportoPorIcao,
+  lookupAeroportoPorIata,
+  lookupAeroportoPorIcao,
   type Aeroporto,
 } from '@br-validators/core/aeroportos';
-import { PORTOS_DATA_VERSION, getPortoPorCodigo, type Porto } from '@br-validators/core/portos';
+import { PORTOS_DATA_VERSION, lookupPortoPorCodigo, type Porto } from '@br-validators/core/portos';
 import {
   CNAES_DATA_VERSION,
-  getCnaePorCodigo,
+  lookupCnaePorCodigo,
   type Cnae,
 } from '@br-validators/core/cnaes';
 import {
   CFOP_DATA_VERSION,
-  getCfopPorCodigo,
+  lookupCfopPorCodigo,
   type Cfop,
 } from '@br-validators/core/cfop';
-import { NCM_DATA_VERSION, getNcmPorCodigo, type Ncm } from '@br-validators/core/ncm';
-import { CBO_DATA_VERSION, getCboPorCodigo, type Cbo } from '@br-validators/core/cbo';
+import { NCM_DATA_VERSION, lookupNcmPorCodigo, type Ncm } from '@br-validators/core/ncm';
+import { CBO_DATA_VERSION, lookupCboPorCodigo, type Cbo } from '@br-validators/core/cbo';
+import type { LookupResult } from '@br-validators/core/lookup';
+import {
+  lookupInvalidFormat,
+  lookupInvalidInput,
+} from '@br-validators/core/lookup';
 
 export const REFERENCE_LOOKUP_COMMANDS = [
   'natureza-juridica',
@@ -65,7 +70,7 @@ export type ReferenceSearchCommand = (typeof REFERENCE_SEARCH_COMMANDS)[number];
 
 export type ReferenceLookupCommand = (typeof REFERENCE_LOOKUP_COMMANDS)[number];
 
-export type ReferenceLookupResult =
+export type ReferenceLookupValue =
   | NaturezaJuridica
   | Nbs
   | Cest
@@ -84,19 +89,22 @@ export interface ReferenceLookupModule {
   description: string;
   resultKey: string;
   capturadoEm: string;
-  lookup: (input: string) => ReferenceLookupResult | undefined;
-  formatHuman: (result: ReferenceLookupResult) => string;
+  lookup: (input: string) => LookupResult<ReferenceLookupValue>;
+  formatHuman: (result: ReferenceLookupValue) => string;
 }
 
-function lookupAeroporto(input: string): Aeroporto | undefined {
+function lookupAeroporto(input: string): LookupResult<Aeroporto> {
   const normalized = input.trim().toUpperCase();
+  if (normalized.length === 0) {
+    return lookupInvalidInput('Airport code is required');
+  }
   if (/^[A-Z0-9]{3}$/.test(normalized)) {
-    return getAeroportoPorIata(normalized);
+    return lookupAeroportoPorIata(normalized);
   }
   if (/^[A-Z]{4}$/.test(normalized)) {
-    return getAeroportoPorIcao(normalized);
+    return lookupAeroportoPorIcao(normalized);
   }
-  return undefined;
+  return lookupInvalidFormat('Airport code must be 3-character IATA or 4-character ICAO');
 }
 
 export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceLookupModule> = {
@@ -105,7 +113,7 @@ export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceL
     description: 'RFB legal nature codes — offline lookup',
     resultKey: 'naturezaJuridica',
     capturadoEm: NATUREZA_JURIDICA_DATA_VERSION.capturadoEm,
-    lookup: (input) => getNaturezaJuridicaPorCodigo(input),
+    lookup: (input) => lookupNaturezaJuridicaPorCodigo(input),
     formatHuman: (result) => {
       const row = result as NaturezaJuridica;
       return `${row.codigo} — ${row.descricao}`;
@@ -116,7 +124,7 @@ export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceL
     description: 'NFSe NBS service codes — offline lookup',
     resultKey: 'nbs',
     capturadoEm: NBS_DATA_VERSION.capturadoEm,
-    lookup: (input) => getNbsPorCodigo(input),
+    lookup: (input) => lookupNbsPorCodigo(input),
     formatHuman: (result) => {
       const row = result as Nbs;
       return `${row.codigo} — ${row.descricao}`;
@@ -127,7 +135,7 @@ export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceL
     description: 'CONFAZ CEST ST codes — offline lookup',
     resultKey: 'cest',
     capturadoEm: CEST_DATA_VERSION.capturadoEm,
-    lookup: (input) => getCestPorCodigo(input),
+    lookup: (input) => lookupCestPorCodigo(input),
     formatHuman: (result) => {
       const row = result as Cest;
       return `${row.codigo} — ${row.descricao}`;
@@ -138,7 +146,7 @@ export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceL
     description: 'IBGE CNAE 2.3 subclasses — offline lookup',
     resultKey: 'cnae',
     capturadoEm: CNAES_DATA_VERSION.capturadoEm,
-    lookup: (input) => getCnaePorCodigo(input),
+    lookup: (input) => lookupCnaePorCodigo(input),
     formatHuman: (result) => {
       const row = result as Cnae;
       return `${row.codigo} — ${row.descricao}`;
@@ -149,7 +157,7 @@ export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceL
     description: 'CONFAZ CFOP fiscal operations — offline lookup',
     resultKey: 'cfop',
     capturadoEm: CFOP_DATA_VERSION.capturadoEm,
-    lookup: (input) => getCfopPorCodigo(input),
+    lookup: (input) => lookupCfopPorCodigo(input),
     formatHuman: (result) => {
       const row = result as Cfop;
       return `${row.codigo} — ${row.descricao}`;
@@ -160,7 +168,7 @@ export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceL
     description: 'Siscomex NCM Mercosur codes — offline lookup',
     resultKey: 'ncm',
     capturadoEm: NCM_DATA_VERSION.capturadoEm,
-    lookup: (input) => getNcmPorCodigo(input),
+    lookup: (input) => lookupNcmPorCodigo(input),
     formatHuman: (result) => {
       const row = result as Ncm;
       return `${row.codigo} — ${row.descricao}`;
@@ -171,7 +179,7 @@ export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceL
     description: 'MTE CBO 2002 occupations — offline lookup',
     resultKey: 'cbo',
     capturadoEm: CBO_DATA_VERSION.capturadoEm,
-    lookup: (input) => getCboPorCodigo(input),
+    lookup: (input) => lookupCboPorCodigo(input),
     formatHuman: (result) => {
       const row = result as Cbo;
       return `${row.codigo} — ${row.descricao}`;
@@ -182,7 +190,7 @@ export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceL
     description: 'ISO 4217 + Bacen PTAX currencies — offline lookup',
     resultKey: 'moeda',
     capturadoEm: MOEDAS_DATA_VERSION.capturadoEm,
-    lookup: (input) => getMoedaPorCodigo(input),
+    lookup: (input) => lookupMoedaPorCodigo(input),
     formatHuman: (result) => {
       const row = result as Moeda;
       const symbol = row.simbolo ?? '—';
@@ -194,7 +202,7 @@ export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceL
     description: 'NF-e Bacen country codes — offline lookup',
     resultKey: 'pais',
     capturadoEm: PAISES_BACEN_DATA_VERSION.capturadoEm,
-    lookup: (input) => getPaisPorCodigoBacen(input),
+    lookup: (input) => lookupPaisPorCodigoBacen(input),
     formatHuman: (result) => {
       const row = result as PaisBacen;
       return `${row.codigo} — ${row.nome}`;
@@ -205,7 +213,7 @@ export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceL
     description: 'ICC Incoterms 2020 — offline lookup',
     resultKey: 'incoterm',
     capturadoEm: INCOTERMS_DATA_VERSION.capturadoEm,
-    lookup: (input) => getIncotermPorCodigo(input),
+    lookup: (input) => lookupIncotermPorCodigo(input),
     formatHuman: (result) => {
       const row = result as Incoterm;
       return `${row.codigo} — ${row.nome} (${row.edicao})`;
@@ -216,7 +224,7 @@ export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceL
     description: 'ANTAQ port installations — offline lookup',
     resultKey: 'porto',
     capturadoEm: PORTOS_DATA_VERSION.capturadoEm,
-    lookup: (input) => getPortoPorCodigo(input),
+    lookup: (input) => lookupPortoPorCodigo(input),
     formatHuman: (result) => {
       const row = result as Porto;
       return `${row.codigo} — ${row.nome} (${row.uf})`;

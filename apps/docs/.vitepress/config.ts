@@ -11,6 +11,7 @@ export default defineConfig({
     nav: [
       { text: 'Guide', link: '/guide/' },
       { text: 'API', link: '/api/library-api' },
+      { text: 'API Reference', link: '/api-reference/' },
       { text: 'Official sources', link: '/reference/official-sources' },
       { text: 'Playground', link: 'https://doc-raiz-playground.vercel.app/', target: '_blank' },
       { text: 'GitHub', link: 'https://github.com/AlexandreZanata/br-validators', target: '_blank' },
@@ -27,7 +28,8 @@ export default defineConfig({
       {
         text: 'Reference',
         items: [
-          { text: 'Library API', link: '/api/library-api' },
+          { text: 'Library API (narrative)', link: '/api/library-api' },
+          { text: 'API Reference (TypeDoc)', link: '/api-reference/' },
           { text: 'Official sources', link: '/reference/official-sources' },
           { text: 'Contributing RG (UF)', link: '/reference/rg-good-first-issues' },
         ],

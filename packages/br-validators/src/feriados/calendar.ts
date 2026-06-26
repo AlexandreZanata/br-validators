@@ -23,7 +23,8 @@ export function isFeriadoNacional(input: string | Date): boolean {
   return isFixedHoliday(parts) || isPaixaoDeCristo(parts);
 }
 
-export function getFeriadosNacionais(year: number): readonly FeriadoNacional[] {
+/** Returns every national federal holiday for a calendar year (in-memory reference, not a copy). */
+export function getAllFeriados(year: number): readonly FeriadoNacional[] {
   if (!Number.isInteger(year)) {
     return [];
   }
@@ -33,6 +34,11 @@ export function getFeriadosNacionais(year: number): readonly FeriadoNacional[] {
     holidays.push(paixao);
   }
   return holidays.sort((left, right) => left.data.localeCompare(right.data));
+}
+
+/** @deprecated Use {@link getAllFeriados} instead. Removed in v2.0. */
+export function getFeriadosNacionais(year: number): readonly FeriadoNacional[] {
+  return getAllFeriados(year);
 }
 
 export function getProximoDiaUtil(input: string | Date): string {

@@ -1,0 +1,27 @@
+{
+  "id": "nfe-cuf",
+  "nome": "NF-e cUF — SEFAZ federative unit codes",
+  "fonte": "Manual NF-e — Tabela de UF (static reference)",
+  "endpoints": [
+    "http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=Il8k4BIjb48=",
+    "http://www.nfe.fazenda.gov.br/portal/principal.aspx",
+    "https://www.ibge.gov.br/explica/codigos-dos-municipios.php"
+  ],
+  "capturadoEm": "2026-06-26",
+  "atualizadoEm": "2026-06-26T16:53:43.607Z",
+  "contagens": {
+    "cuf": 27
+  },
+  "alteracoes": {
+    "adicionados": 27,
+    "removidos": 0,
+    "alterados": 0,
+    "comparadoCom": null
+  },
+  "verificacao": {
+    "agendamento": "manual",
+    "workflow": "data-refresh-bot.yml",
+    "ultimaExecucao": "2026-06-26T16:53:43.607Z"
+  },
+  "documentacao": "docs/OFFICIAL-SOURCES.md#nfe-cuf"
+}

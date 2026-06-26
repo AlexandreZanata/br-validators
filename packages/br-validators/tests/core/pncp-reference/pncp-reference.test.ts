@@ -2,11 +2,11 @@ import { describe, expect, it } from 'vitest';
 
 import {
   getPncpAmparoLegalPorId,
-  getPncpAmparosLegais,
+  getAllPncpAmparosLegais,
   getPncpModalidadePorId,
-  getPncpModalidades,
+  getAllPncpModalidades,
   getPncpReferenceItem,
-  getPncpReferenceTable,
+  getAllPncpReference,
   normalizePncpCnpj,
   PNCP_CADASTRO_BASE_URL,
   PNCP_CONSULTA_OPENAPI_URL,
@@ -32,7 +32,7 @@ describe('PNCP reference — official golden vectors', () => {
   });
 
   it('exposes amparos legais helpers', () => {
-    expect(getPncpAmparosLegais().length).toBeGreaterThan(0);
+    expect(getAllPncpAmparosLegais().length).toBeGreaterThan(0);
     expect(getPncpAmparoLegalPorId(1)?.id).toBe(1);
   });
 
@@ -55,11 +55,11 @@ describe('PNCP reference — official golden vectors', () => {
 
 describe('PNCP reference — table coverage', () => {
   it('lists modalidades and amparos legais within expected ranges', () => {
-    const modalidades = getPncpModalidades();
+    const modalidades = getAllPncpModalidades();
     expect(modalidades.length).toBeGreaterThanOrEqual(vectors.minModalidades);
     expect(modalidades.length).toBeLessThanOrEqual(vectors.maxModalidades);
 
-    const amparos = getPncpAmparosLegais();
+    const amparos = getAllPncpAmparosLegais();
     expect(amparos.length).toBeGreaterThanOrEqual(vectors.minAmparosLegais);
   });
 
@@ -69,7 +69,7 @@ describe('PNCP reference — table coverage', () => {
   });
 
   it('resolves amparo legal by id', () => {
-    const first = getPncpReferenceTable('amparos-legais')[0];
+    const first = getAllPncpReference('amparos-legais')[0];
     expect(getPncpAmparoLegalPorId(first.id)?.id).toBe(first.id);
   });
 });
@@ -88,7 +88,7 @@ describe('PNCP reference — metadata', () => {
     expect(
       PNCP_REFERENCE_DATA_VERSION.endpoints.some((endpoint) => endpoint.includes(PNCP_CADASTRO_BASE_URL)),
     ).toBe(true);
-    expect(PNCP_REFERENCE_DATA_VERSION.contagens.modalidades).toBe(getPncpModalidades().length);
+    expect(PNCP_REFERENCE_DATA_VERSION.contagens.modalidades).toBe(getAllPncpModalidades().length);
     expect(PNCP_CONSULTA_OPENAPI_URL).toContain('/api/consulta/');
   });
 });

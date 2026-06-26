@@ -1,0 +1,14 @@
+{
+  "datasetId": "selic",
+  "status": "ok",
+  "endpoints": [
+    "https://dadosabertos.bcb.gov.br/dataset/432-taxa-de-juros---meta-selic-definida-pelo-copom",
+    "https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados?formato=json",
+    "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=consultarGraficoPorId&hdOidSeriesSelecionadas=432",
+    "https://www.bcb.gov.br/controleinflacao/copom"
+  ],
+  "attempts": 5,
+  "checkedAt": "2026-06-26T18:12:48.703Z",
+  "retainedEmbeddedDataFrom": "2026-06-26",
+  "message": "Bacen SELIC meta embedded (2026-03-29..2026-06-26) — latest 2026-06-26 = 14.25% a.a."
+}

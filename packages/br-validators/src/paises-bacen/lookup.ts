@@ -4,6 +4,11 @@
  */
 
 import paisesData from './data/paises.json';
+import { resolveFixedLengthCodeLookup } from '../lookup/resolve.js';
+import {
+  unwrapLookupValue,
+  type LookupResult,
+} from '../types/lookup-result.js';
 import type { PaisBacen } from './types.js';
 
 const paises: readonly PaisBacen[] = paisesData;
@@ -16,14 +21,27 @@ function normalizeCodigo(codigo: string): string {
   return digits.padStart(4, '0').slice(-4);
 }
 
-export function getPaisesBacen(): readonly PaisBacen[] {
+/** Returns every embedded NF-e Bacen country row (in-memory reference, not a copy). */
+export function getAllPaisesBacen(): readonly PaisBacen[] {
   return paises;
 }
 
+/** @deprecated Use {@link getAllPaisesBacen} instead. Removed in v2.0. */
+export function getPaisesBacen(): readonly PaisBacen[] {
+  return getAllPaisesBacen();
+}
+
+export function lookupPaisPorCodigoBacen(codigo: string): LookupResult<PaisBacen> {
+  return resolveFixedLengthCodeLookup({
+    input: codigo,
+    entityLabel: 'Bacen country',
+    normalize: normalizeCodigo,
+    expectedLength: 4,
+    lengthLabel: '4 digits',
+    find: (normalized) => paises.find((pais) => pais.codigo === normalized),
+  });
+}
+
 export function getPaisPorCodigoBacen(codigo: string): PaisBacen | undefined {
-  const normalized = normalizeCodigo(codigo);
-  if (normalized.length !== 4) {
-    return undefined;
-  }
-  return paises.find((pais) => pais.codigo === normalized);
+  return unwrapLookupValue(lookupPaisPorCodigoBacen(codigo));
 }

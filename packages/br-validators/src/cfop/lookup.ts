@@ -4,6 +4,11 @@
  */
 
 import cfopData from './data/cfop.json';
+import { resolveFixedLengthCodeLookup } from '../lookup/resolve.js';
+import {
+  unwrapLookupValue,
+  type LookupResult,
+} from '../types/lookup-result.js';
 import type { Cfop } from './types.js';
 
 const cfops: readonly Cfop[] = cfopData;
@@ -16,16 +21,29 @@ function normalizeCodigo(codigo: string): string {
   return digits.padStart(4, '0').slice(-4);
 }
 
-export function getCfops(): readonly Cfop[] {
+/** Returns every embedded CFOP row (in-memory reference, not a copy). */
+export function getAllCfop(): readonly Cfop[] {
   return cfops;
 }
 
+/** @deprecated Use {@link getAllCfop} instead. Removed in v2.0. */
+export function getCfops(): readonly Cfop[] {
+  return getAllCfop();
+}
+
+export function lookupCfopPorCodigo(codigo: string): LookupResult<Cfop> {
+  return resolveFixedLengthCodeLookup({
+    input: codigo,
+    entityLabel: 'CFOP',
+    normalize: normalizeCodigo,
+    expectedLength: 4,
+    lengthLabel: '4 digits',
+    find: (normalized) => cfops.find((cfop) => cfop.codigo === normalized),
+  });
+}
+
 export function getCfopPorCodigo(codigo: string): Cfop | undefined {
-  const normalized = normalizeCodigo(codigo);
-  if (normalized.length !== 4) {
-    return undefined;
-  }
-  return cfops.find((cfop) => cfop.codigo === normalized);
+  return unwrapLookupValue(lookupCfopPorCodigo(codigo));
 }
 
 export function searchCfop(query: string, options?: { limit?: number }): readonly Cfop[] {

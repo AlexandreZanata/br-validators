@@ -1,0 +1,38 @@
+{
+  "tabelas": [
+    {
+      "ano": 2025,
+      "teto": 8157.41,
+      "faixas": [
+        {
+          "faixa": 1,
+          "salarioMin": 0,
+          "salarioMax": 1518,
+          "aliquota": 0.075,
+          "descricao": "Até 1.518,00"
+        },
+        {
+          "faixa": 2,
+          "salarioMin": 1518,
+          "salarioMax": 2793.88,
+          "aliquota": 0.09,
+          "descricao": "De 1.518,01 a 2.793,88"
+        },
+        {
+          "faixa": 3,
+          "salarioMin": 2793.88,
+          "salarioMax": 4190.83,
+          "aliquota": 0.12,
+          "descricao": "De 2.793,89 a 4.190,83"
+        },
+        {
+          "faixa": 4,
+          "salarioMin": 4190.83,
+          "salarioMax": 8157.41,
+          "aliquota": 0.14,
+          "descricao": "De 4.190,84 a 8.157,41"
+        }
+      ]
+    }
+  ]
+}

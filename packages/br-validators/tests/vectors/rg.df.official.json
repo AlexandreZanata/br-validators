@@ -1,0 +1,11 @@
+{
+  "source": "PCDF / Na Hora DF — legacy RG, format-only (7 digits; DV algorithm not published)",
+  "url": "https://www.nahora.df.gov.br/policia_civil/",
+  "valid": {
+    "raw": "1234567"
+  },
+  "invalid": {
+    "raw": "123456",
+    "code": "INVALID_LENGTH"
+  }
+}

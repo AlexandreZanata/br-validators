@@ -26,5 +26,27 @@
       "cargaTotalNacional": 35.91,
       "cargaTotalImportado": 39.77
     }
+  },
+  "negative": {
+    "ncmNotInTable": {
+      "ncm": "99999999",
+      "uf": "SP"
+    },
+    "invalidUf": {
+      "ncm": "01012100",
+      "uf": "XX"
+    },
+    "emptyNcm": {
+      "ncm": "",
+      "uf": "SP"
+    },
+    "invalidNcmFormat": {
+      "ncm": "abc",
+      "uf": "SP"
+    },
+    "whitespaceUf": {
+      "ncm": "01012100",
+      "uf": "   "
+    }
   }
 }

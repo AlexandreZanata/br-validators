@@ -282,6 +282,7 @@ Breaking Node baseline → **MAJOR**.
 | Document | Link |
 |----------|------|
 | Public API | [LIBRARY-API.md](LIBRARY-API.md) |
+| Migration guide | [MIGRATION.md](../MIGRATION.md) |
 | Changelog | [CHANGELOG.md](../CHANGELOG.md) |
 | Security | [SECURITY.md](../SECURITY.md) |
 | Roadmap | [ROADMAP.md](ROADMAP.md) |

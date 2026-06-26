@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import {
   BACEN_PTAX_COTACAO_PERIODO_URL,
@@ -6,45 +6,65 @@ import {
   PTAX_DATA_VERSION,
   PTAX_GOLDEN_EUR,
   PTAX_GOLDEN_USD,
+  PTAX_STALE_WARNING,
+  buildPtaxCotacaoResult,
+  getBrazilTodayIso,
   getPtaxCotacao,
   getPtaxCotacoesPorMoeda,
   getPtaxList,
   getPtaxUltimoDiaUtil,
+  isBrazilBusinessDay,
+  isPtaxCotacaoStale,
   pickLatestPtaxCotacao,
+  subtractBusinessDays,
 } from '../../../src/ptax/index.js';
 import vectors from '../../vectors/ptax.official.json';
 
 describe('PTAX — official golden vectors', () => {
   it('resolves USD Fechamento for último dia útil embedded', () => {
-    const cotacao = getPtaxUltimoDiaUtil(vectors.golden.usdUltimoDiaUtil.moeda);
+    const cotacao = getPtaxUltimoDiaUtil(vectors.golden.usdUltimoDiaUtil.moeda, {
+      asOfDate: vectors.staleness.asOfFresh,
+    });
     expect(cotacao?.moeda).toBe(PTAX_GOLDEN_USD);
     expect(cotacao?.data).toBe(vectors.golden.usdUltimoDiaUtil.data);
+    expect(cotacao?.dataReferencia).toBe(vectors.golden.usdUltimoDiaUtil.data);
     expect(cotacao?.cotacaoCompra).toBe(vectors.golden.usdUltimoDiaUtil.cotacaoCompra);
     expect(cotacao?.cotacaoVenda).toBe(vectors.golden.usdUltimoDiaUtil.cotacaoVenda);
     expect(cotacao?.tipoBoletim).toBe('Fechamento PTAX');
+    expect(cotacao?.isStale).toBe(false);
+    expect(cotacao?.warning).toBeUndefined();
   });
 
   it('resolves EUR último dia útil via getPtaxCotacao without date', () => {
-    const cotacao = getPtaxCotacao(vectors.golden.eurUltimoDiaUtil.moeda);
+    const cotacao = getPtaxCotacao(vectors.golden.eurUltimoDiaUtil.moeda, undefined, {
+      asOfDate: vectors.staleness.asOfFresh,
+    });
     expect(cotacao?.moeda).toBe(PTAX_GOLDEN_EUR);
-    expect(cotacao?.data).toBe(vectors.golden.eurUltimoDiaUtil.data);
+    expect(cotacao?.dataReferencia).toBe(vectors.golden.eurUltimoDiaUtil.data);
     expect(cotacao?.cotacaoCompra).toBe(vectors.golden.eurUltimoDiaUtil.cotacaoCompra);
     expect(cotacao?.cotacaoVenda).toBe(vectors.golden.eurUltimoDiaUtil.cotacaoVenda);
+    expect(cotacao?.isStale).toBe(false);
   });
 
   it('resolves USD historical date using ISO and Bacen date formats', () => {
     const iso = getPtaxCotacao(
       vectors.golden.usdHistorico.moeda,
       vectors.golden.usdHistorico.data,
+      { asOfDate: vectors.staleness.asOfFresh },
     );
     expect(iso?.cotacaoCompra).toBe(vectors.golden.usdHistorico.cotacaoCompra);
     expect(iso?.cotacaoVenda).toBe(vectors.golden.usdHistorico.cotacaoVenda);
+    expect(iso?.dataReferencia).toBe(vectors.golden.usdHistorico.data);
+    expect(iso?.isStale).toBe(true);
+    expect(iso?.warning).toBe(PTAX_STALE_WARNING);
 
     const bacen = getPtaxCotacao(
       vectors.golden.usdHistorico.moeda,
       vectors.golden.usdHistorico.dataBacen,
+      { asOfDate: vectors.staleness.asOfFresh },
     );
     expect(bacen?.data).toBe(vectors.golden.usdHistorico.data);
+    expect(bacen?.isStale).toBe(true);
   });
 
   it('returns undefined for unknown currency, date, or invalid inputs', () => {
@@ -55,6 +75,70 @@ describe('PTAX — official golden vectors', () => {
     expect(getPtaxUltimoDiaUtil('')).toBeUndefined();
     expect(getPtaxCotacoesPorMoeda('XYZ')).toEqual([]);
     expect(getPtaxCotacoesPorMoeda('')).toEqual([]);
+  });
+});
+
+describe('PTAX — staleness vectors', () => {
+  it('marks último dia útil as fresh when as-of is next business day', () => {
+    const cotacao = getPtaxUltimoDiaUtil('USD', { asOfDate: vectors.staleness.asOfFresh });
+    expect(cotacao?.dataReferencia).toBe(vectors.staleness.freshReferenceDate);
+    expect(cotacao?.isStale).toBe(false);
+    expect(cotacao?.warning).toBeUndefined();
+  });
+
+  it('marks historical quote as stale with adapter warning', () => {
+    const cotacao = getPtaxCotacao('USD', vectors.staleness.staleReferenceDate, {
+      asOfDate: vectors.staleness.asOfFresh,
+    });
+    expect(cotacao?.isStale).toBe(true);
+    expect(cotacao?.warning).toBe(vectors.staleness.staleWarning);
+    expect(cotacao?.warning).toBe(PTAX_STALE_WARNING);
+  });
+
+  it('aligns dataReferencia with PTAX_DATA_VERSION.capturadoEm calendar day', () => {
+    expect(PTAX_DATA_VERSION.capturadoEm).toBe(vectors.staleness.capturadoEm);
+  });
+});
+
+describe('PTAX — staleness helpers', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('resolves Brazil local today via America/Sao_Paulo', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-06-26T15:00:00.000Z'));
+    expect(getBrazilTodayIso()).toBe('2026-06-26');
+  });
+
+  it('subtracts business days skipping weekends', () => {
+    expect(subtractBusinessDays('2026-06-26', 1)).toBe('2026-06-25');
+    expect(subtractBusinessDays('2026-06-23', 1)).toBe('2026-06-22');
+  });
+
+  it('returns input unchanged when businessDays is below 1', () => {
+    expect(subtractBusinessDays('2026-06-26', 0)).toBe('2026-06-26');
+  });
+
+  it('returns empty string for invalid ISO input', () => {
+    expect(subtractBusinessDays('bad-date', 1)).toBe('');
+  });
+
+  it('returns false for invalid staleness inputs', () => {
+    expect(isPtaxCotacaoStale('bad', '2026-06-26')).toBe(false);
+    expect(isPtaxCotacaoStale('2026-06-25', 'bad')).toBe(false);
+    expect(isBrazilBusinessDay('bad-date')).toBe(false);
+    expect(isBrazilBusinessDay('2026-06-26')).toBe(true);
+    expect(isBrazilBusinessDay('2026-06-27')).toBe(false);
+  });
+
+  it('buildPtaxCotacaoResult uses Brazil today when asOfDate omitted', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-06-26T12:00:00.000Z'));
+    const row = getPtaxList().find((entry) => entry.moeda === 'USD' && entry.data === '2026-06-25');
+    expect(row).toBeDefined();
+    const result = buildPtaxCotacaoResult(row!);
+    expect(result.isStale).toBe(false);
   });
 });
 

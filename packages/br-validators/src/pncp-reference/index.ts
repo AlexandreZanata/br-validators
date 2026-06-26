@@ -1,10 +1,16 @@
 export {
+  getAllPncpAmparosLegais,
+  getAllPncpModalidades,
+  getAllPncpReference,
   getPncpReferenceTable,
   getPncpReferenceItem,
   getPncpModalidades,
   getPncpModalidadePorId,
   getPncpAmparosLegais,
   getPncpAmparoLegalPorId,
+  lookupPncpAmparoLegalPorId,
+  lookupPncpModalidadePorId,
+  lookupPncpReferenceItem,
   searchPncpReference,
 } from './lookup.js';
 export { normalizePncpCnpj } from './normalize.js';

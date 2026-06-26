@@ -1,11 +1,20 @@
+import { createRequire } from 'node:module';
+
+const nodeRequire = createRequire(import.meta.url);
+
+function readNodeFileSync(
+  path: string | number,
+  encoding: 'utf8',
+): string {
+  const fs = nodeRequire('node:fs') as typeof import('node:fs');
+  return fs.readFileSync(path, encoding);
+}
+
 export type CliIo = { stdout: string[]; stderr: string[] };
 
 export function readInputFile(path: string, io: CliIo): string | null {
   try {
-    // Lazy Node fs — avoids bundling fs in browser builds that alias node:fs to a stub.
-    // eslint-disable-next-line @typescript-eslint/no-require-imports -- runtime-only in Node CLI
-    const fsModule = require('node:fs') as typeof import('node:fs');
-    return fsModule.readFileSync(path, 'utf8');
+    return readNodeFileSync(path, 'utf8');
   } catch {
     io.stderr.push(`Cannot read file: ${path}`);
     return null;
@@ -16,12 +25,24 @@ import { runBancosList } from './commands/bancos/list.js';
 import { runBancosLookup } from './commands/bancos/lookup.js';
 import { runReferenceLookup } from './commands/reference-lookup/lookup.js';
 import { runReferenceSearch } from './commands/reference-lookup/search.js';
+import { runReferenceValidate } from './commands/reference-lookup/validate.js';
+import { runCstLookup, runCstSearch, runCstValidate } from './commands/cst/index.js';
 import { runIbgeLookup } from './commands/ibge/lookup.js';
 import { runIbgeList } from './commands/ibge/list.js';
 import { runFeriadosList } from './commands/feriados/list.js';
+import { runInssCalc, runInssTabela } from './commands/inss/index.js';
+import { runIrpfCalc, runIrpfTabela } from './commands/irpf/index.js';
 import { runTseMunicipiosLookup } from './commands/tse-municipios/lookup.js';
 import { runCepFaixa } from './commands/cep/faixa.js';
 import { runDddLookup } from './commands/ddd/lookup.js';
+import { runNfeCufLookup } from './commands/nfe-cuf/lookup.js';
+import { runSelicCommand } from './commands/selic/index.js';
+import {
+  runIssMunicipalLookup,
+  runIssMunicipalResolve,
+  runIssMunicipalSearch,
+} from './commands/iss-municipal/index.js';
+import { runPtaxLookup } from './commands/ptax/lookup.js';
 import { runBrCode, type BrCodeAction } from './commands/brcode.js';
 import { runCep, type CepAction } from './commands/cep.js';
 import { runTelefone, type TelefoneAction } from './commands/telefone.js';
@@ -44,6 +65,10 @@ import { runEan, type EanAction } from './commands/ean.js';
 import { runIe, type IeAction } from './commands/ie.js';
 import { runDetect } from './commands/detect.js';
 import { runSanitize } from './commands/sanitize.js';
+import { runMask } from './commands/mask.js';
+import { runCompare } from './commands/compare.js';
+import { runBatch } from './commands/batch.js';
+import { runDiff } from './commands/diff.js';
 import { runGenerate } from './commands/generate.js';
 import { listSupportedTypes } from './commands/list.js';
 import { EXIT } from './constants.js';
@@ -112,10 +137,28 @@ export type SanitizeCliOptions = CnpjCliOptions & {
   uf?: string;
 };
 
+export type MaskCliOptions = CnpjCliOptions & {
+  uf?: string;
+};
+
+export type CompareCliOptions = CnpjCliOptions & {
+  uf?: string;
+};
+
+export type DiffCliOptions = CnpjCliOptions & {
+  uf?: string;
+};
+
+export type BatchCliOptions = CnpjCliOptions & {
+  uf?: string;
+  limit?: number;
+};
+
 export type GenerateCliOptions = {
   json?: boolean;
   quiet?: boolean;
   masked?: boolean;
+  stripped?: boolean;
   format?: string;
   seed?: number;
   uf?: string;
@@ -765,6 +808,118 @@ export function handleSanitizeCli(
   );
 }
 
+export function handleMaskCli(
+  type: string,
+  value: string | undefined,
+  opts: MaskCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  let fileContent: string | undefined;
+  if (opts.file) {
+    const content = readInputFile(opts.file, io);
+    if (content === null) {
+      return EXIT.USAGE;
+    }
+    fileContent = content;
+  }
+
+  return runMask(
+    type,
+    value,
+    {
+      json: Boolean(opts.json),
+      quiet: Boolean(opts.quiet),
+      uf: opts.uf,
+      file: fileContent,
+    },
+    io,
+  );
+}
+
+export function readStdinSync(io: CliIo): string | null {
+  try {
+    if (process.stdin.isTTY) {
+      return null;
+    }
+    return readNodeFileSync(0, 'utf8');
+  } catch {
+    io.stderr.push('Cannot read stdin.');
+    return null;
+  }
+}
+
+export function handleCompareCli(
+  type: string,
+  valueA: string | undefined,
+  valueB: string | undefined,
+  opts: CompareCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runCompare(
+    type,
+    valueA,
+    valueB,
+    {
+      json: Boolean(opts.json),
+      quiet: Boolean(opts.quiet),
+      uf: opts.uf,
+    },
+    io,
+  );
+}
+
+export function handleDiffCli(
+  type: string,
+  valueA: string | undefined,
+  valueB: string | undefined,
+  opts: DiffCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runDiff(
+    type,
+    valueA,
+    valueB,
+    {
+      json: Boolean(opts.json),
+      quiet: Boolean(opts.quiet),
+      uf: opts.uf,
+    },
+    io,
+  );
+}
+
+export function handleBatchCli(
+  type: string,
+  opts: BatchCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  let lines: string | undefined;
+  if (opts.file) {
+    const content = readInputFile(opts.file, io);
+    if (content === null) {
+      return EXIT.USAGE;
+    }
+    lines = content;
+  } else {
+    const stdin = readStdinSync(io);
+    if (stdin !== null) {
+      lines = stdin;
+    }
+  }
+
+  return runBatch(
+    type,
+    {
+      json: Boolean(opts.json),
+      quiet: Boolean(opts.quiet),
+      uf: opts.uf,
+      lines,
+      limit: opts.limit,
+    },
+    io,
+  );
+}
+
 export function handleGenerateCli(
   type: string,
   opts: GenerateCliOptions,
@@ -776,6 +931,7 @@ export function handleGenerateCli(
       json: Boolean(opts.json),
       quiet: Boolean(opts.quiet),
       masked: Boolean(opts.masked),
+      stripped: Boolean(opts.stripped),
       format: opts.format,
       seed: opts.seed,
       uf: opts.uf,
@@ -849,6 +1005,64 @@ export function handleReferenceSearchCli(
   );
 }
 
+export function handleReferenceValidateCli(
+  command: string,
+  value: string | undefined,
+  opts: ReferenceLookupCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runReferenceValidate(
+    command,
+    value,
+    {
+      json: Boolean(opts.json),
+      verbose: Boolean(opts.verbose),
+    },
+    io,
+  );
+}
+
+export type CstCliOptions = ReferenceDatasetCliOptions & {
+  tax?: string;
+};
+
+export function handleCstLookupCli(
+  value: string | undefined,
+  opts: CstCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runCstLookup(value, {
+    json: Boolean(opts.json),
+    verbose: Boolean(opts.verbose),
+    tax: opts.tax,
+  }, io);
+}
+
+export function handleCstSearchCli(
+  query: string | undefined,
+  opts: CstCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runCstSearch(query, {
+    json: Boolean(opts.json),
+    verbose: Boolean(opts.verbose),
+    tax: opts.tax,
+    limit: opts.limit,
+  }, io);
+}
+
+export function handleCstValidateCli(
+  value: string | undefined,
+  opts: CstCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runCstValidate(value, {
+    json: Boolean(opts.json),
+    verbose: Boolean(opts.verbose),
+    tax: opts.tax,
+  }, io);
+}
+
 export function handleIbgeLookupCli(
   value: string | undefined,
   opts: ReferenceDatasetCliOptions,
@@ -881,6 +1095,52 @@ export function handleFeriadosListCli(
   }, io);
 }
 
+export function handleInssTabelaCli(
+  opts: ReferenceDatasetCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runInssTabela({
+    json: Boolean(opts.json),
+    verbose: Boolean(opts.verbose),
+    ano: opts.year,
+  }, io);
+}
+
+export function handleInssCalcCli(
+  value: string | undefined,
+  opts: ReferenceDatasetCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runInssCalc(value, {
+    json: Boolean(opts.json),
+    verbose: Boolean(opts.verbose),
+    ano: opts.year,
+  }, io);
+}
+
+export function handleIrpfTabelaCli(
+  opts: ReferenceDatasetCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runIrpfTabela({
+    json: Boolean(opts.json),
+    verbose: Boolean(opts.verbose),
+    ano: opts.year,
+  }, io);
+}
+
+export function handleIrpfCalcCli(
+  value: string | undefined,
+  opts: ReferenceDatasetCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runIrpfCalc(value, {
+    json: Boolean(opts.json),
+    verbose: Boolean(opts.verbose),
+    ano: opts.year,
+  }, io);
+}
+
 export function handleTseMunicipiosLookupCli(
   value: string | undefined,
   opts: ReferenceDatasetCliOptions,
@@ -903,6 +1163,63 @@ export function handleDddLookupCli(
   io: CliIo = { stdout: [], stderr: [] },
 ): number {
   return runDddLookup(value, { json: Boolean(opts.json), verbose: Boolean(opts.verbose) }, io);
+}
+
+export function handleNfeCufLookupCli(
+  value: string | undefined,
+  opts: ReferenceDatasetCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runNfeCufLookup(value, { json: Boolean(opts.json), verbose: Boolean(opts.verbose) }, io);
+}
+
+export function handleSelicCli(
+  opts: ReferenceDatasetCliOptions & { date?: string },
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runSelicCommand({
+    json: Boolean(opts.json),
+    verbose: Boolean(opts.verbose),
+    date: opts.date,
+  }, io);
+}
+
+export function handleIssMunicipalLookupCli(
+  codigo: string | undefined,
+  opts: ReferenceDatasetCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runIssMunicipalLookup(codigo, { json: Boolean(opts.json), verbose: Boolean(opts.verbose) }, io);
+}
+
+export function handleIssMunicipalSearchCli(
+  query: string | undefined,
+  opts: ReferenceDatasetCliOptions & { limit?: number },
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runIssMunicipalSearch(query, {
+    json: Boolean(opts.json),
+    verbose: Boolean(opts.verbose),
+    limit: opts.limit,
+  }, io);
+}
+
+export function handleIssMunicipalResolveCli(
+  uf: string | undefined,
+  nome: string | undefined,
+  opts: ReferenceDatasetCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runIssMunicipalResolve(uf, nome, { json: Boolean(opts.json), verbose: Boolean(opts.verbose) }, io);
+}
+
+export function handlePtaxLookupCli(
+  moeda: string | undefined,
+  data: string | undefined,
+  opts: ReferenceDatasetCliOptions,
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runPtaxLookup(moeda, data, { json: Boolean(opts.json), verbose: Boolean(opts.verbose) }, io);
 }
 
 export function writeCliIo(io: CliIo): void {

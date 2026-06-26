@@ -1,0 +1,6 @@
+{
+  "source": "IIRP / Polícia Civil RO — legacy RG, format-only (9 digits; DV algorithm not published)",
+  "url": "https://www.policiacivil.ro.gov.br/",
+  "valid": { "raw": "123456789" },
+  "invalid": { "raw": "12345678", "code": "INVALID_LENGTH" }
+}

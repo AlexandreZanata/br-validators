@@ -1,52 +1,36 @@
-# RG good first issues — remaining 21 UFs
+# RG good first issues — remaining UFs
+
+> **Status:** Phase 33c complete — **27/27 UFs shipped** (2026-06-26 batch 3: CE, PE, PI, RN, RO, RR, SE, TO).
 
 > **Labels:** `good first issue`, `rg-uf`  
 > **Template:** [.github/ISSUE_TEMPLATE/rg-uf-contribution.md](../../.github/ISSUE_TEMPLATE/rg-uf-contribution.md)  
 > **Depends on:** Phase 27c RG phase 1 (SP, RJ, MG, PR, RS, SC shipped)
 
-Phase 1 covers six states (~70% of population). The remaining **21 UFs** are ideal **good first issues** for contributors who can cite a state SSP/IGP official source.
+> **Contributor guide (how to open issues, official sources, algorithm reporting):** [RG-CONTRIBUTOR-GUIDE.md](RG-CONTRIBUTOR-GUIDE.md)  
+> **Implementation checklist:** `packages/br-validators/src/core/rg/CONTRIBUTING-UF.md`  
+> **Pending list API:** `getRgPendingUfs()` — returns `[]` when complete · **Research URLs:** `getRgResearchUrl(uf)`
 
-## Shipped (do not re-open)
+All Brazilian states now have RG validators. New contributions should target **DV algorithm upgrades** (when official SSP walkthroughs are found) or **length-range support** for legacy booklets — not net-new UF registration.
 
-| UF | Algorithm | Golden vector |
-|----|-----------|---------------|
-| SP | Modulo 11 | `120300011` |
-| RJ | Modulo 10 | `27998111` |
-| MG | Modulo 10 + optional `M` | `27998111` |
-| PR | Format-only (8 digits) | `12345678` |
-| RS | Format-only (10 digits) | `1234567890` |
-| SC | Format-only (9 digits) | `123456789` |
+## Shipped (all 27 UFs)
+
+See [OFFICIAL-SOURCES.md § RG](../OFFICIAL-SOURCES.md#rg--reference-index) for the full table, golden vectors, and official URLs.
+
+| Group | UFs | Notes |
+|-------|-----|-------|
+| Ghiorzi DV | SP, RJ, MG | Modulo-11 / mod10-alternating |
+| Format-only + mask | SC | 9 digits + CIASC mask |
+| Format-only | PR, RS, BA, AC, AL, AM, AP, DF, ES, GO, MA, MS, MT, PA, PB, CE, PE, PI, RN, RO, RR, SE, TO | `checkDigitValidated: false` |
 
 ## Open for contribution
 
-| UF | Issue title suggestion | Notes |
-|----|------------------------|-------|
-| AC | `[rg] Add RG validation for UF AC` | SEFAZ-AC / state SSP |
-| AL | `[rg] Add RG validation for UF AL` | [SEFAZ-AL DV calculator](https://www.sefaz.al.gov.br/calculo) |
-| AM | `[rg] Add RG validation for UF AM` | SEFAZ-AM |
-| AP | `[rg] Add RG validation for UF AP` | SEFAZ-AP |
-| BA | `[rg] Add RG validation for UF BA` | [SEFAZ-BA DV calculator](https://www.sefaz.ba.gov.br/inspetoria-eletronica/icms/cadastro/calculo-dv/) |
-| CE | `[rg] Add RG validation for UF CE` | SEFAZ-CE |
-| DF | `[rg] Add RG validation for UF DF` | Receita DF |
-| ES | `[rg] Add RG validation for UF ES` | SEFAZ-ES |
-| GO | `[rg] Add RG validation for UF GO` | SEFAZ-GO CCE |
-| MA | `[rg] Add RG validation for UF MA` | SEFAZ-MA |
-| MS | `[rg] Add RG validation for UF MS` | SEFAZ-MS |
-| MT | `[rg] Add RG validation for UF MT` | SEFAZ-MT |
-| PA | `[rg] Add RG validation for UF PA` | SEFA-PA |
-| PB | `[rg] Add RG validation for UF PB` | Receita PB |
-| PE | `[rg] Add RG validation for UF PE` | SEFAZ-PE |
-| PI | `[rg] Add RG validation for UF PI` | SEFAZ-PI |
-| RN | `[rg] Add RG validation for UF RN` | SEFAZ-RN |
-| RO | `[rg] Add RG validation for UF RO` | SEFAZ-RO |
-| RR | `[rg] Add RG validation for UF RR` | SEFAZ-RR |
-| SE | `[rg] Add RG validation for UF SE` | SEFAZ-SE |
-| TO | `[rg] Add RG validation for UF TO` | SEFAZ-TO |
+None — `getRgPendingUfs()` is empty. File issues for DV upgrades or documented format corrections only.
 
 ## Maintainer checklist when merging a UF
 
 - [ ] `packages/br-validators/tests/vectors/rg.<uf>.official.json`
 - [ ] `src/core/rg/<uf>.ts` registered in `RG_SUPPORTED_UFS`
+- [ ] Remove UF from `RG_PENDING_UFS` in `constants.ts`
 - [ ] Row in [docs/OFFICIAL-SOURCES.md § RG](../OFFICIAL-SOURCES.md#rg--reference-index)
 - [ ] `pnpm --filter @br-validators/core test:coverage` — 100% on `src/**`
 - [ ] CHANGELOG `[Unreleased]`

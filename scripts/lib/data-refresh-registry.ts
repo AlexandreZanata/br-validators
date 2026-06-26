@@ -10,6 +10,7 @@ export const MANUAL_FETCH_DATASET_IDS = [
   'lc116',
   'esocial',
   'simples-nacional',
+  'iss-municipal',
 ] as const;
 
 export const DATASET_METADATA_PATHS = [
@@ -19,6 +20,8 @@ export const DATASET_METADATA_PATHS = [
   path.join(ROOT, 'packages/br-validators/src/tse-municipios/data/metadata.json'),
   path.join(ROOT, 'packages/br-validators/src/moedas/data/metadata.json'),
   path.join(ROOT, 'packages/br-validators/src/ptax/data/metadata.json'),
+  path.join(ROOT, 'packages/br-validators/src/selic/data/metadata.json'),
+  path.join(ROOT, 'packages/br-validators/src/iss-municipal/data/metadata.json'),
   path.join(ROOT, 'packages/br-validators/src/paises-bacen/data/metadata.json'),
   path.join(ROOT, 'packages/br-validators/src/incoterms/data/metadata.json'),
   path.join(ROOT, 'packages/br-validators/src/core/telefone/data/ddd-metadata.json'),
@@ -50,6 +53,7 @@ export const FETCH_DATASET_IDS = [
   'tse-municipios',
   'moedas',
   'ptax',
+  'selic',
   'paises-bacen',
   'incoterms',
   'telefone-ddd',
@@ -86,6 +90,7 @@ export const FETCH_SCRIPTS = [
   'scripts/fetch-tse-municipios.ts',
   'scripts/fetch-moedas.ts',
   'scripts/fetch-ptax.ts',
+  'scripts/fetch-selic.ts',
   'scripts/fetch-paises-bacen.ts',
   'scripts/fetch-incoterms.ts',
   'scripts/fetch-ddd.ts',
@@ -111,6 +116,7 @@ const SCRIPT_BASENAME_TO_DATASET_ID: Record<string, string> = {
   'fetch-tse-municipios.ts': 'tse-municipios',
   'fetch-moedas.ts': 'moedas',
   'fetch-ptax.ts': 'ptax',
+  'fetch-selic.ts': 'selic',
   'fetch-paises-bacen.ts': 'paises-bacen',
   'fetch-incoterms.ts': 'incoterms',
   'fetch-ddd.ts': 'telefone-ddd',

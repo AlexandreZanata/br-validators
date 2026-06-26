@@ -11,13 +11,13 @@ import {
   CST_GOLDEN_PIS_ISENTA,
   CST_GOLDEN_PIS_TRIBUTAVEL,
   SPED_CST_CONSULTA_URL,
-  getCstCofins,
+  getAllCstCofins,
   getCstCofinsPorCodigo,
-  getCstIcms,
+  getAllCstIcms,
   getCstIcmsPorCodigo,
-  getCstIpi,
+  getAllCstIpi,
   getCstIpiPorCodigo,
-  getCstPis,
+  getAllCstPis,
   getCstPisPorCodigo,
   searchCstCofins,
   searchCstIcms,
@@ -81,21 +81,55 @@ describe('CST — official golden vectors', () => {
     expect(getCstIcmsPorCodigo('0')?.codigo).toBe('00');
     expect(getCstIpiPorCodigo('5')?.codigo).toBe('05');
   });
+});
 
-  it('returns undefined for unknown or invalid CST codes', () => {
-    expect(getCstIcmsPorCodigo('99')).toBeUndefined();
-    expect(getCstIpiPorCodigo('')).toBeUndefined();
-    expect(getCstPisPorCodigo('abc')).toBeUndefined();
-    expect(getCstCofinsPorCodigo('888')).toBeUndefined();
+const cstLookupByTax = {
+  icms: getCstIcmsPorCodigo,
+  ipi: getCstIpiPorCodigo,
+  pis: getCstPisPorCodigo,
+  cofins: getCstCofinsPorCodigo,
+} as const;
+
+type CstTaxKey = keyof typeof cstLookupByTax;
+
+const cstSearchByTax = {
+  icms: searchCstIcms,
+  ipi: searchCstIpi,
+  pis: searchCstPis,
+  cofins: searchCstCofins,
+} as const;
+
+describe('CST — negative vectors', () => {
+  it.each([
+    ['icmsNotFound', vectors.negative.icmsNotFound],
+    ['ipiNotFound', vectors.negative.ipiNotFound],
+    ['pisNotFound', vectors.negative.pisNotFound],
+    ['cofinsNotFound', vectors.negative.cofinsNotFound],
+    ['icmsInvalidFormat', vectors.negative.icmsInvalidFormat],
+    ['ipiEmptyCode', vectors.negative.ipiEmptyCode],
+  ] as const)('returns undefined for %s', (_label, vector) => {
+    const tax = vector.tax as CstTaxKey;
+    expect(cstLookupByTax[tax](vector.codigo)).toBeUndefined();
+  });
+
+  it('returns empty search results for nonexistent query', () => {
+    const tax = vectors.negative.searchNoMatch.tax as CstTaxKey;
+    const { query } = vectors.negative.searchNoMatch;
+    expect(cstSearchByTax[tax](query)).toEqual([]);
+  });
+
+  it('returns empty search results for blank query', () => {
+    expect(searchCstIcms('')).toEqual([]);
+    expect(searchCstIpi('   ')).toEqual([]);
   });
 });
 
 describe('CST — coverage and search', () => {
   it('lists codes within expected SPED ranges', () => {
-    const icms = getCstIcms();
-    const ipi = getCstIpi();
-    const pis = getCstPis();
-    const cofins = getCstCofins();
+    const icms = getAllCstIcms();
+    const ipi = getAllCstIpi();
+    const pis = getAllCstPis();
+    const cofins = getAllCstCofins();
 
     expect(icms.length).toBeGreaterThanOrEqual(vectors.minCounts.icms);
     expect(icms.length).toBeLessThanOrEqual(vectors.maxCounts.icms);
@@ -139,20 +173,15 @@ describe('CST — coverage and search', () => {
     expect(searchCstCofins('operação')).toHaveLength(10);
   });
 
-  it('returns empty search results for blank query', () => {
-    expect(searchCstIcms('')).toEqual([]);
-    expect(searchCstIpi('   ')).toEqual([]);
-  });
-
   it('exposes official SPED endpoint in metadata', () => {
     expect(CST_DATA_VERSION.id).toBe('cst');
     expect(CST_DATA_VERSION.endpoints).toContain(SPED_CST_CONSULTA_URL);
     expect(CST_DATA_VERSION.endpoints).toContain(vectors.pisDocUrl);
     expect(CST_DATA_VERSION.endpoints).toContain(vectors.cofinsDocUrl);
-    expect(CST_DATA_VERSION.contagens.icms).toBe(getCstIcms().length);
-    expect(CST_DATA_VERSION.contagens.ipi).toBe(getCstIpi().length);
-    expect(CST_DATA_VERSION.contagens.pis).toBe(getCstPis().length);
-    expect(CST_DATA_VERSION.contagens.cofins).toBe(getCstCofins().length);
+    expect(CST_DATA_VERSION.contagens.icms).toBe(getAllCstIcms().length);
+    expect(CST_DATA_VERSION.contagens.ipi).toBe(getAllCstIpi().length);
+    expect(CST_DATA_VERSION.contagens.pis).toBe(getAllCstPis().length);
+    expect(CST_DATA_VERSION.contagens.cofins).toBe(getAllCstCofins().length);
     expect(CST_DATA_VERSION.verificacao.agendamento).toBe('manual');
   });
 });

@@ -26,6 +26,8 @@ coverage/
 .vitepress/cache/
 .vitepress/dist/
 apps/docs/api/
+apps/docs/api-reference/
+tests/integration/subpath-imports/.tmp/
 playwright-report/
 test-results/
 *.tsbuildinfo

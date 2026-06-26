@@ -11,20 +11,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [1.9.0] - 2026-06-26
+
+### Changed
+
+- **generate() output options (33e)** — `GenerateOptions.stripped` explicit flag; `stripped: true` wins over `masked: true`; CLI `--stripped`; default behavior unchanged (stripped when unmasked)
+- **Branded types audit (33d)** — `validateCpf`, `validateCnpj`, `validateCep`, and `validatePisPasep` now return `ValidationResult<BrandedT>`; new `Arrecadacao` brand for boleto arrecadação success paths; compile-time + runtime branded return tests; `docs/LIBRARY-API.md` branded type inventory table
+- **Data refresh bot versioning** — daily drift publishes `MAJOR.MINOR.PATCH-data.N` (e.g. `1.8.3-data.1`) instead of incrementing human PATCH (`1.8.4`); npm canonical form (no zero-padding on counter)
+
 ### Fixed
 
 - **Data refresh bot version format** — bot tags and `package.json` use npm-canonical `1.8.3-data.1` (not zero-padded `1.8.3-data.0001`) so Release CI registry checks match the published version
+
+### Added
+
+- **E2E subpath import tests (33s)** — `tests/integration/subpath-imports/` mini-consumer resolves all 61 `@br-validators/core` export map entries via native Node `import`; dedicated smokes for `cnpj`, `ncm`, `cst`, `compare`; esbuild tree-shake regression; wired into `pnpm test:integration` and CI
+- **TypeDoc + VitePress API reference (33r)** — `typedoc.json` + `typedoc-plugin-markdown`; `pnpm docs:api` generates `apps/docs/api-reference/` from `@br-validators/core` subpath barrels; VitePress sidebar **API Reference**; CI `docs` job runs `docs:build`; narrative `LIBRARY-API.md` unchanged
+- **Security CVE + audit CI (33q)** — `SECURITY.md` CVE request SLA table, `pnpm audit` CI gate (`--prod` fails on high/critical; devDeps warn-only), npm publish integrity notes, false-positive override process
+- **Migration guide (33p)** — root [MIGRATION.md](MIGRATION.md): v1.x → v2.0 lookup + deprecated `getAll*` inventory with before/after examples; v0.x → v1.0 changelog index; maintainer update policy; linked from README and `docs/README.md`
+- **ISS municipal partial embed (33o)** — `@br-validators/core/iss-municipal` with `getIssMunicipalPorIbge`, `getIssMunicipalPorUfMunicipio`, `searchIssMunicipal`, `getAllIssMunicipal`; 100 cities (27 capitals + top PIB); estimation-only `warning` on every result; CLI `iss-municipal lookup|resolve|search`; playground `/data/fiscal` module; `pnpm fetch:data:iss-municipal` (manual — not daily bot)
+- **SELIC meta SGS 432 (33n)** — `@br-validators/core/selic` with `getSelicMeta`, `getSelicMetaPorData`, `getSelicHistorico`; 90-day rolling embed; staleness API; CLI `selic [--date]`; playground `/data/finance`; `pnpm fetch:data:selic`; daily refresh bot
+- **INSS contribution table (33m)** — `@br-validators/core/inss` with `getInssTabelaContribuicao`, `calcularInssMensal`, `getInssFaixaPorSalario`; 2025 employee brackets (teto R$ 8.157,41); CLI `inss tabela` and `inss calc`; playground `/data/payroll`; `pnpm fetch:data:inss`
+- **IRPF progressive table (33l)** — `@br-validators/core/irpf` with `getIrpfTabelaProgressiva`, `calcularIrpfMensal`, `getIrpfFaixaPorValor`; 2025 monthly brackets; CLI `irpf tabela` and `irpf calc`; playground `/data/payroll`; `pnpm fetch:data:irpf`
+- **NF-e cUF lookup (33k)** — `@br-validators/core/nfe-cuf` with `getCufPorCodigo`, `getCufPorUf`, `getAllCuf`; static 27-row SEFAZ table + IBGE cross-ref; CLI `nfe-cuf lookup`; playground `/data/fiscal` module; `pnpm fetch:data:nfe-cuf`
+- **Fiscal code validators (33j)** — `validateNcm`, `validateCfop`, `validateCst({ tax })` combine format rules with embedded lookup; `FiscalCodeValidationResult`; CLI `ncm|cfop validate` and `cst lookup|search|validate --tax`; playground `/data/fiscal` validate tab + CST module
+- **Lookup result standardization (33i)** — `LookupResult<T>` with `NOT_FOUND` / `INVALID_FORMAT` / `INVALID_INPUT`; `lookup*PorCodigo` on all offline lookup modules; legacy `get*` delegates via `unwrapLookupValue`; new `@br-validators/core/lookup` subpath; CLI reference/bancos/ibge lookup JSON failure shape `{ ok: false, code, message }`; [MIGRATION.md](MIGRATION.md) v2.0 lookup section
+- **Lookup `getAll*` naming (33h)** — canonical `getAll{Entity}()` list getters on every lookup module; legacy plural names deprecated until v2.0; `tests/lookup/getall-aliases.test.ts`
+- **PTAX staleness API (33g)** — `getPtaxCotacao` / `getPtaxUltimoDiaUtil` return `dataReferencia`, `isStale`, and `warning` when embed is more than 1 business day old; CLI `ptax lookup` with `--verbose` staleness output; `PtaxCotacaoResult` type
+- **Platform CLI + playground** — `compare`, `batch`, and `diff` commands and routes (`/compare`, `/batch`, `/diff`) — closes DELIVERY-SURFACES parity gap for Layer 3 APIs
+- **Platform CLI `mask`** — `br-validators mask <type> <value>` delegates to `@br-validators/core/mask` (validate-then-format; `--uf` for IE / RG)
+- **RG contributor infrastructure (33c)** — `getRgPendingUfs()`, `getRgResearchUrl(uf)`, `RG_RESEARCH_URLS`, `CONTRIBUTING-UF.md`; OFFICIAL-SOURCES § RG expanded for 21 pending UFs (6/27 shipped)
+- **RG UF BA** — format-only legacy IIPM validator (10 digits); `rg.ba.official.json`; 7/27 UFs shipped
+- **RG UF AC** — format-only legacy SSP-AC validator (6 digits); `rg.ac.official.json`; 8/27 UFs shipped
+- **RG UF AL** — format-only legacy POLCAL/IIEAL validator (7 digits); `rg.al.official.json`; 9/27 UFs shipped
+- **RG UF AM** — format-only legacy IIACM/SSP-AM validator (9 digits); `rg.am.official.json`; 10/27 UFs shipped
+- **RG UF AP** — format-only legacy PCA/SSP-AP validator (9 digits); `rg.ap.official.json`; 11/27 UFs shipped
+- **RG UF DF** — format-only legacy PCDF validator (7 digits); `rg.df.official.json`; 12/27 UFs shipped
+- **RG UF ES** — format-only legacy PCIES validator (9 digits); `rg.es.official.json`; 13/27 UFs shipped
+- **RG UF GO** — format-only legacy PCGO validator (9 digits); `rg.go.official.json`; 14/27 UFs shipped
+- **RG UFs MA, MS, MT, PA, PB** — format-only legacy validators (9 digits each); `rg.{ma,ms,mt,pa,pb}.official.json`; 19/27 UFs shipped
+- **RG UFs CE, PE, PI, RN, RO, RR, SE, TO** — format-only legacy validators (9 digits each); `rg.{ce,pe,pi,rn,ro,rr,se,to}.official.json`; **27/27 UFs shipped** (phase 33c complete)
+- **RG contributor guide** — [docs/community/RG-CONTRIBUTOR-GUIDE.md](docs/community/RG-CONTRIBUTOR-GUIDE.md): how to open issues, cite official SSP/PCivil sources, report algorithms; documents that most UFs lack consistent official legacy RG/DV data
+
+---
 
 ## [1.8.3-data.0001] - 2026-06-26
 
 ### Changed
 
 - Reference data refresh (daily bot) — **1.8.3 data #0001**: 0 dataset(s) changed (+0 −0 ~0).
-
-
-### Changed
-
-- **Data refresh bot versioning** — daily drift publishes `MAJOR.MINOR.PATCH-data.N` (e.g. `1.8.3-data.1`) instead of incrementing human PATCH (`1.8.4`); first data-line tag used zero-padded `1.8.3-data.0001` (npm canonical: `1.8.3-data.1`)
 
 ---
 

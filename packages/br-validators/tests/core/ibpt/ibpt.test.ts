@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   computeIbptCargaTotal,
   getIbptCargaPorNcmUf,
-  getIbptCargas,
+  getAllIbptCargas,
   getIbptTabelaAtual,
   IBPT_DATA_VERSION,
   IBPT_GOLDEN_NCM_CAVALOS,
@@ -11,6 +11,7 @@ import {
   IBPT_GOLDEN_UF_SP,
   IBPT_LEI_12741_URL,
   IBPT_OFFICIAL_PORTAL_URL,
+  lookupIbptCargaPorNcmUf,
 } from '../../../src/ibpt/index.js';
 import { getNcmPorCodigo } from '../../../src/ncm/index.js';
 import vectors from '../../vectors/ibpt.official.json';
@@ -65,17 +66,44 @@ describe('IBPT — official golden vectors', () => {
     expect(ncm?.codigo).toBe(IBPT_GOLDEN_NCM_CAVALOS);
     expect(ncm?.descricao.toLowerCase()).toContain('reprodutor');
   });
+});
 
-  it('returns undefined for unknown NCM×UF or invalid input', () => {
-    expect(getIbptCargaPorNcmUf({ ncm: '99999999', uf: 'SP' })).toBeUndefined();
-    expect(getIbptCargaPorNcmUf({ ncm: IBPT_GOLDEN_NCM_CAVALOS, uf: 'XX' })).toBeUndefined();
-    expect(getIbptCargaPorNcmUf({ ncm: '', uf: 'SP' })).toBeUndefined();
+describe('IBPT — negative vectors', () => {
+  it.each([
+    ['ncmNotInTable', vectors.negative.ncmNotInTable],
+    ['invalidUf', vectors.negative.invalidUf],
+    ['emptyNcm', vectors.negative.emptyNcm],
+    ['invalidNcmFormat', vectors.negative.invalidNcmFormat],
+    ['whitespaceUf', vectors.negative.whitespaceUf],
+  ] as const)('returns undefined for %s lookup', (_label, vector) => {
+    expect(getIbptCargaPorNcmUf({ ncm: vector.ncm, uf: vector.uf })).toBeUndefined();
+  });
+
+  it('lookupIbptCargaPorNcmUf returns INVALID_INPUT when ncm or uf missing', () => {
+    expect(lookupIbptCargaPorNcmUf({ ncm: '', uf: 'SP' })).toEqual({
+      ok: false,
+      code: 'INVALID_INPUT',
+      message: 'NCM and UF are required',
+    });
+    expect(lookupIbptCargaPorNcmUf({ ncm: '01012100', uf: '  ' })).toEqual({
+      ok: false,
+      code: 'INVALID_INPUT',
+      message: 'NCM and UF are required',
+    });
+  });
+
+  it('lookupIbptCargaPorNcmUf returns NOT_FOUND for missing embed row', () => {
+    const result = lookupIbptCargaPorNcmUf({ ncm: '99999999', uf: 'SP' });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.code).toBe('NOT_FOUND');
+    }
   });
 });
 
 describe('IBPT — coverage and metadata', () => {
   it('lists golden subset within expected embed range', () => {
-    const list = getIbptCargas();
+    const list = getAllIbptCargas();
     expect(list.length).toBeGreaterThanOrEqual(vectors.minCargas);
     expect(list.length).toBeLessThanOrEqual(vectors.maxCargas);
     expect(new Set(list.map((carga) => `${carga.uf}:${carga.ncm}`)).size).toBeGreaterThan(0);
@@ -86,6 +114,6 @@ describe('IBPT — coverage and metadata', () => {
     expect(IBPT_DATA_VERSION.endpoints.some((e) => e.includes(IBPT_OFFICIAL_PORTAL_URL))).toBe(true);
     expect(IBPT_LEI_12741_URL).toBe(vectors.lei12741Url);
     expect(getIbptTabelaAtual()).toBe(vectors.tabela);
-    expect(IBPT_DATA_VERSION.contagens.cargas).toBe(getIbptCargas().length);
+    expect(IBPT_DATA_VERSION.contagens.cargas).toBe(getAllIbptCargas().length);
   });
 });

@@ -1,9 +1,13 @@
 export {
+  getAllAnpPrecosMedios,
+  getAllAnpSemanasPesquisa,
   getAnpSemanasPesquisa,
   getAnpSemanaAtual,
   getAnpPrecosMedios,
   getAnpPrecosMediosPorIbge,
   getAnpPrecosMediosEmbedded,
+  lookupAnpPrecosMedios,
+  lookupAnpPrecosMediosPorIbge,
   pickLatestAnpSemana,
 } from './lookup.js';
 export {

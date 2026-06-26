@@ -13,7 +13,7 @@ import {
   FERIADOS_NACIONAL_TOTAL_COUNT,
   FERIADOS_PORTARIA_MGI_11460_2025_URL,
   easterSunday,
-  getFeriadosNacionais,
+  getAllFeriados,
   getFixedHolidaysForYear,
   getPaixaoDeCristo,
   getPontosFacultativosFederais,
@@ -131,7 +131,7 @@ describe('Feriados — fixed national federal holidays (Lei 662/1949 + amendment
   it('marks every fixed 2025 date as national holiday', () => {
     for (const holiday of vectors.fixed2025) {
       expect(isFeriadoNacional(holiday.data)).toBe(true);
-      const list = getFeriadosNacionais(2025);
+      const list = getAllFeriados(2025);
       expect(list.some((item) => item.data === holiday.data && item.nome === holiday.nome)).toBe(true);
     }
   });
@@ -141,7 +141,7 @@ describe('Feriados — fixed national federal holidays (Lei 662/1949 + amendment
       expect(isFeriadoNacional(holiday.data)).toBe(true);
     }
     expect(isFeriadoNacional(vectors.paixaoDeCristo['2026'])).toBe(true);
-    expect(getFeriadosNacionais(2026)).toHaveLength(FERIADOS_NACIONAL_TOTAL_COUNT);
+    expect(getAllFeriados(2026)).toHaveLength(FERIADOS_NACIONAL_TOTAL_COUNT);
   });
 
   it('returns false for a regular weekday', () => {
@@ -185,7 +185,7 @@ describe('Feriados — public API', () => {
   });
 
   it('returns sorted national holidays for a year (fixed + Paixão de Cristo)', () => {
-    const holidays = getFeriadosNacionais(2025);
+    const holidays = getAllFeriados(2025);
     expect(holidays.length).toBe(FERIADOS_NACIONAL_TOTAL_COUNT);
     const dates = holidays.map((holiday) => holiday.data);
     expect([...dates].sort()).toEqual(dates);
@@ -193,7 +193,7 @@ describe('Feriados — public API', () => {
   });
 
   it('returns empty list for non-integer year', () => {
-    expect(getFeriadosNacionais(2025.5)).toEqual([]);
+    expect(getAllFeriados(2025.5)).toEqual([]);
   });
 });
 

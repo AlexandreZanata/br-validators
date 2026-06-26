@@ -1,4 +1,5 @@
 import { EXIT } from '../../constants.js';
+import type { LookupResult } from '@br-validators/core/lookup';
 import {
   isReferenceLookupCommand,
   REFERENCE_LOOKUP_MODULES,
@@ -9,6 +10,20 @@ export type ReferenceLookupOptions = {
   json: boolean;
   verbose: boolean;
 };
+
+function emitLookupFailure(
+  result: Extract<LookupResult<never>, { ok: false }>,
+  options: ReferenceLookupOptions,
+  io: { stdout: string[]; stderr: string[] },
+): void {
+  if (options.json) {
+    io.stdout.push(
+      JSON.stringify({ ok: false, code: result.code, message: result.message }, null, 2),
+    );
+    return;
+  }
+  io.stderr.push(result.message);
+}
 
 export function runReferenceLookupCommand(
   command: ReferenceLookupCommand,
@@ -24,22 +39,22 @@ export function runReferenceLookupCommand(
   }
 
   const result = module.lookup(trimmed);
-  if (!result) {
-    io.stderr.push(`Not found: ${trimmed}`);
+  if (!result.ok) {
+    emitLookupFailure(result, options, io);
     return EXIT.INVALID;
   }
 
   if (options.json) {
     const payload = {
       ok: true as const,
-      [module.resultKey]: result,
+      [module.resultKey]: result.value,
       ...(options.verbose ? { capturadoEm: module.capturadoEm } : {}),
     };
     io.stdout.push(JSON.stringify(payload, null, 2));
     return EXIT.OK;
   }
 
-  io.stdout.push(module.formatHuman(result));
+  io.stdout.push(module.formatHuman(result.value));
   if (options.verbose) {
     io.stdout.push(`capturadoEm: ${module.capturadoEm}`);
   }
