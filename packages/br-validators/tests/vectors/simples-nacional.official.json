@@ -34,5 +34,31 @@
       "anexo": "IV",
       "cppForaSimples": true
     }
+  },
+  "negative": {
+    "unknownAnnex": {
+      "anexo": "VI"
+    },
+    "invalidAnnexAlias": {
+      "anexo": "abc"
+    },
+    "emptyAnnex": {
+      "anexo": ""
+    },
+    "revenueZero": {
+      "anexo": "I",
+      "receitaBruta": 0
+    },
+    "revenueAboveMax": {
+      "anexo": "I",
+      "receitaBruta": 4800001
+    },
+    "negativeRevenue": {
+      "anexo": "I",
+      "receitaBruta": -1
+    },
+    "invalidCnaeAsAnnex": {
+      "anexo": "4711301"
+    }
   }
 }

@@ -81,12 +81,46 @@ describe('CST — official golden vectors', () => {
     expect(getCstIcmsPorCodigo('0')?.codigo).toBe('00');
     expect(getCstIpiPorCodigo('5')?.codigo).toBe('05');
   });
+});
 
-  it('returns undefined for unknown or invalid CST codes', () => {
-    expect(getCstIcmsPorCodigo('99')).toBeUndefined();
-    expect(getCstIpiPorCodigo('')).toBeUndefined();
-    expect(getCstPisPorCodigo('abc')).toBeUndefined();
-    expect(getCstCofinsPorCodigo('888')).toBeUndefined();
+const cstLookupByTax = {
+  icms: getCstIcmsPorCodigo,
+  ipi: getCstIpiPorCodigo,
+  pis: getCstPisPorCodigo,
+  cofins: getCstCofinsPorCodigo,
+} as const;
+
+type CstTaxKey = keyof typeof cstLookupByTax;
+
+const cstSearchByTax = {
+  icms: searchCstIcms,
+  ipi: searchCstIpi,
+  pis: searchCstPis,
+  cofins: searchCstCofins,
+} as const;
+
+describe('CST — negative vectors', () => {
+  it.each([
+    ['icmsNotFound', vectors.negative.icmsNotFound],
+    ['ipiNotFound', vectors.negative.ipiNotFound],
+    ['pisNotFound', vectors.negative.pisNotFound],
+    ['cofinsNotFound', vectors.negative.cofinsNotFound],
+    ['icmsInvalidFormat', vectors.negative.icmsInvalidFormat],
+    ['ipiEmptyCode', vectors.negative.ipiEmptyCode],
+  ] as const)('returns undefined for %s', (_label, vector) => {
+    const tax = vector.tax as CstTaxKey;
+    expect(cstLookupByTax[tax](vector.codigo)).toBeUndefined();
+  });
+
+  it('returns empty search results for nonexistent query', () => {
+    const tax = vectors.negative.searchNoMatch.tax as CstTaxKey;
+    const { query } = vectors.negative.searchNoMatch;
+    expect(cstSearchByTax[tax](query)).toEqual([]);
+  });
+
+  it('returns empty search results for blank query', () => {
+    expect(searchCstIcms('')).toEqual([]);
+    expect(searchCstIpi('   ')).toEqual([]);
   });
 });
 
@@ -137,11 +171,6 @@ describe('CST — coverage and search', () => {
 
   it('uses default search limit of 10 when options omitted', () => {
     expect(searchCstCofins('operação')).toHaveLength(10);
-  });
-
-  it('returns empty search results for blank query', () => {
-    expect(searchCstIcms('')).toEqual([]);
-    expect(searchCstIpi('   ')).toEqual([]);
   });
 
   it('exposes official SPED endpoint in metadata', () => {

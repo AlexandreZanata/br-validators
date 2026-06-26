@@ -21,5 +21,31 @@
     "issuer": "caixa",
     "tipo": "nis",
     "note": "Leading digit 4 — CadÚnico / NIS heuristic series"
+  },
+  "negative": {
+    "emptyInput": {
+      "input": "",
+      "code": "EMPTY_INPUT"
+    },
+    "whitespaceOnly": {
+      "input": "   ",
+      "code": "EMPTY_INPUT"
+    },
+    "wrongLength": {
+      "input": "1002723088",
+      "code": "INVALID_LENGTH"
+    },
+    "invalidCheckDigit": {
+      "input": "10027230889",
+      "code": "INVALID_CHECK_DIGIT"
+    },
+    "invalidCharacter": {
+      "input": "100.27230.88-A",
+      "code": "INVALID_CHARACTER"
+    },
+    "allIdenticalDigits": {
+      "input": "11111111111",
+      "code": "KNOWN_INVALID_PATTERN"
+    }
   }
 }

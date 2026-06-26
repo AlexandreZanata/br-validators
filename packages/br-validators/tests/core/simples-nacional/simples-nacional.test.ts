@@ -8,7 +8,6 @@ import {
   SIMPLES_GOLDEN_ANEXO_COMERCIO,
   SIMPLES_GOLDEN_ANEXO_PROFISSIONAIS,
   SIMPLES_GOLDEN_ANEXO_SERVICOS,
-  SIMPLES_MAX_RBT12,
   SIMPLES_NACIONAL_DATA_VERSION,
   computeSimplesAliquotaEfetiva,
   getSimplesAnexo,
@@ -56,6 +55,33 @@ describe('Simples Nacional — official golden vectors', () => {
   });
 });
 
+describe('Simples Nacional — negative vectors', () => {
+  it.each([
+    ['unknownAnnex', vectors.negative.unknownAnnex],
+    ['invalidAnnexAlias', vectors.negative.invalidAnnexAlias],
+    ['emptyAnnex', vectors.negative.emptyAnnex],
+    ['invalidCnaeAsAnnex', vectors.negative.invalidCnaeAsAnnex],
+  ] as const)('returns undefined for %s lookup', (_label, vector) => {
+    expect(getSimplesAnexo(vector.anexo)).toBeUndefined();
+  });
+
+  it.each([
+    ['revenueZero', vectors.negative.revenueZero],
+    ['revenueAboveMax', vectors.negative.revenueAboveMax],
+    ['negativeRevenue', vectors.negative.negativeRevenue],
+  ] as const)('returns undefined for %s faixa lookup', (_label, vector) => {
+    expect(getSimplesFaixa({ anexo: vector.anexo, receitaBruta: vector.receitaBruta })).toBeUndefined();
+    expect(
+      computeSimplesAliquotaEfetiva({ anexo: vector.anexo, receitaBruta: vector.receitaBruta }),
+    ).toBeUndefined();
+  });
+
+  it('returns undefined for NaN receita bruta', () => {
+    expect(getSimplesFaixa({ anexo: 'I', receitaBruta: Number.NaN })).toBeUndefined();
+    expect(computeSimplesAliquotaEfetiva({ anexo: 'I', receitaBruta: Number.NaN })).toBeUndefined();
+  });
+});
+
 describe('Simples Nacional — lookup normalization', () => {
   it('accepts roman numerals, ANEXO prefix, and digit aliases', () => {
     expect(getSimplesAnexo('i')?.id).toBe('I');
@@ -69,20 +95,6 @@ describe('Simples Nacional — lookup normalization', () => {
     expect(getSimplesAnexo('ANEXO VI')).toBeUndefined();
     expect(getSimplesAnexo('6')).toBeUndefined();
     expect(getSimplesAnexo('10')).toBeUndefined();
-  });
-
-  it('returns undefined for unknown annexes', () => {
-    expect(getSimplesAnexo('VI')).toBeUndefined();
-    expect(getSimplesAnexo('')).toBeUndefined();
-    expect(getSimplesAnexo('abc')).toBeUndefined();
-  });
-
-  it('returns undefined for invalid or out-of-range receita bruta', () => {
-    expect(getSimplesFaixa({ anexo: 'I', receitaBruta: 0 })).toBeUndefined();
-    expect(getSimplesFaixa({ anexo: 'I', receitaBruta: -1 })).toBeUndefined();
-    expect(getSimplesFaixa({ anexo: 'I', receitaBruta: Number.NaN })).toBeUndefined();
-    expect(getSimplesFaixa({ anexo: 'I', receitaBruta: SIMPLES_MAX_RBT12 + 1 })).toBeUndefined();
-    expect(computeSimplesAliquotaEfetiva({ anexo: 'I', receitaBruta: 0 })).toBeUndefined();
   });
 
   it('maps each RBT12 boundary to the correct faixa', () => {

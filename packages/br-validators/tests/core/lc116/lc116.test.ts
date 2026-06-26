@@ -30,11 +30,25 @@ describe('LC 116 — official golden vectors', () => {
     expect(getLc116PorCodigo('010101')?.codigo).toBe('1.01');
     expect(getLc116PorCodigo('7.2')?.codigo).toBe('7.02');
   });
+});
 
-  it('returns undefined for unknown or invalid LC 116 codes', () => {
-    expect(getLc116PorCodigo('99.99')).toBeUndefined();
-    expect(getLc116PorCodigo('')).toBeUndefined();
-    expect(getLc116PorCodigo('abc')).toBeUndefined();
+describe('LC 116 — negative vectors', () => {
+  it.each([
+    ['nonexistentItem', vectors.negative.nonexistentItem],
+    ['invalidFormat', vectors.negative.invalidFormat],
+    ['emptyCode', vectors.negative.emptyCode],
+    ['invalidItemFormat', vectors.negative.invalidItemFormat],
+  ] as const)('returns undefined for %s lookup', (_label, vector) => {
+    expect(getLc116PorCodigo(vector.codigo)).toBeUndefined();
+  });
+
+  it('returns empty search results for nonexistent query', () => {
+    expect(searchLc116(vectors.negative.searchNoMatch.query)).toEqual([]);
+  });
+
+  it('returns empty search results for blank query', () => {
+    expect(searchLc116('')).toEqual([]);
+    expect(searchLc116('   ')).toEqual([]);
   });
 });
 
@@ -63,11 +77,6 @@ describe('LC 116 — coverage and search', () => {
   it('uses default search limit of 10 when options omitted', () => {
     const results = searchLc116('serviços');
     expect(results.length).toBe(10);
-  });
-
-  it('returns empty search results for blank query', () => {
-    expect(searchLc116('')).toEqual([]);
-    expect(searchLc116('   ')).toEqual([]);
   });
 
   it('exposes official Planalto endpoint in metadata', () => {

@@ -47,5 +47,35 @@
       "codigo": "07",
       "descricaoContains": "isenta"
     }
+  },
+  "negative": {
+    "icmsNotFound": {
+      "tax": "icms",
+      "codigo": "99"
+    },
+    "ipiNotFound": {
+      "tax": "ipi",
+      "codigo": "88"
+    },
+    "pisNotFound": {
+      "tax": "pis",
+      "codigo": "88"
+    },
+    "cofinsNotFound": {
+      "tax": "cofins",
+      "codigo": "88"
+    },
+    "icmsInvalidFormat": {
+      "tax": "icms",
+      "codigo": "abc"
+    },
+    "ipiEmptyCode": {
+      "tax": "ipi",
+      "codigo": ""
+    },
+    "searchNoMatch": {
+      "tax": "icms",
+      "query": "zzzznonexistent"
+    }
   }
 }

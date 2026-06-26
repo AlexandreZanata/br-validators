@@ -16,5 +16,22 @@
       "query": "elaboração de programas",
       "expectedCodigo": "1.04"
     }
+  },
+  "negative": {
+    "nonexistentItem": {
+      "codigo": "99.99"
+    },
+    "invalidFormat": {
+      "codigo": "abc"
+    },
+    "emptyCode": {
+      "codigo": ""
+    },
+    "invalidItemFormat": {
+      "codigo": "99.999"
+    },
+    "searchNoMatch": {
+      "query": "zzzznonexistent"
+    }
   }
 }

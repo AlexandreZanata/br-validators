@@ -65,11 +65,17 @@ describe('IBPT — official golden vectors', () => {
     expect(ncm?.codigo).toBe(IBPT_GOLDEN_NCM_CAVALOS);
     expect(ncm?.descricao.toLowerCase()).toContain('reprodutor');
   });
+});
 
-  it('returns undefined for unknown NCM×UF or invalid input', () => {
-    expect(getIbptCargaPorNcmUf({ ncm: '99999999', uf: 'SP' })).toBeUndefined();
-    expect(getIbptCargaPorNcmUf({ ncm: IBPT_GOLDEN_NCM_CAVALOS, uf: 'XX' })).toBeUndefined();
-    expect(getIbptCargaPorNcmUf({ ncm: '', uf: 'SP' })).toBeUndefined();
+describe('IBPT — negative vectors', () => {
+  it.each([
+    ['ncmNotInTable', vectors.negative.ncmNotInTable],
+    ['invalidUf', vectors.negative.invalidUf],
+    ['emptyNcm', vectors.negative.emptyNcm],
+    ['invalidNcmFormat', vectors.negative.invalidNcmFormat],
+    ['whitespaceUf', vectors.negative.whitespaceUf],
+  ] as const)('returns undefined for %s lookup', (_label, vector) => {
+    expect(getIbptCargaPorNcmUf({ ncm: vector.ncm, uf: vector.uf })).toBeUndefined();
   });
 });
 

@@ -21,5 +21,25 @@
       "query": "aprendiz",
       "expectedCodigo": "103"
     }
+  },
+  "negative": {
+    "unknownCode": {
+      "codigo": "999"
+    },
+    "emptyCode": {
+      "codigo": ""
+    },
+    "nonNumeric": {
+      "codigo": "abc"
+    },
+    "whitespaceCode": {
+      "codigo": "   "
+    },
+    "searchNoMatch": {
+      "query": "zzzznonexistent"
+    },
+    "emptySearch": {
+      "query": ""
+    }
   }
 }

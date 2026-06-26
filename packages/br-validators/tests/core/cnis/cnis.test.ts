@@ -96,44 +96,19 @@ describe('CNIS / NIT — checksum parity with PIS/PASEP', () => {
   });
 });
 
-describe('CNIS / NIT — structural validation', () => {
-  it('rejects empty input', () => {
-    const result = validateNit('');
+describe('CNIS / NIT — negative vectors', () => {
+  it.each([
+    ['emptyInput', vectors.negative.emptyInput],
+    ['whitespaceOnly', vectors.negative.whitespaceOnly],
+    ['wrongLength', vectors.negative.wrongLength],
+    ['invalidCheckDigit', vectors.negative.invalidCheckDigit],
+    ['invalidCharacter', vectors.negative.invalidCharacter],
+    ['allIdenticalDigits', vectors.negative.allIdenticalDigits],
+  ] as const)('rejects %s from official vector', (_label, vector) => {
+    const result = validateNit(vector.input);
     expect(result.ok).toBe(false);
     if (!result.ok) {
-      expect(result.code).toBe('EMPTY_INPUT');
-    }
-  });
-
-  it('rejects invalid characters', () => {
-    const result = validateNit('100.27230.88-A');
-    expect(result.ok).toBe(false);
-    if (!result.ok) {
-      expect(result.code).toBe('INVALID_CHARACTER');
-    }
-  });
-
-  it('rejects wrong length', () => {
-    const result = validateNit('1002723088');
-    expect(result.ok).toBe(false);
-    if (!result.ok) {
-      expect(result.code).toBe('INVALID_LENGTH');
-    }
-  });
-
-  it('rejects all identical digits', () => {
-    const result = validateNit('11111111111');
-    expect(result.ok).toBe(false);
-    if (!result.ok) {
-      expect(result.code).toBe('KNOWN_INVALID_PATTERN');
-    }
-  });
-
-  it('rejects invalid check digit', () => {
-    const result = validateNit('10027230889');
-    expect(result.ok).toBe(false);
-    if (!result.ok) {
-      expect(result.code).toBe('INVALID_CHECK_DIGIT');
+      expect(result.code).toBe(vector.code);
     }
   });
 });
