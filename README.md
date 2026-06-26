@@ -9,7 +9,7 @@
 [![vue](https://img.shields.io/npm/v/@br-validators/vue?label=vue)](https://www.npmjs.com/package/@br-validators/vue)
 [![npm downloads](https://img.shields.io/npm/dm/@br-validators/core?label=downloads)](https://www.npmjs.com/package/@br-validators/core)
 [![OpenSSF Best Practices](https://img.shields.io/badge/OpenSSF%20Best%20Practices-self--certify-blue)](https://www.bestpractices.dev/en/projects)
-[![GitHub release](https://img.shields.io/github/v/release/AlexandreZanata/br-validators)](https://github.com/AlexandreZanata/br-validators/releases)
+[![GitHub release](https://img.shields.io/github/v/release/open-data-brazil/br-validators)](https://github.com/open-data-brazil/br-validators/releases)
 
 **100% open-source** (MIT) monorepo — TypeScript library, terminal CLI, and web playground for formatting and validating Brazilian document identifiers. Algorithms trace to official primary sources (Receita Federal, Bacen, CONTRAN, Correios, SEFAZ).
 
@@ -263,7 +263,7 @@ getDataCatalog();              // all dataset metadata + capture dates
 ## Develop from source
 
 ```bash
-git clone https://github.com/AlexandreZanata/br-validators.git
+git clone https://github.com/open-data-brazil/br-validators.git
 cd br-validators
 pnpm install          # builds @br-validators/core via prepare
 pnpm verify           # lint + typecheck + 100% coverage + build

@@ -5,9 +5,9 @@
 
 [![npm](https://img.shields.io/npm/v/@br-validators/core)](https://www.npmjs.com/package/@br-validators/core)
 [![npm downloads](https://img.shields.io/npm/dm/@br-validators/core?label=downloads)](https://www.npmjs.com/package/@br-validators/core)
-[![MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/AlexandreZanata/br-validators/blob/main/LICENSE)
+[![MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/open-data-brazil/br-validators/blob/main/LICENSE)
 [![Node ≥ 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)]()
-[![GitHub release](https://img.shields.io/github/v/release/AlexandreZanata/br-validators)](https://github.com/AlexandreZanata/br-validators/releases)
+[![GitHub release](https://img.shields.io/github/v/release/open-data-brazil/br-validators)](https://github.com/open-data-brazil/br-validators/releases)
 
 ```bash
 npm install @br-validators/core
@@ -105,7 +105,7 @@ generate('inscricao-estadual-produtor-rural', { masked: true }); // SP SINTEGRA 
 ```
 
 > `generate()` is for test fixtures and seed data only — never use in production.  
-> Alphanumeric CPF: `generate('cpf', { format: 'alphanumeric' })` throws `CPF_ALPHA_SPEC_PENDING` until RFB publishes the official algorithm ([OFFICIAL-SOURCES.md](https://github.com/AlexandreZanata/br-validators/blob/main/docs/OFFICIAL-SOURCES.md)).
+> Alphanumeric CPF: `generate('cpf', { format: 'alphanumeric' })` throws `CPF_ALPHA_SPEC_PENDING` until RFB publishes the official algorithm ([OFFICIAL-SOURCES.md](https://github.com/open-data-brazil/br-validators/blob/main/docs/OFFICIAL-SOURCES.md)).
 
 ### ETL / data cleanup
 
@@ -189,9 +189,9 @@ diff('12345678909', '12345678901', 'cpf');
 // { changed: true, fields: [{ field: 'dv', a: '09', b: '01' }] }
 ```
 
-Per-type rules and official sources: [docs/OFFICIAL-SOURCES.md](https://github.com/AlexandreZanata/br-validators/blob/main/docs/OFFICIAL-SOURCES.md) · API contract: [docs/LIBRARY-API.md](https://github.com/AlexandreZanata/br-validators/blob/main/docs/LIBRARY-API.md)
+Per-type rules and official sources: [docs/OFFICIAL-SOURCES.md](https://github.com/open-data-brazil/br-validators/blob/main/docs/OFFICIAL-SOURCES.md) · API contract: [docs/LIBRARY-API.md](https://github.com/open-data-brazil/br-validators/blob/main/docs/LIBRARY-API.md)
 
-> **Backend / form integration:** `format*` and `mask()` validate first — they **never** left-pad partial input (`"0"` will not become `000.000.000-00`). Do not combine `padStart` with display formatting in `onChange`; pad to full width only at submit if your API requires it. Details: [LIBRARY-API.md — display vs backend normalization](https://github.com/AlexandreZanata/br-validators/blob/main/docs/LIBRARY-API.md#consumer-warning--display-formatting-vs-backend-normalization).
+> **Backend / form integration:** `format*` and `mask()` validate first — they **never** left-pad partial input (`"0"` will not become `000.000.000-00`). Do not combine `padStart` with display formatting in `onChange`; pad to full width only at submit if your API requires it. Details: [LIBRARY-API.md — display vs backend normalization](https://github.com/open-data-brazil/br-validators/blob/main/docs/LIBRARY-API.md#consumer-warning--display-formatting-vs-backend-normalization).
 
 ### Form handler (React / Next.js)
 
@@ -342,13 +342,13 @@ getAnpPrecosMedios({ uf: 'SP', municipio: 'São Paulo', produto: 'GASOLINE_REGUL
 getDataCatalog().length;              // registered datasets
 ```
 
-Freshness table (auto-updated daily; ANP weekly): [docs/DATA-FRESHNESS.md](https://github.com/AlexandreZanata/br-validators/blob/main/docs/DATA-FRESHNESS.md) · Per-type official URLs: [docs/OFFICIAL-SOURCES.md](https://github.com/AlexandreZanata/br-validators/blob/main/docs/OFFICIAL-SOURCES.md)
+Freshness table (auto-updated daily; ANP weekly): [docs/DATA-FRESHNESS.md](https://github.com/open-data-brazil/br-validators/blob/main/docs/DATA-FRESHNESS.md) · Per-type official URLs: [docs/OFFICIAL-SOURCES.md](https://github.com/open-data-brazil/br-validators/blob/main/docs/OFFICIAL-SOURCES.md)
 
 ---
 
 ## Current release
 
-**v1.8.3** — NF-e ODS país-table fetch, Bacen FTP fallback, data-bot PATCH gate fix, paises-bacen embedded refresh (253 countries). v1.8.0 added ten core subpaths. [CHANGELOG](https://github.com/AlexandreZanata/br-validators/blob/main/CHANGELOG.md#183---2026-06-26)
+**v1.8.3** — NF-e ODS país-table fetch, Bacen FTP fallback, data-bot PATCH gate fix, paises-bacen embedded refresh (253 countries). v1.8.0 added ten core subpaths. [CHANGELOG](https://github.com/open-data-brazil/br-validators/blob/main/CHANGELOG.md#183---2026-06-26)
 
 ---
 
@@ -379,10 +379,10 @@ import { parseNfeChave } from '@br-validators/core/nfe-chave';
 ## Contributing
 
 Issues, corrections, and new document types are welcome.  
-See [CONTRIBUTING.md](https://github.com/AlexandreZanata/br-validators/blob/main/CONTRIBUTING.md) and open `good first issue` items.
+See [CONTRIBUTING.md](https://github.com/open-data-brazil/br-validators/blob/main/CONTRIBUTING.md) and open `good first issue` items.
 
 ---
 
 ## License
 
-[MIT](https://github.com/AlexandreZanata/br-validators/blob/main/LICENSE) — permanently free and open source.
+[MIT](https://github.com/open-data-brazil/br-validators/blob/main/LICENSE) — permanently free and open source.
