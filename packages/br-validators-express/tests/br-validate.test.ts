@@ -73,6 +73,7 @@ describe('runBrValidator', () => {
     expect(runBrValidator('rg', '1234567', { uf: 'AL' }).ok).toBe(true);
     expect(runBrValidator('rg', '123456789', { uf: 'AM' }).ok).toBe(true);
     expect(runBrValidator('rg', '123456789', { uf: 'AP' }).ok).toBe(true);
+    expect(runBrValidator('rg', '1234567', { uf: 'DF' }).ok).toBe(true);
     expect(runBrValidator('rg', GOLDEN.rg, { uf: 'CE' }).ok).toBe(false);
     expect(runBrValidator('inscricao-estadual-produtor-rural', GOLDEN.ieRural, { uf: 'SP' }).ok).toBe(true);
   });

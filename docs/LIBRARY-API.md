@@ -250,7 +250,7 @@ getCepFaixaInfo('01310');
 | `formatRg` | `(input: string, options: { uf: RgUfCode }) => FormatResult` | Display mask when UF supports it |
 | `stripRg` | `(input: string, options: { uf: RgUfCode }) => string` | Canonical value per UF rules |
 | `isValidRg` | `(input: string, options: { uf: RgUfCode }) => boolean` | Convenience wrapper |
-| `getRgUfSupport` | `() => readonly RgUfCode[]` | Implemented states (11/27: SP, RJ, MG, PR, RS, SC, BA, AC, AL, AM, AP) |
+| `getRgUfSupport` | `() => readonly RgUfCode[]` | Implemented states (12/27: SP, RJ, MG, PR, RS, SC, BA, AC, AL, AM, AP, DF) |
 | `getRgPendingUfs` | `() => readonly UfCode[]` | 16 UFs awaiting community implementation |
 | `isRgUfImplemented` | `(uf: string) => uf is RgUfCode` | Type guard for shipped UFs |
 | `getRgResearchUrl` | `(uf: UfCode) => string \| undefined` | SSP research URL (implemented → official source) |

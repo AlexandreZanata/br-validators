@@ -5,6 +5,7 @@ import {
   RG_AM_GOLDEN,
   RG_AP_GOLDEN,
   RG_BA_GOLDEN,
+  RG_DF_GOLDEN,
   RG_MG_GOLDEN,
   RG_MG_GOLDEN_MASKED,
   RG_MG_GOLDEN_PREFIXED,
@@ -44,6 +45,7 @@ import {
   validateRgAm,
   validateRgAp,
   validateRgBa,
+  validateRgDf,
   validateRgMg,
   validateRgPr,
   validateRgRj,
@@ -60,6 +62,7 @@ import alVectors from '../../vectors/rg.al.official.json';
 import amVectors from '../../vectors/rg.am.official.json';
 import apVectors from '../../vectors/rg.ap.official.json';
 import baVectors from '../../vectors/rg.ba.official.json';
+import dfVectors from '../../vectors/rg.df.official.json';
 import spVectors from '../../vectors/rg.sp.official.json';
 import rjVectors from '../../vectors/rg.rj.official.json';
 import mgVectors from '../../vectors/rg.mg.official.json';
@@ -153,6 +156,12 @@ describe('RG golden vectors — per UF', () => {
     expect(RG_AP_GOLDEN).toBe(apVectors.valid.raw);
   });
 
+  it('validates DF format-only vectors', () => {
+    expect(isValidRg(dfVectors.valid.raw, { uf: 'DF' })).toBe(true);
+    expect(validateRg(dfVectors.invalid.raw, { uf: 'DF' }).ok).toBe(false);
+    expect(RG_DF_GOLDEN).toBe(dfVectors.valid.raw);
+  });
+
   it('exports official source URLs', () => {
     expect(RG_OFFICIAL_SOURCE_URL).toBe(spVectors.url);
     expect(getRgOfficialSourceUrl('SP')).toBe(RG_OFFICIAL_SOURCE_URLS.SP);
@@ -162,6 +171,7 @@ describe('RG golden vectors — per UF', () => {
     expect(getRgOfficialSourceUrl('AL')).toBe(alVectors.url);
     expect(getRgOfficialSourceUrl('AM')).toBe(amVectors.url);
     expect(getRgOfficialSourceUrl('AP')).toBe(apVectors.url);
+    expect(getRgOfficialSourceUrl('DF')).toBe(dfVectors.url);
   });
 });
 
@@ -182,19 +192,21 @@ describe('RG registry', () => {
 
   it('reports implemented vs pending UFs', () => {
     expect(getRgPendingUfs()).toEqual(RG_PENDING_UFS);
-    expect(getRgPendingUfs()).toHaveLength(16);
+    expect(getRgPendingUfs()).toHaveLength(15);
     expect(isRgUfImplemented('SP')).toBe(true);
     expect(isRgUfImplemented('BA')).toBe(true);
     expect(isRgUfImplemented('AC')).toBe(true);
     expect(isRgUfImplemented('AL')).toBe(true);
     expect(isRgUfImplemented('AM')).toBe(true);
     expect(isRgUfImplemented('AP')).toBe(true);
+    expect(isRgUfImplemented('DF')).toBe(true);
     expect(getRgResearchUrl('SP')).toBe(RG_OFFICIAL_SOURCE_URLS.SP);
     expect(getRgResearchUrl('BA')).toBe(RG_OFFICIAL_SOURCE_URLS.BA);
     expect(getRgResearchUrl('AC')).toBe(RG_OFFICIAL_SOURCE_URLS.AC);
     expect(getRgResearchUrl('AL')).toBe(RG_OFFICIAL_SOURCE_URLS.AL);
     expect(getRgResearchUrl('AM')).toBe(RG_OFFICIAL_SOURCE_URLS.AM);
     expect(getRgResearchUrl('AP')).toBe(RG_OFFICIAL_SOURCE_URLS.AP);
+    expect(getRgResearchUrl('DF')).toBe(RG_OFFICIAL_SOURCE_URLS.DF);
     expect(getRgResearchUrl('CE')).toBe(RG_RESEARCH_URLS.CE);
     expect(getRgResearchUrl('ZZ' as never)).toBeUndefined();
   });
@@ -231,6 +243,7 @@ describe('RG masks', () => {
     expect(applyRgMask(RG_AL_GOLDEN, 'AL')).toBe(RG_AL_GOLDEN);
     expect(applyRgMask(RG_AM_GOLDEN, 'AM')).toBe(RG_AM_GOLDEN);
     expect(applyRgMask(RG_AP_GOLDEN, 'AP')).toBe(RG_AP_GOLDEN);
+    expect(applyRgMask(RG_DF_GOLDEN, 'DF')).toBe(RG_DF_GOLDEN);
   });
 
   it('throws on invalid mask lengths', () => {
@@ -247,6 +260,7 @@ describe('RG masks', () => {
     expect(formatRg(RG_AL_GOLDEN, { uf: 'AL' })).toEqual({ ok: true, formatted: RG_AL_GOLDEN });
     expect(formatRg(RG_AM_GOLDEN, { uf: 'AM' })).toEqual({ ok: true, formatted: RG_AM_GOLDEN });
     expect(formatRg(RG_AP_GOLDEN, { uf: 'AP' })).toEqual({ ok: true, formatted: RG_AP_GOLDEN });
+    expect(formatRg(RG_DF_GOLDEN, { uf: 'DF' })).toEqual({ ok: true, formatted: RG_DF_GOLDEN });
     expect(formatRgBarrel(RG_SC_GOLDEN, { uf: 'SC' })).toEqual({
       ok: true,
       formatted: scVectors.valid.masked,
@@ -317,6 +331,12 @@ describe('RG per-UF edge cases', () => {
     expect(validateRgAp('12345678')).toMatchObject({ ok: false, code: 'INVALID_LENGTH' });
   });
 
+  it('DF rejects empty, invalid chars, wrong length', () => {
+    expect(validateRgDf('')).toMatchObject({ ok: false, code: 'EMPTY_INPUT' });
+    expect(validateRgDf('12A')).toMatchObject({ ok: false, code: 'INVALID_CHARACTER' });
+    expect(validateRgDf('123456')).toMatchObject({ ok: false, code: 'INVALID_LENGTH' });
+  });
+
   it('BA rejects empty, invalid chars, wrong length', () => {
     expect(validateRgBa('')).toMatchObject({ ok: false, code: 'EMPTY_INPUT' });
     expect(validateRgBa('12A')).toMatchObject({ ok: false, code: 'INVALID_CHARACTER' });
@@ -341,5 +361,6 @@ describe('RG per-UF edge cases', () => {
     expect(stripRg(RG_AL_GOLDEN, { uf: 'AL' })).toBe(RG_AL_GOLDEN);
     expect(stripRg(RG_AM_GOLDEN, { uf: 'AM' })).toBe(RG_AM_GOLDEN);
     expect(stripRg(RG_AP_GOLDEN, { uf: 'AP' })).toBe(RG_AP_GOLDEN);
+    expect(stripRg(RG_DF_GOLDEN, { uf: 'DF' })).toBe(RG_DF_GOLDEN);
   });
 });
