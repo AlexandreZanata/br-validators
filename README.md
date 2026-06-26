@@ -24,7 +24,7 @@
 | **Documentation** | [docs.br-validators.dev](https://docs.br-validators.dev/) — VitePress deep reference (README = quick start) |
 | **Playground** | [doc-raiz-playground.vercel.app](https://doc-raiz-playground.vercel.app/) — client-side only, no PII sent to server |
 
-Reference datasets (IBGE, Bacen banks, DDD lookup, national holidays, CNAE, CFOP, CST, LC 116, eSocial categorias, NCM, CBO, natureza jurídica, NBS, CEST, moedas, PTAX cotações, países Bacen, Incoterms, portos, aeroportos, ANP fuel prices) are embedded offline and refreshed **daily** (00:00 Brasília) — see [docs/DATA-FRESHNESS.md](docs/DATA-FRESHNESS.md). CST, LC 116, and eSocial use **manual** maintainer refresh (`pnpm fetch:data:cst`, `pnpm fetch:data:lc116`, `pnpm fetch:data:esocial`). Critical source failures: [data/refresh-reports/CRITICAL-ALERTS.md](data/refresh-reports/CRITICAL-ALERTS.md).
+Reference datasets (IBGE, Bacen banks, DDD lookup, national holidays, CNAE, CFOP, CST, LC 116, eSocial categorias, NCM, CBO, natureza jurídica, NBS, CEST, moedas, PTAX cotações, países Bacen, NF-e cUF, IRPF / INSS tables, SELIC meta, ISS municipal sample, Incoterms, portos, aeroportos, ANP fuel prices) are embedded offline and refreshed **daily** (00:00 Brasília) — see [docs/DATA-FRESHNESS.md](docs/DATA-FRESHNESS.md). CST, LC 116, and eSocial use **manual** maintainer refresh (`pnpm fetch:data:cst`, `pnpm fetch:data:lc116`, `pnpm fetch:data:esocial`). Critical source failures: [data/refresh-reports/CRITICAL-ALERTS.md](data/refresh-reports/CRITICAL-ALERTS.md).
 
 > **Note:** The unscoped npm name [`br-validators`](https://www.npmjs.com/package/br-validators) belongs to another project. Install **`@br-validators/core`** or **`@br-validators/cli`**.
 
@@ -298,7 +298,7 @@ Every shipped type exists in **library + CLI + playground**. See [docs/DELIVERY-
 | [docs/LIBRARY-API.md](docs/LIBRARY-API.md) | Public API contract |
 | [docs/OFFICIAL-SOURCES.md](docs/OFFICIAL-SOURCES.md) | RFB, Bacen, CONTRAN, SEFAZ sources |
 | [apps/docs/](apps/docs/) | VitePress site — [docs.br-validators.dev](https://docs.br-validators.dev/) (API synced from `LIBRARY-API.md`) |
-| [docs/community/RG-GOOD-FIRST-ISSUES.md](docs/community/RG-GOOD-FIRST-ISSUES.md) | RG remaining 21 UFs — `good first issue` |
+| [docs/community/RG-GOOD-FIRST-ISSUES.md](docs/community/RG-GOOD-FIRST-ISSUES.md) | RG 27/27 UFs shipped — DV algorithm upgrades (`good first issue`) |
 | [CHANGELOG.md](CHANGELOG.md) | Release history |
 | [MIGRATION.md](MIGRATION.md) | v1.x → v2.0 breaking-change guide (lookup + deprecated getters) |
 | [docs/VERSIONING.md](docs/VERSIONING.md) | SemVer policy and deprecation windows |
