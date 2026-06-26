@@ -1,7 +1,7 @@
 {
   "source": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm#art8",
-  "pibSource": "https://ftp.ibge.gov.br/Pib_Municipios/2022_2023/xlsx/tabelas_completas_2022.xlsx",
-  "targetCount": 100,
+  "pibSource": "https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022",
+  "targetCount": 500,
   "capitalCount": 27,
   "golden": {
     "saoPaulo": {

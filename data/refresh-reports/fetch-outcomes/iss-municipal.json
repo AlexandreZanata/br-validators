@@ -1,0 +1,17 @@
+{
+  "datasetId": "iss-municipal",
+  "status": "ok",
+  "endpoints": [
+    "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm",
+    "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9088-produto-interno-bruto-dos-municipios.html",
+    "https://www.ibge.gov.br/explica/codigos-dos-municipios.php",
+    "https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022",
+    "https://ftp.ibge.gov.br/Pib_Municipios/2022_2023/xlsx/tabelas_completas_2022.xlsx",
+    "https://www.cnm.org.br/",
+    "https://www.gov.br/nfse/pt-br"
+  ],
+  "attempts": 5,
+  "checkedAt": "2026-06-26T20:38:58.299Z",
+  "retainedEmbeddedDataFrom": "2026-06-26",
+  "message": "ISS municipal partial embed — 500 municipalities (27 capitals, 473 estimation rows)"
+}

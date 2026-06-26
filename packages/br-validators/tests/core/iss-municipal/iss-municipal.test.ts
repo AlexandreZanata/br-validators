@@ -86,7 +86,7 @@ describe('ISS municipal — official golden vectors', () => {
 });
 
 describe('ISS municipal — embed policy', () => {
-  it('embeds exactly 100 municipalities including all 27 capitals', () => {
+  it('embeds exactly 500 municipalities including all 27 capitals', () => {
     const rows = getAllIssMunicipal();
     expect(rows.length).toBe(ISS_MUNICIPAL_TARGET_COUNT);
     expect(rows.length).toBe(vectors.targetCount);

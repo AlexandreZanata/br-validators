@@ -16,7 +16,7 @@ export const CNM_LEGISLACAO_URL = 'https://www.cnm.org.br/';
 
 export const NFSE_NACIONAL_URL = 'https://www.gov.br/nfse/pt-br';
 
-export const ISS_MUNICIPAL_TARGET_COUNT = 100;
+export const ISS_MUNICIPAL_TARGET_COUNT = 500;
 
 export const ISS_MUNICIPAL_CAPITAL_COUNT = 27;
 

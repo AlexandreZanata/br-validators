@@ -1,32 +1,33 @@
 {
   "id": "iss-municipal",
   "nome": "ISS municipal alíquotas — partial embed (capitals + top PIB)",
-  "fonte": "Municipal legislation + LC 116/2003 Art. 8 band + IBGE PIB municipal ranking",
+  "fonte": "Municipal legislation + LC 116/2003 Art. 8 band + IBGE SIDRA PIB municipal ranking",
   "endpoints": [
     "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm",
     "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9088-produto-interno-bruto-dos-municipios.html",
     "https://www.ibge.gov.br/explica/codigos-dos-municipios.php",
+    "https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022",
     "https://ftp.ibge.gov.br/Pib_Municipios/2022_2023/xlsx/tabelas_completas_2022.xlsx",
     "https://www.cnm.org.br/",
     "https://www.gov.br/nfse/pt-br"
   ],
   "capturadoEm": "2026-06-26",
-  "atualizadoEm": "2026-06-26T18:48:41.423Z",
+  "atualizadoEm": "2026-06-26T20:38:58.298Z",
   "contagens": {
-    "municipios": 100,
+    "municipios": 500,
     "capitais": 27,
-    "estimativaRows": 73
+    "estimativaRows": 473
   },
   "alteracoes": {
-    "adicionados": 100,
+    "adicionados": 400,
     "removidos": 0,
     "alterados": 0,
-    "comparadoCom": null
+    "comparadoCom": "2026-06-26"
   },
   "verificacao": {
     "agendamento": "manual",
     "workflow": "data-refresh-bot.yml",
-    "ultimaExecucao": "2026-06-26T18:48:41.423Z"
+    "ultimaExecucao": "2026-06-26T20:38:58.298Z"
   },
   "documentacao": "docs/OFFICIAL-SOURCES.md#iss-municipal",
   "estimativa": true

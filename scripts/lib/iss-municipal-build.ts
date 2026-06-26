@@ -1,5 +1,5 @@
 /**
- * Build ISS municipal partial embed — 27 capitals + top PIB municipalities (100 rows).
+ * Build ISS municipal partial embed — 27 capitals + top PIB municipalities (500 rows).
  */
 
 import {
@@ -7,9 +7,11 @@ import {
   ISS_MUNICIPAL_CAPITAL_SEEDS,
   type IssMunicipalRateSeed,
 } from './iss-municipal-capital-seeds.js';
+import type { IbgeSidraPibRow } from './parse-ibge-pib-sidra.js';
+import { sortSidraPibRowsByPibDesc } from './parse-ibge-pib-sidra.js';
 import { parseIbgePibTopMunicipios, type IbgePibMunicipioRow } from './parse-ibge-pib-top-municipios.js';
 
-export const ISS_MUNICIPAL_TARGET_COUNT = 100;
+export const ISS_MUNICIPAL_TARGET_COUNT = 500;
 export const ISS_MUNICIPAL_LC116_MIN = 2;
 export const ISS_MUNICIPAL_LC116_MAX = 5;
 
@@ -103,12 +105,11 @@ function appendRow(
 
 export function buildIssMunicipalEmbed(params: {
   municipios: readonly MunicipioIndexEntry[];
-  pibTopRows: readonly IbgePibMunicipioRow[];
+  sidraPibRows: readonly IbgeSidraPibRow[];
   capturadoEm: string;
   targetCount?: number;
 }): IssMunicipalEmbedRow[] {
   const targetCount = params.targetCount ?? ISS_MUNICIPAL_TARGET_COUNT;
-  const nameIndex = buildMunicipioNameIndex(params.municipios);
   const byCodigo = new Map(params.municipios.map((entry) => [entry.codigo, entry]));
   const seeds = seedByIbge(ISS_MUNICIPAL_CAPITAL_SEEDS);
   const selected = new Map<number, IssMunicipalEmbedRow>();
@@ -121,17 +122,23 @@ export function buildIssMunicipalEmbed(params: {
     appendRow(selected, municipio, null, seeds, params.capturadoEm);
   }
 
-  for (const pibRow of params.pibTopRows) {
+  const ranked = sortSidraPibRowsByPibDesc(params.sidraPibRows);
+  let nationalRank = 0;
+  for (const pibRow of ranked) {
+    nationalRank += 1;
     if (selected.size >= targetCount) {
       break;
     }
-
-    const municipio = nameIndex.get(normalizeNomeKey(pibRow.nome, pibRow.uf));
-    if (municipio === undefined) {
-      throw new Error(`PIB row not found in municipios index: ${pibRow.nome}/${pibRow.uf}`);
+    if (selected.has(pibRow.codigoIbge)) {
+      continue;
     }
 
-    appendRow(selected, municipio, pibRow.pibRank, seeds, params.capturadoEm);
+    const municipio = byCodigo.get(pibRow.codigoIbge);
+    if (municipio === undefined) {
+      throw new Error(`SIDRA IBGE code ${String(pibRow.codigoIbge)} missing from municipios index`);
+    }
+
+    appendRow(selected, municipio, nationalRank, seeds, params.capturadoEm);
   }
 
   if (selected.size !== targetCount) {
@@ -150,10 +157,35 @@ export function buildIssMunicipalEmbed(params: {
   });
 }
 
+export function crossCheckSidraAgainstXlsxTop(
+  sidraRows: readonly IbgeSidraPibRow[],
+  xlsxTopRows: readonly IbgePibMunicipioRow[],
+  nameIndex: ReadonlyMap<string, MunicipioIndexEntry>,
+  sampleSize = 10,
+): void {
+  const sidraTopCodes = new Set(
+    sortSidraPibRowsByPibDesc(sidraRows)
+      .slice(0, 20)
+      .map((row) => row.codigoIbge),
+  );
+
+  for (const xlsxRow of xlsxTopRows.slice(0, sampleSize)) {
+    const municipio = nameIndex.get(normalizeNomeKey(xlsxRow.nome, xlsxRow.uf));
+    if (municipio === undefined) {
+      continue;
+    }
+    if (!sidraTopCodes.has(municipio.codigo)) {
+      throw new Error(
+        `XLSX cross-check failed: ${xlsxRow.nome}/${xlsxRow.uf} not in SIDRA top 20`,
+      );
+    }
+  }
+}
+
 export function parseIbgePibTopForBuild(
   xlsxPath: string,
   municipios: readonly MunicipioIndexEntry[],
 ): IbgePibMunicipioRow[] {
   const nameIndex = buildMunicipioNameIndex(municipios);
-  return parseIbgePibTopMunicipios(xlsxPath, nameIndex, ISS_MUNICIPAL_TARGET_COUNT);
+  return parseIbgePibTopMunicipios(xlsxPath, nameIndex, 100);
 }

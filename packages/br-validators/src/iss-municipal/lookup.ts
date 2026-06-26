@@ -1,5 +1,5 @@
 /**
- * Municipal ISS alíquota lookup — partial embed (capitals + top PIB ~100).
+ * Municipal ISS alíquota lookup — partial embed (capitals + top PIB ~500).
  * @see docs/OFFICIAL-SOURCES.md#iss-municipal
  */
 

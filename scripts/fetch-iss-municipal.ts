@@ -7,11 +7,18 @@ import { exitWithError } from './lib/errors.js';
 import { todayIsoDate, USER_AGENT } from './lib/fetch-utils.js';
 import {
   buildIssMunicipalEmbed,
+  buildMunicipioNameIndex,
+  crossCheckSidraAgainstXlsxTop,
   ISS_MUNICIPAL_TARGET_COUNT,
   parseIbgePibTopForBuild,
   type IssMunicipalEmbedRow,
 } from './lib/iss-municipal-build.js';
 import { IBGE_PIB_TOP100_XLSX_URL } from './lib/parse-ibge-pib-top-municipios.js';
+import {
+  buildIbgeSidraPibUrl,
+  fetchIbgeSidraPibMunicipios,
+  IBGE_SIDRA_PIB_YEAR,
+} from './lib/parse-ibge-pib-sidra.js';
 import { ISS_MUNICIPAL_CAPITAL_IBGE_CODES } from './lib/iss-municipal-capital-seeds.js';
 import { buildMetadata } from './lib/metadata-writer.js';
 import {
@@ -34,6 +41,7 @@ const IBGE_PIB_MUNICIPAL_URL =
 const IBGE_MUNICIPIO_CODES_URL = 'https://www.ibge.gov.br/explica/codigos-dos-municipios.php';
 const CNM_LEGISLACAO_URL = 'https://www.cnm.org.br/';
 const NFSE_NACIONAL_URL = 'https://www.gov.br/nfse/pt-br';
+const IBGE_SIDRA_PIB_URL = buildIbgeSidraPibUrl(IBGE_SIDRA_PIB_YEAR);
 
 interface MunicipioRecord {
   codigo: number;
@@ -109,6 +117,7 @@ async function main(): Promise<void> {
     PLANALTO_LC116_URL,
     IBGE_PIB_MUNICIPAL_URL,
     IBGE_MUNICIPIO_CODES_URL,
+    IBGE_SIDRA_PIB_URL,
     IBGE_PIB_TOP100_XLSX_URL,
     CNM_LEGISLACAO_URL,
     NFSE_NACIONAL_URL,
@@ -118,14 +127,27 @@ async function main(): Promise<void> {
     const municipiosRaw = await readFile(IBGE_MUNICIPIOS_PATH, 'utf8');
     const municipios = JSON.parse(municipiosRaw) as MunicipioRecord[];
 
-    await mkdir(path.dirname(TMP_XLSX_PATH), { recursive: true });
-    await downloadXlsx(IBGE_PIB_TOP100_XLSX_URL, TMP_XLSX_PATH);
+    const sidraPibRows = await fetchIbgeSidraPibMunicipios(IBGE_SIDRA_PIB_YEAR);
 
-    const pibTopRows = parseIbgePibTopForBuild(TMP_XLSX_PATH, municipios);
+    await mkdir(path.dirname(TMP_XLSX_PATH), { recursive: true });
+    try {
+      await downloadXlsx(IBGE_PIB_TOP100_XLSX_URL, TMP_XLSX_PATH);
+      const xlsxTopRows = parseIbgePibTopForBuild(TMP_XLSX_PATH, municipios);
+      crossCheckSidraAgainstXlsxTop(
+        sidraPibRows,
+        xlsxTopRows,
+        buildMunicipioNameIndex(municipios),
+      );
+    } catch (crossCheckError) {
+      const message =
+        crossCheckError instanceof Error ? crossCheckError.message : 'XLSX cross-check failed';
+      console.warn(`ISS municipal XLSX cross-check skipped or failed: ${message}`);
+    }
+
     const capturadoEm = todayIsoDate();
     const rows = buildIssMunicipalEmbed({
       municipios,
-      pibTopRows,
+      sidraPibRows,
       capturadoEm,
     });
     validateEmbedRows(rows);
@@ -144,7 +166,8 @@ async function main(): Promise<void> {
         {
           id: 'iss-municipal',
           nome: 'ISS municipal alíquotas — partial embed (capitals + top PIB)',
-          fonte: 'Municipal legislation + LC 116/2003 Art. 8 band + IBGE PIB municipal ranking',
+          fonte:
+            'Municipal legislation + LC 116/2003 Art. 8 band + IBGE SIDRA PIB municipal ranking',
           endpoints,
           contagens: {
             municipios: rows.length,
