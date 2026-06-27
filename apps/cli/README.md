@@ -78,7 +78,7 @@ br-validators ie validate P-01100424.3/002 --uf SP   # SP produtor rural (auto-d
 | `sanitize <type> [value]` | ETL fixes + validate; `--uf` for `inscricao-estadual` |
 | `mask <type> [value]` | Unified display mask; `--uf` for IE / RG |
 | `compare <type> <valueA> <valueB>` | Normalized equality; `--uf` for IE / RG / título |
-| `batch <type>` | Bulk validate (stdin or `--file`); `--uf`, `--limit` |
+| `batch <type>` | Bulk validate (stdin or `--file`, or CSV with `--col`); `--delimiter`, `--skip-header`; `--uf`, `--limit` |
 | `diff <type> <valueA> <valueB>` | Field-level diff; `--uf` for IE / RG / título |
 | `generate <type>` | Synthetic test document; `--seed`, `--masked`, `--format` |
 
@@ -91,6 +91,9 @@ br-validators mask cpf 12345678909 --json
 br-validators mask inscricao-estadual 110042490114 --uf SP --json
 br-validators compare cpf '123.456.789-09' 12345678909 --json
 br-validators batch cpf --file values.txt --json
+br-validators batch cpf --file payroll.csv --col cpf --json
+br-validators sanitize pix ' PIX@BCB.GOV.BR ' --json
+br-validators csosn lookup 102 --json
 br-validators diff cpf 12345678909 12345678901 --json
 br-validators generate cpf --seed 42 --masked --json
 br-validators generate cnpj --format alphanumeric --seed 7 --json
@@ -156,7 +159,21 @@ br-validators ddd lookup 11 --verbose
 br-validators moedas lookup BRL --json
 br-validators paises-bacen lookup 1058 --verbose
 br-validators incoterms lookup FOB --json
+br-validators ptax lookup USD --verbose
+br-validators ptax lookup USD 2026-06-20 --json --verbose
+br-validators ptax historico USD 2026-06-01 2026-06-26 --json --verbose
 ```
+
+**PTAX:** offline embed — last **90 business days** (`janelaDiasUteis: 90`; not live Bacen). `--verbose` prints `dataReferencia`, `isStale`, and `warning` when stale. `ptax historico` lists all embedded rows in a date range.
+
+### Finance (SELIC)
+
+```bash
+br-validators selic --verbose
+br-validators selic --date 2026-06-18 --json --verbose
+```
+
+`--verbose` includes `dataReferencia`, `isStale`, and dataset `capturadoEm` (same pattern as PTAX).
 
 ### Logistics (26e)
 
@@ -180,6 +197,7 @@ br-validators aeroportos lookup SBGR --json
 |------|-------------|
 | `--json` | JSON output |
 | `--quiet` / `-q` | Exit code only (CI) |
+| `--verbose` | PTAX / SELIC: `dataReferencia`, `isStale`, `warning`; other lookups: dataset metadata |
 | `--file` / `-f` | Read value from file |
 | `--source` | Print official source URL (per-type) |
 | `--uf` | Required for IE / detect / sanitize IE; filter for `ibge list municipios`, `iss-municipal list`, and `iss-municipal search` |

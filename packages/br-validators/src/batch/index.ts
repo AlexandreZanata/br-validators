@@ -31,6 +31,14 @@ export type BatchResult = {
   summary: BatchSummary;
 };
 
+export { parseBatchCsv } from './parse-csv.js';
+export type {
+  ParseBatchCsvFailure,
+  ParseBatchCsvOptions,
+  ParseBatchCsvResult,
+  ParseBatchCsvSuccess,
+} from './parse-csv.js';
+
 export function batch(
   inputs: readonly string[],
   type: PlatformDocumentType,

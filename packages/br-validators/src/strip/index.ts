@@ -6,3 +6,4 @@ export { stripRenavam } from './renavam.js';
 export { stripTituloEleitor } from './titulo-eleitor.js';
 export { stripNfeChave } from './nfe-chave.js';
 export { stripPlaca } from './placa.js';
+export { stripPixKey } from './pix.js';

@@ -1,0 +1,48 @@
+{
+  "source": "https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html",
+  "minRubricas": 200,
+  "maxRubricas": 220,
+  "golden": {
+    "salario": {
+      "codigo": "1000",
+      "naturezaContains": "salário, vencimento, soldo",
+      "descricaoContains": "salário básico contratual"
+    },
+    "decimoTerceiro": {
+      "codigo": "5001",
+      "naturezaContains": "13º salário"
+    },
+    "ferias": {
+      "codigo": "1016",
+      "naturezaContains": "férias"
+    },
+    "fgts": {
+      "codigo": "9908",
+      "naturezaContains": "fgts"
+    },
+    "searchSalario": {
+      "query": "13º salário",
+      "expectedCodigo": "5001"
+    }
+  },
+  "negative": {
+    "unknownCode": {
+      "codigo": "9999"
+    },
+    "emptyCode": {
+      "codigo": ""
+    },
+    "nonNumeric": {
+      "codigo": "abcd"
+    },
+    "whitespaceCode": {
+      "codigo": "   "
+    },
+    "searchNoMatch": {
+      "query": "zzzznonexistent"
+    },
+    "emptySearch": {
+      "query": ""
+    }
+  }
+}

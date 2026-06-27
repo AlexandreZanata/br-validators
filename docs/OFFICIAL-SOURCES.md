@@ -40,9 +40,10 @@
 | **Natureza jurídica** | RFB CNPJ | [Dados Abertos CNPJ — Naturezas.zip](https://dadosabertos.rfb.gov.br/CNPJ/dados_abertos_cnpj/) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | CNPJ legal nature codes. Golden: **`2062`** (Ltda.). Vector: `natureza-juridica.official.json`. Dev fallback mirror documented in `fetch-natureza-juridica.ts`. |
 | **NBS** | NFSe Nacional | [Anexo B NBS2 xlsx](https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica/documentacao-atual/anexo_b-nbs2-lista_servico_nacional-snnfse.xlsx) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Brazilian Services Nomenclature leaf codes. Golden: **`1.1502.50.00`** (TI systems integration). Vector: `nbs.official.json`. Parsed from xlsx without extra deps. |
 | **CEST** | CONFAZ | [Convênio ICMS 142/2018](https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | ST specifier codes (7 digits) linked to NCM prefixes. Golden: **`0302100`** (returnable beer bottle); NCM **`22030000`** cross-ref. Vector: `cest.official.json`. |
-| **CST** | RFB SPED | [SPED Fiscal — Tabelas de Situação Tributária](http://www.sped.fazenda.gov.br/spedtabelas/AppConsulta/publico/aspx/ConsultaTabelasExternas.aspx?CodSistema=SpedFiscal) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | NF-e CST codes for ICMS, IPI, PIS, COFINS. Golden: ICMS **`00`** / **`10`**, IPI **`50`** / **`00`**, PIS **`01`** / **`07`**, COFINS **`01`** / **`07`**. Vector: `cst.official.json`. CSOSN deferred. Manual refresh (`agendamento: manual`). |
+| **CST** | RFB SPED | [SPED Fiscal — Tabelas de Situação Tributária](http://www.sped.fazenda.gov.br/spedtabelas/AppConsulta/publico/aspx/ConsultaTabelasExternas.aspx?CodSistema=SpedFiscal) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | NF-e CST codes for ICMS, IPI, PIS, COFINS. Golden: ICMS **`00`** / **`10`**, IPI **`50`** / **`00`**, PIS **`01`** / **`07`**, COFINS **`01`** / **`07`**. Vector: `cst.official.json`. Manual refresh (`agendamento: manual`). |
+| **CSOSN** | CONFAZ SINIEF | [Ajuste SINIEF 03/10](https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/a03_10) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Simples Nacional CSOSN (10 codes). Golden: **`101`**, **`102`**, **`201`**, **`500`**. Vector: `csosn.official.json`. Manual refresh. |
 | **LC 116** | Planalto / NFSe | [LC 116/2003 — Planalto](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm) · [NFSe LC 116 list](https://www.gov.br/nfse/pt-br/mei-e-demais-empresas/codigos-de-tributacao-nacional-nbs) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | ISS national service list (~200 items). Golden: **`1.01`** (análise e desenvolvimento de sistemas), **`7.02`** (obras de construção civil). Vector: `lc116.official.json`. Municipal ISS **rates**: partial embed `@br-validators/core/iss-municipal` (500 cities). Manual refresh. |
-| **eSocial categorias** | eSocial / MTE | [eSocial S-1.3 Tabelas](https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Tabela 01 worker categories (~47). Golden: **`101`** (empregado geral), **`103`** (aprendiz), **`901`** (estagiário). Vector: `esocial.official.json`. Manual refresh. Natureza rubricas / leave types deferred v2. |
+| **eSocial** | eSocial / MTE | [eSocial S-1.3 Tabelas](https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Tabela 01 worker categories (~47) + Tabela 03 payroll rubricas (~208). Golden categorias: **`101`**, **`103`**, **`901`**. Golden rubricas: **`1000`** (salário), **`5001`** (13º), **`1016`** (férias), **`9908`** (FGTS). Vectors: `esocial.official.json`, `esocial-rubricas.official.json`. Manual refresh. Leave types (Tabela 18) deferred v2. |
 | **Simples Nacional** | Planalto / RFB | [LC 123/2006 — Planalto](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm) · [Receita Anexo I](http://normas.receita.fazenda.gov.br/sijut2consulta/anexoOutros.action?idArquivoBinario=48430) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Anexos I–V rate tables (6 faixas each, LC 155/2016). Golden: Anexo **`I`** RBT12 **`700000`** (alíquota efetiva **7,52%**), Anexo **`III`** faixa 1, Anexo **`V`** RBT12 **`200000`**. Vector: `simples-nacional.official.json`. CNAE→anexo mapping deferred. Manual refresh. |
 | **IRPF (tabela progressiva mensal)** | RFB | [Tabelas IRPF](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas) · [Tabela progressiva mensal](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas/tabela-progressiva-mensal) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) · Full index: [§ IRPF](#irpf) | Monthly withholding brackets (5 faixas). Golden: base **`3000`** → imposto **`68.56`**; **`2826.65`** → **`42.56`**; **`5000`** → **`479`**. Vector: `irpf.official.json`. Annual declaration / 13º IRRF deferred. Manual refresh (`agendamento: manual`). |
 | **INSS (contribuição empregado)** | MPS/MF / INSS | [Portaria MPS/MF nº 6/2025](https://www.in.gov.br/web/dou/-/portaria-interministerial-mps/mf-n-6-de-10-de-janeiro-de-2025-606526848) · [INSS alíquotas 2025](https://www.gov.br/inss/pt-br/noticias/confira-como-ficaram-as-aliquotas-de-contribuicao-ao-inss) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) · Full index: [§ INSS](#inss) | Employee progressive brackets (4 faixas, teto **`8157.41`**). Golden: **`1518`** → **`113.85`**; **`3000`** → **`253.41`**; **`8157.41`** → **`951.63`**. Vector: `inss.official.json`. RPPS / MEI deferred. Manual refresh (`agendamento: manual`). |
@@ -53,7 +54,7 @@
 | **Aeroportos (ANAC)** | ANAC | [Lista aeródromos públicos CSV](https://www.anac.gov.br/acesso-a-informacao/dados-abertos/areas-de-atuacao/aerodromos/lista-de-aerodromos-publicos/aerodromospublicosv1.csv/@@download/file/aerodromospublicosv1.csv) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Public aerodromos (ICAO/OACI + IATA where assigned). Golden: **`GRU`/`SBGR`**, **`GIG`/`SBGL`**, **`BSB`/`SBBR`**, **`SSA`/`SBSV`**, **`CGB`/`SBCY`**. Vector: `aeroportos.official.json`. IATA enrichment from ICAO standard assignment (supplemental to ANAC). |
 | **TSE ↔ IBGE municipios** | TSE | [municipio_tse_ibge.zip](https://cdn.tse.jus.br/estatistica/sead/odsele/municipio_tse_ibge/municipio_tse_ibge.zip) · [Portal dados abertos](https://dadosabertos.tse.jus.br/dataset/codigos-oficiais-de-uf-e-municipios-segundo-o-tse-e-o-ibge) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Electoral municipality codes cross-walk to IBGE `codigo`. Golden: TSE **`71072`** → IBGE **`3550308`** (São Paulo/SP). Vector: `tse-municipios.official.json`. Lookup-only — does not change `titulo-eleitor` validation. |
 | **Moedas (ISO 4217 + Bacen)** | ISO / Bacen | [Bacen PTAX Moedas API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | ISO 4217 embedded baseline merged with Bacen PTAX `tipoMoeda` (A/B). Golden: **`BRL`**, **`USD`**, **`EUR`**. Vector: `moedas.official.json`. |
-| **PTAX cotações** | Bacen | [Bacen Olinda PTAX API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Fechamento PTAX for Bacen tipo A/B currencies (~10). Rolling **5 business days** embedded. Golden: USD último dia útil **`2026-06-25`**, EUR último dia útil. Vector: `ptax.official.json`. **`isStale` / `dataReferencia` / `warning`** on lookup hits. Pairs with `@br-validators/core/moedas`. Daily refresh. |
+| **PTAX cotações** | Bacen | [Bacen Olinda PTAX API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Fechamento PTAX for Bacen tipo A/B currencies (~10). Rolling **90 business days** embedded (`janelaDiasUteis: 90`). Golden: USD último dia útil **`2026-06-26`**, EUR último dia útil. Vector: `ptax.official.json`. **`getPtaxHistorico`**, **`isStale` / `dataReferencia` / `warning`** on every row. Pairs with `@br-validators/core/moedas`. Daily refresh. |
 | **SELIC meta (SGS 432)** | Bacen | [SGS série 432](https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados?formato=json) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) · Full index: [§ SELIC](#selic-meta-sgs-432) | Copom target rate (% a.a.). Rolling **90 calendar days** embedded. Golden: **`2026-06-26`** → **`14.25`**; COPOM **`2026-06-18`**. Vector: `selic.official.json`. **`isStale` / `dataReferencia` / `warning`**. Pairs with `@br-validators/core/ptax`. Daily refresh. |
 | **Países Bacen (NF-e)** | RFB / Bacen | [NF-e Diversos — Tabela de Países](http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=/NJarYc9nus=) · [Bacen FTP paises.txt](https://www.bcb.gov.br/ftp/paises.txt) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | 4-digit Bacen country codes for NF-e `cPais`. Golden: **`1058`** → Brasil. Vector: `paises-bacen.official.json`. Fetch chain: NF-e ODS (NT 2018.003 v1.01) → Bacen FTP merge → embedded fallback. |
 | **Incoterms 2020** | ICC | [Incoterms rules](https://iccwbo.org/resources-for-business/incoterms-rules/) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Static ICC 2020 list (11 terms, code + name only). Golden: **`FOB`**. Vector: `incoterms.official.json`. |
@@ -449,11 +450,11 @@ Golden: **`BRL`** (Real brasileiro, `R$`), **`USD`** (Dólar dos Estados Unidos,
 
 > **Note:** The bare `CotacaoMoedaPeriodo` OData URL returns HTTP 500 (`Erro desconhecido`) without `@moeda`, `@dataInicial`, and `@dataFinalCotacao` query parameters. Use the [Swagger UI](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3) **Try it out** or `scripts/lib/ptax-bacen-api.ts` (`buildPtaxPeriodoRequestUrl`).
 
-Fetch embeds **Fechamento PTAX** closing rates for Bacen `tipoMoeda` **A/B** currencies from `@br-validators/core/moedas` (USD, EUR, GBP, …). Rolling window: **5 business days** (`scripts/lib/ptax-bacen-api.ts`). Parser accepts `tipoBoletim` **`Fechamento PTAX`** (daily endpoint) and **`Fechamento`** (period endpoint).
+Fetch embeds **Fechamento PTAX** closing rates for Bacen `tipoMoeda` **A/B** currencies from `@br-validators/core/moedas` (USD, EUR, GBP, …). Rolling window: **90 business days** (`janelaDiasUteis: 90` in metadata; `scripts/lib/ptax-bacen-api.ts`). Parser accepts `tipoBoletim` **`Fechamento PTAX`** (daily endpoint) and **`Fechamento`** (period endpoint).
 
-**Staleness API (v1.9+):** `getPtaxCotacao` / `getPtaxUltimoDiaUtil` return `dataReferencia`, `isStale` (more than **1 business day** before Brazil local today), and `warning` when stale — live rates via `@br-validators/adapters-ptax` (adapter package). `PTAX_DATA_VERSION.capturadoEm` is the embed capture calendar day.
+**Staleness API (v1.9+):** `getPtaxCotacao`, `getPtaxUltimoDiaUtil`, and `getPtaxHistorico` return `dataReferencia`, `isStale` (more than **1 business day** before Brazil local today), and `warning` when stale — live rates via `@br-validators/adapters-ptax` (adapter package). `PTAX_DATA_VERSION.capturadoEm` is the embed capture calendar day.
 
-Golden: USD último dia útil **`2026-06-25`**; USD histórico **`2026-06-23`**; EUR último dia útil **`2026-06-25`**. `getPtaxCotacao('USD')` without date returns latest embedded Fechamento with staleness metadata; dates accept ISO `YYYY-MM-DD` or Bacen `MM-DD-YYYY`.
+Golden: USD último dia útil **`2026-06-26`**; USD histórico **`2026-06-23`**; EUR último dia útil **`2026-06-26`**. `getPtaxCotacao('USD')` without date returns latest embedded Fechamento with staleness metadata; `getPtaxHistorico('USD', { desde, ate })` returns sorted rows in range. Dates accept ISO `YYYY-MM-DD` or Bacen `MM-DD-YYYY`.
 
 ---
 
@@ -655,7 +656,22 @@ Golden: ICMS `00` (tributada integralmente), `10` (ST); IPI `50` (saída tributa
 
 `validateCst(raw, { tax })` — 2-digit format + per-tax embedded table (`FiscalCodeValidationResult`); `tax`: `icms` | `ipi` | `pis` | `cofins`.
 
-**Scope v1:** NF-e 2-digit CST for ICMS (Nacional/Estrangeira origins from SPED 3-digit rows). **CSOSN** (Simples Nacional) deferred — overlaps separate code family.
+**Scope v1:** NF-e 2-digit CST for ICMS (Nacional/Estrangeira origins from SPED 3-digit rows). **CSOSN** (Simples Nacional): see [§ CSOSN](#csosn).
+
+---
+
+## CSOSN Simples Nacional {#csosn}
+
+> **Vectors:** `packages/br-validators/tests/vectors/csosn.official.json`  
+> **Freshness:** [DATA-FRESHNESS.md](DATA-FRESHNESS.md) — `agendamento: manual`
+
+| Role | Source | URL |
+|------|--------|-----|
+| Ajuste SINIEF 03/10 — CSOSN table | CONFAZ | https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/a03_10 |
+
+Golden: **`101`** (tributada com crédito), **`102`** (sem crédito), **`201`** (ST), **`500`** (ICMS cobrado anteriormente).
+
+`validateCsosn(raw)` — 3-digit format + embedded table (`FiscalCodeValidationResult`).
 
 ---
 
@@ -692,25 +708,51 @@ Golden: `1.01` (análise e desenvolvimento de sistemas), `7.02` (execução de o
 
 Golden: IBGE **`3550308`** (São Paulo/SP — alíquota band 2%–5%, `legislacao.prefeitura.sp.gov.br`), **`3304557`** (Rio de Janeiro/RJ), **`3106200`** (Belo Horizonte/MG), **`3509502`** (Campinas/SP — high-PIB non-capital, `estimativa: true`).
 
-`getIssMunicipalPorIbge`, `getIssMunicipalPorUf`, `getIssMunicipalPorUfMunicipio`, `searchIssMunicipal(query, { uf?, limit? })`, `getIssMunicipalUfsDisponiveis`, `getAllIssMunicipal` — every `IssMunicipalResult` includes `warning` (estimation / quoting only; **not** NFSe emission).
+`getIssMunicipalPorIbge`, `lookupIssMunicipalPorIbge`, `getIssMunicipalPorUf`, `getIssMunicipalPorUfMunicipio`, `searchIssMunicipal(query, { uf?, limit? })`, `getIssMunicipalUfsDisponiveis`, `getAllIssMunicipal` — every `IssMunicipalResult` includes `fonte` (`'oficial'` | `'munic-ibge'` | `'estimativa'`), `warning` (estimation / quoting only; **not** NFSe emission), and legacy `estimativa` boolean.
 
-**Scope v1:** 27 state capitals + top PIB municipalities (SIDRA 5938, PIB 2022) deduplicated to **500 rows**. Fields: `aliquotaMin`, `aliquotaMax`, `leiUrl`, `capturadoEm`, `estimativa`. Capital rows cite municipal portals; non-capital rows use LC 116 Art. 8 band with `estimativa: true` — **not** verified municipal legislation. **Out of scope:** all 5.570 municipalities, per-LC-116-item municipal rates, NFSe emission validation.
+**Scope v1:** 27 state capitals + top PIB municipalities (SIDRA 5938, PIB 2022) deduplicated to **500 rows**. Fields: `aliquotaMin`, `aliquotaMax`, `leiUrl`, `capturadoEm`, `fonte`, `estimativa`. `fonte: 'oficial'` — capital seed with verified municipal legislation URL; `fonte: 'estimativa'` — LC 116 Art. 8 band fallback (**473 rows**). Capital rows cite municipal portals; non-capital rows use LC 116 Art. 8 band with `estimativa: true` — **not** verified municipal legislation. **Out of scope:** per-LC-116-item municipal rates, NFSe emission validation.
 
 ---
 
-## eSocial worker categories {#esocial-categorias-trabalhadores}
+## ISS municipal MUNIC/IBGE fallback {#iss-munic-ibge}
 
-> **Vectors:** `packages/br-validators/tests/vectors/esocial.official.json`  
+> **Vectors:** `packages/br-validators/tests/vectors/iss-munic-ibge.official.json`  
+> **Freshness:** [DATA-FRESHNESS.md](DATA-FRESHNESS.md) — `agendamento: manual` (`pnpm fetch:data:iss-munic-ibge`)
+
+| Role | Source | URL |
+|------|--------|-----|
+| IBGE MUNIC — Pesquisa de Informações Básicas Municipais | IBGE | https://www.ibge.gov.br/estatisticas/economicas/contabilidade/9078-pesquisa-de-informacoes-municipais.html |
+| MUNIC 2024 base (research / join) | IBGE FTP | https://ftp.ibge.gov.br/Perfil_Municipios/2024/Base_de_Dados/Base_MUNIC_2024_20251107.xlsx |
+| IBGE localidades — municipality join | IBGE API v1 | https://servicodados.ibge.gov.br/api/v1/localidades/municipios |
+| LC 116 Art. 8 — legal band fallback | Planalto | https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm#art8 |
+
+**Research spike (2026-06):** MUNIC 2024 public SIDRA tables and base xlsx **do not expose** a dedicated ISS alíquota variable. v1 embed covers **5.071** municipalities outside the 500-row partial embed using the MUNIC survey universe + **LC 116 Art. 8 legal band (2%–5%)** — `fonte: 'munic-ibge'`, not exact municipal legislation.
+
+Golden: IBGE **`1200013`** (Acrelândia/AC — `fonte: 'munic-ibge'`, MUNIC survey year **2024**).
+
+`lookupIssMunicipalPorIbge(codigo)` cascade: partial **500** embed → **MUNIC/IBGE** fallback → **LC 116** generic band (`resolveIbgeLc116Fallback`) for IBGE localities not yet in the MUNIC embed. CLI `iss-municipal lookup` uses the cascade.
+
+---
+
+## eSocial {#esocial}
+
+> **Vectors:** `packages/br-validators/tests/vectors/esocial.official.json`, `packages/br-validators/tests/vectors/esocial-rubricas.official.json`  
 > **Freshness:** [DATA-FRESHNESS.md](DATA-FRESHNESS.md) — `agendamento: manual`
 
 | Role | Source | URL |
 |------|--------|-----|
-| eSocial S-1.3 layout tables (Tabela 01) | gov.br / eSocial | https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html |
+| eSocial S-1.3 layout tables (Tabela 01 + Tabela 03) | gov.br / eSocial | https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html |
 | Manual de Orientação (reference) | eSocial / MTE | https://www.gov.br/esocial/pt-br/documentacao-tecnica/manuais/mos-s-1-3-consolidada-ate-a-no-s-1-3-02-2024-com-marcacoes.pdf |
+
+### Tabela 01 — Categorias de Trabalhadores {#esocial-categorias-trabalhadores}
 
 Golden: **`101`** (empregado geral — CLT), **`103`** (aprendiz), **`901`** (estagiário). Each row includes `grupo`, `inicio`, and `termino` (`null` when still active).
 
-**Scope v1:** Tabela 01 — Categorias de Trabalhadores only. **Natureza rubricas** (Tabela 03) and **leave types** (Tabela 18) deferred to v2.
+### Tabela 03 — Natureza das Rubricas da Folha de Pagamento {#esocial-rubricas-folha}
+
+Golden: **`1000`** (salário, vencimento, soldo), **`5001`** (13º salário), **`1016`** (férias), **`9908`** (FGTS — depósito). Each row includes `natureza`, `descricao`, `inicio`, `termino` (`null` when still active), and `codIncCP` (incidence for S-1010 `codIncCP` values 15/16).
+
+**Scope v1:** Tabelas **01** and **03** only. **Leave types** (Tabela 18) deferred to v2.
 
 ---
 

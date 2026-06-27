@@ -41,6 +41,11 @@ import {
   lookupCfopPorCodigo,
   type Cfop,
 } from '@br-validators/core/cfop';
+import {
+  CSOSN_DATA_VERSION,
+  lookupCsosnPorCodigo,
+  type Csosn,
+} from '@br-validators/core/csosn';
 import { NCM_DATA_VERSION, lookupNcmPorCodigo, type Ncm } from '@br-validators/core/ncm';
 import { CBO_DATA_VERSION, lookupCboPorCodigo, type Cbo } from '@br-validators/core/cbo';
 import type { LookupResult } from '@br-validators/core/lookup';
@@ -55,6 +60,7 @@ export const REFERENCE_LOOKUP_COMMANDS = [
   'cest',
   'cnae',
   'cfop',
+  'csosn',
   'ncm',
   'cbo',
   'moedas',
@@ -64,7 +70,7 @@ export const REFERENCE_LOOKUP_COMMANDS = [
   'aeroportos',
 ] as const;
 
-export const REFERENCE_SEARCH_COMMANDS = ['cnae', 'cfop', 'ncm', 'cbo'] as const;
+export const REFERENCE_SEARCH_COMMANDS = ['cnae', 'cfop', 'csosn', 'ncm', 'cbo'] as const;
 
 export type ReferenceSearchCommand = (typeof REFERENCE_SEARCH_COMMANDS)[number];
 
@@ -76,6 +82,7 @@ export type ReferenceLookupValue =
   | Cest
   | Cnae
   | Cfop
+  | Csosn
   | Ncm
   | Cbo
   | Moeda
@@ -160,6 +167,17 @@ export const REFERENCE_LOOKUP_MODULES: Record<ReferenceLookupCommand, ReferenceL
     lookup: (input) => lookupCfopPorCodigo(input),
     formatHuman: (result) => {
       const row = result as Cfop;
+      return `${row.codigo} — ${row.descricao}`;
+    },
+  },
+  csosn: {
+    command: 'csosn',
+    description: 'CONFAZ CSOSN Simples Nacional — offline lookup',
+    resultKey: 'csosn',
+    capturadoEm: CSOSN_DATA_VERSION.capturadoEm,
+    lookup: (input) => lookupCsosnPorCodigo(input),
+    formatHuman: (result) => {
+      const row = result as Csosn;
       return `${row.codigo} — ${row.descricao}`;
     },
   },

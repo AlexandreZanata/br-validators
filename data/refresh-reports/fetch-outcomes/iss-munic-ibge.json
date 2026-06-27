@@ -1,0 +1,12 @@
+{
+  "datasetId": "iss-munic-ibge",
+  "status": "ok",
+  "endpoints": [
+    "https://www.ibge.gov.br/estatisticas/economicas/contabilidade/9078-pesquisa-de-informacoes-municipais.html",
+    "https://ftp.ibge.gov.br/Perfil_Municipios/2024/Base_de_Dados/Base_MUNIC_2024_20251107.xlsx"
+  ],
+  "attempts": 1,
+  "checkedAt": "2026-06-27T16:11:03.933Z",
+  "retainedEmbeddedDataFrom": "2026-06-27",
+  "message": "ISS MUNIC/IBGE fallback — 5071 municipalities (MUNIC 2024)"
+}

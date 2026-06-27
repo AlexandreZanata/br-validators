@@ -3,7 +3,7 @@ import { mkdtempSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { EXIT } from '../src/constants.js';
-import { handleCepCli, handleCnpjCli, handleCpfCli, handleTelefoneCli, handleCnhCli, handleRenavamCli, handleTituloEleitorCli, handleProcessoJudicialCli, handleRgCli, handleNfeChaveCli, handleBrCodeCli, handleListCli, handlePisPasepCli, handleCnisCli, handlePixCli, handleBoletoCli, handleCartaoCli, handleCartaoCreditoCli, handleEanCli, handleIeCli, handlePlacaCli, handleDetectCli, handleSanitizeCli, handleMaskCli, handleCompareCli, handleBatchCli, handleDiffCli, handleGenerateCli, handleBancosLookupCli, handleBancosListCli, readInputFile, writeCliIo } from '../src/handlers.js';
+import { handleCepCli, handleCnpjCli, handleCpfCli, handleTelefoneCli, handleCnhCli, handleRenavamCli, handleTituloEleitorCli, handleProcessoJudicialCli, handleRgCli, handleNfeChaveCli, handleBrCodeCli, handleListCli, handlePisPasepCli, handleCnisCli, handlePixCli, handleBoletoCli, handleCartaoCli, handleCartaoCreditoCli, handleEanCli, handleIeCli, handlePlacaCli, handleDetectCli, handleSanitizeCli, handleMaskCli, handleCompareCli, handleBatchCli, handleDiffCli, handleGenerateCli, handleBancosLookupCli, handleBancosListCli, handlePtaxHistoricoCli, readInputFile, writeCliIo } from '../src/handlers.js';
 import { createProgram, run } from '../src/program.js';
 import { CEP_GOLDEN_PRIMARY, CNPJ_GOLDEN_ALPHANUMERIC, CPF_GOLDEN_PRIMARY, CPF_GOLDEN_PRIMARY_MASKED, CPF_GOLDEN_SECONDARY, CNH_GOLDEN_PRIMARY, RENAVAM_GOLDEN_PRIMARY, TITULO_ELEITOR_GOLDEN_PRIMARY, PROCESSO_JUDICIAL_GOLDEN_PRIMARY_MASKED, NFE_CHAVE_GOLDEN_PRIMARY, PIX_GOLDEN_EMAIL, PIS_PASEP_GOLDEN_PRIMARY, CNIS_GOLDEN_INSS_NIT, PLACA_GOLDEN_MERCOSUL, BOLETO_GOLDEN_LINHA_STRIPPED, CARTAO_GOLDEN_VISA, EAN_GOLDEN_13, IE_SP_GOLDEN, RG_SP_GOLDEN, TELEFONE_GOLDEN_CELULAR, BRCODE_GOLDEN_STATIC_EVP } from '@br-validators/core';
 
@@ -826,6 +826,9 @@ describe('program', () => {
       run(['node', 'br-validators', 'ptax', 'lookup', 'USD', '--verbose']);
     }).not.toThrow();
     expect(() => {
+      run(['node', 'br-validators', 'ptax', 'historico', 'USD', '2026-06-23', '2026-06-24', '--json']);
+    }).not.toThrow();
+    expect(() => {
       run(['node', 'br-validators', 'cep', 'faixa', '01310']);
     }).not.toThrow();
     expect(() => {
@@ -861,5 +864,13 @@ describe('program', () => {
   it('handleBatchCli returns usage for missing file', () => {
     const io = { stdout: [] as string[], stderr: [] as string[] };
     expect(handleBatchCli('cpf', { file: '/nonexistent/values.txt' }, io)).toBe(EXIT.USAGE);
+  });
+
+  it('handlePtaxHistoricoCli returns historico JSON', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(
+      handlePtaxHistoricoCli('USD', '2026-06-23', '2026-06-24', { json: true, verbose: true }, io),
+    ).toBe(EXIT.OK);
+    expect(io.stdout.length).toBeGreaterThan(0);
   });
 });

@@ -14,16 +14,28 @@ import {
   handleIssMunicipalResolveCli,
   handleIssMunicipalSearchCli,
 } from '../src/handlers.js';
-import { ISS_MUNICIPAL_GOLDEN_SAO_PAULO } from '@br-validators/core/iss-municipal';
+import { ISS_MUNIC_GOLDEN_ACRELANDIA, ISS_MUNICIPAL_GOLDEN_SAO_PAULO } from '@br-validators/core/iss-municipal';
 
 describe('iss-municipal CLI', () => {
+  it('looks up MUNIC/IBGE fallback municipality via cascade', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(
+      runIssMunicipalLookup(String(ISS_MUNIC_GOLDEN_ACRELANDIA), { json: true, verbose: false }, io),
+    ).toBe(EXIT.OK);
+    const parsed = JSON.parse(io.stdout[0]) as { iss: { codigoIbge: number; fonte: string; nome: string } };
+    expect(parsed.iss.codigoIbge).toBe(ISS_MUNIC_GOLDEN_ACRELANDIA);
+    expect(parsed.iss.fonte).toBe('munic-ibge');
+    expect(parsed.iss.nome).toBe('Acrelândia');
+  });
+
   it('looks up golden São Paulo with disclaimer on stderr', () => {
     const io = { stdout: [] as string[], stderr: [] as string[] };
     expect(
       runIssMunicipalLookup(String(ISS_MUNICIPAL_GOLDEN_SAO_PAULO), { json: true, verbose: true }, io),
     ).toBe(EXIT.OK);
-    const parsed = JSON.parse(io.stdout[0]) as { ok: boolean; iss: { codigoIbge: number }; capturadoEm?: string };
+    const parsed = JSON.parse(io.stdout[0]) as { ok: boolean; iss: { codigoIbge: number; fonte: string }; capturadoEm?: string };
     expect(parsed.iss.codigoIbge).toBe(ISS_MUNICIPAL_GOLDEN_SAO_PAULO);
+    expect(parsed.iss.fonte).toBe('oficial');
     expect(parsed.capturadoEm).toBeDefined();
     expect(io.stderr.length).toBe(0);
   });
@@ -53,12 +65,14 @@ describe('iss-municipal CLI', () => {
     ).toBe(EXIT.OK);
     expect(io.stdout.some((line) => line.startsWith('leiUrl:'))).toBe(true);
     expect(io.stdout.some((line) => line.startsWith('capturadoEm:'))).toBe(true);
+    expect(io.stdout.some((line) => line.startsWith('fonte: oficial'))).toBe(true);
     expect(io.stdout.some((line) => line.startsWith('estimativa: false'))).toBe(true);
   });
 
   it('prints verbose human output for estimation row', () => {
     const io = { stdout: [] as string[], stderr: [] as string[] };
     expect(runIssMunicipalLookup('3534401', { json: false, verbose: true }, io)).toBe(EXIT.OK);
+    expect(io.stdout.some((line) => line.startsWith('fonte: estimativa'))).toBe(true);
     expect(io.stdout.some((line) => line.startsWith('estimativa: true'))).toBe(true);
   });
 

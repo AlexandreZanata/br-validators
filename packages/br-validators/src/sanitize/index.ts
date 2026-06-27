@@ -13,6 +13,7 @@ import { validateInscricaoEstadual } from '../core/inscricao-estadual/index.js';
 import { validateIeSpRural } from '../core/inscricao-estadual/sp-rural.js';
 import { validateNfeChave } from '../core/nfe-chave/index.js';
 import { validatePisPasep } from '../core/pis-pasep/index.js';
+import { validatePixKey } from '../core/pix/index.js';
 import { validatePlaca } from '../core/placa/index.js';
 import { validateProcessoJudicial } from '../core/processo-judicial/index.js';
 import { validateRg } from '../core/rg/index.js';
@@ -40,7 +41,8 @@ export type SanitizableDocumentType =
   | 'cartao-credito'
   | 'ean'
   | 'inscricao-estadual'
-  | 'inscricao-estadual-produtor-rural';
+  | 'inscricao-estadual-produtor-rural'
+  | 'pix';
 
 export type SanitizeOptions = {
   uf?: UfCode;
@@ -165,6 +167,10 @@ function validateFixed(value: string, type: SanitizableDocumentType, uf?: UfCode
     }
     case 'inscricao-estadual-produtor-rural': {
       const result = validateIeSpRural(value);
+      return result.ok ? { ok: true, value: result.value } : result;
+    }
+    case 'pix': {
+      const result = validatePixKey(value);
       return result.ok ? { ok: true, value: result.value } : result;
     }
     default: {

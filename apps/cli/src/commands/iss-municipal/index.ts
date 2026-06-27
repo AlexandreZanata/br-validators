@@ -1,9 +1,9 @@
 import {
-  getIssMunicipalPorIbge,
   getIssMunicipalPorUf,
   getIssMunicipalPorUfMunicipio,
   ISS_MUNICIPAL_DATA_VERSION,
   ISS_MUNICIPAL_ESTIMATION_WARNING,
+  lookupIssMunicipalPorIbge,
   searchIssMunicipal,
   type IssMunicipalResult,
 } from '@br-validators/core/iss-municipal';
@@ -46,7 +46,7 @@ export function runIssMunicipalLookup(
     return EXIT.USAGE;
   }
 
-  const result = getIssMunicipalPorIbge(trimmed);
+  const result = lookupIssMunicipalPorIbge(trimmed);
   if (result === undefined) {
     io.stderr.push(`ISS municipal row not found for IBGE code ${trimmed}`);
     return EXIT.INVALID;
@@ -67,6 +67,7 @@ export function runIssMunicipalLookup(
   }
 
   io.stdout.push(formatIssMunicipalHuman(result));
+  io.stdout.push(`fonte: ${result.fonte}`);
   io.stdout.push(`warning: ${result.warning}`);
   if (options.verbose) {
     io.stdout.push(`leiUrl: ${result.leiUrl}`);

@@ -22,6 +22,7 @@ import { validateProcessoJudicial } from '../core/processo-judicial/index.js';
 import { validateRg, isRgUfImplemented } from '../core/rg/index.js';
 import { validateTituloEleitor } from '../core/titulo-eleitor/index.js';
 import { stripForType } from '../sanitize/fixes.js';
+import { stripPixKey } from '../strip/pix.js';
 import type { SanitizableDocumentType } from '../sanitize/index.js';
 import type { UfCode } from '../types/validation-result.js';
 import type { PlatformDocumentType, PlatformOptions } from './types.js';
@@ -44,6 +45,7 @@ const SANITIZABLE_PLATFORM_TYPES = new Set<PlatformDocumentType>([
   'ean',
   'inscricao-estadual',
   'inscricao-estadual-produtor-rural',
+  'pix',
 ]);
 
 function isSanitizablePlatformType(type: PlatformDocumentType): type is SanitizableDocumentType {
@@ -51,7 +53,10 @@ function isSanitizablePlatformType(type: PlatformDocumentType): type is Sanitiza
 }
 
 function stripForPlatform(raw: string, type: PlatformDocumentType): string {
-  if (type === 'pix' || type === 'brcode') {
+  if (type === 'pix') {
+    return stripPixKey(raw);
+  }
+  if (type === 'brcode') {
     return raw;
   }
   if (isSanitizablePlatformType(type)) {

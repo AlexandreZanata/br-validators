@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-27T10:42:07.936Z",
+  "generatedAt": "2026-06-27T16:10:16.770Z",
   "source": "packages/br-validators/package.json#exports",
   "exportKeys": [
     ".",
@@ -21,6 +21,7 @@
     "./cnpj-motivos",
     "./compare",
     "./cpf",
+    "./csosn",
     "./cst",
     "./data-catalog",
     "./detect",

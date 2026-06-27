@@ -2,6 +2,7 @@ export {
   getPtaxList,
   getPtaxCotacao,
   getPtaxCotacoesPorMoeda,
+  getPtaxHistorico,
   getPtaxUltimoDiaUtil,
   pickLatestPtaxCotacao,
 } from './lookup.js';
@@ -25,5 +26,11 @@ export {
   isPtaxCotacaoStale,
   subtractBusinessDays,
 } from './staleness.js';
-export type { PtaxCotacao, PtaxCotacaoResult, PtaxDataVersion, PtaxLookupOptions } from './types.js';
+export type {
+  PtaxCotacao,
+  PtaxCotacaoResult,
+  PtaxDataVersion,
+  PtaxHistoricoOptions,
+  PtaxLookupOptions,
+} from './types.js';
 export { PTAX_DATA_VERSION } from './version.js';

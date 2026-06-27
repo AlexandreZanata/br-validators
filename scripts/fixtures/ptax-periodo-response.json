@@ -1,0 +1,28 @@
+{
+  "value": [
+    {
+      "paridadeCompra": 1,
+      "paridadeVenda": 1,
+      "cotacaoCompra": 5.21,
+      "cotacaoVenda": 5.22,
+      "dataHoraCotacao": "2025-06-24 13:08:18.606",
+      "tipoBoletim": "Fechamento"
+    },
+    {
+      "paridadeCompra": 1,
+      "paridadeVenda": 1,
+      "cotacaoCompra": 5.48,
+      "cotacaoVenda": 5.49,
+      "dataHoraCotacao": "2025-06-24 10:10:27.808",
+      "tipoBoletim": "Abertura"
+    },
+    {
+      "paridadeCompra": 1.15,
+      "paridadeVenda": 1.15,
+      "cotacaoCompra": 6.32,
+      "cotacaoVenda": 6.33,
+      "dataHoraCotacao": "2025-06-23 13:08:03.250",
+      "tipoBoletim": "Fechamento PTAX"
+    }
+  ]
+}

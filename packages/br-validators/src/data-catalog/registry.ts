@@ -16,6 +16,7 @@ import ibptMetadata from '../ibpt/data/metadata.json';
 import nbsMetadata from '../nbs/data/metadata.json';
 import cestMetadata from '../cest/data/metadata.json';
 import cstMetadata from '../cst/data/metadata.json';
+import csosnMetadata from '../csosn/data/metadata.json';
 import lc116Metadata from '../lc116/data/metadata.json';
 import esocialMetadata from '../esocial/data/metadata.json';
 import simplesNacionalMetadata from '../simples-nacional/data/metadata.json';
@@ -57,6 +58,7 @@ export const DATASET_REGISTRY: readonly DatasetRegistryEntry[] = [
   { id: 'nbs', metadata: nbsMetadata as DatasetMetadata },
   { id: 'cest', metadata: cestMetadata as DatasetMetadata },
   { id: 'cst', metadata: cstMetadata as DatasetMetadata },
+  { id: 'csosn', metadata: csosnMetadata as DatasetMetadata },
   { id: 'lc116', metadata: lc116Metadata as DatasetMetadata },
   { id: 'esocial', metadata: esocialMetadata as DatasetMetadata },
   { id: 'simples-nacional', metadata: simplesNacionalMetadata as DatasetMetadata },

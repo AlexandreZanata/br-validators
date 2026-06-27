@@ -4,6 +4,7 @@ import {
   BACEN_PTAX_COTACAO_PERIODO_URL,
   BACEN_PTAX_SWAGGER_URL,
   PTAX_DATA_VERSION,
+  PTAX_EMBED_BUSINESS_DAYS,
   PTAX_GOLDEN_EUR,
   PTAX_GOLDEN_USD,
   PTAX_STALE_WARNING,
@@ -11,6 +12,7 @@ import {
   getBrazilTodayIso,
   getPtaxCotacao,
   getPtaxCotacoesPorMoeda,
+  getPtaxHistorico,
   getPtaxList,
   getPtaxUltimoDiaUtil,
   isBrazilBusinessDay,
@@ -75,6 +77,44 @@ describe('PTAX — official golden vectors', () => {
     expect(getPtaxUltimoDiaUtil('')).toBeUndefined();
     expect(getPtaxCotacoesPorMoeda('XYZ')).toEqual([]);
     expect(getPtaxCotacoesPorMoeda('')).toEqual([]);
+  });
+});
+
+describe('PTAX — historico', () => {
+  it('returns sorted USD rows in date range with staleness metadata on each row', () => {
+    const range = vectors.golden.historicoRange;
+    const results = getPtaxHistorico(range.moeda, {
+      desde: range.desde,
+      ate: range.ate,
+      asOfDate: vectors.staleness.asOfFresh,
+    });
+    expect(results).toHaveLength(range.expectedRowCount);
+    expect(results[0].dataReferencia).toBe(range.firstDate);
+    expect(results[results.length - 1].dataReferencia).toBe(range.lastDate);
+    expect(results.every((row) => row.dataReferencia >= range.desde)).toBe(true);
+    expect(results.every((row) => row.dataReferencia <= range.ate)).toBe(true);
+    expect(results.every((row) => row.moeda === PTAX_GOLDEN_USD)).toBe(true);
+    expect(results.every((row) => typeof row.isStale === 'boolean')).toBe(true);
+    expect(results[results.length - 1].isStale).toBe(false);
+    expect(results[0].isStale).toBe(true);
+  });
+
+  it('returns empty array for invalid moeda, dates, or inverted range', () => {
+    expect(getPtaxHistorico('', { desde: '2026-06-01', ate: '2026-06-26' })).toEqual([]);
+    expect(getPtaxHistorico('USD', { desde: 'bad', ate: '2026-06-26' })).toEqual([]);
+    expect(getPtaxHistorico('USD', { desde: '2026-06-26', ate: '2026-06-01' })).toEqual([]);
+    expect(getPtaxHistorico('XYZ', { desde: '2026-06-01', ate: '2026-06-26' })).toEqual([]);
+  });
+
+  it('accepts Bacen MM-DD-YYYY date format in historico range', () => {
+    const results = getPtaxHistorico('USD', {
+      desde: '06-23-2026',
+      ate: '06-24-2026',
+      asOfDate: vectors.staleness.asOfFresh,
+    });
+    expect(results).toHaveLength(2);
+    expect(results[0].data).toBe('2026-06-23');
+    expect(results[1].data).toBe('2026-06-24');
   });
 });
 
@@ -168,6 +208,8 @@ describe('PTAX — coverage and metadata', () => {
     expect(PTAX_DATA_VERSION.endpoints).toContain(BACEN_PTAX_SWAGGER_URL);
     expect(PTAX_DATA_VERSION.endpoints).toContain(vectors.swaggerUrl);
     expect(PTAX_DATA_VERSION.contagens.cotacoes).toBe(getPtaxList().length);
+    expect(PTAX_DATA_VERSION.janelaDiasUteis).toBe(vectors.janelaDiasUteis);
+    expect(PTAX_DATA_VERSION.janelaDiasUteis).toBe(PTAX_EMBED_BUSINESS_DAYS);
     expect(PTAX_DATA_VERSION.verificacao.agendamento).toBe('diario');
   });
 });

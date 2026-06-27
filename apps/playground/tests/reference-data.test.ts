@@ -8,9 +8,11 @@ import { CNAES_GOLDEN_DESENVOLVIMENTO_PROGRAMAS } from '@br-validators/core/cnae
 import { CFOP_GOLDEN_COMPRA_COMERCIALIZACAO } from '@br-validators/core/cfop';
 import { CBO_GOLDEN_ANALISTA_SISTEMAS } from '@br-validators/core/cbo';
 import { NCM_GOLDEN_SOJA_SEMENTES } from '@br-validators/core/ncm';
-import { ISS_MUNICIPAL_GOLDEN_SAO_PAULO } from '@br-validators/core/iss-municipal';
+import { ISS_MUNIC_GOLDEN_ACRELANDIA, ISS_MUNICIPAL_GOLDEN_SAO_PAULO } from '@br-validators/core/iss-municipal';
 import {
   countIssMunicipalForUf,
+  getIssMunicipalFieldValue,
+  issMunicipalFonteBadgeVariant,
   resolveIssMunicipalExplorerResults,
 } from '../lib/reference-data/iss-municipal-filter';
 import { resolveCatalogDocUrl } from '../lib/reference-data/catalog-docs';
@@ -99,6 +101,7 @@ describe('Gov.br reference groups', () => {
   it('resolves fiscal ISS municipal golden São Paulo IBGE code', () => {
     const module = FISCAL_MODULES.find((entry) => entry.id === 'issMunicipal');
     expect(module?.lookup(String(ISS_MUNICIPAL_GOLDEN_SAO_PAULO))?.codigoIbge).toBe(ISS_MUNICIPAL_GOLDEN_SAO_PAULO);
+    expect(module?.lookup(String(ISS_MUNICIPAL_GOLDEN_SAO_PAULO))?.fonte).toBe('oficial');
     expect(module?.lookup(String(ISS_MUNICIPAL_GOLDEN_SAO_PAULO))?.warning).toContain('NFSe');
   });
 
@@ -111,9 +114,24 @@ describe('Gov.br reference groups', () => {
     const search = resolveIssMunicipalExplorerResults('campinas', 'SP');
     expect(search.mode).toBe('search');
     expect(search.rows.some((row) => row.codigoIbge === 3509502)).toBe(true);
+    expect(search.rows.find((row) => row.codigoIbge === 3509502)?.fonte).toBe('estimativa');
 
     const blocked = resolveIssMunicipalExplorerResults(String(ISS_MUNICIPAL_GOLDEN_SAO_PAULO), 'RJ');
     expect(blocked.rows).toEqual([]);
+  });
+
+  it('maps ISS municipal field values and badge variants', () => {
+    const [row] = resolveIssMunicipalExplorerResults(String(ISS_MUNICIPAL_GOLDEN_SAO_PAULO), '').rows;
+    expect(row.codigoIbge).toBe(ISS_MUNICIPAL_GOLDEN_SAO_PAULO);
+    expect(getIssMunicipalFieldValue(row, 'fonte')).toBe('oficial');
+    expect(getIssMunicipalFieldValue(row, 'unknown')).toBeNull();
+    expect(issMunicipalFonteBadgeVariant('oficial')).toBe('success');
+    expect(issMunicipalFonteBadgeVariant('estimativa')).toBe('warning');
+    expect(issMunicipalFonteBadgeVariant('munic-ibge')).toBe('warning');
+
+    const municRow = resolveIssMunicipalExplorerResults(String(ISS_MUNIC_GOLDEN_ACRELANDIA), '');
+    expect(municRow.mode).toBe('single');
+    expect(municRow.rows[0]?.fonte).toBe('munic-ibge');
   });
 
   it('resolves trade golden moeda BRL', () => {

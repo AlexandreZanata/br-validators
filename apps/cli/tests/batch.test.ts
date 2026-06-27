@@ -20,10 +20,10 @@ describe('batch command', () => {
 
   it('applies limit', () => {
     const lines = `${CPF_GOLDEN_PRIMARY}\n${CPF_GOLDEN_PRIMARY_MASKED}\nbad`;
-    expect(resolveBatchInputs({ json: false, quiet: false, lines, limit: 2 })).toEqual([
-      CPF_GOLDEN_PRIMARY,
-      CPF_GOLDEN_PRIMARY_MASKED,
-    ]);
+    expect(resolveBatchInputs({ json: false, quiet: false, lines, limit: 2 })).toEqual({
+      ok: true,
+      values: [CPF_GOLDEN_PRIMARY, CPF_GOLDEN_PRIMARY_MASKED],
+    });
   });
 
   it('parseBatchLines skips empty lines', () => {
@@ -63,7 +63,29 @@ describe('batch command', () => {
   });
 
   it('resolveBatchInputs without limit returns all lines', () => {
-    expect(resolveBatchInputs({ json: false, quiet: false, lines: 'a\nb' })).toEqual(['a', 'b']);
+    expect(resolveBatchInputs({ json: false, quiet: false, lines: 'a\nb' })).toEqual({
+      ok: true,
+      values: ['a', 'b'],
+    });
+  });
+
+  it('parses CSV column with --col', () => {
+    const csv = `cpf,name\n${CPF_GOLDEN_PRIMARY},Alice\nbad,name`;
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(
+      runBatch('cpf', { json: true, quiet: false, lines: csv, col: 'cpf' }, io),
+    ).toBe(EXIT.INVALID);
+    const parsed = JSON.parse(io.stdout[0] ?? '{}') as { summary: { total: number; valid: number } };
+    expect(parsed.summary.total).toBe(2);
+    expect(parsed.summary.valid).toBe(1);
+  });
+
+  it('returns usage for CSV parse error', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(
+      runBatch('cpf', { json: false, quiet: false, lines: 'name\nAlice', col: 'cpf' }, io),
+    ).toBe(EXIT.USAGE);
+    expect(io.stderr.some((line) => line.includes('Column "cpf" not found'))).toBe(true);
   });
 
   it('passes uf option', () => {

@@ -4,6 +4,7 @@ import {
   CNAES_GOLDEN_DESENVOLVIMENTO_PROGRAMAS,
 } from '@br-validators/core/cnaes';
 import { CFOP_GOLDEN_COMPRA_COMERCIALIZACAO } from '@br-validators/core/cfop';
+import { CSOSN_GOLDEN_SEM_CREDITO } from '@br-validators/core/csosn';
 import { NCM_GOLDEN_CAVALOS_REPRODUTORES } from '@br-validators/core/ncm';
 import { CBO_GOLDEN_ANALISTA_SISTEMAS } from '@br-validators/core/cbo';
 import { EXIT } from '../src/constants.js';
@@ -32,6 +33,13 @@ describe('runReferenceSearchCommand — fiscal search', () => {
     runReferenceSearchCommand('cfop', 'compra', { json: true, verbose: false }, io);
     const parsed = JSON.parse(io.stdout[0]) as { cfops: { codigo: string }[] };
     expect(parsed.cfops.some((row) => row.codigo === CFOP_GOLDEN_COMPRA_COMERCIALIZACAO)).toBe(true);
+  });
+
+  it('searches CSOSN', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    runReferenceSearchCommand('csosn', 'simples nacional', { json: true, verbose: false }, io);
+    const parsed = JSON.parse(io.stdout[0]) as { csosns: { codigo: string }[] };
+    expect(parsed.csosns.some((row) => row.codigo === CSOSN_GOLDEN_SEM_CREDITO)).toBe(true);
   });
 
   it('prints human search output with verbose footer', () => {

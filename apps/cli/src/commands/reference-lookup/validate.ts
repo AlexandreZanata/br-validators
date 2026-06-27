@@ -1,11 +1,12 @@
 import { EXIT } from '../../constants.js';
 import type { FiscalCodeValidationResult } from '@br-validators/core/lookup';
 import { validateCfop } from '@br-validators/core/cfop';
+import { validateCsosn } from '@br-validators/core/csosn';
 import { validateNcm } from '@br-validators/core/ncm';
 
-export type ReferenceValidateCommand = 'ncm' | 'cfop';
+export type ReferenceValidateCommand = 'ncm' | 'cfop' | 'csosn';
 
-export const REFERENCE_VALIDATE_COMMANDS = ['ncm', 'cfop'] as const;
+export const REFERENCE_VALIDATE_COMMANDS = ['ncm', 'cfop', 'csosn'] as const;
 
 export type ReferenceValidateOptions = {
   json: boolean;
@@ -15,11 +16,13 @@ export type ReferenceValidateOptions = {
 const VALIDATORS: Record<ReferenceValidateCommand, (input: string) => FiscalCodeValidationResult> = {
   ncm: validateNcm,
   cfop: validateCfop,
+  csosn: validateCsosn,
 };
 
 const CAPTURED_AT: Record<ReferenceValidateCommand, string> = {
   ncm: 'ncm',
   cfop: 'cfop',
+  csosn: 'csosn',
 };
 
 function emitFailure(

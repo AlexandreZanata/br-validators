@@ -43,6 +43,7 @@ import {
   handleIssMunicipalResolveCli,
   handleIssMunicipalSearchCli,
   handlePtaxLookupCli,
+  handlePtaxHistoricoCli,
   handleListCli,
   handleNfeChaveCli,
   handleProcessoJudicialCli,
@@ -204,7 +205,7 @@ export function dispatchArgv(tokens: string[], io: CliIo): number {
   if (tokens.length === 0 || tokens.includes('--help') || tokens.includes('-h')) {
     io.stdout.push('br-validators — 100% open-source Brazilian document validators');
     io.stdout.push('Usage: br-validators <command> ...');
-    io.stdout.push('Commands: list · cpf · cnpj · cep · telefone · cnh · renavam · titulo-eleitor · processo-judicial · rg · nfe-chave · brcode · placa · pis-pasep · cnis · pix · boleto · cartao · cartao-credito · ean · ie · bancos · ibge · feriados · inss · irpf · tse-municipios · ddd · nfe-cuf · selic · iss-municipal · ptax · cst · natureza-juridica · nbs · cest · cnae · cfop · ncm · cbo · moedas · paises-bacen · incoterms · portos · aeroportos · detect · sanitize · mask · compare · batch · diff · generate');
+    io.stdout.push('Commands: list · cpf · cnpj · cep · telefone · cnh · renavam · titulo-eleitor · processo-judicial · rg · nfe-chave · brcode · placa · pis-pasep · cnis · pix · boleto · cartao · cartao-credito · ean · ie · bancos · ibge · feriados · inss · irpf · tse-municipios · ddd · nfe-cuf · selic · iss-municipal · ptax · cst · csosn · natureza-juridica · nbs · cest · cnae · cfop · ncm · cbo · moedas · paises-bacen · incoterms · portos · aeroportos · detect · sanitize · mask · compare · batch · diff · generate');
     return EXIT.OK;
   }
 
@@ -456,7 +457,13 @@ export function dispatchArgv(tokens: string[], io: CliIo): number {
         const data = rest.slice(2).join(' ') || undefined;
         return handlePtaxLookupCli(moeda, data, opts, io);
       }
-      return usage(io, 'Expected: ptax lookup <moeda> [data]');
+      if (action === 'historico') {
+        const moeda = rest[1];
+        const desde = rest[2];
+        const ate = rest[3];
+        return handlePtaxHistoricoCli(moeda, desde, ate, opts, io);
+      }
+      return usage(io, 'Expected: ptax lookup <moeda> [data] | ptax historico <moeda> <desde> <ate>');
     }
     case 'cst': {
       const action = rest[0];

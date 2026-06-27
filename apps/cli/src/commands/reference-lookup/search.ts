@@ -1,6 +1,7 @@
 import { searchCbo, type Cbo } from '@br-validators/core/cbo';
 import { searchCnaes, type Cnae } from '@br-validators/core/cnaes';
 import { searchCfop, type Cfop } from '@br-validators/core/cfop';
+import { searchCsosn, type Csosn } from '@br-validators/core/csosn';
 import { searchNcm, type Ncm } from '@br-validators/core/ncm';
 import { EXIT } from '../../constants.js';
 import {
@@ -15,7 +16,7 @@ export type ReferenceSearchOptions = {
   limit?: number;
 };
 
-type SearchResult = Cnae | Cfop | Ncm | Cbo;
+type SearchResult = Cnae | Cfop | Csosn | Ncm | Cbo;
 
 function runSearch(
   command: ReferenceSearchCommand,
@@ -27,6 +28,8 @@ function runSearch(
       return searchCnaes(query, { limit });
     case 'cfop':
       return searchCfop(query, { limit });
+    case 'csosn':
+      return searchCsosn(query, { limit });
     case 'ncm':
       return searchNcm(query, { limit });
     case 'cbo':

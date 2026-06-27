@@ -7,6 +7,7 @@ import { stripInscricaoEstadual } from '../core/inscricao-estadual/index.js';
 import { stripNfeChave } from '../strip/nfe-chave.js';
 import { stripPisPasep } from '../strip/pis-pasep.js';
 import { stripPlaca } from '../strip/placa.js';
+import { stripPixKey } from '../strip/pix.js';
 import { stripProcessoJudicial } from '../strip/processo-judicial.js';
 import { stripRenavam } from '../strip/renavam.js';
 import { stripTituloEleitor } from '../strip/titulo-eleitor.js';
@@ -29,7 +30,8 @@ export type SanitizableDocumentType =
   | 'cartao-credito'
   | 'ean'
   | 'inscricao-estadual'
-  | 'inscricao-estadual-produtor-rural';
+  | 'inscricao-estadual-produtor-rural'
+  | 'pix';
 
 export type FixResult = {
   value: string;
@@ -99,6 +101,20 @@ function ieProdutorRuralFix(value: string, fixes: string[]): FixResult {
   return { value: stripIeSpRural(upper), fixes };
 }
 
+function pixFix(value: string, fixes: string[]): FixResult {
+  const stripped = stripPixKey(value);
+  if (value !== value.toLowerCase() && stripped === value.toLowerCase()) {
+    fixes.push('lowercased');
+  }
+  if (stripped.replace(/\D/g, '') !== value.replace(/\D/g, '')) {
+    fixes.push('removed_non_digits');
+  }
+  if (/[\s()-]/.test(value)) {
+    fixes.push('removed_mask_chars');
+  }
+  return { value: stripped, fixes };
+}
+
 export function applyFixes(raw: string, type: SanitizableDocumentType): FixResult {
   const { value: trimmed, fixes } = trimFix(raw);
 
@@ -126,6 +142,8 @@ export function applyFixes(raw: string, type: SanitizableDocumentType): FixResul
       return telefoneFix(trimmed, fixes);
     case 'inscricao-estadual-produtor-rural':
       return ieProdutorRuralFix(trimmed, fixes);
+    case 'pix':
+      return pixFix(trimmed, fixes);
     default: {
       const _exhaustive: never = type;
       return { value: _exhaustive, fixes };
@@ -169,6 +187,8 @@ export function stripForType(value: string, type: SanitizableDocumentType): stri
       return stripInscricaoEstadual(value);
     case 'inscricao-estadual-produtor-rural':
       return stripIeSpRural(value);
+    case 'pix':
+      return stripPixKey(value);
     default: {
       const _exhaustive: never = type;
       return _exhaustive;

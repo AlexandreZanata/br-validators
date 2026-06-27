@@ -16,7 +16,7 @@ export const PTAX_FECHAMENTO_TIPO = 'Fechamento PTAX';
 
 export const PTAX_FECHAMENTO_TIPOS = new Set(['Fechamento PTAX', 'Fechamento']);
 
-export const PTAX_ROLLING_BUSINESS_DAYS = 5;
+export const PTAX_ROLLING_BUSINESS_DAYS = 90;
 
 export interface BacenPtaxApiRow {
   paridadeCompra: number;

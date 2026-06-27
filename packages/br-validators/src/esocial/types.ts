@@ -8,6 +8,15 @@ export interface EsocialCategoriaTrabalhador {
   termino: string | null;
 }
 
+export interface EsocialRubrica {
+  codigo: string;
+  natureza: string;
+  descricao: string;
+  inicio: string;
+  termino: string | null;
+  codIncCP: string;
+}
+
 export interface EsocialDataVersion {
   id: 'esocial';
   nome: string;
@@ -15,7 +24,7 @@ export interface EsocialDataVersion {
   endpoints: string[];
   capturadoEm: string;
   atualizadoEm: string;
-  contagens: { categorias: number };
+  contagens: { categorias: number; rubricas: number };
   alteracoes: DatasetChanges;
   verificacao: DatasetVerification;
   documentacao: string;

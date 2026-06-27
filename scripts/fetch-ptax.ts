@@ -30,8 +30,8 @@ const PTAX_DATA_DIR = path.join(ROOT, 'packages/br-validators/src/ptax/data');
 const MOEDAS_DATA_PATH = path.join(ROOT, 'packages/br-validators/src/moedas/data/moedas.json');
 const FETCH_OUTCOME_DIR = path.join(ROOT, 'data/refresh-reports/fetch-outcomes');
 
-const PTAX_MIN_RECORDS = 10;
-const PTAX_MAX_RECORDS = 80;
+const PTAX_MIN_RECORDS = 600;
+const PTAX_MAX_RECORDS = 1000;
 
 interface MoedaRecord {
   codigo: string;
@@ -118,25 +118,30 @@ async function main(): Promise<void> {
       comparadoCom,
     );
 
-    const metadata = buildMetadata(
-      {
-        id: 'ptax',
-        nome: 'Bacen PTAX Fechamento',
-        fonte: 'Banco Central Olinda PTAX API — Fechamento PTAX',
-        endpoints,
-        contagens: {
-          cotacoes: ptax.length,
-          moedas: ptaxMoedas.length,
-          diasUteis: new Set(ptax.map((record) => record.data)).size,
+    const diasUteis = new Set(ptax.map((record) => record.data)).size;
+    const metadata = {
+      ...buildMetadata(
+        {
+          id: 'ptax',
+          nome: 'Bacen PTAX Fechamento',
+          fonte: 'Banco Central Olinda PTAX API — Fechamento PTAX',
+          endpoints,
+          contagens: {
+            cotacoes: ptax.length,
+            moedas: ptaxMoedas.length,
+            diasUteis,
+          },
+          documentacao: 'docs/OFFICIAL-SOURCES.md#ptax-cotacoes',
+          agendamento: 'diario',
         },
-        documentacao: 'docs/OFFICIAL-SOURCES.md#ptax-cotacoes',
-        agendamento: 'diario',
-      },
-      changes,
-    );
+        changes,
+      ),
+      janelaDiasUteis: PTAX_ROLLING_BUSINESS_DAYS,
+    };
 
     const jsonIndent = 2;
-    await writeFile(ptaxPath, `${JSON.stringify(ptax, null, jsonIndent)}\n`);
+    const ptaxJson = `${JSON.stringify(ptax, null, jsonIndent)}\n`;
+    await writeFile(ptaxPath, ptaxJson);
     await writeFile(metadataPath, `${JSON.stringify(metadata, null, jsonIndent)}\n`);
 
     await writeSourceFetchOutcome(FETCH_OUTCOME_DIR, {
@@ -149,12 +154,14 @@ async function main(): Promise<void> {
       message: `Bacen PTAX Fechamento embedded for ${String(ptaxMoedas.length)} currencies (${periodBounds.dataInicial}..${periodBounds.dataFinal}).`,
     });
 
+    const embedBytes = Buffer.byteLength(ptaxJson, 'utf8');
     console.log(
       `PTAX data written (${todayIsoDate()}): ${String(ptax.length)} Fechamento rows for ${String(ptaxMoedas.length)} currencies`,
     );
     console.log(
-      `Window: ${periodBounds.dataInicial} .. ${periodBounds.dataFinal} (${String(PTAX_ROLLING_BUSINESS_DAYS)} business days target)`,
+      `Window: ${periodBounds.dataInicial} .. ${periodBounds.dataFinal} (${String(PTAX_ROLLING_BUSINESS_DAYS)} business days target, ${String(diasUteis)} distinct dates)`,
     );
+    console.log(`Embed size: ${String(embedBytes)} bytes (${(embedBytes / 1024).toFixed(1)} KB)`);
     console.log(
       `Changes: +${String(metadata.alteracoes.adicionados)} -${String(metadata.alteracoes.removidos)} ~${String(metadata.alteracoes.alterados)}`,
     );

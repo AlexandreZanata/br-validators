@@ -14,9 +14,10 @@ import {
 import { validateNcm } from '@br-validators/core/ncm';
 
 describe('isReferenceValidateCommand', () => {
-  it('accepts ncm and cfop only', () => {
+  it('accepts ncm, cfop, and csosn', () => {
     expect(isReferenceValidateCommand('ncm')).toBe(true);
     expect(isReferenceValidateCommand('cfop')).toBe(true);
+    expect(isReferenceValidateCommand('csosn')).toBe(true);
     expect(isReferenceValidateCommand('cnae')).toBe(false);
   });
 });

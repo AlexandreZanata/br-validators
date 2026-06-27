@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildIssMunicipalResult } from '../../../src/iss-municipal/result.js';
+import { buildIssMunicipalResult, buildIssMunicIbgeResult, buildLc116EstimativaResult, resolveIssMunicipalFonte } from '../../../src/iss-municipal/result.js';
 import {
   getAllIssMunicipal,
   getIssMunicipalPorIbge,
@@ -9,7 +9,9 @@ import {
   getIssMunicipalUfsDisponiveis,
   searchIssMunicipal,
 } from '../../../src/iss-municipal/lookup.js';
+import { getAllIssMunicIbge } from '../../../src/iss-municipal/cascade-lookup.js';
 import {
+  ISS_MUNIC_GOLDEN_ACRELANDIA,
   ISS_MUNICIPAL_CAPITAL_COUNT,
   ISS_MUNICIPAL_ESTIMATION_WARNING,
   ISS_MUNICIPAL_GOLDEN_RIO,
@@ -18,6 +20,7 @@ import {
   ISS_MUNICIPAL_LC116_MIN,
   ISS_MUNICIPAL_TARGET_COUNT,
   ISS_MUNICIPAL_DATA_VERSION,
+  PLANALTO_LC116_ART8_URL,
 } from '../../../src/iss-municipal/index.js';
 import vectors from '../../vectors/iss-municipal.official.json';
 
@@ -34,6 +37,7 @@ describe('ISS municipal — official golden vectors', () => {
     expect(result.aliquotaMax).toBe(vectors.golden.saoPaulo.aliquotaMax);
     expect(result.leiUrl).toContain(vectors.golden.saoPaulo.leiUrlContains);
     expect(result.estimativa).toBe(false);
+    expect(result.fonte).toBe(vectors.golden.saoPaulo.fonte);
     expect(result.warning).toBe(ISS_MUNICIPAL_ESTIMATION_WARNING);
   });
 
@@ -54,6 +58,7 @@ describe('ISS municipal — official golden vectors', () => {
     expect(campinas?.aliquotaMin).toBe(vectors.golden.campinas.aliquotaMin);
     expect(campinas?.aliquotaMax).toBe(vectors.golden.campinas.aliquotaMax);
     expect(campinas?.estimativa).toBe(vectors.golden.campinas.estimativa);
+    expect(campinas?.fonte).toBe(vectors.golden.campinas.fonte);
     expect(campinas?.leiUrl).toContain(vectors.golden.campinas.leiUrlContains);
   });
 
@@ -159,8 +164,39 @@ describe('ISS municipal — embed policy', () => {
     expect(ISS_MUNICIPAL_DATA_VERSION.contagens.municipios).toBe(ISS_MUNICIPAL_TARGET_COUNT);
   });
 
-  it('buildIssMunicipalResult always attaches warning', () => {
-    const row = getAllIssMunicipal()[0];
-    expect(buildIssMunicipalResult(row).warning).toBe(ISS_MUNICIPAL_ESTIMATION_WARNING);
+  it('buildIssMunicipalResult attaches fonte and warning', () => {
+    const oficialRow = getAllIssMunicipal().find((row) => !row.estimativa);
+    const estimativaRow = getAllIssMunicipal().find((row) => row.estimativa);
+    expect(oficialRow).toBeDefined();
+    expect(estimativaRow).toBeDefined();
+    if (oficialRow === undefined || estimativaRow === undefined) {
+      return;
+    }
+    expect(buildIssMunicipalResult(oficialRow).fonte).toBe('oficial');
+    expect(buildIssMunicipalResult(estimativaRow).fonte).toBe('estimativa');
+    expect(buildIssMunicipalResult(oficialRow).warning).toBe(ISS_MUNICIPAL_ESTIMATION_WARNING);
+  });
+
+  it('buildIssMunicIbgeResult and buildLc116EstimativaResult attach fonte tiers', () => {
+    const municRow = getAllIssMunicIbge().find((row) => row.codigoIbge === ISS_MUNIC_GOLDEN_ACRELANDIA);
+    expect(municRow).toBeDefined();
+    if (municRow === undefined) {
+      return;
+    }
+    expect(buildIssMunicIbgeResult(municRow).fonte).toBe('munic-ibge');
+    expect(buildLc116EstimativaResult({
+      codigoIbge: municRow.codigoIbge,
+      nome: municRow.nome,
+      uf: municRow.uf,
+      aliquotaMin: ISS_MUNICIPAL_LC116_MIN,
+      aliquotaMax: ISS_MUNICIPAL_LC116_MAX,
+      leiUrl: PLANALTO_LC116_ART8_URL,
+      capturadoEm: ISS_MUNICIPAL_DATA_VERSION.capturadoEm,
+    }).fonte).toBe('estimativa');
+  });
+
+  it('resolveIssMunicipalFonte mirrors estimativa flag', () => {
+    expect(resolveIssMunicipalFonte(false)).toBe('oficial');
+    expect(resolveIssMunicipalFonte(true)).toBe('estimativa');
   });
 });

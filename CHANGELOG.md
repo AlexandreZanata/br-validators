@@ -13,8 +13,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Batch CSV column extraction (EXP-35-C)** — `parseBatchCsv()` in `@br-validators/core`; CLI `batch <type> --file data.csv --col cpf` with `--delimiter` and `--skip-header`
+- **PIX sanitize (EXP-35-D)** — `stripPixKey()` + `sanitize('pix')` (16 sanitizable types); CLI `sanitize pix`; playground PIX strip/sanitize tabs
+- **CSOSN embed (EXP-35-E)** — `@br-validators/core/csosn` with `getCsosnPorCodigo`, `getAllCsosn`, `validateCsosn`, `searchCsosn`; CLI `csosn lookup|search|validate`; playground `/data/fiscal` module; `pnpm fetch:data:csosn`
+- **eSocial Tabela 03 rubricas (EXP-35-F)** — extend `@br-validators/core/esocial` with `getEsocialRubricaPorCodigo`, `getAllEsocialRubricas`, `searchEsocialRubricas`; 208 payroll rubric nature codes from official Tabela 03; playground `/data/payroll` module; `pnpm fetch:data:esocial` now embeds categorias + rubricas
+- **PTAX 90-day embed (EXP-35-G)** — expand Bacen PTAX embed from 5 to **90 business days** (~860 rows); `getPtaxHistorico(moeda, { desde, ate })` with per-row `dataReferencia` / `isStale` / `warning`; metadata `janelaDiasUteis: 90`; CLI `ptax historico`
+- **Bundle size docs (EXP-35-H)** — `pnpm measure:bundle-sizes` esbuild gzip report per `@br-validators/core/*` subpath; committed table in `data/bundle-sizes/`; README + install guide; weekly/post-release CI artifact (report-only)
+- **ISS MUNIC/IBGE fallback (EXP-35-I)** — `lookupIssMunicipalPorIbge` cascade (500 embed → `fonte: 'munic-ibge'` → LC 116); **5.071** municipality embed; `pnpm fetch:data:iss-munic-ibge`; CLI/playground cascade lookup; golden **Acrelândia `1200013`**
 - **ISS municipal 500 + UF filter (EXP-34-ISS)** — expand `@br-validators/core/iss-municipal` embed from 100 to **500** municipalities (27 capitals + top IBGE SIDRA PIB 2022); primary fetch via [SIDRA 5938](https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022); `getIssMunicipalPorUf`, `getIssMunicipalUfsDisponiveis`, `searchIssMunicipal(query, { uf?, limit? })`; CLI `iss-municipal list --uf` and `search --uf`; playground UF filter on `/data/fiscal`; golden vectors for Campinas **`3509502`** and UF-scoped search
 - **Coverage gaps index** — [docs/COVERAGE-GAPS.md](docs/COVERAGE-GAPS.md) + `data/coverage-gaps/*.json` (5.071 municipalities not in ISS embed, 473 estimation-only rows); `pnpm generate:coverage-gaps`; README help-wanted section; issue templates `iss-municipal-contribution`, `rg-dv-upgrade`
+
+### Changed
+
+- **README parity (EXP-35-A)** — root + npm README document PTAX `dataReferencia` / `isStale` / 5-day embed window, `getAll*()` listing pattern, and ISS municipal `fonte` + `warning` examples; CLI README documents `ptax lookup` and `selic` `--verbose` staleness fields
+- **ISS municipal `fonte` field (EXP-35-B)** — `IssMunicipalResult.fonte: 'oficial' | 'estimativa'` derived from capital seeds vs LC 116 band rows; CLI JSON/human output; playground badge; golden vectors updated
+- **`sanitize('pix')` (EXP-35-D)** — closes v1.2.0 deferral; 16 sanitizable document types (was 15; PIX excluded until `stripPixKey`)
 
 ---
 

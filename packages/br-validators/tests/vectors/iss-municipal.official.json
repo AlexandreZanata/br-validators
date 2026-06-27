@@ -8,6 +8,8 @@
       "codigoIbge": 3550308,
       "aliquotaMin": 2,
       "aliquotaMax": 5,
+      "estimativa": false,
+      "fonte": "oficial",
       "leiUrlContains": "legislacao.prefeitura.sp.gov.br"
     },
     "rioDeJaneiro": {
@@ -27,6 +29,7 @@
       "aliquotaMin": 2,
       "aliquotaMax": 5,
       "estimativa": true,
+      "fonte": "estimativa",
       "leiUrlContains": "planalto.gov.br"
     }
   },

@@ -10,8 +10,8 @@ export const BACEN_PTAX_COTACAO_PERIODO_URL =
 export const PTAX_GOLDEN_USD = 'USD';
 export const PTAX_GOLDEN_EUR = 'EUR';
 
-export const PTAX_MIN_RECORDS = 10;
-export const PTAX_MAX_RECORDS = 80;
+export const PTAX_MIN_RECORDS = 600;
+export const PTAX_MAX_RECORDS = 1000;
 
 export const PTAX_MIN_MOEDAS = 10;
 export const PTAX_MAX_MOEDAS = 10;
@@ -19,4 +19,4 @@ export const PTAX_MAX_MOEDAS = 10;
 export const PTAX_STALE_WARNING =
   'Embedded data. For real-time use @br-validators/adapters-ptax';
 
-export const PTAX_EMBED_BUSINESS_DAYS = 5;
+export const PTAX_EMBED_BUSINESS_DAYS = 90;

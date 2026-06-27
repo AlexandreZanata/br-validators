@@ -65,7 +65,7 @@ export const CAPABILITIES: Record<DocumentSlug, DocumentCapabilities> = {
   },
   'nfe-chave': { validate: true, format: true, strip: true, sanitize: true, generate: true, parse: true },
   ie: { validate: true, format: true, strip: true, sanitize: true, generate: true, ufSelector: true },
-  pix: { validate: true, format: true, strip: false, sanitize: false, generate: true },
+  pix: { validate: true, format: true, strip: true, sanitize: true, generate: true },
   brcode: { validate: true, format: false, strip: false, sanitize: false, generate: false, parse: true, multiline: true },
   boleto: { validate: true, format: true, strip: true, sanitize: true, generate: true, convert: true, multiline: true },
   cartao: {

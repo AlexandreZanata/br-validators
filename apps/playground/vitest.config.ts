@@ -22,6 +22,7 @@ const coreSubpaths = [
   'cnpj',
   'cpf',
   'cst',
+  'csosn',
   'data-catalog',
   'detect',
   'feriados',

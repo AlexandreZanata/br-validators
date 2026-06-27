@@ -1,0 +1,13 @@
+{
+  "id": "iss-munic-ibge",
+  "municAnoPesquisa": 2024,
+  "municBaseUrl": "https://ftp.ibge.gov.br/Perfil_Municipios/2024/Base_de_Dados/Base_MUNIC_2024_20251107.xlsx",
+  "municPesquisaUrl": "https://www.ibge.gov.br/estatisticas/economicas/contabilidade/9078-pesquisa-de-informacoes-municipais.html",
+  "issSidraTableId": null,
+  "nota": "MUNIC 2024 public base has no ISS alíquota variable in SIDRA; v1 uses MUNIC survey universe + LC 116 Art. 8 legal band (2%–5%).",
+  "capturadoEm": "2026-06-27",
+  "contagens": {
+    "municipios": 5071
+  },
+  "documentacao": "docs/OFFICIAL-SOURCES.md#iss-munic-ibge"
+}

@@ -29,6 +29,7 @@ import * as issMunicipalEntry from '../src/iss-municipal.js';
 import * as feriadosEntry from '../src/feriados.js';
 import * as cnaesEntry from '../src/cnaes.js';
 import * as cfopEntry from '../src/cfop.js';
+import * as csosnEntry from '../src/csosn.js';
 import * as naturezaJuridicaEntry from '../src/natureza-juridica.js';
 import * as cnpjMotivosEntry from '../src/cnpj-motivos.js';
 import * as ibptEntry from '../src/ibpt.js';
@@ -255,6 +256,7 @@ describe('package exports', () => {
     expect(ptaxEntry.getPtaxCotacao).toBeTypeOf('function');
     expect(ptaxEntry.getPtaxUltimoDiaUtil).toBeTypeOf('function');
     expect(ptaxEntry.getPtaxCotacoesPorMoeda).toBeTypeOf('function');
+    expect(ptaxEntry.getPtaxHistorico).toBeTypeOf('function');
     expect(ptaxEntry.PTAX_DATA_VERSION.id).toBe('ptax');
   });
 
@@ -293,6 +295,9 @@ describe('package exports', () => {
     expect(issMunicipalEntry.getIssMunicipalPorUfMunicipio).toBeTypeOf('function');
     expect(issMunicipalEntry.getIssMunicipalUfsDisponiveis).toBeTypeOf('function');
     expect(issMunicipalEntry.searchIssMunicipal).toBeTypeOf('function');
+    expect(issMunicipalEntry.lookupIssMunicipalPorIbge).toBeTypeOf('function');
+    expect(issMunicipalEntry.getIssMunicIbgeCount()).toBeGreaterThan(5000);
+    expect(issMunicipalEntry.ISS_MUNIC_IBGE_DATA_VERSION.id).toBe('iss-munic-ibge');
     expect(issMunicipalEntry.ISS_MUNICIPAL_DATA_VERSION.id).toBe('iss-municipal');
   });
 
@@ -331,6 +336,13 @@ describe('package exports', () => {
     expect(cfopEntry.getCfopPorCodigo).toBeTypeOf('function');
     expect(cfopEntry.searchCfop).toBeTypeOf('function');
     expect(cfopEntry.CFOP_DATA_VERSION.id).toBe('cfop');
+  });
+
+  it('re-exports CSOSN API from csosn entry', () => {
+    expect(csosnEntry.getAllCsosn).toBeTypeOf('function');
+    expect(csosnEntry.getCsosnPorCodigo).toBeTypeOf('function');
+    expect(csosnEntry.validateCsosn).toBeTypeOf('function');
+    expect(csosnEntry.CSOSN_DATA_VERSION.id).toBe('csosn');
   });
 
   it('re-exports Natureza juridica API from natureza-juridica entry', () => {
@@ -387,6 +399,9 @@ describe('package exports', () => {
     expect(esocialEntry.getAllEsocialCategorias).toBeTypeOf('function');
     expect(esocialEntry.getEsocialCategoriaPorCodigo).toBeTypeOf('function');
     expect(esocialEntry.searchEsocialCategorias).toBeTypeOf('function');
+    expect(esocialEntry.getAllEsocialRubricas).toBeTypeOf('function');
+    expect(esocialEntry.getEsocialRubricaPorCodigo).toBeTypeOf('function');
+    expect(esocialEntry.searchEsocialRubricas).toBeTypeOf('function');
     expect(esocialEntry.ESOCIAL_DATA_VERSION.id).toBe('esocial');
   });
 

@@ -101,7 +101,7 @@ br-validators <type> strip <value>
 | `sanitize <type> [value]` | Apply ETL fixes then validate; `--uf` for `inscricao-estadual` |
 | `mask <type> [value]` | Unified display mask; `--uf` for IE / RG |
 | `compare <type> <valueA> <valueB>` | Normalized equality; `--uf` for IE / RG / título |
-| `batch <type>` | Bulk validate from stdin or `--file`; `--uf`, `--limit` |
+| `batch <type>` | Bulk validate from stdin or `--file`; CSV `--col`, `--delimiter`, `--skip-header`; `--uf`, `--limit` |
 | `diff <type> <valueA> <valueB>` | Field-level diff; `--uf` for IE / RG / título |
 | `generate <type>` | Synthetic valid document; `--seed`, `--masked`, `--format` |
 
@@ -111,6 +111,7 @@ br-validators sanitize cpf ' 123.456.789-09 ' --json
 br-validators mask cpf 12345678909 --json
 br-validators compare cpf '123.456.789-09' 12345678909 --json
 br-validators batch cpf --file values.txt --json
+br-validators batch cpf --file payroll.csv --col cpf --json
 br-validators diff cpf 12345678909 12345678901 --json
 br-validators generate cpf --seed 42 --masked
 ```

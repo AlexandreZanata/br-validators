@@ -1,0 +1,27 @@
+{
+  "source": "CONFAZ Ajuste SINIEF 03/10",
+  "url": "https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/a03_10",
+  "golden": {
+    "tributadaComCredito": {
+      "codigo": "101",
+      "descricaoContains": "permissão de crédito"
+    },
+    "semCredito": {
+      "codigo": "102",
+      "descricaoContains": "sem permissão de crédito"
+    },
+    "substituicaoTributaria": {
+      "codigo": "201",
+      "descricaoContains": "substituição tributária"
+    },
+    "icmsAnterior": {
+      "codigo": "500",
+      "descricaoContains": "cobrado anteriormente"
+    }
+  },
+  "invalid": {
+    "format": "99999",
+    "notInTable": "000"
+  },
+  "codeCount": 10
+}

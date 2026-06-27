@@ -14,6 +14,7 @@ export default tseslint.config(
       'apps/docs/api/**',
       'apps/docs/api-reference/**',
       'tests/integration/subpath-imports/.tmp/**',
+      'data/bundle-sizes/.tmp/**',
       'apps/playground/playwright-report/**',
       'apps/playground/test-results/**',
       'agent-harness/**',

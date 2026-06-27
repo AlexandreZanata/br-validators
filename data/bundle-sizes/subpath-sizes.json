@@ -1,0 +1,444 @@
+{
+  "measuredAt": "2026-06-27T15:56:16.147Z",
+  "coreVersion": "1.9.0",
+  "packageName": "@br-validators/core",
+  "toolchain": {
+    "esbuild": "0.25.12"
+  },
+  "rows": [
+    {
+      "exportKey": ".",
+      "importPath": "@br-validators/core",
+      "rawBytes": 3189577,
+      "gzipBytes": 251332,
+      "notes": "full barrel (all subpaths)"
+    },
+    {
+      "exportKey": "./generate",
+      "importPath": "@br-validators/core/generate",
+      "rawBytes": 3068907,
+      "gzipBytes": 228921,
+      "notes": "platform utilities"
+    },
+    {
+      "exportKey": "./batch",
+      "importPath": "@br-validators/core/batch",
+      "rawBytes": 3073357,
+      "gzipBytes": 226757,
+      "notes": "platform utilities"
+    },
+    {
+      "exportKey": "./diff",
+      "importPath": "@br-validators/core/diff",
+      "rawBytes": 3075673,
+      "gzipBytes": 226612,
+      "notes": "platform utilities"
+    },
+    {
+      "exportKey": "./compare",
+      "importPath": "@br-validators/core/compare",
+      "rawBytes": 3073943,
+      "gzipBytes": 226223,
+      "notes": "platform utilities"
+    },
+    {
+      "exportKey": "./mask",
+      "importPath": "@br-validators/core/mask",
+      "rawBytes": 3065845,
+      "gzipBytes": 225365,
+      "notes": "platform utilities"
+    },
+    {
+      "exportKey": "./sanitize",
+      "importPath": "@br-validators/core/sanitize",
+      "rawBytes": 3067397,
+      "gzipBytes": 224669,
+      "notes": "platform utilities"
+    },
+    {
+      "exportKey": "./detect",
+      "importPath": "@br-validators/core/detect",
+      "rawBytes": 3048223,
+      "gzipBytes": 224021,
+      "notes": "platform utilities"
+    },
+    {
+      "exportKey": "./cep",
+      "importPath": "@br-validators/core/cep",
+      "rawBytes": 2397007,
+      "gzipBytes": 165721,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./ncm",
+      "importPath": "@br-validators/core/ncm",
+      "rawBytes": 936596,
+      "gzipBytes": 145632,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./anp-combustiveis",
+      "importPath": "@br-validators/core/anp-combustiveis",
+      "rawBytes": 917071,
+      "gzipBytes": 93722,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./tse-municipios",
+      "importPath": "@br-validators/core/tse-municipios",
+      "rawBytes": 557230,
+      "gzipBytes": 86964,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./ibge",
+      "importPath": "@br-validators/core/ibge",
+      "rawBytes": 402007,
+      "gzipBytes": 61917,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./telefone",
+      "importPath": "@br-validators/core/telefone",
+      "rawBytes": 550145,
+      "gzipBytes": 40217,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./cbo",
+      "importPath": "@br-validators/core/cbo",
+      "rawBytes": 236821,
+      "gzipBytes": 37046,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./portos",
+      "importPath": "@br-validators/core/portos",
+      "rawBytes": 287577,
+      "gzipBytes": 36922,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./cest",
+      "importPath": "@br-validators/core/cest",
+      "rawBytes": 251264,
+      "gzipBytes": 36491,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./cnaes",
+      "importPath": "@br-validators/core/cnaes",
+      "rawBytes": 151304,
+      "gzipBytes": 25017,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./ptax",
+      "importPath": "@br-validators/core/ptax",
+      "rawBytes": 219351,
+      "gzipBytes": 22963,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./pncp-reference",
+      "importPath": "@br-validators/core/pncp-reference",
+      "rawBytes": 83848,
+      "gzipBytes": 17747,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./nbs",
+      "importPath": "@br-validators/core/nbs",
+      "rawBytes": 125610,
+      "gzipBytes": 16827,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./aeroportos",
+      "importPath": "@br-validators/core/aeroportos",
+      "rawBytes": 84464,
+      "gzipBytes": 16549,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./bancos",
+      "importPath": "@br-validators/core/bancos",
+      "rawBytes": 87643,
+      "gzipBytes": 14979,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./esocial",
+      "importPath": "@br-validators/core/esocial",
+      "rawBytes": 80317,
+      "gzipBytes": 14064,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./iss-municipal",
+      "importPath": "@br-validators/core/iss-municipal",
+      "rawBytes": 137786,
+      "gzipBytes": 12352,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./cfop",
+      "importPath": "@br-validators/core/cfop",
+      "rawBytes": 102702,
+      "gzipBytes": 9600,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./lc116",
+      "importPath": "@br-validators/core/lc116",
+      "rawBytes": 34312,
+      "gzipBytes": 9223,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./data-catalog",
+      "importPath": "@br-validators/core/data-catalog",
+      "rawBytes": 31699,
+      "gzipBytes": 6620,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./inscricao-estadual",
+      "importPath": "@br-validators/core/inscricao-estadual",
+      "rawBytes": 41467,
+      "gzipBytes": 6585,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./brcode",
+      "importPath": "@br-validators/core/brcode",
+      "rawBytes": 24218,
+      "gzipBytes": 5788,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./rg",
+      "importPath": "@br-validators/core/rg",
+      "rawBytes": 35412,
+      "gzipBytes": 5620,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./boleto",
+      "importPath": "@br-validators/core/boleto",
+      "rawBytes": 23195,
+      "gzipBytes": 4875,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./paises-bacen",
+      "importPath": "@br-validators/core/paises-bacen",
+      "rawBytes": 18066,
+      "gzipBytes": 4478,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./moedas",
+      "importPath": "@br-validators/core/moedas",
+      "rawBytes": 19599,
+      "gzipBytes": 4191,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./pix",
+      "importPath": "@br-validators/core/pix",
+      "rawBytes": 17987,
+      "gzipBytes": 4026,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./selic",
+      "importPath": "@br-validators/core/selic",
+      "rawBytes": 15837,
+      "gzipBytes": 3927,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./cst",
+      "importPath": "@br-validators/core/cst",
+      "rawBytes": 19600,
+      "gzipBytes": 3477,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./natureza-juridica",
+      "importPath": "@br-validators/core/natureza-juridica",
+      "rawBytes": 12468,
+      "gzipBytes": 3017,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./feriados",
+      "importPath": "@br-validators/core/feriados",
+      "rawBytes": 9751,
+      "gzipBytes": 2999,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./cnpj-motivos",
+      "importPath": "@br-validators/core/cnpj-motivos",
+      "rawBytes": 10047,
+      "gzipBytes": 2831,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./titulo-eleitor",
+      "importPath": "@br-validators/core/titulo-eleitor",
+      "rawBytes": 10750,
+      "gzipBytes": 2801,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./simples-nacional",
+      "importPath": "@br-validators/core/simples-nacional",
+      "rawBytes": 11048,
+      "gzipBytes": 2709,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./nfe-chave",
+      "importPath": "@br-validators/core/nfe-chave",
+      "rawBytes": 8001,
+      "gzipBytes": 2583,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./ibpt",
+      "importPath": "@br-validators/core/ibpt",
+      "rawBytes": 9421,
+      "gzipBytes": 2323,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./processo-judicial",
+      "importPath": "@br-validators/core/processo-judicial",
+      "rawBytes": 8318,
+      "gzipBytes": 2099,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./inscricao-estadual-produtor-rural",
+      "importPath": "@br-validators/core/inscricao-estadual-produtor-rural",
+      "rawBytes": 6349,
+      "gzipBytes": 2075,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./nfe-cuf",
+      "importPath": "@br-validators/core/nfe-cuf",
+      "rawBytes": 6597,
+      "gzipBytes": 2063,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./csosn",
+      "importPath": "@br-validators/core/csosn",
+      "rawBytes": 6408,
+      "gzipBytes": 2062,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./cnpj",
+      "importPath": "@br-validators/core/cnpj",
+      "rawBytes": 6939,
+      "gzipBytes": 2047,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./cartao-credito",
+      "importPath": "@br-validators/core/cartao-credito",
+      "rawBytes": 6396,
+      "gzipBytes": 1991,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./inss",
+      "importPath": "@br-validators/core/inss",
+      "rawBytes": 6290,
+      "gzipBytes": 1972,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./cnis",
+      "importPath": "@br-validators/core/cnis",
+      "rawBytes": 5331,
+      "gzipBytes": 1865,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./cnh",
+      "importPath": "@br-validators/core/cnh",
+      "rawBytes": 4852,
+      "gzipBytes": 1722,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./transparencia-snapshots",
+      "importPath": "@br-validators/core/transparencia-snapshots",
+      "rawBytes": 6069,
+      "gzipBytes": 1704,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./irpf",
+      "importPath": "@br-validators/core/irpf",
+      "rawBytes": 5290,
+      "gzipBytes": 1703,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./renavam",
+      "importPath": "@br-validators/core/renavam",
+      "rawBytes": 4652,
+      "gzipBytes": 1621,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./pis-pasep",
+      "importPath": "@br-validators/core/pis-pasep",
+      "rawBytes": 4341,
+      "gzipBytes": 1571,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./ean",
+      "importPath": "@br-validators/core/ean",
+      "rawBytes": 4840,
+      "gzipBytes": 1538,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./cpf",
+      "importPath": "@br-validators/core/cpf",
+      "rawBytes": 4121,
+      "gzipBytes": 1535,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./incoterms",
+      "importPath": "@br-validators/core/incoterms",
+      "rawBytes": 4440,
+      "gzipBytes": 1481,
+      "notes": "includes embed"
+    },
+    {
+      "exportKey": "./placa",
+      "importPath": "@br-validators/core/placa",
+      "rawBytes": 4381,
+      "gzipBytes": 1405,
+      "notes": "validator only"
+    },
+    {
+      "exportKey": "./lookup",
+      "importPath": "@br-validators/core/lookup",
+      "rawBytes": 3904,
+      "gzipBytes": 1118,
+      "notes": "platform utilities"
+    }
+  ]
+}

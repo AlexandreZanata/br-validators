@@ -22,6 +22,7 @@ export {
   PIX_DICT_API_SOURCE_URL,
 } from './core/pix/index.js';
 export { formatPixKey } from './format/pix.js';
+export { stripPixKey } from './strip/pix.js';
 export type { DetectedPixKeyType, ValidatePixKeyOptions } from './core/pix/index.js';
 export type {
   PixKey,

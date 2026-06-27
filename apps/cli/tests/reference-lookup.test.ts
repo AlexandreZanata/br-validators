@@ -68,6 +68,10 @@ describe('runReferenceLookupCommand — fiscal modules', () => {
     expect(cfop.cfop.codigo).toBe('1102');
 
     io.stdout.length = 0;
+    runReferenceLookupCommand('csosn', '102', { json: false, verbose: false }, io);
+    expect(io.stdout[0]).toContain('102');
+
+    io.stdout.length = 0;
     runReferenceLookupCommand('ncm', '12011000', { json: true, verbose: false }, io);
     const ncm = JSON.parse(io.stdout[0]) as { ncm: { codigo: string } };
     expect(ncm.ncm.codigo).toBe('12011000');

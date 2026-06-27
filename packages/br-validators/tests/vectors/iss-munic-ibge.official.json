@@ -1,0 +1,29 @@
+{
+  "source": "https://www.ibge.gov.br/estatisticas/economicas/contabilidade/9078-pesquisa-de-informacoes-municipais.html",
+  "municBaseSource": "https://ftp.ibge.gov.br/Perfil_Municipios/2024/Base_de_Dados/Base_MUNIC_2024_20251107.xlsx",
+  "lc116Source": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm#art8",
+  "municIbgeCount": 5071,
+  "golden": {
+    "acrelandia": {
+      "codigoIbge": 1200013,
+      "nome": "Acrelândia",
+      "uf": "AC",
+      "aliquotaMin": 2,
+      "aliquotaMax": 5,
+      "fonte": "munic-ibge",
+      "municAnoPesquisa": 2024
+    },
+    "saoPauloPartialEmbed": {
+      "codigoIbge": 3550308,
+      "fonte": "oficial"
+    }
+  },
+  "lc116Fallback": {
+    "codigoIbge": 1100015,
+    "nomeContains": "Alta Floresta"
+  },
+  "negative": {
+    "notFoundIbge": 9999999,
+    "invalidIbge": "abc"
+  }
+}

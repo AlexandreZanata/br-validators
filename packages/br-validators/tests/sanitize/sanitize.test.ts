@@ -1,7 +1,13 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+
+vi.mock('../../src/core/pix/detect.js', () => ({
+  detectPixKeyType: vi.fn(),
+}));
+
 import { sanitize } from '../../src/sanitize/index.js';
 import { applyFixes, stripForType } from '../../src/sanitize/fixes.js';
 import type { SanitizableDocumentType } from '../../src/sanitize/index.js';
+import { detectPixKeyType } from '../../src/core/pix/detect.js';
 import cpfVectors from '../vectors/cpf.official.json';
 import placaVectors from '../vectors/placa.official.json';
 import cepVectors from '../vectors/cep.official.json';
@@ -16,6 +22,7 @@ import boletoVectors from '../vectors/boleto.official.json';
 import cartaoVectors from '../vectors/cartao-credito.official.json';
 import eanVectors from '../vectors/ean.official.json';
 import pisVectors from '../vectors/pis-pasep.official.json';
+import pixVectors from '../vectors/pix.official.json';
 
 import ieSpRuralVectors from '../vectors/inscricao-estadual-produtor-rural.official.json';
 import ieSpVectors from '../vectors/ie.sp.official.json';
@@ -30,6 +37,31 @@ describe('sanitize()', () => {
       expect(result.fixes).toContain('trimmed');
       expect(result.fixes).toContain('removed_non_digits');
     }
+  });
+
+  it('sanitizes PIX email from uppercase messy input', () => {
+    vi.mocked(detectPixKeyType).mockReturnValue('email');
+    const result = sanitize(`  ${pixVectors.email.primary.toUpperCase()} `, 'pix');
+    expect(result).toMatchObject({ ok: true, value: pixVectors.email.primary });
+  });
+
+  it('applyFixes pix records lowercased fix for email', () => {
+    vi.mocked(detectPixKeyType).mockReturnValue('email');
+    const fixed = applyFixes(pixVectors.email.primary.toUpperCase(), 'pix');
+    expect(fixed.fixes).toContain('lowercased');
+  });
+
+  it('applyFixes pix records mask chars for phone input', () => {
+    vi.mocked(detectPixKeyType).mockReturnValue('phone');
+    const fixed = applyFixes('+55 10 99876-5432', 'pix');
+    expect(fixed.value).toBe(pixVectors.phone.primary);
+    expect(fixed.fixes).toContain('removed_mask_chars');
+  });
+
+  it('applyFixes pix records removed_non_digits when country code is injected', () => {
+    vi.mocked(detectPixKeyType).mockReturnValue('phone');
+    const fixed = applyFixes('11987654432', 'pix');
+    expect(fixed.fixes).toContain('removed_non_digits');
   });
 
   it('sanitizes placa from messy input', () => {
@@ -80,6 +112,12 @@ describe('sanitize()', () => {
     expect(result).toMatchObject({ ok: false, code: 'UNSUPPORTED_FORMAT' });
   });
 
+  it('returns validation failure for bad PIX key', () => {
+    vi.mocked(detectPixKeyType).mockReturnValue('unknown');
+    const result = sanitize('bad', 'pix');
+    expect(result.ok).toBe(false);
+  });
+
   it('returns validation failure for bad CPF', () => {
     const result = sanitize('bad', 'cpf');
     expect(result.ok).toBe(false);
@@ -104,6 +142,7 @@ describe('sanitize()', () => {
       'ean',
       'inscricao-estadual',
       'inscricao-estadual-produtor-rural',
+      'pix',
     ] as const;
     for (const type of types) {
       const fixed = applyFixes('  test-value  ', type);

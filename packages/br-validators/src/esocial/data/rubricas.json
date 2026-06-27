@@ -1,0 +1,1666 @@
+[
+  {
+    "codigo": "1000",
+    "natureza": "Salário, vencimento, soldo",
+    "descricao": "Corresponde ao salário básico contratual do empregado contratado de acordo com a CLT e o vencimento mensal do servidor público e do militar",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1001",
+    "natureza": "Subsídio",
+    "descricao": "Corresponde à remuneração paga na forma de subsídio",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1002",
+    "natureza": "Descanso semanal remunerado - DSR",
+    "descricao": "Valor correspondente a um dia de trabalho incidente sobre as verbas de natureza variável, tais como: horas extras, adicional noturno, produção, comissão, etc.",
+    "inicio": "01/01/2014",
+    "termino": "30/04/2024",
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1003",
+    "natureza": "Horas extraordinárias",
+    "descricao": "Valor correspondente à hora extraordinária de trabalho, acrescido de percentual de no mínimo 50%",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1004",
+    "natureza": "Horas extraordinárias - Banco de horas",
+    "descricao": "Valor correspondente a pagamento das horas extraordinárias, inicialmente destinadas para o banco de horas e que não foram compensadas",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1005",
+    "natureza": "Direito de arena",
+    "descricao": "Valores relativos a direito de arena decorrente do espetáculo, devidos ao atleta",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1006",
+    "natureza": "Intervalos intra e inter jornadas não concedidos",
+    "descricao": "Valores relativos a intervalos não concedidos de intrajornada ou interjornada",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1007",
+    "natureza": "Luvas e premiações",
+    "descricao": "Valores correspondentes a prêmios e luvas, devidos ao atleta",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1009",
+    "natureza": "Salário-família - Complemento",
+    "descricao": "Valor excedente ao do fixado pela previdência social para o salário-família",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1010",
+    "natureza": "Salário in natura - Pagos em bens ou serviços",
+    "descricao": "Salário in natura , também conhecido por salário utilidade, correspondente a remunerações pagas em bens ou serviços",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1011",
+    "natureza": "Sobreaviso e prontidão",
+    "descricao": "Valor correspondente a um percentual da hora normal de trabalho",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1012",
+    "natureza": "Descanso semanal remunerado - DSR e feriado",
+    "descricao": "Valores correspondentes a DSR e feriado: a) devidos a trabalhadores cuja remuneração não inclua o pagamento do descanso semanal remunerado (horistas, diaristas, semanalistas etc.); b) incidentes sobre parcelas salariais de natureza variável, tais como tarefa, horas extras, adicional noturno, produção, comissão etc.; c) devidos a trabalhadores que prestaram serviços nos dias de repouso semanal e feriado",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1015",
+    "natureza": "Adiantamento de férias",
+    "descricao": "Valor correspondente ao pagamento do adiantamento da remuneração de férias, inclusive do terço constitucional",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1016",
+    "natureza": "Férias",
+    "descricao": "Valor correspondente à remuneração devida na época da concessão das férias. Nessa natureza deve ser classificado também o valor pago mensalmente ao trabalhador avulso e ao empregado com contrato de trabalho intermitente, a título de férias",
+    "inicio": "01/01/2026",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1017",
+    "natureza": "Terço constitucional de férias",
+    "descricao": "Valor correspondente ao terço constitucional de férias relativo à remuneração devida na época da concessão das férias. Nessa natureza deve ser classificado também o valor pago mensalmente ao trabalhador avulso e ao empregado com contrato de trabalho intermitente, a título de terço constitucional de férias",
+    "inicio": "01/01/2026",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1018",
+    "natureza": "Férias - Abono ou gratificação de férias superior a 20 dias",
+    "descricao": "Remuneração a título de abono de férias, desde que excedente a 20 (vinte) dias do salário e concedido em virtude de cláusula contratual, do regulamento da empresa, de convenção ou acordo coletivo, como por exemplo, o art. 144 da CLT",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1019",
+    "natureza": "Terço constitucional de férias - Abono ou gratificação de férias superior a 20 dias",
+    "descricao": "Terço constitucional de férias incidente sobre remuneração a título de abono de férias, desde que excedente a 20 (vinte) dias do salário e concedido em virtude de cláusula contratual, do regulamento da empresa, de convenção ou acordo coletivo, como por exemplo, o art. 144 da CLT",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1020",
+    "natureza": "Férias",
+    "descricao": "Valor correspondente à remuneração a que faz jus na época da concessão das férias e o adicional constitucional a que o trabalhador adquiriu direito, inclusive o adiantamento de férias, quando pagas antecipadamente – nessa opção deve ser classificado também o valor pago mensalmente ao trabalhador avulso e ao empregado com contrato de trabalho intermitente, a título de férias",
+    "inicio": "01/01/2014",
+    "termino": "30/04/2023",
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1021",
+    "natureza": "Férias - Abono ou gratificação de férias superior a 20 dias",
+    "descricao": "Remuneração a título de abono de férias, desde que excedente a 20 (vinte) dias do salário e concedido em virtude de cláusula contratual, do regulamento da empresa, de convenção ou acordo coletivo, como por exemplo, o art. 144 da CLT",
+    "inicio": "01/01/2014",
+    "termino": "30/04/2023",
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1022",
+    "natureza": "Férias - Abono ou gratificação de férias não excedente a 20 dias",
+    "descricao": "Remuneração a título de abono de férias, incluído o terço constitucional de férias, desde que não excedente a 20 (vinte) dias do salário e concedido em virtude de cláusula contratual, do regulamento da empresa, de convenção ou acordo coletivo, como por exemplo o art. 144 da CLT",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1023",
+    "natureza": "Férias - Abono pecuniário",
+    "descricao": "Valor correspondente a conversão em dinheiro de parte dos dias de férias a que o trabalhador adquiriu direito, inclusive o adicional constitucional",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1024",
+    "natureza": "Férias - Dobro na vigência do contrato",
+    "descricao": "Valor correspondente a remuneração a que faz jus na época da concessão das férias, concedidas após o prazo de concessão, inclusive o adicional constitucional",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1040",
+    "natureza": "Licença-prêmio",
+    "descricao": "Valor relativo a licença-prêmio, em decorrência de afastamento do trabalho",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1041",
+    "natureza": "Licença-prêmio indenizada",
+    "descricao": "Valor correspondente à conversão em dinheiro da licença-prêmio",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1050",
+    "natureza": "Remuneração de dias de afastamento",
+    "descricao": "Remuneração de dias nos quais o trabalhador esteja afastado do trabalho sem prejuízo de sua remuneração",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1080",
+    "natureza": "Stock option",
+    "descricao": "Remuneração pelo exercício de opção de compra de ações da empresa",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1099",
+    "natureza": "Outras verbas salariais",
+    "descricao": "Outras verbas salariais/remuneratórias não previstas nos demais itens",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1201",
+    "natureza": "Adicional de função / cargo confiança",
+    "descricao": "Adicional ou gratificação concedida em virtude de cargo ou função de confiança",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1202",
+    "natureza": "Adicional de insalubridade",
+    "descricao": "Adicional por serviços em condições de insalubridade",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1203",
+    "natureza": "Adicional de periculosidade",
+    "descricao": "Adicional por serviços em condições perigosas",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1204",
+    "natureza": "Adicional de transferência",
+    "descricao": "Adicional em razão de transferência de trabalhador, enquanto durar a transferência",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1205",
+    "natureza": "Adicional noturno",
+    "descricao": "Adicional por trabalho em horário noturno",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1206",
+    "natureza": "Adicional por tempo de serviço",
+    "descricao": "Adicional em virtude do tempo de serviço (anuênio, quinquênio, etc.)",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1207",
+    "natureza": "Comissões, porcentagens, produção",
+    "descricao": "Valor correspondente a contraprestação de serviço, normalmente baseada em um percentual sobre as vendas totais desse trabalhador",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1208",
+    "natureza": "Gueltas ou gorjetas - Repassadas por fornecedores ou clientes",
+    "descricao": "Valores pagos diretamente por fornecedores a trabalhador a título de incentivos de vendas (gueltas) ou por clientes a título de recompensa por bons serviços prestados (gorjetas)",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1209",
+    "natureza": "Gueltas ou gorjetas - Repassadas pelo empregador",
+    "descricao": "Valores pagos relativos a gueltas ou gorjetas, por meio de repasse ao empregador",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1210",
+    "natureza": "Gratificação por acordo ou convenção coletiva",
+    "descricao": "Verba estabelecida em acordo ou convenção coletiva de trabalho",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1211",
+    "natureza": "Gratificações",
+    "descricao": "Verba não estabelecida em acordo ou convenção coletiva, mas paga para o empregado em decorrência de ajuste entre as partes ou por liberalidade do empregador, como por exemplo produtividade, assiduidade, etc.",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1212",
+    "natureza": "Gratificações ou outras verbas de natureza permanente",
+    "descricao": "Órgão público - Parcelas remuneratórias reconhecidamente inerentes às funções do cargo efetivo, cujo valor integra a remuneração do cargo efetivo",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1213",
+    "natureza": "Gratificações ou outras verbas de natureza transitória",
+    "descricao": "Órgão público - Parcelas remuneratórias vinculadas à atividade cujo recebimento dependa de avaliação de desempenho ou determinadas condições",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1214",
+    "natureza": "Adicional de penosidade",
+    "descricao": "Adicional pela realização de atividade árdua que exija do trabalhador esforço, atenção ou vigilância acima do comum",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1215",
+    "natureza": "Adicional de unidocência",
+    "descricao": "Adicional de unidocência para professores de 1ª a 4ª série",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1216",
+    "natureza": "Adicional de localidade",
+    "descricao": "Adicional pela realização de atividade em localidade transfronteiriça",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1217",
+    "natureza": "Gratificação de curso/concurso",
+    "descricao": "Verba de natureza remuneratória por atividade exercida em curso/concurso",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1225",
+    "natureza": "Quebra de caixa",
+    "descricao": "Valor destinado a cobrir os riscos assumidos por quem trabalha com manuseio de valores, para compensar eventuais descontos ou diferenças de numerários",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1230",
+    "natureza": "Remuneração do dirigente sindical",
+    "descricao": "Remuneração paga ao trabalhador afastado, durante o exercício da atividade sindical",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1299",
+    "natureza": "Outros adicionais",
+    "descricao": "Valores relativos a outros adicionais não previstos nos demais itens",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1300",
+    "natureza": "PLR - Participação em Lucros ou Resultados",
+    "descricao": "Valor correspondente a participação em lucros ou resultados da empresa, de acordo com lei específica",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1350",
+    "natureza": "Bolsa de estudo - Estagiário",
+    "descricao": "Valor devido ao estagiário em atividades práticas de complementação do currículo escolar, inclusive os valores pagos a título de recesso remunerado - Lei 11.788/2008",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1351",
+    "natureza": "Bolsa de estudo - Médico residente",
+    "descricao": "Bolsa de estudo ao médico residente",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1352",
+    "natureza": "Bolsa de estudo ou pesquisa",
+    "descricao": "Remuneração a professores, pesquisadores e demais profissionais com a finalidade de estudos ou pesquisa, exceto pagamentos a estagiário e médico-residente",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1401",
+    "natureza": "Abono",
+    "descricao": "Qualquer abono concedido de forma espontânea ou em virtude de acordo ou convenção coletiva, norma, etc.",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1402",
+    "natureza": "Abono PIS/PASEP",
+    "descricao": "Abono e/ou rendimento do PIS/PASEP repassado pelo empregador ou órgão público",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1403",
+    "natureza": "Abono legal",
+    "descricao": "As importâncias recebidas a título de ganhos eventuais e os abonos expressamente desvinculados do salário, por força da lei",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1404",
+    "natureza": "Auxílio babá",
+    "descricao": "Valor relativo a reembolso de despesas com babá, limitado ao menor salário de contribuição mensal e condicionado à comprovação do registro na carteira de trabalho e previdência social da empregada, do pagamento da remuneração e do recolhimento da contribuição previdenciária, pago em conformidade com a legislação trabalhista, observado o limite máximo de 6 (seis) anos de idade da criança (caso haja previsão em acordo coletivo da categoria, este limite de idade poderá ser maior)",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1405",
+    "natureza": "Assistência médica",
+    "descricao": "Valor pago diretamente ao trabalhador a título de assistência médica ou odontológica, inclusive o reembolso de despesas com medicamentos, óculos, aparelhos ortopédicos, despesas médico-hospitalares e outras similares",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1406",
+    "natureza": "Auxílio-creche",
+    "descricao": "O reembolso creche pago em conformidade com a legislação trabalhista, observado o limite máximo de 6 (seis) anos de idade da criança, quando devidamente comprovadas as despesas realizadas. Caso haja previsão em acordo coletivo da categoria, este limite de idade poderá ser maior.",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1407",
+    "natureza": "Auxílio-educação",
+    "descricao": "Valor relativo a plano educacional, ou bolsa de estudo, que vise à educação básica de trabalhadores e seus dependentes e, desde que vinculada às atividades desenvolvidas pela empresa, à educação profissional e tecnológica de trabalhadores, nos termos da Lei 9.394/1996, e: 1) não seja utilizado em substituição de parcela salarial; 2) o valor mensal do plano educacional ou bolsa de estudo, considerado individualmente, não ultrapasse 5% (cinco por cento) da remuneração do segurado a que se destina ou o valor correspondente a uma vez e meia o valor do limite mínimo mensal do salário de contribuição, o que for maior",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1409",
+    "natureza": "Salário-família",
+    "descricao": "Valor do salário-família, conforme definição legal aplicável",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1410",
+    "natureza": "Auxílio - Locais de difícil acesso",
+    "descricao": "Valor correspondente a transporte, habitação e alimentação fornecido ao trabalhador contratado para prestar serviço em localidade distante da sua residência, em canteiro de obras ou local que, por força da atividade, exija deslocamento e estada",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1411",
+    "natureza": "Auxílio-natalidade",
+    "descricao": "Valor relativo ao nascimento do filho de servidor público, previsto em lei",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1412",
+    "natureza": "Abono permanência",
+    "descricao": "Valor relativo ao abono de permanência, de acordo com a CF/1988",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1601",
+    "natureza": "Ajuda de custo - Aeronauta",
+    "descricao": "Adicional mensal recebidos pelo aeronauta, nos termos da Lei 5.929/1973",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1602",
+    "natureza": "Ajuda de custo de transferência",
+    "descricao": "Ajuda de custo em parcela única, em razão de transferência de local de trabalho",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1603",
+    "natureza": "Ajuda de custo",
+    "descricao": "Ajuda de custo paga ao trabalhador",
+    "inicio": "01/05/2018",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1604",
+    "natureza": "Ajuda de custo - Acima de 50% da remuneração mensal",
+    "descricao": "Ajuda de custo paga ao trabalhador, superior a 50% da sua remuneração mensal",
+    "inicio": "01/05/2018",
+    "termino": "31/03/2019",
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1619",
+    "natureza": "Ajuda compensatória - Programa Emergencial de Manutenção do Emprego e da Renda",
+    "descricao": "Ajuda compensatória paga pelo empregador ao empregado durante período de suspensão do contrato de trabalho ou redução proporcional de salário e jornada",
+    "inicio": "01/04/2020",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1620",
+    "natureza": "Ressarcimento de despesas pelo uso de veículo próprio",
+    "descricao": "Ressarcimento de despesas ao trabalhador, pela utilização de veículo de sua propriedade",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1621",
+    "natureza": "Ressarcimento de despesas de viagem, exceto despesas com veículos",
+    "descricao": "Ressarcimento de despesas pagas com recursos do trabalhador em viagens a trabalho",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1623",
+    "natureza": "Ressarcimento de provisão",
+    "descricao": "Ressarcimento de desconto efetuado em recibos de férias relativo a provisão de contribuição previdenciária",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1629",
+    "natureza": "Ressarcimento de outras despesas",
+    "descricao": "Ressarcimento de outras despesas pagas pelo trabalhador, não previstas nos demais itens",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1650",
+    "natureza": "Diárias de viagem",
+    "descricao": "Diárias de viagem ao trabalhador",
+    "inicio": "01/05/2018",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1651",
+    "natureza": "Diárias de viagem - Até 50% do salário",
+    "descricao": "Diárias de viagem ao trabalhador, desde que não exceda a 50% do seu salário-base mensal",
+    "inicio": "01/01/2014",
+    "termino": "30/04/2018",
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1652",
+    "natureza": "Diárias de viagem - Acima de 50% do salário",
+    "descricao": "Diárias de viagem superior a 50% do salário-base mensal",
+    "inicio": "01/01/2014",
+    "termino": "30/04/2018",
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1799",
+    "natureza": "Alimentação concedida em pecúnia com caráter indenizatório",
+    "descricao": "Auxílio-alimentação ou alimentação concedida sob a forma de pecúnia com natureza indenizatória por força de lei",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1800",
+    "natureza": "Alimentação concedida em pecúnia com caráter salarial",
+    "descricao": "Alimentação concedida sob a forma de pecúnia com natureza salarial",
+    "inicio": "01/01/2026",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1801",
+    "natureza": "Alimentação",
+    "descricao": "Auxílio-alimentação",
+    "inicio": "01/01/2014",
+    "termino": "30/06/2021",
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1802",
+    "natureza": "Etapas (marítimos)",
+    "descricao": "Auxílio-alimentação ao trabalhador marítimo",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1805",
+    "natureza": "Moradia",
+    "descricao": "Auxílio-moradia",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1806",
+    "natureza": "Alimentação em ticket ou cartão, vinculada ao PAT",
+    "descricao": "Alimentação concedida sob a forma de ticket ou cartão, por empresa vinculada ao Programa de Alimentação do Trabalhador - PAT",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1807",
+    "natureza": "Alimentação em ticket ou cartão, não vinculada ao PAT",
+    "descricao": "Alimentação concedida sob a forma de ticket ou cartão, por empresa não vinculada ao PAT",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1808",
+    "natureza": "Cesta básica ou refeição, vinculada ao PAT",
+    "descricao": "Alimentação concedida sob a forma de cesta básica ou refeição, por empresa vinculada ao PAT",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1809",
+    "natureza": "Cesta básica ou refeição, não vinculada ao PAT",
+    "descricao": "Alimentação concedida sob a forma de cesta básica ou refeição, por empresa não vinculada ao PAT",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1810",
+    "natureza": "Vale-transporte ou auxílio-transporte com caráter indenizatório",
+    "descricao": "Vale-transporte ou auxílio-transporte com natureza indenizatória por força de lei",
+    "inicio": "01/01/2026",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1811",
+    "natureza": "Auxílio-transporte ou auxílio-combustível com caráter salarial",
+    "descricao": "Auxílio-transporte, pago em pecúnia ou de outra forma, com natureza salarial",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "1899",
+    "natureza": "Outros auxílios",
+    "descricao": "Valores relativos a outros auxílios não previstos nos demais itens",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "1901",
+    "natureza": "Juros e/ou atualização monetária",
+    "descricao": "Juros e/ou atualização monetária devidos pelo atraso no pagamento de valores por exercício de emprego, cargo ou função",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "2501",
+    "natureza": "Prêmios",
+    "descricao": "Liberalidades concedidas pelo empregador em forma de bens, serviços ou valor em dinheiro a empregado ou a grupo de empregados, em razão de desempenho superior ao ordinariamente esperado no exercício de suas atividades",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "2502",
+    "natureza": "Liberalidades concedidas em mais de duas parcelas anuais",
+    "descricao": "Liberalidades concedidas pelo empregador em forma de bens, serviços ou valor em dinheiro a empregado ou a grupo de empregados, em razão de desempenho superior ao ordinariamente esperado no exercício de suas atividades, em mais de duas parcelas anuais",
+    "inicio": "01/05/2018",
+    "termino": "31/03/2019",
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "2510",
+    "natureza": "Direitos autorais e intelectuais",
+    "descricao": "Valor correspondente a participação em produção científica, intelectual ou artística",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "2801",
+    "natureza": "Quarentena remunerada",
+    "descricao": "Valor equivalente a remuneração se em exercício estivesse, devida ao trabalhador desligado, em período de quarentena",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "2901",
+    "natureza": "Empréstimos",
+    "descricao": "Empréstimos ao trabalhador para posterior desconto",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "2902",
+    "natureza": "Vestuário e equipamentos",
+    "descricao": "Valor correspondente a vestuários, equipamentos e outros acessórios fornecidos ao trabalhador e utilizados no local de trabalho para prestação dos respectivos serviços",
+    "inicio": "01/01/2014",
+    "termino": "31/07/2021",
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "2903",
+    "natureza": "Vestuário e equipamentos",
+    "descricao": "Valor correspondente a vestuários, equipamentos e outros acessórios quando esses se constituírem em salário utilidade",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "2920",
+    "natureza": "Reembolsos diversos",
+    "descricao": "Valor relativo a reembolsos diversos referentes a descontos indevidos efetuados em competências anteriores",
+    "inicio": "01/01/2014",
+    "termino": "31/07/2021",
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "2930",
+    "natureza": "Insuficiência de saldo",
+    "descricao": "Valor lançado em folha de pagamento para cobertura de excesso de descontos em relação a vencimentos, tanto o valor do vencimento no mês em que houver a insuficiência de saldo, como o respectivo desconto no(s) mês(es) posteriores",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "2999",
+    "natureza": "Arredondamentos",
+    "descricao": "Valor lançado em folha de pagamento, não superior a 99 centavos, relativo a arrendamentos",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "3501",
+    "natureza": "Remuneração por prestação de serviços",
+    "descricao": "Remuneração (inclusive adiantamentos) a contribuintes individuais, inclusive honorários, em trabalhos de natureza eventual e sem vínculo trabalhista",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "3505",
+    "natureza": "Retiradas (pró-labore) de diretores empregados",
+    "descricao": "Pró-labore ou retirada (remuneração) a diretores empregados (CLT)",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "3506",
+    "natureza": "Retiradas (pró-labore) de diretores não empregados",
+    "descricao": "Pró-labore ou retirada (remuneração) a diretores não empregados",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "3508",
+    "natureza": "Retiradas (pró-labore) de proprietários ou sócios",
+    "descricao": "Pró-labore ou retirada (remuneração) a proprietários ou sócios da empresa",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "3509",
+    "natureza": "Honorários a conselheiros",
+    "descricao": "Valor correspondente a honorários pagos a membros de conselho",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "3510",
+    "natureza": "Gratificação ( jeton )",
+    "descricao": "Valor correspondente a gratificação ( jeton ) por comparecimento a sessões ou reuniões",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "3511",
+    "natureza": "Gratificação eleitoral",
+    "descricao": "Valor correspondente ao exercício da atividade pelo juiz eleitoral",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "3520",
+    "natureza": "Remuneração de cooperado",
+    "descricao": "Remuneração a cooperado vinculado a cooperativa de trabalho",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "3525",
+    "natureza": "Côngruas, prebendas e afins",
+    "descricao": "Valores pagos a ministros de confissão religiosa e que independem de natureza e da quantidade do trabalho executado",
+    "inicio": "01/05/2018",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "4010",
+    "natureza": "Complementação salarial de auxílio-doença",
+    "descricao": "Complementação salarial de auxílio-doença ao trabalhador afastado por acidente de trabalho ou por doença",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "4011",
+    "natureza": "Complemento de salário-mínimo - RPPS",
+    "descricao": "Valor correspondente à diferença entre o salário-mínimo e o valor do vencimento do cargo efetivo pago a servidor público vinculado a Regime Próprio de Previdência Social - RPPS",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "4050",
+    "natureza": "Salário-maternidade",
+    "descricao": "Remuneração mensal da trabalhadora empregada durante a licença maternidade, quando paga pelo contratante ou órgão público",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "4051",
+    "natureza": "Salário-maternidade - 13° salário",
+    "descricao": "Valor correspondente ao 13° salário pago pelo contratante ou órgão público, no período de licença maternidade",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "5001",
+    "natureza": "13º salário",
+    "descricao": "Valor relativo ao 13° salário de trabalhador, inclusive as médias de 13° salário (horas extras, adicional noturno, etc.), exceto se relativo à primeira parcela ou se pago em rescisão contratual – nessa opção deve ser classificado também o valor pago mensalmente ao trabalhador avulso e ao empregado com contrato de trabalho intermitente, a título de 13° salário",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "5005",
+    "natureza": "13° salário complementar",
+    "descricao": "Valor do 13° salário complementar relativo a diferenças apuradas não consideradas na folha de fechamento do 13° salário",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "5501",
+    "natureza": "Adiantamento de salário",
+    "descricao": "Valor relativo a adiantamento, antecipação ou pagamento parcial de folha de salários",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "5504",
+    "natureza": "13º salário - Adiantamento",
+    "descricao": "Valor relativo a adiantamento do 13° salário",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "5510",
+    "natureza": "Adiantamento de benefícios previdenciários",
+    "descricao": "Valor relativo a adiantamento de benefícios a serem pagos pela Previdência Social Oficial",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6000",
+    "natureza": "Saldo de salários na rescisão contratual",
+    "descricao": "Valor correspondente aos dias trabalhados no mês da rescisão contratual",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6001",
+    "natureza": "13º salário relativo ao aviso prévio indenizado",
+    "descricao": "Valor correspondente ao 13° salário incidente sobre o aviso prévio indenizado",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6002",
+    "natureza": "13° salário proporcional na rescisão",
+    "descricao": "Valor correspondente ao 13° salário proporcional pago na rescisão do contrato de trabalho, exceto o pago sobre o aviso prévio indenizado",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6003",
+    "natureza": "Indenização compensatória do aviso prévio",
+    "descricao": "Valor da maior remuneração do trabalhador, correspondente ao número de dias relativo ao aviso prévio, calculado de acordo com o tempo de serviço do empregado",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6004",
+    "natureza": "Férias - Dobro na rescisão",
+    "descricao": "Valor correspondente a remuneração a que faz jus a época da rescisão contratual, correspondente a férias não concedidas no prazo legal, inclusive o adicional constitucional",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6006",
+    "natureza": "Férias proporcionais",
+    "descricao": "Valor correspondente a 1/12 avos da remuneração a que faz jus a época da rescisão contratual, fração superior a 14 dias por mês de trabalho e a projeção do aviso prévio indenizado, inclusive o adicional constitucional",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6007",
+    "natureza": "Férias vencidas na rescisão",
+    "descricao": "Valor correspondente a remuneração a que faz jus a época da rescisão contratual, correspondente a férias vencidas, mas dentro do prazo concessivo, inclusive o adicional constitucional",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6101",
+    "natureza": "Indenização compensatória - Multa rescisória 20 ou 40% (CF/88)",
+    "descricao": "Valor correspondente à indenização por demissão sem justa causa, por culpa recíproca ou força maior (ambas reconhecidas pela Justiça do Trabalho) ou por acordo entre empregado e empregador, quando da rescisão do contrato de trabalho; ou correspondente à antecipação da multa rescisória do FGTS paga ao empregado com contrato Verde e Amarelo",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6102",
+    "natureza": "Indenização do art. 9º da Lei 7.238/1984",
+    "descricao": "Valor correspondente a indenização quando a dispensa ocorrer sem justa causa dentro dos trinta dias que antecedem a data base",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6103",
+    "natureza": "Indenização do art. 14 da Lei 5.889/1973",
+    "descricao": "Valor correspondente a indenização do tempo de serviço ao safrista, importância correspondente a 1/12 (um doze avos) do salário mensal, por mês de serviço ou fração superior a 14 (quatorze) dias",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6104",
+    "natureza": "Indenização do art. 479 da CLT",
+    "descricao": "Valor correspondente a metade da remuneração devida ate o termino do contrato a prazo determinado em caso de rescisão antecipada",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6105",
+    "natureza": "Indenização recebida a título de incentivo a demissão",
+    "descricao": "Valor correspondente a incentivo a demissão em Programas de Demissão Voluntária - PDV",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6106",
+    "natureza": "Multa do art. 477 da CLT",
+    "descricao": "Valor devido ao trabalhador por atraso no pagamento de rescisão do contrato de trabalho (art. 477 da CLT, § 8º)",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6107",
+    "natureza": "Indenização por quebra de estabilidade",
+    "descricao": "Valor correspondente a indenização por desligamento durante período de estabilidade legal, ou estabilidade derivada de acordo ou convenção coletiva de trabalho",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6108",
+    "natureza": "Tempo de espera do motorista profissional",
+    "descricao": "Valor correspondente ao tempo de espera do motorista profissional",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6119",
+    "natureza": "Indenização rescisória - Programa Emergencial de Manutenção do Emprego e da Renda",
+    "descricao": "Indenização pela dispensa sem justa causa que ocorrer durante o período de garantia provisória no emprego de que trata o Programa Emergencial de Manutenção do Emprego e da Renda",
+    "inicio": "01/04/2020",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6129",
+    "natureza": "Outras verbas não remuneratórias (indenizatórias ou multas)",
+    "descricao": "Valor correspondente a parcelas indenizatórias ou outras multas previstas em leis ou em Instrumentos Coletivos de Trabalho, exceto as previstas nos demais itens",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6901",
+    "natureza": "Desconto do aviso prévio",
+    "descricao": "Valor descontado do trabalhador que tenha pedido demissão e não cumpriu aviso prévio, total ou parcialmente",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "6904",
+    "natureza": "Multa prevista no art. 480 da CLT",
+    "descricao": "Valor descontado do empregado pela rescisão antecipada, por iniciativa do empregado, do contrato de trabalho a termo",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "7001",
+    "natureza": "Proventos",
+    "descricao": "Valor dos proventos de Aposentadoria a servidor público",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "7002",
+    "natureza": "Proventos - Pensão por morte Civil",
+    "descricao": "Valor dos proventos por morte a beneficiário de servidor público",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "7003",
+    "natureza": "Proventos - Reserva",
+    "descricao": "Valor dos proventos a militar da reserva remunerada",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "7004",
+    "natureza": "Proventos - Reforma",
+    "descricao": "Valor dos proventos a militar reformado",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "7005",
+    "natureza": "Pensão Militar",
+    "descricao": "Valor da pensão a beneficiário de militar",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "7006",
+    "natureza": "Auxílio-reclusão",
+    "descricao": "Valor de auxílio-reclusão para o servidor público de baixa renda",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "7007",
+    "natureza": "Pensões especiais",
+    "descricao": "Valor das pensões de caráter especial diferentes de pensão por morte",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "7008",
+    "natureza": "Complementação de aposentadoria/ pensão",
+    "descricao": "Valor relativo à complementação de aposentadoria/pensão vinculada ao Regime Geral de Previdência Social - RGPS",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9200",
+    "natureza": "Desconto de adiantamentos",
+    "descricao": "Valor relativo a descontos a título de adiantamentos em geral, como de salários e outros, exceto a 1ª parcela do 13° salário",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9201",
+    "natureza": "Contribuição previdenciária",
+    "descricao": "Desconto a título de contribuição previdenciária",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9202",
+    "natureza": "Contribuição militar",
+    "descricao": "Desconto relativo à seguridade do militar e seus dependentes",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9203",
+    "natureza": "Imposto de Renda Retido na Fonte",
+    "descricao": "Desconto a título de Imposto de Renda Retido na Fonte - IRRF",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9205",
+    "natureza": "Provisão de contribuição previdenciária",
+    "descricao": "Desconto efetuado em recibos de férias relativo a provisão de contribuição previdenciária",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9207",
+    "natureza": "Faltas",
+    "descricao": "Desconto decorrente de ausência de trabalho durante todo o dia em razão de, por exemplo, falta injustificada, suspensão disciplinar, greve",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9208",
+    "natureza": "Atrasos",
+    "descricao": "Desconto decorrente de ausência de trabalho em razão de, por exemplo, atrasos no início da jornada de trabalho ou de saída antecipada do trabalhador",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9209",
+    "natureza": "Faltas ou atrasos",
+    "descricao": "Desconto correspondente a faltas, atrasos no início da jornada de trabalho ou à saída antecipada do trabalhador",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9210",
+    "natureza": "DSR s/faltas e atrasos",
+    "descricao": "Desconto correspondente ao Descanso Semanal Remunerado - DSR, calculado sobre faltas e atrasos do trabalhador",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9211",
+    "natureza": "DSR sobre faltas",
+    "descricao": "Desconto correspondente ao Descanso Semanal Remunerado - DSR, calculado sobre faltas do trabalhador",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9212",
+    "natureza": "DSR sobre atrasos",
+    "descricao": "Desconto correspondente ao Descanso Semanal Remunerado - DSR, calculado sobre atrasos do trabalhador",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9213",
+    "natureza": "Pensão alimentícia",
+    "descricao": "Desconto correspondente a pensão alimentícia sobre o salário mensal, 13° salário, PLR e férias",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9214",
+    "natureza": "13° salário - Desconto de adiantamento",
+    "descricao": "Desconto de antecipação do 13° salário",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9216",
+    "natureza": "Desconto de vale-transporte",
+    "descricao": "Desconto do vale-transporte referente a participação do trabalhador no custo ou em virtude de concessão do benefício em valor maior",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9217",
+    "natureza": "Contribuição a Outras Entidades e Fundos",
+    "descricao": "Desconto relativo a contribuições destinadas a outras entidades e fundos (Terceiros), como por exemplo, Sest, Senat, etc., devidas por algumas categorias de contribuintes individuais",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9218",
+    "natureza": "Retenções judiciais",
+    "descricao": "Desconto relativo a retenções de verbas devidas a trabalhadores por ordem judicial, exceto pensão alimentícia",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9219",
+    "natureza": "Desconto de assistência médica ou odontológica - Plano coletivo empresarial",
+    "descricao": "Desconto referente a participação do trabalhador no custo de assistência médica ou odontológica, ou em virtude de concessão do benefício em valor maior, nos casos de plano coletivo empresarial",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9220",
+    "natureza": "Alimentação - Desconto",
+    "descricao": "Desconto referente a participação do trabalhador no custo ou em virtude de concessão do benefício em valor maior",
+    "inicio": "01/01/2014",
+    "termino": "30/06/2021",
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9221",
+    "natureza": "Desconto de férias",
+    "descricao": "Valor correspondente a remuneração (dias) de férias do mês corrente pago no mês anterior ou adiantamento de férias",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9222",
+    "natureza": "Desconto de outros impostos e contribuições",
+    "descricao": "Desconto de outros impostos, taxas e contribuições, exceto Imposto de Renda Retido na Fonte, contribuição previdenciária e contribuições destinadas a outras entidades e fundos (Terceiros)",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9223",
+    "natureza": "Previdência complementar - Parte do empregado",
+    "descricao": "Desconto referente a participação do trabalhador no custo ou em virtude de concessão do benefício em valor maior",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9224",
+    "natureza": "FAPI - Parte do empregado",
+    "descricao": "Desconto referente a participação do trabalhador no custo de Fundo de Aposentadoria Programada Individual - FAPI, ou em virtude de concessão do benefício em valor maior",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9225",
+    "natureza": "Previdência complementar - Parte do servidor",
+    "descricao": "Desconto referente a participação do trabalhador no custeio de Plano de Previdência Complementar do Servidor Público",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9226",
+    "natureza": "Desconto de férias - Abono",
+    "descricao": "Desconto correspondente ao abono de férias pago no mês anterior ou adiantamento de férias",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9230",
+    "natureza": "Contribuição sindical laboral",
+    "descricao": "Valor correspondente ao desconto da contribuição laboral correspondente a um dia de trabalho a título de contribuição sindical",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9231",
+    "natureza": "Mensalidade sindical ou associativa",
+    "descricao": "Valor correspondente ao desconto referente a mensalidade sindical ou associativa do trabalhador",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9232",
+    "natureza": "Contribuição sindical - Assistencial",
+    "descricao": "Valor correspondente ao desconto da contribuição destinada ao custeio das atividades assistenciais do sindicato",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9233",
+    "natureza": "Contribuição sindical - Confederativa",
+    "descricao": "Valor correspondente ao desconto da contribuição destinada ao custeio do sistema confederativo",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9240",
+    "natureza": "Alimentação concedida em pecúnia - Desconto",
+    "descricao": "Desconto referente à alimentação concedida sob a forma de pecúnia",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9241",
+    "natureza": "Alimentação em ticket ou cartão, vinculada ao PAT - Desconto",
+    "descricao": "Desconto referente à participação do trabalhador no custo de alimentação concedida sob a forma de ticket ou cartão, por empresa vinculada ao Programa de Alimentação do Trabalhador - PAT",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9242",
+    "natureza": "Alimentação em ticket ou cartão, não vinculada ao PAT - Desconto",
+    "descricao": "Desconto referente à participação do trabalhador no custo de alimentação concedida sob a forma de ticket ou cartão, por empresa não vinculada ao PAT",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9243",
+    "natureza": "Cesta básica ou refeição, vinculada ao PAT - Desconto",
+    "descricao": "Desconto referente à participação do trabalhador no custo de alimentação concedida sob a forma de cesta básica ou refeição, por empresa vinculada ao PAT",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9244",
+    "natureza": "Cesta básica ou refeição, não vinculada ao PAT - Desconto",
+    "descricao": "Desconto referente à participação do trabalhador no custo de alimentação concedida sob a forma de cesta básica ou refeição, por empresa não vinculada ao PAT",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9250",
+    "natureza": "Seguro de vida - Desconto",
+    "descricao": "Desconto referente a participação do trabalhador no custo ou em virtude de concessão do benefício em valor maior",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9253",
+    "natureza": "Empréstimos eConsignado - Desconto",
+    "descricao": "Desconto de trabalhadores a título de empréstimos na modalidade eConsignado para repasse à instituição financeira consignatária recolhido em guia do FGTS conforme legislação específica",
+    "inicio": "01/07/2024",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9254",
+    "natureza": "Empréstimos consignados - Desconto",
+    "descricao": "Desconto de trabalhadores a título de empréstimos consignados, para repasse a instituição financeira consignatária",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9255",
+    "natureza": "Empréstimos do empregador - Desconto",
+    "descricao": "Desconto de trabalhadores a título de empréstimos efetuados pelo empregador ao trabalhador",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9258",
+    "natureza": "Convênios",
+    "descricao": "Desconto relativos a convênios diversos com empresas para fornecimento de produtos ou serviços ao empregado, sem pagamento imediato, mas com posterior desconto em folha de pagamento como farmácias, supermercados, etc.",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9260",
+    "natureza": "FIES - Desconto",
+    "descricao": "Desconto referente à amortização de financiamento do Fundo de Financiamento Estudantil (FIES), para repasse à instituição consignatária",
+    "inicio": "01/05/2018",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9270",
+    "natureza": "Danos e prejuízos causados pelo trabalhador",
+    "descricao": "Desconto do trabalhador para reparar danos e prejuízos por ele causados",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9290",
+    "natureza": "Desconto de pagamento indevido em meses anteriores",
+    "descricao": "Valor correspondente a desconto de verbas pagas indevidamente ao trabalhador em meses anteriores e que estão sendo descontadas no mês de referência, exceto valores relativos a assistência médica, alimentação, previdência complementar e seguro de vida",
+    "inicio": "01/01/2014",
+    "termino": "31/07/2021",
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9291",
+    "natureza": "Abate-teto",
+    "descricao": "Valor deduzido da remuneração total do segurado que supere o teto remuneratório constitucional",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9292",
+    "natureza": "Ressarcimento ao erário",
+    "descricao": "Valor deduzido da remuneração para pagamento de ressarcimento ou de penalidade",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9293",
+    "natureza": "Honorários advocatícios",
+    "descricao": "Valor descontado do trabalhador por determinação judicial a ser pago ao advogado/escritório de advocacia",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9294",
+    "natureza": "Redutor EC 41/03",
+    "descricao": "Valor descontado da remuneração do instituidor da pensão (Emenda Constitucional 41/2003)",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9299",
+    "natureza": "Outros descontos",
+    "descricao": "Outros descontos não previstos nos demais itens",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9901",
+    "natureza": "Base de cálculo da contribuição previdenciária",
+    "descricao": "Valor total da base de cálculo da contribuição previdenciária",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9902",
+    "natureza": "Total da base de cálculo do FGTS",
+    "descricao": "Valor total da base de cálculo do FGTS",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9903",
+    "natureza": "Total da base de cálculo do IRRF",
+    "descricao": "Valor total da base de cálculo do Imposto de Renda Retido na Fonte",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9904",
+    "natureza": "Total da base de cálculo do FGTS rescisório",
+    "descricao": "Valor total da base de cálculo do FGTS rescisório",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9905",
+    "natureza": "Serviço militar",
+    "descricao": "Valor não relativo a vencimento ou desconto, relativo à remuneração a que teria direito, se em atividade, o trabalhador afastado do trabalho para prestação do serviço militar obrigatório",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9906",
+    "natureza": "Remuneração no exterior",
+    "descricao": "Remuneração recebida no exterior por trabalhador expatriado sobre a qual incida contribuição previdenciária e/ou IRRF e/ou FGTS",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9907",
+    "natureza": "Total da contribuição da previdenciária patronal - RPPS",
+    "descricao": "Valor total da contribuição previdenciária patronal para o RPPS (normal, suplementar e aportes)",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9908",
+    "natureza": "FGTS - Depósito",
+    "descricao": "Valor do depósito do FGTS",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9910",
+    "natureza": "Seguros",
+    "descricao": "Valor relativo a prêmio de seguro de vida em grupo pago a empresa de seguros como benefício do trabalhador",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9911",
+    "natureza": "Assistência Médica",
+    "descricao": "Valor não relativo a vencimento ou desconto, relativo à assistência prestada por serviço médico ou odontológico, próprio da empresa ou por ela conveniado, como benefício ao trabalhador",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9912",
+    "natureza": "Desconto de assistência médica ou odontológica - Plano diferente de coletivo empresarial",
+    "descricao": "Desconto referente aos custos de assistência médica ou odontológica, quando não se tratar de plano de saúde coletivo empresarial (código [9219])",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9930",
+    "natureza": "Salário-maternidade pago pela Previdência Social",
+    "descricao": "Valor correspondente à remuneração mensal do(a) trabalhador(a) durante a licença maternidade, quando paga pela Previdência Social (RGPS ou pela Unidade Gestora do RPPS)",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "9931",
+    "natureza": "Salário-maternidade pago pela Previdência Social - 13° salário",
+    "descricao": "Valor correspondente ao 13° salário do(a) trabalhador(a) durante a licença maternidade, quando pago pela Previdência Social (RGPS ou pela Unidade Gestora do RPPS)",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Sim"
+  },
+  {
+    "codigo": "9932",
+    "natureza": "Auxílio-doença acidentário",
+    "descricao": "Valor relativo a base de cálculo do FGTS referente a afastamento decorrente de acidente de trabalho",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9933",
+    "natureza": "Auxílio-doença",
+    "descricao": "Valor de benefício previdenciário pago por Regime Próprio de Previdência Social ou valor de auxílio-doença dedutível conforme Lei 13.982/2020 (Covid-19)",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9938",
+    "natureza": "Isenção IRRF - 65 anos",
+    "descricao": "Valor da parcela isenta dos rendimentos de aposentadoria e pensão, transferência para a reserva remunerada ou reforma, pagos por órgão público de previdência oficial ou por entidade de previdência complementar, no caso de contribuinte com idade igual ou superior a 65 anos",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9939",
+    "natureza": "Outros valores tributáveis",
+    "descricao": "Valor não relativo a vencimento ou desconto mas considerado como base de cálculo do FGTS, e/ou da contribuição previdenciária e/ou do Imposto de Renda Retido na Fonte inclusive suas deduções e isenções",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9950",
+    "natureza": "Horas extraordinárias - Banco de horas",
+    "descricao": "Quantidade (em número decimal com dois dígitos) de horas extraordinárias incorporadas ao banco de horas",
+    "inicio": "01/01/2014",
+    "termino": "31/10/2019",
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9951",
+    "natureza": "Horas compensadas - Banco de horas",
+    "descricao": "Quantidade (em número decimal com dois dígitos) de horas compensadas no banco de horas",
+    "inicio": "01/01/2014",
+    "termino": "31/10/2019",
+    "codIncCP": "Não"
+  },
+  {
+    "codigo": "9989",
+    "natureza": "Outros valores informativos",
+    "descricao": "Outros valores informativos, que não sejam vencimentos nem descontos",
+    "inicio": "01/01/2014",
+    "termino": null,
+    "codIncCP": "Não"
+  }
+]

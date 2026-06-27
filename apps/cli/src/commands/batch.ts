@@ -1,4 +1,4 @@
-import { batch, type BatchResult, type UfCode } from '@br-validators/core';
+import { batch, parseBatchCsv, type BatchResult, type UfCode } from '@br-validators/core';
 import { EXIT } from '../constants.js';
 import { isPlatformDocumentType } from './platform-document-types.js';
 
@@ -9,7 +9,16 @@ export type BatchOptions = {
   /** Raw newline-separated values (from --file or stdin). */
   lines?: string;
   limit?: number;
+  col?: string;
+  delimiter?: string;
+  skipHeader?: boolean;
 };
+
+export type ResolveBatchInputsResult =
+  | { ok: true; values: string[] }
+  | { ok: false; reason: 'missing_input' }
+  | { ok: false; reason: 'empty' }
+  | { ok: false; reason: 'parse_error'; message: string };
 
 export function parseBatchLines(raw: string): string[] {
   return raw
@@ -18,15 +27,35 @@ export function parseBatchLines(raw: string): string[] {
     .filter((line) => line.length > 0);
 }
 
-export function resolveBatchInputs(options: BatchOptions): string[] | null {
+export function resolveBatchInputs(options: BatchOptions): ResolveBatchInputsResult {
   if (options.lines === undefined) {
-    return null;
+    return { ok: false, reason: 'missing_input' };
   }
-  const parsed = parseBatchLines(options.lines);
+
+  let parsed: string[];
+  if (options.col !== undefined) {
+    const csv = parseBatchCsv(options.lines, {
+      col: options.col,
+      delimiter: options.delimiter,
+      skipHeader: options.skipHeader,
+    });
+    if (!csv.ok) {
+      return { ok: false, reason: 'parse_error', message: csv.message };
+    }
+    parsed = csv.values;
+  } else {
+    parsed = parseBatchLines(options.lines);
+  }
+
+  if (parsed.length === 0) {
+    return { ok: false, reason: 'empty' };
+  }
+
   if (options.limit !== undefined && options.limit > 0) {
-    return parsed.slice(0, options.limit);
+    return { ok: true, values: parsed.slice(0, options.limit) };
   }
-  return parsed;
+
+  return { ok: true, values: parsed };
 }
 
 export function printBatch(
@@ -65,19 +94,20 @@ export function runBatch(
     return EXIT.USAGE;
   }
 
-  const inputs = resolveBatchInputs(options);
-  if (inputs === null) {
-    io.stderr.push('Missing input. Pass --file <path> or pipe one value per line on stdin.');
-    return EXIT.USAGE;
-  }
-
-  if (inputs.length === 0) {
-    io.stderr.push('No values to validate.');
+  const resolved = resolveBatchInputs(options);
+  if (!resolved.ok) {
+    if (resolved.reason === 'missing_input') {
+      io.stderr.push('Missing input. Pass --file <path> or pipe one value per line on stdin.');
+    } else if (resolved.reason === 'empty') {
+      io.stderr.push('No values to validate.');
+    } else {
+      io.stderr.push(resolved.message);
+    }
     return EXIT.USAGE;
   }
 
   const uf = options.uf?.toUpperCase() as UfCode | undefined;
   const platformOptions = uf ? { uf } : {};
-  const result = batch(inputs, type, platformOptions);
+  const result = batch(resolved.values, type, platformOptions);
   return printBatch(result, options, io);
 }

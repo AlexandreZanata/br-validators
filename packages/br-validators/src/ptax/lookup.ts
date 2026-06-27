@@ -5,7 +5,7 @@
 
 import ptaxData from './data/ptax.json';
 import { buildPtaxCotacaoResult } from './staleness.js';
-import type { PtaxCotacao, PtaxCotacaoResult, PtaxLookupOptions } from './types.js';
+import type { PtaxCotacao, PtaxCotacaoResult, PtaxHistoricoOptions, PtaxLookupOptions } from './types.js';
 
 const cotacoes: readonly PtaxCotacao[] = ptaxData as PtaxCotacao[];
 
@@ -109,4 +109,29 @@ export function getPtaxUltimoDiaUtil(
     return undefined;
   }
   return buildPtaxCotacaoResult(cotacao, options);
+}
+
+export function getPtaxHistorico(
+  moeda: string,
+  options: PtaxHistoricoOptions,
+): readonly PtaxCotacaoResult[] {
+  const normalizedMoeda = normalizeMoeda(moeda);
+  if (normalizedMoeda.length === 0) {
+    return [];
+  }
+
+  const desde = normalizeData(options.desde);
+  const ate = normalizeData(options.ate);
+  if (desde.length === 0 || ate.length === 0 || desde > ate) {
+    return [];
+  }
+
+  const rows = cotacoes
+    .filter(
+      (entry) =>
+        entry.moeda === normalizedMoeda && entry.data >= desde && entry.data <= ate,
+    )
+    .sort((left, right) => left.data.localeCompare(right.data));
+
+  return rows.map((row) => buildPtaxCotacaoResult(row, options));
 }

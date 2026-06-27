@@ -92,6 +92,7 @@ describe('eSocial — coverage and search', () => {
     expect(ESOCIAL_DATA_VERSION.endpoints).toContain(ESOCIAL_TABELAS_URL);
     expect(ESOCIAL_DATA_VERSION.endpoints).toContain(vectors.source);
     expect(ESOCIAL_DATA_VERSION.contagens.categorias).toBe(getAllEsocialCategorias().length);
+    expect(ESOCIAL_DATA_VERSION.contagens.rubricas).toBeGreaterThan(0);
     expect(ESOCIAL_DATA_VERSION.verificacao.agendamento).toBe('manual');
   });
 });

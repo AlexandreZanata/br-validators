@@ -40,6 +40,7 @@ import {
   stripNit,
   stripPisPasep,
   stripPlaca,
+  stripPixKey,
   stripRenavam,
   stripRg,
   stripTelefone,
@@ -122,6 +123,8 @@ function runSanitize(slug: DocumentSlug, input: string, uf: UfCode): SanitizeRes
       return sanitize(input, 'ean');
     case 'ie':
       return sanitize(input, 'inscricao-estadual', { uf });
+    case 'pix':
+      return sanitize(input, 'pix');
     default:
       return null;
   }
@@ -308,6 +311,7 @@ export function computeDocumentResults(
       break;
     }
     case 'pix': {
+      stripped = stripPixKey(input);
       const detected = detectPixKeyType(input);
       const validation = validatePixKey(input);
       const formatted = formatPixKey(input);

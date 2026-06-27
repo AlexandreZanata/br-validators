@@ -299,7 +299,7 @@ Embedded JSON from official `.gov.br` sources — **no runtime HTTP**. Each modu
 | CFOP fiscal operations | `@br-validators/core/cfop` | `cfop lookup` · `search` | `/data/fiscal` | `getCfopPorCodigo`, `searchCfop` | [CONFAZ CFOP SINIEF](https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cfop_cvsn_70_vigente) |
 | CST (ICMS, IPI, PIS, COFINS) | `@br-validators/core/cst` | — | `/data/fiscal` | `getCstIcmsPorCodigo`, `getCstIpiPorCodigo`, `searchCstIcms` | [RFB SPED CST tables](http://www.sped.fazenda.gov.br/spedtabelas/AppConsulta/publico/aspx/ConsultaTabelasExternas.aspx?CodSistema=SpedFiscal) |
 | LC 116 ISS services | `@br-validators/core/lc116` | — | `/data/fiscal` | `getLc116PorCodigo`, `searchLc116` | [LC 116/2003 Planalto](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm) |
-| eSocial worker categories | `@br-validators/core/esocial` | — | `/data/fiscal` | `getEsocialCategoriaPorCodigo`, `searchEsocialCategorias` | [eSocial S-1.3 Tabelas](https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html) |
+| eSocial (categorias + rubricas) | `@br-validators/core/esocial` | — | `/data/payroll` | `getEsocialCategoriaPorCodigo`, `getEsocialRubricaPorCodigo`, `searchEsocialRubricas` | [eSocial S-1.3 Tabelas](https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html) |
 | NCM Mercosur nomenclature | `@br-validators/core/ncm` | `ncm lookup` · `search` | `/data/fiscal` | `getNcmPorCodigo`, `searchNcm` | [Siscomex NCM JSON](https://portalunico.siscomex.gov.br/classif/api/publico/nomenclatura/download/json) |
 | IBPT approximate NCM tax burden | `@br-validators/core/ibpt` | — | `/data/fiscal` | `getIbptCargaPorNcmUf`, `computeIbptCargaTotal` | [IBPT Lei 12.741/2012](https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2012/lei/l12741.htm) |
 | Simples Nacional annex tables | `@br-validators/core/simples-nacional` | — | `/data/fiscal` | `getSimplesAnexo`, `getSimplesFaixa`, `computeSimplesAliquotaEfetiva` | [LC 123/2006 Planalto](https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2006/lei/l123.htm) |
@@ -308,17 +308,21 @@ Embedded JSON from official `.gov.br` sources — **no runtime HTTP**. Each modu
 | NBS (NFSe Nacional) | `@br-validators/core/nbs` | `nbs lookup` | `/data/fiscal` | `getNbsPorCodigo`, `searchNbs` | [NFSe Anexo B NBS2 xlsx](https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica/documentacao-atual/anexo_b-nbs2-lista_servico_nacional-snnfse.xlsx) |
 | CEST (substituição tributária) | `@br-validators/core/cest` | `cest lookup` | `/data/fiscal` | `getCestPorCodigo`, `getCestPorNcm`, `searchCest` | [CONFAZ ICMS 142/2018](https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18) |
 | ISO 4217 + Bacen PTAX moedas | `@br-validators/core/moedas` | `moedas lookup` | `/data/trade` | `getMoedaPorCodigo`, `searchMoedas` | [Bacen PTAX Moedas API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas) |
-| Bacen PTAX Fechamento | `@br-validators/core/ptax` | — | `/data/trade` | `getPtaxCotacao`, `getPtaxUltimoDiaUtil` | [Bacen Olinda PTAX API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3) |
+| Bacen PTAX Fechamento | `@br-validators/core/ptax` | `ptax lookup` · `ptax historico` | `/data/trade` | `getPtaxCotacao`, `getPtaxHistorico`, `getPtaxUltimoDiaUtil` (+ `dataReferencia`, `isStale`) | [Bacen Olinda PTAX API](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3) |
 | NF-e Bacen country codes | `@br-validators/core/paises-bacen` | `paises-bacen lookup` | `/data/trade` | `getPaisPorCodigoBacen`, `getPaisesBacen` | [NF-e country table](http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50=) |
 | NF-e cUF (IBGE state codes) | `@br-validators/core/nfe-cuf` | `nfe-cuf lookup` | `/data/fiscal` | `getCufPorCodigo`, `lookupCufPorCodigo` | [NF-e cUF table](http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=FOXZNFX/p50=) |
 | IRPF progressive brackets | `@br-validators/core/irpf` | `irpf tabela` · `irpf calc` | `/data/payroll` | `getIrpfTabelaProgressiva`, `calcularIrpfMensal` | [RFB IRPF tables](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas) |
 | INSS contribution brackets | `@br-validators/core/inss` | `inss tabela` · `inss calc` | `/data/payroll` | `getInssTabelaContribuicao`, `calcularInssMensal` | [INSS contribution rates](https://www.gov.br/inss/pt-br/direitos-e-deveres/inscricao-e-contribuicao/tabelas-de-contribuicao) |
 | Bacen SELIC meta | `@br-validators/core/selic` | `selic` | `/data/finance` | `getSelicMeta`, `getSelicMetaPorData` | [Bacen SGS série 432](https://www3.bcb.gov.br/sgspub/localizarseries/localizarSeries.do?method=prepararTelaLocalizarSeries) |
-| ISS municipal rates (top 500 PIB) | `@br-validators/core/iss-municipal` | `iss-municipal lookup` · `list` · `search [--uf]` | `/data/fiscal` | `getIssMunicipalPorIbge`, `getIssMunicipalPorUf`, `searchIssMunicipal` | [IBGE SIDRA PIB 5938](https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022) |
+| ISS municipal rates (top 500 PIB + MUNIC/IBGE fallback) | `@br-validators/core/iss-municipal` | `iss-municipal lookup` · `list` · `search [--uf]` | `/data/fiscal` | `lookupIssMunicipalPorIbge` (500 → `munic-ibge` → LC 116), `getIssMunicipalPorIbge`, `getAllIssMunicipal` — check `fonte` + `warning` | [IBGE SIDRA PIB 5938](https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022) · [MUNIC 2024](https://www.ibge.gov.br/estatisticas/economicas/contabilidade/9078-pesquisa-de-informacoes-municipais.html) |
 | ICC Incoterms 2020 | `@br-validators/core/incoterms` | `incoterms lookup` | `/data/trade` | `getIncotermPorCodigo`, `getIncoterms` | [ICC Incoterms rules](https://iccwbo.org/resources-for-business/incoterms-rules/) |
 | CBO 2002 occupations | `@br-validators/core/cbo` | `cbo lookup` · `search` | `/data/fiscal` | `getCboPorCodigo`, `searchCbo` | [MTE CBO downloads](https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/cbo/servicos/downloads) |
 | CEP prefix lookup | `@br-validators/core/cep` | `cep faixa` | — | `getCepFaixaInfo`, `getCepFaixas` | [IBGE CNEFE 2022](https://www.ibge.gov.br/estatisticas/sociais/populacao/38734-cadastro-nacional-de-enderecos-para-fins-estatisticos.html) |
 | Data transparency catalog | `@br-validators/core/data-catalog` | — | `/data/catalog` | `getDataCatalog`, `getDatasetMetadata` | Aggregates all `metadata.json` entries |
+
+> **PTAX embed:** last **90 business days** (`janelaDiasUteis: 90`) — not live Bacen. Every cotacao includes `dataReferencia` and `isStale`. Use `getPtaxHistorico(moeda, { desde, ate })` for contract-period FX variation. See [DATA-FRESHNESS.md](https://github.com/open-data-brazil/br-validators/blob/main/docs/DATA-FRESHNESS.md).
+>
+> **`getAll*()`:** each lookup row above has a matching `getAll*()` export — see [Listing reference data](#listing-reference-data-getall) below.
 
 ```typescript
 import { getMunicipioPorCodigo } from '@br-validators/core/ibge';
@@ -335,6 +339,7 @@ import { getNaturezaJuridicaPorCodigo } from '@br-validators/core/natureza-jurid
 import { getNbsPorCodigo } from '@br-validators/core/nbs';
 import { getCestPorCodigo } from '@br-validators/core/cest';
 import { getMoedaPorCodigo } from '@br-validators/core/moedas';
+import { getPtaxUltimoDiaUtil, getPtaxHistorico } from '@br-validators/core/ptax';
 import { getPaisPorCodigoBacen } from '@br-validators/core/paises-bacen';
 import { getIncotermPorCodigo } from '@br-validators/core/incoterms';
 import { getAeroportoPorIata } from '@br-validators/core/aeroportos';
@@ -344,7 +349,7 @@ import { getSelicMeta } from '@br-validators/core/selic';
 import { getIrpfTabelaProgressiva } from '@br-validators/core/irpf';
 import { getInssTabelaContribuicao } from '@br-validators/core/inss';
 import { getCufPorCodigo } from '@br-validators/core/nfe-cuf';
-import { getIssMunicipalPorIbge } from '@br-validators/core/iss-municipal';
+import { lookupIssMunicipalPorIbge } from '@br-validators/core/iss-municipal';
 import { getDataCatalog } from '@br-validators/core/data-catalog';
 
 getMunicipioPorCodigo(3550308)?.nome; // São Paulo
@@ -359,6 +364,15 @@ getNaturezaJuridicaPorCodigo('2062'); // Sociedade Empresária Limitada
 getNbsPorCodigo('1.1502.50.00');      // TI systems integration (NFSe)
 getCestPorCodigo('0302100');          // returnable beer bottle (ST)
 getMoedaPorCodigo('BRL')?.nome;       // Real Brasileiro
+
+const ptax = getPtaxUltimoDiaUtil('USD');
+ptax.dataReferencia;                 // always expose to callers
+ptax.isStale;                        // true when embed > 1 business day old
+ptax.warning;                        // present when stale
+
+getPtaxHistorico('USD', { desde: '2026-06-01', ate: '2026-06-26' });
+// each row: dataReferencia, isStale, warning
+
 getPaisPorCodigoBacen('1058')?.nome;  // Brasil (NF-e cPais)
 getIncotermPorCodigo('FOB')?.nome;    // Free On Board
 getAeroportoPorIata('GRU')?.nome;     // Guarulhos — SP
@@ -368,9 +382,26 @@ getSelicMeta()?.valor;              // latest Bacen SELIC meta (% a.a.)
 getIrpfTabelaProgressiva(2026);     // progressive monthly brackets
 getInssTabelaContribuicao(2026);    // INSS contribution table
 getCufPorCodigo('35')?.uf;          // SP (NF-e cUF)
-getIssMunicipalPorIbge(3550308);    // São Paulo ISS sample row
+const iss = getIssMunicipalPorIbge(3509502); // Campinas — estimativa row
+if (iss?.fonte === 'estimativa') {
+  console.warn(iss.warning);       // not for NFSe emission
+}
 getDataCatalog().length;              // registered datasets
 ```
+
+### Listing reference data (`getAll*`)
+
+```typescript
+import { getAllNcm } from '@br-validators/core/ncm';
+import { getAllCfop } from '@br-validators/core/cfop';
+import { getAllCstIcms } from '@br-validators/core/cst';
+
+getAllNcm().length;    // full NCM embed
+getAllCfop().length;   // full CFOP embed
+getAllCstIcms();       // ICMS CST rows
+```
+
+Also: `getAllBancos`, `getAllEsocialCategorias`, `getAllIssMunicipal`, `getAllAeroportos`. Deprecated names (`getNcms`, `getCfops`) — [MIGRATION.md](https://github.com/open-data-brazil/br-validators/blob/main/MIGRATION.md).
 
 Freshness table (auto-updated daily; ANP weekly): [docs/DATA-FRESHNESS.md](https://github.com/open-data-brazil/br-validators/blob/main/docs/DATA-FRESHNESS.md) · Per-type official URLs: [docs/OFFICIAL-SOURCES.md](https://github.com/open-data-brazil/br-validators/blob/main/docs/OFFICIAL-SOURCES.md)
 
@@ -391,6 +422,25 @@ import { validateCpf } from '@br-validators/core/cpf';
 // Only ships NF-e module
 import { parseNfeChave } from '@br-validators/core/nfe-chave';
 ```
+
+## Bundle size (gzipped)
+
+Measured `@br-validators/core@1.9.0` with `pnpm measure:bundle-sizes` (esbuild ESM bundle per subpath). **Reference-data subpaths include embedded JSON**; some validators (e.g. `cep`, `sanitize`) also bundle shared core dependencies when imported alone.
+
+| Subpath | Raw (esbuild) | Gzip | Notes |
+|---------|---------------|------|-------|
+| `@br-validators/core/cpf` | 4.0 KB | 1.5 KB | validator only |
+| `@br-validators/core/cnpj` | 6.8 KB | 2.0 KB | validator only |
+| `@br-validators/core/cep` | 2340.8 KB | 161.8 KB | validator only |
+| `@br-validators/core/ncm` | 914.6 KB | 142.2 KB | includes embed |
+| `@br-validators/core/cfop` | 100.3 KB | 9.4 KB | includes embed |
+| `@br-validators/core/cst` | 19.1 KB | 3.4 KB | includes embed |
+| `@br-validators/core/pix` | 17.6 KB | 3.9 KB | validator only |
+| `@br-validators/core/ptax` | 214.2 KB | 22.4 KB | includes embed |
+| `@br-validators/core/ibge` | 392.6 KB | 60.5 KB | includes embed |
+| `@br-validators/core/sanitize` | 2995.5 KB | 219.4 KB | platform utilities |
+
+Full table (62 subpaths): [data/bundle-sizes/subpath-sizes.md](../../data/bundle-sizes/subpath-sizes.md).
 
 ---
 

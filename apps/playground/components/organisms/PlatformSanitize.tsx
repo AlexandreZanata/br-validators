@@ -30,6 +30,7 @@ const SANITIZABLE_TYPES: { value: SanitizableDocumentType; label: string }[] = [
   { value: 'cartao-credito', label: 'Cartão de Crédito' },
   { value: 'inscricao-estadual', label: 'Inscrição Estadual' },
   { value: 'inscricao-estadual-produtor-rural', label: 'IE SP Produtor Rural' },
+  { value: 'pix', label: 'PIX key' },
 ];
 
 export function PlatformSanitize() {

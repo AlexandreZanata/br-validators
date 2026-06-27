@@ -1,16 +1,17 @@
 {
   "source": "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)",
   "swaggerUrl": "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3",
-  "minRecords": 10,
-  "maxRecords": 80,
+  "minRecords": 600,
+  "maxRecords": 1000,
   "minMoedas": 10,
   "maxMoedas": 10,
+  "janelaDiasUteis": 90,
   "golden": {
     "usdUltimoDiaUtil": {
       "moeda": "USD",
-      "data": "2026-06-25",
-      "cotacaoCompra": 5.1886,
-      "cotacaoVenda": 5.1892
+      "data": "2026-06-26",
+      "cotacaoCompra": 5.1689,
+      "cotacaoVenda": 5.1695
     },
     "usdHistorico": {
       "moeda": "USD",
@@ -21,16 +22,24 @@
     },
     "eurUltimoDiaUtil": {
       "moeda": "EUR",
-      "data": "2026-06-25",
-      "cotacaoCompra": 5.9062,
-      "cotacaoVenda": 5.9079
+      "data": "2026-06-26",
+      "cotacaoCompra": 5.8941,
+      "cotacaoVenda": 5.8953
+    },
+    "historicoRange": {
+      "moeda": "USD",
+      "desde": "2026-06-20",
+      "ate": "2026-06-26",
+      "expectedRowCount": 5,
+      "firstDate": "2026-06-22",
+      "lastDate": "2026-06-26"
     }
   },
   "staleness": {
-    "asOfFresh": "2026-06-26",
-    "freshReferenceDate": "2026-06-25",
+    "asOfFresh": "2026-06-27",
+    "freshReferenceDate": "2026-06-26",
     "staleReferenceDate": "2026-06-23",
-    "capturadoEm": "2026-06-26",
+    "capturadoEm": "2026-06-27",
     "staleWarning": "Embedded data. For real-time use @br-validators/adapters-ptax"
   }
 }

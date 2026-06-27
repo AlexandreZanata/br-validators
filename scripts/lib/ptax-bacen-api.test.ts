@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
+import periodoFixture from '../fixtures/ptax-periodo-response.json' with { type: 'json' };
 import {
   PTAX_FECHAMENTO_TIPO,
+  PTAX_ROLLING_BUSINESS_DAYS,
   buildPtaxPeriodoRequestUrl,
   collectRecentBusinessDayIsoDates,
   formatBacenPtaxDate,
@@ -10,40 +12,6 @@ import {
   parsePtaxIsoDateFromDataHora,
   resolvePtaxPeriodBounds,
 } from './ptax-bacen-api.js';
-
-const API_FIXTURE: readonly {
-  paridadeCompra: number;
-  paridadeVenda: number;
-  cotacaoCompra: number;
-  cotacaoVenda: number;
-  dataHoraCotacao: string;
-  tipoBoletim: string;
-}[] = [
-  {
-    paridadeCompra: 1,
-    paridadeVenda: 1,
-    cotacaoCompra: 5.21,
-    cotacaoVenda: 5.22,
-    dataHoraCotacao: '2025-06-24 13:08:18.606',
-    tipoBoletim: 'Fechamento',
-  },
-  {
-    paridadeCompra: 1,
-    paridadeVenda: 1,
-    cotacaoCompra: 5.48,
-    cotacaoVenda: 5.49,
-    dataHoraCotacao: '2025-06-24 10:10:27.808',
-    tipoBoletim: 'Abertura',
-  },
-  {
-    paridadeCompra: 1.15,
-    paridadeVenda: 1.15,
-    cotacaoCompra: 6.32,
-    cotacaoVenda: 6.33,
-    dataHoraCotacao: '2025-06-23 13:08:03.250',
-    tipoBoletim: 'Fechamento PTAX',
-  },
-];
 
 describe('formatBacenPtaxDate', () => {
   it('converts ISO dates to Bacen MM-dd-yyyy', () => {
@@ -85,7 +53,7 @@ describe('resolvePtaxPeriodBounds', () => {
 
 describe('parsePtaxFechamentoRows', () => {
   it('keeps only Fechamento PTAX rows deduped by date', () => {
-    const records = parsePtaxFechamentoRows('usd', API_FIXTURE);
+    const records = parsePtaxFechamentoRows('usd', periodoFixture.value);
     expect(records).toEqual([
       {
         moeda: 'USD',
@@ -108,6 +76,14 @@ describe('parsePtaxFechamentoRows', () => {
         tipoBoletim: PTAX_FECHAMENTO_TIPO,
       },
     ]);
+  });
+});
+
+describe('PTAX rolling window', () => {
+  it('targets 90 business days for embed refresh', () => {
+    expect(PTAX_ROLLING_BUSINESS_DAYS).toBe(90);
+    const dates = collectRecentBusinessDayIsoDates(new Date('2026-06-26T12:00:00.000Z'), 90);
+    expect(dates).toHaveLength(90);
   });
 });
 

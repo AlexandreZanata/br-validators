@@ -87,6 +87,7 @@ export {
   validatePixEmailKey,
   validatePixPhoneKey,
   validatePixEvpKey,
+  stripPixKey,
   PIX_GOLDEN_CPF,
   PIX_GOLDEN_CNPJ_NUMERIC,
   PIX_GOLDEN_CNPJ_ALPHANUMERIC,
@@ -190,8 +191,17 @@ export { mask, maskRuntime, isMaskableDocumentType, MASKABLE_DOCUMENT_TYPES } fr
 export type { MaskableDocumentType, MaskOptions } from './mask.js';
 export { compare, compareRuntime } from './compare.js';
 export type { CompareResult } from './compare.js';
-export { batch } from './batch.js';
-export type { BatchInvalidEntry, BatchResult, BatchSummary, BatchValidEntry } from './batch.js';
+export { batch, parseBatchCsv } from './batch.js';
+export type {
+  BatchInvalidEntry,
+  BatchResult,
+  BatchSummary,
+  BatchValidEntry,
+  ParseBatchCsvFailure,
+  ParseBatchCsvOptions,
+  ParseBatchCsvResult,
+  ParseBatchCsvSuccess,
+} from './batch.js';
 export { diff } from './diff.js';
 export type { DiffField, DiffResult } from './diff.js';
 export { generate } from './generate.js';

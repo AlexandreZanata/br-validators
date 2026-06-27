@@ -274,6 +274,10 @@
       "types": "./dist/cst.d.ts",
       "import": "./dist/cst.js"
     },
+    "./csosn": {
+      "types": "./dist/csosn.d.ts",
+      "import": "./dist/csosn.js"
+    },
     "./lc116": {
       "types": "./dist/lc116.d.ts",
       "import": "./dist/lc116.js"

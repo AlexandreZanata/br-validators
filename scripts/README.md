@@ -21,7 +21,8 @@ pnpm fetch:data:nbs       # Comex NBS → packages/br-validators/src/nbs/data/
 pnpm fetch:data:cest      # CONFAZ CEST → packages/br-validators/src/cest/data/
 pnpm fetch:data:cst       # RFB SPED CST tables → packages/br-validators/src/cst/data/
 pnpm fetch:data:lc116     # LC 116 ISS list → packages/br-validators/src/lc116/data/
-pnpm fetch:data:esocial   # eSocial Tabela 01 categorias → packages/br-validators/src/esocial/data/
+pnpm fetch:data:esocial   # eSocial Tabela 01 categorias + Tabela 03 rubricas → packages/br-validators/src/esocial/data/
+pnpm measure:bundle-sizes # esbuild raw + gzip per @br-validators/core subpath → data/bundle-sizes/
 pnpm fetch:data:portos    # ANTAQ portos → packages/br-validators/src/portos/data/
 pnpm fetch:data:pncp-reference # PNCP Cadastro domain tables → packages/br-validators/src/pncp-reference/data/
 pnpm fetch:data:transparencia  # CGU Swagger audit registry → packages/br-validators/src/transparencia-snapshots/data/
@@ -33,6 +34,7 @@ pnpm fetch:data:irpf       # RFB IRPF monthly progressive table → packages/br-
 pnpm fetch:data:inss       # INSS employee contribution table → packages/br-validators/src/inss/data/
 pnpm fetch:data:selic      # Bacen SGS 432 SELIC meta → packages/br-validators/src/selic/data/
 pnpm fetch:data:iss-municipal  # ISS municipal partial embed (manual; not daily bot) → packages/br-validators/src/iss-municipal/data/
+pnpm fetch:data:iss-munic-ibge # ISS MUNIC/IBGE fallback embed (~5071 municipalities) → packages/br-validators/src/iss-municipal/data/
 pnpm fetch:data           # All lightweight fetchers above (excludes cep-faixas)
 pnpm data:refresh         # All datasets + diff report + docs/DATA-FRESHNESS.md
 pnpm data:refresh:report  # Regenerate reports from committed JSON (no fetch)

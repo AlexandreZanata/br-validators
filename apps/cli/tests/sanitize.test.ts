@@ -10,9 +10,15 @@ describe('sanitize command', () => {
     expect(JSON.parse(io.stdout[0] ?? '{}')).toMatchObject({ ok: true, value: CPF_GOLDEN_PRIMARY });
   });
 
-  it('rejects unknown type', () => {
+  it('rejects unknown sanitize type', () => {
     const io = { stdout: [] as string[], stderr: [] as string[] };
-    expect(runSanitize('pix', 'x', { json: false, quiet: false }, io)).toBe(EXIT.USAGE);
+    expect(runSanitize('unknown', 'x', { json: false, quiet: false }, io)).toBe(EXIT.USAGE);
+  });
+
+  it('sanitizes PIX email key', () => {
+    const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(runSanitize('pix', '  PIX@BCB.GOV.BR ', { json: true, quiet: false }, io)).toBe(EXIT.OK);
+    expect(JSON.parse(io.stdout[0] ?? '{}')).toMatchObject({ ok: true, value: 'pix@bcb.gov.br' });
   });
 
   it('returns usage when input missing', () => {
@@ -35,7 +41,7 @@ describe('sanitize command', () => {
 
   it('isSanitizableType', () => {
     expect(isSanitizableType('cpf')).toBe(true);
-    expect(isSanitizableType('pix')).toBe(false);
+    expect(isSanitizableType('pix')).toBe(true);
   });
 
   it('printSanitize success human output', () => {

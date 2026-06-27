@@ -22,6 +22,13 @@ export interface PtaxLookupOptions {
   asOfDate?: string;
 }
 
+export interface PtaxHistoricoOptions extends PtaxLookupOptions {
+  /** Inclusive start date — ISO `YYYY-MM-DD` or Bacen `MM-DD-YYYY`. */
+  desde: string;
+  /** Inclusive end date — ISO `YYYY-MM-DD` or Bacen `MM-DD-YYYY`. */
+  ate: string;
+}
+
 export interface PtaxDataVersion {
   id: 'ptax';
   nome: string;
@@ -29,6 +36,7 @@ export interface PtaxDataVersion {
   endpoints: string[];
   capturadoEm: string;
   atualizadoEm: string;
+  janelaDiasUteis: number;
   contagens: {
     cotacoes: number;
     moedas: number;

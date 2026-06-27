@@ -39,8 +39,21 @@ export const ISS_MUNICIPAL_GOLDEN_CAMPINAS = 3509502;
 export const IBGE_SIDRA_PIB_URL =
   'https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022';
 
+export const IBGE_MUNIC_PESQUISA_URL =
+  'https://www.ibge.gov.br/estatisticas/economicas/contabilidade/9078-pesquisa-de-informacoes-municipais.html';
+
+export const IBGE_MUNIC_BASE_2024_URL =
+  'https://ftp.ibge.gov.br/Perfil_Municipios/2024/Base_de_Dados/Base_MUNIC_2024_20251107.xlsx';
+
+/** Golden municipality — Acrelândia/AC (not in 500-row embed; MUNIC fallback). */
+export const ISS_MUNIC_GOLDEN_ACRELANDIA = 1200013;
+
 export const ISS_MUNICIPAL_ESTIMATION_WARNING =
   'Partial municipal ISS embed for estimation and quoting only — not for NFSe emission. ' +
   'Confirm current alíquota and LC 116 item with the municipality before billing.';
+
+export const ISS_MUNIC_IBGE_WARNING =
+  'MUNIC/IBGE municipal profile fallback — LC 116 Art. 8 legal band only (2%–5%); not verified municipal ISS legislation. ' +
+  'Screening and planning only — not for NFSe emission. Confirm with the municipality before billing.';
 
 export const ISS_MUNICIPAL_METADATA_ESTIMATIVA = true;

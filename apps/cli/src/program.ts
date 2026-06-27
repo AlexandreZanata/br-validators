@@ -40,6 +40,7 @@ import {
   handleIssMunicipalResolveCli,
   handleIssMunicipalSearchCli,
   handlePtaxLookupCli,
+  handlePtaxHistoricoCli,
   handleCstLookupCli,
   handleCstSearchCli,
   handleCstValidateCli,
@@ -842,6 +843,22 @@ export function createProgram(): Command {
       writeCliIo(io);
     });
 
+  ptax
+    .command('historico')
+    .description('List embedded Fechamento PTAX rows for a currency and date range')
+    .argument('<moeda>', 'ISO 4217 currency code (e.g. USD)')
+    .argument('<desde>', 'Range start — YYYY-MM-DD or MM-DD-YYYY')
+    .argument('<ate>', 'Range end — YYYY-MM-DD or MM-DD-YYYY')
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include capturadoEm and janelaDiasUteis in JSON responses')
+    .action(
+      (moeda: string, desde: string, ate: string, opts: ReferenceDatasetCliOptions) => {
+        const io = { stdout: [] as string[], stderr: [] as string[] };
+        process.exitCode = handlePtaxHistoricoCli(moeda, desde, ate, opts, io);
+        writeCliIo(io);
+      },
+    );
+
   const cst = program.command('cst').description('RFB SPED CST — offline ICMS, IPI, PIS, COFINS tables');
 
   cst
@@ -960,7 +977,11 @@ export function createProgram(): Command {
     .option('--uf <uf>', 'State code (required for inscricao-estadual, rg, titulo-eleitor)')
     .option('--json', 'JSON output')
     .option('-q, --quiet', 'Exit code only')
-    .option('-f, --file <path>', 'Read values from file (one per line)')
+    .option('-f, --file <path>', 'Read values from file (one per line, or CSV with --col)')
+    .option('--col <name>', 'CSV column name or zero-based index (requires --file)')
+    .option('--delimiter <char>', 'CSV delimiter (default: comma)')
+    .option('--skip-header', 'Treat first CSV row as header (default: true)', true)
+    .option('--no-skip-header', 'Parse CSV without header row')
     .option('--limit <n>', 'Max number of values to process', (v: string) => Number(v))
     .action((type: string, opts: BatchCliOptions) => {
       const io = { stdout: [] as string[], stderr: [] as string[] };

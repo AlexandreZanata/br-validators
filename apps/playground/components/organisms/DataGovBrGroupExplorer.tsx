@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { Label } from '@/components/atoms/Label';
+import { Badge } from '@/components/atoms/Badge';
 import { Input } from '@/components/atoms/Input';
 import { Select } from '@/components/atoms/Select';
 import { OfficialSourceLink } from '@/components/molecules/OfficialSourceLink';
@@ -10,10 +11,12 @@ import { ResultSection } from '@/components/molecules/ResultSection';
 import { useI18n } from '@/components/providers/I18nProvider';
 import type { Messages } from '@/lib/i18n/types';
 import {
+  getIssMunicipalFieldValue,
+  issMunicipalFonteBadgeVariant,
   resolveIssMunicipalExplorerResults,
 } from '@/lib/reference-data/iss-municipal-filter';
 import type { CstTax } from '@br-validators/core/cst';
-import { getIssMunicipalUfsDisponiveis } from '@br-validators/core/iss-municipal';
+import { getIssMunicipalUfsDisponiveis, type IssMunicipalResult } from '@br-validators/core/iss-municipal';
 import {
   GOVBR_GROUPS,
   type GovBrGroupId,
@@ -36,6 +39,44 @@ function formatIssMunicipalCountLabel(template: string, count: number): string {
 
 function formatIssMunicipalListPreview(template: string, shown: number, count: number): string {
   return template.replace('{shown}', String(shown)).replace('{count}', String(count));
+}
+
+function formatIssMunicipalFonteLabel(
+  fonte: IssMunicipalResult['fonte'],
+  labels: { oficial: string; estimativa: string; municIbge: string },
+): string {
+  if (fonte === 'oficial') {
+    return labels.oficial;
+  }
+  if (fonte === 'munic-ibge') {
+    return labels.municIbge;
+  }
+  return labels.estimativa;
+}
+
+function renderIssMunicipalTitle(
+  row: IssMunicipalResult,
+  labels: { oficial: string; estimativa: string; municIbge: string },
+): React.ReactNode {
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+      <span>{`${row.nome}/${row.uf}`}</span>
+      <Badge variant={issMunicipalFonteBadgeVariant(row.fonte)}>
+        {formatIssMunicipalFonteLabel(row.fonte, labels)}
+      </Badge>
+    </span>
+  );
+}
+
+function renderIssMunicipalFieldValue(
+  row: IssMunicipalResult,
+  fieldKey: string,
+  fonteLabels: { oficial: string; estimativa: string; municIbge: string },
+): string {
+  if (fieldKey === 'fonte') {
+    return formatIssMunicipalFonteLabel(row.fonte, fonteLabels);
+  }
+  return formatFieldValue(getIssMunicipalFieldValue(row, fieldKey));
 }
 
 type GroupModuleCopy = {
@@ -77,6 +118,11 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
   const { messages } = useI18n();
   const copy = messages.referenceData[groupId];
   const fiscalCopy = groupId === 'fiscal' ? messages.referenceData.fiscal : null;
+  const issMunicipalFonteLabels = {
+    oficial: fiscalCopy?.issMunicipalFonteOficial ?? 'oficial',
+    estimativa: fiscalCopy?.issMunicipalFonteEstimativa ?? 'estimativa',
+    municIbge: fiscalCopy?.issMunicipalFonteMunicIbge ?? 'munic-ibge',
+  };
   const modules = GOVBR_GROUPS[groupId];
   const issMunicipalUfs = useMemo(() => getIssMunicipalUfsDisponiveis(), []);
   const [activeModuleId, setActiveModuleId] = useState<GovBrModuleId>(modules[0].id);
@@ -113,6 +159,7 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
           uf: row.uf,
           aliquotaMin: row.aliquotaMin,
           aliquotaMax: row.aliquotaMax,
+          fonte: row.fonte,
           warning: row.warning,
         };
       }
@@ -281,26 +328,15 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
             )}
           </p>
           {issMunicipalExplorer.rows.map((row) => (
-            <ResultSection key={row.codigoIbge} title={`${row.nome}/${row.uf}`}>
+            <ResultSection
+              key={row.codigoIbge}
+              title={renderIssMunicipalTitle(row, issMunicipalFonteLabels)}
+            >
               {activeModule.fieldKeys.map((fieldKey) => (
                 <ResultRow
                   key={`${String(row.codigoIbge)}-${fieldKey}`}
                   label={moduleCopy.fields[fieldKey] ?? fieldKey}
-                  value={formatFieldValue(
-                    fieldKey === 'codigoIbge'
-                      ? row.codigoIbge
-                      : fieldKey === 'nome'
-                        ? row.nome
-                        : fieldKey === 'uf'
-                          ? row.uf
-                          : fieldKey === 'aliquotaMin'
-                            ? row.aliquotaMin
-                            : fieldKey === 'aliquotaMax'
-                              ? row.aliquotaMax
-                              : fieldKey === 'warning'
-                                ? row.warning
-                                : null,
-                  )}
+                  value={renderIssMunicipalFieldValue(row, fieldKey, issMunicipalFonteLabels)}
                 />
               ))}
             </ResultSection>
@@ -311,26 +347,15 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
       {mode === 'lookup' && isIssMunicipalModule && issMunicipalExplorer?.mode === 'search' ? (
         <>
           {issMunicipalExplorer.rows.map((row) => (
-            <ResultSection key={row.codigoIbge} title={`${row.nome}/${row.uf}`}>
+            <ResultSection
+              key={row.codigoIbge}
+              title={renderIssMunicipalTitle(row, issMunicipalFonteLabels)}
+            >
               {activeModule.fieldKeys.map((fieldKey) => (
                 <ResultRow
                   key={`${String(row.codigoIbge)}-${fieldKey}`}
                   label={moduleCopy.fields[fieldKey] ?? fieldKey}
-                  value={formatFieldValue(
-                    fieldKey === 'codigoIbge'
-                      ? row.codigoIbge
-                      : fieldKey === 'nome'
-                        ? row.nome
-                        : fieldKey === 'uf'
-                          ? row.uf
-                          : fieldKey === 'aliquotaMin'
-                            ? row.aliquotaMin
-                            : fieldKey === 'aliquotaMax'
-                              ? row.aliquotaMax
-                              : fieldKey === 'warning'
-                                ? row.warning
-                                : null,
-                  )}
+                  value={renderIssMunicipalFieldValue(row, fieldKey, issMunicipalFonteLabels)}
                 />
               ))}
             </ResultSection>
@@ -339,12 +364,26 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
       ) : null}
 
       {mode === 'lookup' && lookupResult ? (
-        <ResultSection title={copy.resultTitle}>
+        <ResultSection
+          title={
+            isIssMunicipalModule && issMunicipalExplorer?.mode === 'single' && issMunicipalExplorer.rows[0]
+              ? renderIssMunicipalTitle(issMunicipalExplorer.rows[0], issMunicipalFonteLabels)
+              : copy.resultTitle
+          }
+        >
           {activeModule.fieldKeys.map((fieldKey) => (
             <ResultRow
               key={fieldKey}
               label={moduleCopy.fields[fieldKey] ?? fieldKey}
-              value={formatFieldValue(lookupResult[fieldKey] ?? null)}
+              value={
+                isIssMunicipalModule && issMunicipalExplorer?.mode === 'single' && issMunicipalExplorer.rows[0]
+                  ? renderIssMunicipalFieldValue(
+                      issMunicipalExplorer.rows[0],
+                      fieldKey,
+                      issMunicipalFonteLabels,
+                    )
+                  : formatFieldValue(lookupResult[fieldKey] ?? null)
+              }
             />
           ))}
         </ResultSection>

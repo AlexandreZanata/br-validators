@@ -24,6 +24,7 @@ const SANITIZABLE_TYPES: SanitizableDocumentType[] = [
   'ean',
   'inscricao-estadual',
   'inscricao-estadual-produtor-rural',
+  'pix',
 ];
 
 export function isSanitizableType(type: string): type is SanitizableDocumentType {

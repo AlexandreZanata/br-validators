@@ -412,6 +412,9 @@ describe('dispatchArgv', () => {
 
     const ptax = io();
     expect(dispatchArgv(['ptax', 'lookup', 'USD', '--json', '--verbose'], ptax)).toBe(EXIT.OK);
+    expect(
+      dispatchArgv(['ptax', 'historico', 'USD', '2026-06-23', '2026-06-24', '--json'], io()),
+    ).toBe(EXIT.OK);
 
     const selic = io();
     expect(dispatchArgv(['selic', '--json'], selic)).toBe(EXIT.OK);
