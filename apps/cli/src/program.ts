@@ -35,6 +35,7 @@ import {
   handleDddLookupCli,
   handleNfeCufLookupCli,
   handleSelicCli,
+  handleIssMunicipalListCli,
   handleIssMunicipalLookupCli,
   handleIssMunicipalResolveCli,
   handleIssMunicipalSearchCli,
@@ -775,6 +776,19 @@ export function createProgram(): Command {
     .description('Municipal ISS alíquotas — partial embed (estimation only, not NFSe)');
 
   issMunicipal
+    .command('list')
+    .description('List embedded municipalities for a UF')
+    .requiredOption('--uf <uf>', 'UF sigla (2 letters)')
+    .option('--json', 'JSON output')
+    .option('--verbose', 'Include dataset capture date in JSON responses')
+    .option('--limit <n>', 'Maximum rows', (value: string) => Number(value))
+    .action((opts: ReferenceDatasetCliOptions & { uf: string; limit?: number }) => {
+      const io = { stdout: [] as string[], stderr: [] as string[] };
+      process.exitCode = handleIssMunicipalListCli(opts, io);
+      writeCliIo(io);
+    });
+
+  issMunicipal
     .command('lookup')
     .description('Resolve ISS band by IBGE municipality code')
     .argument('<codigoIbge>', 'IBGE municipality code (7 digits)')
@@ -803,10 +817,11 @@ export function createProgram(): Command {
     .command('search')
     .description('Search embedded municipalities by name, UF, or IBGE code fragment')
     .argument('<query>', 'Search query')
+    .option('--uf <uf>', 'Scope search to a UF')
     .option('--json', 'JSON output')
     .option('--verbose', 'Include dataset capture date in JSON responses')
     .option('--limit <n>', 'Maximum rows', (value: string) => Number(value))
-    .action((query: string, opts: ReferenceDatasetCliOptions & { limit?: number }) => {
+    .action((query: string, opts: ReferenceDatasetCliOptions & { uf?: string; limit?: number }) => {
       const io = { stdout: [] as string[], stderr: [] as string[] };
       process.exitCode = handleIssMunicipalSearchCli(query, opts, io);
       writeCliIo(io);

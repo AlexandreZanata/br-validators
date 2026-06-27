@@ -51,7 +51,7 @@
 | `@br-validators/core/cfop` | CONFAZ CFOP fiscal operation code lookup |
 | `@br-validators/core/cst` | RFB SPED CST lookup (ICMS, IPI, PIS, COFINS) |
 | `@br-validators/core/lc116` | LC 116/2003 ISS national service list lookup |
-| `@br-validators/core/iss-municipal` | Partial municipal ISS alíquota bands (~100 cities; estimation only) |
+| `@br-validators/core/iss-municipal` | Partial municipal ISS alíquota bands (~500 cities; estimation only) |
 | `@br-validators/core/esocial` | eSocial Tabela 01 worker category lookup |
 | `@br-validators/core/simples-nacional` | LC 123/2006 Simples Nacional annex rate tables |
 | `@br-validators/core/irpf` | RFB IRPF monthly progressive withholding table |
@@ -1174,15 +1174,17 @@ CLI: `br-validators selic [--date YYYY-MM-DD] [--json] [--verbose]`
 
 ## Core API — ISS municipal (partial embed)
 
-> **Offline embedded data** — 27 capitals + top IBGE PIB municipalities (100 rows). **Estimation / quoting only — not NFSe emission.**  
+> **Offline embedded data** — 27 capitals + top IBGE PIB municipalities (500 rows). **Estimation / quoting only — not NFSe emission.**  
 > Freshness: [DATA-FRESHNESS.md](DATA-FRESHNESS.md) — `agendamento: manual` (`pnpm fetch:data:iss-municipal`); **not** in daily refresh bot.
 
 | Function | Returns |
 |----------|---------|
 | `getAllIssMunicipal()` | All embedded rows (`IssMunicipalRow[]`) |
 | `getIssMunicipalPorIbge(codigo)` | `IssMunicipalResult` or `undefined` |
+| `getIssMunicipalPorUf(uf)` | All embedded rows for a UF (`IssMunicipalResult[]`; `[]` when invalid or absent) |
 | `getIssMunicipalPorUfMunicipio(uf, nome)` | Accent-insensitive name match |
-| `searchIssMunicipal(query, { limit? })` | `IssMunicipalResult[]` |
+| `getIssMunicipalUfsDisponiveis()` | Sorted UF codes present in the embed |
+| `searchIssMunicipal(query, { uf?, limit? })` | `IssMunicipalResult[]` (optional UF scope) |
 | `ISS_MUNICIPAL_DATA_VERSION` | `IssMunicipalDataVersion` (`estimativa: true`) |
 
 Every `IssMunicipalResult` includes `warning`, `aliquotaMin`, `aliquotaMax`, `leiUrl`, `capturadoEm`, and `estimativa`.
@@ -1190,15 +1192,22 @@ Every `IssMunicipalResult` includes `warning`, `aliquotaMin`, `aliquotaMax`, `le
 Golden: IBGE **`3550308`** (São Paulo), **`3304557`** (Rio de Janeiro), **`3106200`** (Belo Horizonte). Vector: `iss-municipal.official.json`.
 
 ```typescript
-import { getIssMunicipalPorIbge } from '@br-validators/core/iss-municipal';
+import {
+  getIssMunicipalPorIbge,
+  getIssMunicipalPorUf,
+  searchIssMunicipal,
+} from '@br-validators/core/iss-municipal';
 
 const sp = getIssMunicipalPorIbge('3550308');
 // { codigoIbge: 3550308, aliquotaMin: 2, aliquotaMax: 5, warning: '...', estimativa: false, ... }
+
+getIssMunicipalPorUf('SP').length; // ~30–40 at 500-row embed
+searchIssMunicipal('campinas', { uf: 'SP', limit: 5 });
 ```
 
-**Official sources:** [OFFICIAL-SOURCES.md § ISS municipal](OFFICIAL-SOURCES.md#iss-municipal) — [LC 116 Art. 8](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm#art8) · [IBGE PIB municipal](https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9088-produto-interno-bruto-dos-municipios.html)
+**Official sources:** [OFFICIAL-SOURCES.md § ISS municipal](OFFICIAL-SOURCES.md#iss-municipal) — [LC 116 Art. 8](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm#art8) · [IBGE SIDRA PIB 5938](https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022) · [IBGE PIB municipal](https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9088-produto-interno-bruto-dos-municipios.html)
 
-CLI: `br-validators iss-municipal lookup <codigoIbge>` · `resolve <uf> <nome>` · `search <query> [--json] [--verbose]`
+CLI: `br-validators iss-municipal lookup <codigoIbge>` · `list --uf SP` · `resolve <uf> <nome>` · `search <query> [--uf SP]` · `[--json] [--verbose]`
 
 ---
 

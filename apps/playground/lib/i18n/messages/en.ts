@@ -123,6 +123,10 @@ export const en = {
       cstTaxLabel: 'CST tax table',
       issMunicipalDisclaimer:
         'Partial municipal ISS embed for estimation only — not for NFSe emission. Confirm current alíquota with the municipality.',
+      issMunicipalUfFilter: 'Filter by UF',
+      issMunicipalUfAll: 'All UFs',
+      issMunicipalCountLabel: '{count} municipalities in embed',
+      issMunicipalListPreview: 'Showing first {shown} of {count} municipalities',
       notFound: 'Code not found.',
       capturedAt: 'Dataset captured',
       officialSource: 'Official source',

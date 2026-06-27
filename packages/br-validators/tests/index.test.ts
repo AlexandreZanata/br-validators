@@ -289,7 +289,9 @@ describe('package exports', () => {
   it('re-exports ISS municipal API from iss-municipal entry', () => {
     expect(issMunicipalEntry.getAllIssMunicipal).toBeTypeOf('function');
     expect(issMunicipalEntry.getIssMunicipalPorIbge).toBeTypeOf('function');
+    expect(issMunicipalEntry.getIssMunicipalPorUf).toBeTypeOf('function');
     expect(issMunicipalEntry.getIssMunicipalPorUfMunicipio).toBeTypeOf('function');
+    expect(issMunicipalEntry.getIssMunicipalUfsDisponiveis).toBeTypeOf('function');
     expect(issMunicipalEntry.searchIssMunicipal).toBeTypeOf('function');
     expect(issMunicipalEntry.ISS_MUNICIPAL_DATA_VERSION.id).toBe('iss-municipal');
   });

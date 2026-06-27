@@ -38,6 +38,7 @@ import {
   handleDddLookupCli,
   handleNfeCufLookupCli,
   handleSelicCli,
+  handleIssMunicipalListCli,
   handleIssMunicipalLookupCli,
   handleIssMunicipalResolveCli,
   handleIssMunicipalSearchCli,
@@ -434,6 +435,9 @@ export function dispatchArgv(tokens: string[], io: CliIo): number {
         const value = rest[1];
         return handleIssMunicipalLookupCli(value, opts, io);
       }
+      if (action === 'list') {
+        return handleIssMunicipalListCli(opts, io);
+      }
       if (action === 'resolve') {
         const uf = rest[1];
         const nome = rest.slice(2).join(' ') || undefined;
@@ -443,7 +447,7 @@ export function dispatchArgv(tokens: string[], io: CliIo): number {
         const value = rest.slice(1).join(' ') || undefined;
         return handleIssMunicipalSearchCli(value, opts, io);
       }
-      return usage(io, 'Expected: iss-municipal lookup|resolve|search <args>');
+      return usage(io, 'Expected: iss-municipal lookup|list|resolve|search <args>');
     }
     case 'ptax': {
       const action = rest[0];

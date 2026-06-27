@@ -38,6 +38,7 @@ import { runDddLookup } from './commands/ddd/lookup.js';
 import { runNfeCufLookup } from './commands/nfe-cuf/lookup.js';
 import { runSelicCommand } from './commands/selic/index.js';
 import {
+  runIssMunicipalList,
   runIssMunicipalLookup,
   runIssMunicipalResolve,
   runIssMunicipalSearch,
@@ -1184,6 +1185,18 @@ export function handleSelicCli(
   }, io);
 }
 
+export function handleIssMunicipalListCli(
+  opts: ReferenceDatasetCliOptions & { uf?: string; limit?: number },
+  io: CliIo = { stdout: [], stderr: [] },
+): number {
+  return runIssMunicipalList({
+    json: Boolean(opts.json),
+    verbose: Boolean(opts.verbose),
+    uf: opts.uf,
+    limit: opts.limit,
+  }, io);
+}
+
 export function handleIssMunicipalLookupCli(
   codigo: string | undefined,
   opts: ReferenceDatasetCliOptions,
@@ -1194,13 +1207,14 @@ export function handleIssMunicipalLookupCli(
 
 export function handleIssMunicipalSearchCli(
   query: string | undefined,
-  opts: ReferenceDatasetCliOptions & { limit?: number },
+  opts: ReferenceDatasetCliOptions & { uf?: string; limit?: number },
   io: CliIo = { stdout: [], stderr: [] },
 ): number {
   return runIssMunicipalSearch(query, {
     json: Boolean(opts.json),
     verbose: Boolean(opts.verbose),
     limit: opts.limit,
+    uf: opts.uf,
   }, io);
 }
 

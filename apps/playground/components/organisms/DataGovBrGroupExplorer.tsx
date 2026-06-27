@@ -9,12 +9,17 @@ import { ResultRow } from '@/components/molecules/ResultRow';
 import { ResultSection } from '@/components/molecules/ResultSection';
 import { useI18n } from '@/components/providers/I18nProvider';
 import type { Messages } from '@/lib/i18n/types';
+import {
+  resolveIssMunicipalExplorerResults,
+} from '@/lib/reference-data/iss-municipal-filter';
 import type { CstTax } from '@br-validators/core/cst';
+import { getIssMunicipalUfsDisponiveis } from '@br-validators/core/iss-municipal';
 import {
   GOVBR_GROUPS,
   type GovBrGroupId,
   type GovBrModuleDefinition,
   type GovBrModuleId,
+  type GovBrLookupRow,
 } from '@/lib/reference-data/govbr-groups';
 import styles from './organisms.module.css';
 
@@ -23,6 +28,14 @@ function formatFieldValue(value: string | number | null): string {
     return '—';
   }
   return String(value);
+}
+
+function formatIssMunicipalCountLabel(template: string, count: number): string {
+  return template.replace('{count}', String(count));
+}
+
+function formatIssMunicipalListPreview(template: string, shown: number, count: number): string {
+  return template.replace('{shown}', String(shown)).replace('{count}', String(count));
 }
 
 type GroupModuleCopy = {
@@ -41,7 +54,17 @@ function getGroupModuleCopy(
 ): GroupModuleCopy {
   if (groupId === 'fiscal') {
     return messages.referenceData.fiscal.modules[
-      moduleId as 'naturezaJuridica' | 'nbs' | 'cest' | 'cnae' | 'cfop' | 'ncm' | 'nfeCuf' | 'cbo' | 'cst'
+      moduleId as
+        | 'naturezaJuridica'
+        | 'nbs'
+        | 'cest'
+        | 'cnae'
+        | 'cfop'
+        | 'ncm'
+        | 'nfeCuf'
+        | 'cbo'
+        | 'cst'
+        | 'issMunicipal'
     ];
   }
   if (groupId === 'trade') {
@@ -55,21 +78,49 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
   const copy = messages.referenceData[groupId];
   const fiscalCopy = groupId === 'fiscal' ? messages.referenceData.fiscal : null;
   const modules = GOVBR_GROUPS[groupId];
+  const issMunicipalUfs = useMemo(() => getIssMunicipalUfsDisponiveis(), []);
   const [activeModuleId, setActiveModuleId] = useState<GovBrModuleId>(modules[0].id);
   const activeModule = useMemo(
     () => modules.find((module) => module.id === activeModuleId) ?? modules[0],
     [activeModuleId, modules],
   );
   const [lookupInput, setLookupInput] = useState(activeModule.defaultCode);
+  const [issMunicipalUf, setIssMunicipalUf] = useState('');
   const [mode, setMode] = useState<ExplorerMode>('lookup');
   const [cstTax, setCstTax] = useState<CstTax>(activeModule.defaultCstTax ?? 'icms');
 
   const moduleCopy = getGroupModuleCopy(messages, groupId, activeModule.id);
   const supportsValidate = activeModule.validate !== undefined;
-  const lookupResult = useMemo(
-    () => activeModule.lookup(lookupInput),
-    [activeModule, lookupInput],
-  );
+  const isIssMunicipalModule = activeModule.id === 'issMunicipal';
+
+  const issMunicipalExplorer = useMemo(() => {
+    if (!isIssMunicipalModule) {
+      return null;
+    }
+    return resolveIssMunicipalExplorerResults(lookupInput, issMunicipalUf);
+  }, [isIssMunicipalModule, lookupInput, issMunicipalUf]);
+
+  const lookupResult = useMemo((): GovBrLookupRow | null => {
+    if (isIssMunicipalModule) {
+      if (issMunicipalExplorer?.mode === 'single') {
+      const row = issMunicipalExplorer.rows.at(0);
+      if (row === undefined) {
+        return null;
+      }
+        return {
+          codigoIbge: row.codigoIbge,
+          nome: row.nome,
+          uf: row.uf,
+          aliquotaMin: row.aliquotaMin,
+          aliquotaMax: row.aliquotaMax,
+          warning: row.warning,
+        };
+      }
+      return null;
+    }
+    return activeModule.lookup(lookupInput);
+  }, [activeModule, isIssMunicipalModule, issMunicipalExplorer, lookupInput]);
+
   const validateResult = useMemo(() => {
     if (!supportsValidate) {
       return undefined;
@@ -80,6 +131,7 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
   function selectModule(module: GovBrModuleDefinition) {
     setActiveModuleId(module.id);
     setLookupInput(module.defaultCode);
+    setIssMunicipalUf('');
     setMode('lookup');
     if (module.defaultCstTax !== undefined) {
       setCstTax(module.defaultCstTax);
@@ -120,6 +172,34 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
 
       {fiscalCopy && activeModule.id === 'issMunicipal' ? (
         <p className={styles.description}>{fiscalCopy.issMunicipalDisclaimer}</p>
+      ) : null}
+
+      {fiscalCopy && isIssMunicipalModule ? (
+        <div>
+          <Label htmlFor={`${groupId}-iss-municipal-uf`}>{fiscalCopy.issMunicipalUfFilter}</Label>
+          <Select
+            id={`${groupId}-iss-municipal-uf`}
+            value={issMunicipalUf}
+            onChange={(event) => {
+              setIssMunicipalUf(event.target.value);
+            }}
+          >
+            <option value="">{fiscalCopy.issMunicipalUfAll}</option>
+            {issMunicipalUfs.map((uf) => (
+              <option key={uf} value={uf}>
+                {uf}
+              </option>
+            ))}
+          </Select>
+          {issMunicipalUf.length > 0 && issMunicipalExplorer !== null ? (
+            <p className={styles.description}>
+              {formatIssMunicipalCountLabel(
+                fiscalCopy.issMunicipalCountLabel,
+                issMunicipalExplorer.totalForUf,
+              )}
+            </p>
+          ) : null}
+        </div>
       ) : null}
 
       {fiscalCopy && supportsValidate ? (
@@ -191,6 +271,73 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
         ) : null
       ) : null}
 
+      {mode === 'lookup' && isIssMunicipalModule && issMunicipalExplorer?.mode === 'list' && fiscalCopy ? (
+        <>
+          <p className={styles.description}>
+            {formatIssMunicipalListPreview(
+              fiscalCopy.issMunicipalListPreview,
+              issMunicipalExplorer.rows.length,
+              issMunicipalExplorer.totalForUf,
+            )}
+          </p>
+          {issMunicipalExplorer.rows.map((row) => (
+            <ResultSection key={row.codigoIbge} title={`${row.nome}/${row.uf}`}>
+              {activeModule.fieldKeys.map((fieldKey) => (
+                <ResultRow
+                  key={`${String(row.codigoIbge)}-${fieldKey}`}
+                  label={moduleCopy.fields[fieldKey] ?? fieldKey}
+                  value={formatFieldValue(
+                    fieldKey === 'codigoIbge'
+                      ? row.codigoIbge
+                      : fieldKey === 'nome'
+                        ? row.nome
+                        : fieldKey === 'uf'
+                          ? row.uf
+                          : fieldKey === 'aliquotaMin'
+                            ? row.aliquotaMin
+                            : fieldKey === 'aliquotaMax'
+                              ? row.aliquotaMax
+                              : fieldKey === 'warning'
+                                ? row.warning
+                                : null,
+                  )}
+                />
+              ))}
+            </ResultSection>
+          ))}
+        </>
+      ) : null}
+
+      {mode === 'lookup' && isIssMunicipalModule && issMunicipalExplorer?.mode === 'search' ? (
+        <>
+          {issMunicipalExplorer.rows.map((row) => (
+            <ResultSection key={row.codigoIbge} title={`${row.nome}/${row.uf}`}>
+              {activeModule.fieldKeys.map((fieldKey) => (
+                <ResultRow
+                  key={`${String(row.codigoIbge)}-${fieldKey}`}
+                  label={moduleCopy.fields[fieldKey] ?? fieldKey}
+                  value={formatFieldValue(
+                    fieldKey === 'codigoIbge'
+                      ? row.codigoIbge
+                      : fieldKey === 'nome'
+                        ? row.nome
+                        : fieldKey === 'uf'
+                          ? row.uf
+                          : fieldKey === 'aliquotaMin'
+                            ? row.aliquotaMin
+                            : fieldKey === 'aliquotaMax'
+                              ? row.aliquotaMax
+                              : fieldKey === 'warning'
+                                ? row.warning
+                                : null,
+                  )}
+                />
+              ))}
+            </ResultSection>
+          ))}
+        </>
+      ) : null}
+
       {mode === 'lookup' && lookupResult ? (
         <ResultSection title={copy.resultTitle}>
           {activeModule.fieldKeys.map((fieldKey) => (
@@ -203,7 +350,10 @@ export function DataGovBrGroupExplorer({ groupId }: { groupId: GovBrGroupId }) {
         </ResultSection>
       ) : null}
 
-      {mode === 'lookup' && !lookupResult && lookupInput.trim() ? (
+      {mode === 'lookup' &&
+      !lookupResult &&
+      lookupInput.trim() &&
+      (!isIssMunicipalModule || issMunicipalExplorer?.mode === 'single' || issMunicipalExplorer?.mode === 'search') ? (
         <p className={styles.description}>{copy.notFound}</p>
       ) : null}
     </main>

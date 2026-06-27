@@ -4,7 +4,9 @@ import { buildIssMunicipalResult } from '../../../src/iss-municipal/result.js';
 import {
   getAllIssMunicipal,
   getIssMunicipalPorIbge,
+  getIssMunicipalPorUf,
   getIssMunicipalPorUfMunicipio,
+  getIssMunicipalUfsDisponiveis,
   searchIssMunicipal,
 } from '../../../src/iss-municipal/lookup.js';
 import {
@@ -82,6 +84,40 @@ describe('ISS municipal — official golden vectors', () => {
 
     expect(searchIssMunicipal(vectors.negative.searchNoMatch)).toEqual([]);
     expect(searchIssMunicipal('')).toEqual([]);
+  });
+
+  it('filters search results by UF using golden vector', () => {
+    const match = searchIssMunicipal(vectors.searchWithUf.query, {
+      uf: vectors.searchWithUf.uf,
+      limit: 5,
+    });
+    expect(match.some((row) => row.codigoIbge === vectors.searchWithUf.codigoIbge)).toBe(true);
+    expect(match.every((row) => row.uf === vectors.searchWithUf.uf)).toBe(true);
+
+    expect(
+      searchIssMunicipal(vectors.searchWithUfNoMatch.query, {
+        uf: vectors.searchWithUfNoMatch.uf,
+      }),
+    ).toEqual([]);
+    expect(searchIssMunicipal('campinas', { uf: vectors.ufFilter.invalid })).toEqual([]);
+    expect(searchIssMunicipal('campinas', { uf: '' })).toEqual([]);
+  });
+
+  it('lists embedded municipalities per UF and exposes available UFs', () => {
+    const spRows = getIssMunicipalPorUf(vectors.ufFilter.sp);
+    expect(spRows.length).toBeGreaterThan(0);
+    expect(spRows.every((row) => row.uf === 'SP')).toBe(true);
+    expect(spRows.some((row) => row.codigoIbge === ISS_MUNICIPAL_GOLDEN_SAO_PAULO)).toBe(true);
+
+    const ufs = getIssMunicipalUfsDisponiveis();
+    expect(ufs).toContain('SP');
+    expect(ufs).toEqual([...ufs].sort((left, right) => left.localeCompare(right, 'pt-BR')));
+    expect(getIssMunicipalPorUf('')).toEqual([]);
+    expect(getIssMunicipalPorUf(vectors.ufFilter.invalid)).toEqual([]);
+    expect(getIssMunicipalPorUf('ZZ')).toEqual([]);
+
+    const totalByUf = ufs.reduce((sum, uf) => sum + getIssMunicipalPorUf(uf).length, 0);
+    expect(totalByUf).toBe(ISS_MUNICIPAL_TARGET_COUNT);
   });
 });
 

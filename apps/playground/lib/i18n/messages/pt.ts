@@ -123,6 +123,10 @@ export const pt = {
       cstTaxLabel: 'Tabela CST',
       issMunicipalDisclaimer:
         'Embed parcial de ISS municipal apenas para estimativa — não use para emissão de NFSe. Confirme a alíquota vigente com o município.',
+      issMunicipalUfFilter: 'Filtrar por UF',
+      issMunicipalUfAll: 'Todas as UFs',
+      issMunicipalCountLabel: '{count} municípios no embed',
+      issMunicipalListPreview: 'Exibindo os primeiros {shown} de {count} municípios',
       notFound: 'Código não encontrado.',
       capturedAt: 'Dataset capturado em',
       officialSource: 'Fonte oficial',

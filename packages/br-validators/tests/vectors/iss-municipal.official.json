@@ -23,6 +23,19 @@
       "leiUrlContains": "prefeitura.pbh.gov.br"
     }
   },
+  "searchWithUf": {
+    "query": "campinas",
+    "uf": "SP",
+    "codigoIbge": 3509502
+  },
+  "searchWithUfNoMatch": {
+    "query": "santos",
+    "uf": "RJ"
+  },
+  "ufFilter": {
+    "sp": "SP",
+    "invalid": "zz"
+  },
   "negative": {
     "notFoundIbge": 9999999,
     "invalidIbge": "abc",

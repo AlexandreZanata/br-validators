@@ -1,7 +1,9 @@
 export {
   getAllIssMunicipal,
   getIssMunicipalPorIbge,
+  getIssMunicipalPorUf,
   getIssMunicipalPorUfMunicipio,
+  getIssMunicipalUfsDisponiveis,
   searchIssMunicipal,
 } from './lookup.js';
 export { buildIssMunicipalResult } from './result.js';

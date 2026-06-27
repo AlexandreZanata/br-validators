@@ -79,14 +79,20 @@ describe('registerReferenceLookupCommands via createProgram', () => {
   });
 
   it('wires iss-municipal subcommands to handlers', async () => {
+    const listSpy = vi.spyOn(handlers, 'handleIssMunicipalListCli').mockReturnValue(0);
     const lookupSpy = vi.spyOn(handlers, 'handleIssMunicipalLookupCli').mockReturnValue(0);
     const resolveSpy = vi.spyOn(handlers, 'handleIssMunicipalResolveCli').mockReturnValue(0);
     const searchSpy = vi.spyOn(handlers, 'handleIssMunicipalSearchCli').mockReturnValue(0);
     vi.spyOn(handlers, 'writeCliIo').mockImplementation(() => undefined);
     const program = createProgram();
+    await program.parseAsync(['iss-municipal', 'list', '--uf', 'SP', '--json'], { from: 'user' });
     await program.parseAsync(['iss-municipal', 'lookup', '3550308', '--json', '--verbose'], { from: 'user' });
     await program.parseAsync(['iss-municipal', 'resolve', 'SP', 'São Paulo', '--json'], { from: 'user' });
-    await program.parseAsync(['iss-municipal', 'search', 'campinas', '--limit', '2'], { from: 'user' });
+    await program.parseAsync(['iss-municipal', 'search', 'campinas', '--uf', 'SP', '--limit', '2'], { from: 'user' });
+    expect(listSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ json: true, uf: 'SP' }),
+      expect.objectContaining({ stdout: expect.any(Array), stderr: expect.any(Array) }),
+    );
     expect(lookupSpy).toHaveBeenCalledWith(
       '3550308',
       expect.objectContaining({ json: true, verbose: true }),
@@ -100,7 +106,7 @@ describe('registerReferenceLookupCommands via createProgram', () => {
     );
     expect(searchSpy).toHaveBeenCalledWith(
       'campinas',
-      expect.objectContaining({ limit: 2 }),
+      expect.objectContaining({ limit: 2, uf: 'SP' }),
       expect.objectContaining({ stdout: expect.any(Array), stderr: expect.any(Array) }),
     );
   });

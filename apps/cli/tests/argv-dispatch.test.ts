@@ -419,8 +419,9 @@ describe('dispatchArgv', () => {
 
     const issMunicipal = io();
     expect(dispatchArgv(['iss-municipal', 'lookup', '3550308', '--json'], issMunicipal)).toBe(EXIT.OK);
+    expect(dispatchArgv(['iss-municipal', 'list', '--uf', 'SP', '--json'], io())).toBe(EXIT.OK);
     expect(dispatchArgv(['iss-municipal', 'resolve', 'SP', 'São Paulo', '--json'], io())).toBe(EXIT.OK);
-    expect(dispatchArgv(['iss-municipal', 'search', 'campinas', '--json'], io())).toBe(EXIT.OK);
+    expect(dispatchArgv(['iss-municipal', 'search', 'campinas', '--uf', 'SP', '--json'], io())).toBe(EXIT.OK);
 
     const faixa = io();
     expect(dispatchArgv(['cep', 'faixa', '01310', '--json'], faixa)).toBe(EXIT.OK);

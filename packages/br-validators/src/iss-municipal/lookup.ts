@@ -11,6 +11,25 @@ const rows: readonly IssMunicipalRow[] = issMunicipalData;
 
 const byIbge = new Map(rows.map((row) => [row.codigoIbge, row]));
 
+function buildByUfIndex(sourceRows: readonly IssMunicipalRow[]): Map<string, readonly IssMunicipalRow[]> {
+  const buckets = new Map<string, IssMunicipalRow[]>();
+  for (const row of sourceRows) {
+    const existing = buckets.get(row.uf);
+    if (existing === undefined) {
+      buckets.set(row.uf, [row]);
+    } else {
+      existing.push(row);
+    }
+  }
+  return buckets;
+}
+
+const byUf = buildByUfIndex(rows);
+
+const ufsDisponiveis: readonly string[] = [...byUf.keys()].sort((left, right) =>
+  left.localeCompare(right, 'pt-BR'),
+);
+
 function normalizeIbgeCodigo(codigo: number | string): number | null {
   const digits = String(codigo).replace(/\D/g, '');
   if (digits.length === 0) {
@@ -35,9 +54,22 @@ function normalizeNome(nome: string): string {
     .toLowerCase();
 }
 
+function resolveUfRows(uf: string): readonly IssMunicipalRow[] | null {
+  const normalizedUf = normalizeUf(uf);
+  if (!/^[A-Z]{2}$/u.test(normalizedUf)) {
+    return null;
+  }
+  return byUf.get(normalizedUf) ?? [];
+}
+
 /** Returns every embedded ISS municipal row (in-memory reference, not a copy). */
 export function getAllIssMunicipal(): readonly IssMunicipalRow[] {
   return rows;
+}
+
+/** Returns UFs present in the partial embed, sorted alphabetically. */
+export function getIssMunicipalUfsDisponiveis(): readonly string[] {
+  return ufsDisponiveis;
 }
 
 export function getIssMunicipalPorIbge(codigo: number | string): IssMunicipalResult | undefined {
@@ -52,6 +84,14 @@ export function getIssMunicipalPorIbge(codigo: number | string): IssMunicipalRes
   }
 
   return buildIssMunicipalResult(row);
+}
+
+export function getIssMunicipalPorUf(uf: string): readonly IssMunicipalResult[] {
+  const ufRows = resolveUfRows(uf);
+  if (ufRows === null) {
+    return [];
+  }
+  return ufRows.map((row) => buildIssMunicipalResult(row));
 }
 
 export function getIssMunicipalPorUfMunicipio(uf: string, nome: string): IssMunicipalResult | undefined {
@@ -75,7 +115,10 @@ export function getIssMunicipalPorUfMunicipio(uf: string, nome: string): IssMuni
   return buildIssMunicipalResult(row);
 }
 
-export function searchIssMunicipal(query: string, options?: { limit?: number }): readonly IssMunicipalResult[] {
+export function searchIssMunicipal(
+  query: string,
+  options?: { uf?: string; limit?: number },
+): readonly IssMunicipalResult[] {
   const normalizedQuery = query
     .trim()
     .normalize('NFD')
@@ -87,8 +130,17 @@ export function searchIssMunicipal(query: string, options?: { limit?: number }):
 
   const limit = options?.limit ?? 10;
   const results: IssMunicipalResult[] = [];
+  let searchRows: readonly IssMunicipalRow[] = rows;
 
-  for (const row of rows) {
+  if (options?.uf !== undefined) {
+    const ufRows = resolveUfRows(options.uf);
+    if (ufRows === null) {
+      return [];
+    }
+    searchRows = ufRows;
+  }
+
+  for (const row of searchRows) {
     const nome = normalizeNome(row.nome);
     const uf = row.uf.toLowerCase();
     const codigo = String(row.codigoIbge);

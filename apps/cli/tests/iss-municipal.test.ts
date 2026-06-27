@@ -3,11 +3,13 @@ import { describe, expect, it } from 'vitest';
 import { EXIT } from '../src/constants.js';
 import {
   formatIssMunicipalHuman,
+  runIssMunicipalList,
   runIssMunicipalLookup,
   runIssMunicipalResolve,
   runIssMunicipalSearch,
 } from '../src/commands/iss-municipal/index.js';
 import {
+  handleIssMunicipalListCli,
   handleIssMunicipalLookupCli,
   handleIssMunicipalResolveCli,
   handleIssMunicipalSearchCli,
@@ -77,6 +79,13 @@ describe('iss-municipal CLI', () => {
     const searchParsed = JSON.parse(searchIo.stdout[0]) as { results: { nome: string }[] };
     expect(searchParsed.results.length).toBeGreaterThan(0);
 
+    const ufSearchIo = { stdout: [] as string[], stderr: [] as string[] };
+    expect(
+      runIssMunicipalSearch('campinas', { json: true, verbose: false, uf: 'SP' }, ufSearchIo),
+    ).toBe(EXIT.OK);
+    const ufSearchParsed = JSON.parse(ufSearchIo.stdout[0]) as { results: { uf: string }[] };
+    expect(ufSearchParsed.results.every((row) => row.uf === 'SP')).toBe(true);
+
     const humanSearchIo = { stdout: [] as string[], stderr: [] as string[] };
     expect(runIssMunicipalSearch('campinas', { json: false, verbose: false }, humanSearchIo)).toBe(EXIT.OK);
     expect(humanSearchIo.stdout[0]).toContain('Campinas');
@@ -107,12 +116,33 @@ describe('iss-municipal CLI', () => {
     expect(runIssMunicipalResolve('SP', '  ', { json: false, verbose: false }, io)).toBe(EXIT.USAGE);
   });
 
+  it('lists municipalities by UF', () => {
+    const jsonIo = { stdout: [] as string[], stderr: [] as string[] };
+    expect(runIssMunicipalList({ json: true, verbose: true, uf: 'SP', limit: 3 }, jsonIo)).toBe(EXIT.OK);
+    const parsed = JSON.parse(jsonIo.stdout[0]) as { uf: string; total: number; results: unknown[]; capturadoEm?: string };
+    expect(parsed.uf).toBe('SP');
+    expect(parsed.total).toBe(3);
+    expect(parsed.capturadoEm).toBeDefined();
+
+    const humanIo = { stdout: [] as string[], stderr: [] as string[] };
+    expect(runIssMunicipalList({ json: false, verbose: true, uf: 'SP', limit: 2 }, humanIo)).toBe(EXIT.OK);
+    expect(humanIo.stdout.some((line) => line.startsWith('capturadoEm:'))).toBe(true);
+
+    const emptyIo = { stdout: [] as string[], stderr: [] as string[] };
+    expect(runIssMunicipalList({ json: false, verbose: false, uf: 'ZZ' }, emptyIo)).toBe(EXIT.OK);
+    expect(emptyIo.stdout[0]).toContain('No ISS municipal rows embedded');
+
+    const usageIo = { stdout: [] as string[], stderr: [] as string[] };
+    expect(runIssMunicipalList({ json: false, verbose: false }, usageIo)).toBe(EXIT.USAGE);
+  });
+
   it('handlers delegate to iss-municipal command runners', () => {
     const io = { stdout: [] as string[], stderr: [] as string[] };
+    expect(handleIssMunicipalListCli({ json: true, verbose: false, uf: 'SP', limit: 2 }, io)).toBe(EXIT.OK);
     expect(handleIssMunicipalLookupCli(String(ISS_MUNICIPAL_GOLDEN_SAO_PAULO), { json: true, verbose: true }, io)).toBe(
       EXIT.OK,
     );
-    expect(handleIssMunicipalSearchCli('sp', { json: false, verbose: false, limit: 2 }, io)).toBe(EXIT.OK);
+    expect(handleIssMunicipalSearchCli('sp', { json: false, verbose: false, limit: 2, uf: 'SP' }, io)).toBe(EXIT.OK);
     expect(handleIssMunicipalResolveCli('SP', 'São Paulo', { json: true, verbose: false }, io)).toBe(EXIT.OK);
   });
 });

@@ -127,6 +127,17 @@ br-validators cbo lookup 212405 --json
 br-validators cbo search analista --limit 5
 ```
 
+### Fiscal reference (33o–34)
+
+```bash
+br-validators iss-municipal lookup 3550308 --json
+br-validators iss-municipal list --uf SP --limit 10 --json
+br-validators iss-municipal search campinas --uf SP --limit 5 --json
+br-validators iss-municipal resolve SP "São Paulo" --verbose
+```
+
+Partial embed (~500 municipalities). **Estimation / quoting only — not NFSe emission.**
+
 ### Geography & calendar (27d)
 
 ```bash
@@ -171,7 +182,7 @@ br-validators aeroportos lookup SBGR --json
 | `--quiet` / `-q` | Exit code only (CI) |
 | `--file` / `-f` | Read value from file |
 | `--source` | Print official source URL (per-type) |
-| `--uf` | Required for IE / detect / sanitize IE; optional filter for `ibge list municipios` |
+| `--uf` | Required for IE / detect / sanitize IE; filter for `ibge list municipios`, `iss-municipal list`, and `iss-municipal search` |
 
 ### CI
 

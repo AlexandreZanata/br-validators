@@ -1,5 +1,6 @@
 import {
   getIssMunicipalPorIbge,
+  getIssMunicipalPorUf,
   getIssMunicipalPorUfMunicipio,
   ISS_MUNICIPAL_DATA_VERSION,
   ISS_MUNICIPAL_ESTIMATION_WARNING,
@@ -12,6 +13,13 @@ export type IssMunicipalCliOptions = {
   json: boolean;
   verbose: boolean;
 };
+
+function sliceRows<T>(rows: readonly T[], limit?: number): readonly T[] {
+  if (limit === undefined || !Number.isFinite(limit) || limit <= 0) {
+    return rows;
+  }
+  return rows.slice(0, limit);
+}
 
 export function formatIssMunicipalHuman(row: IssMunicipalResult): string {
   return `${row.nome}/${row.uf} — ISS ${String(row.aliquotaMin)}%–${String(row.aliquotaMax)}%`;
@@ -68,9 +76,56 @@ export function runIssMunicipalLookup(
   return EXIT.OK;
 }
 
+export function runIssMunicipalList(
+  options: IssMunicipalCliOptions & { uf?: string; limit?: number },
+  io: { stdout: string[]; stderr: string[] } = { stdout: [], stderr: [] },
+): number {
+  const uf = options.uf?.trim() ?? '';
+  if (uf.length === 0) {
+    io.stderr.push('Missing UF. Usage: br-validators iss-municipal list --uf <UF>');
+    return EXIT.USAGE;
+  }
+
+  const rows = sliceRows(getIssMunicipalPorUf(uf), options.limit);
+  emitDisclaimer(options, io);
+
+  if (options.json) {
+    const payload: {
+      ok: true;
+      uf: string;
+      total: number;
+      results: readonly IssMunicipalResult[];
+      capturadoEm?: string;
+    } = {
+      ok: true,
+      uf: uf.toUpperCase(),
+      total: rows.length,
+      results: rows,
+    };
+    if (options.verbose) {
+      payload.capturadoEm = ISS_MUNICIPAL_DATA_VERSION.capturadoEm;
+    }
+    io.stdout.push(JSON.stringify(payload, null, 2));
+    return EXIT.OK;
+  }
+
+  if (rows.length === 0) {
+    io.stdout.push(`No ISS municipal rows embedded for UF ${uf.toUpperCase()}.`);
+    return EXIT.OK;
+  }
+
+  for (const row of rows) {
+    io.stdout.push(formatIssMunicipalHuman(row));
+  }
+  if (options.verbose) {
+    io.stdout.push(`capturadoEm: ${ISS_MUNICIPAL_DATA_VERSION.capturadoEm}`);
+  }
+  return EXIT.OK;
+}
+
 export function runIssMunicipalSearch(
   query: string | undefined,
-  options: IssMunicipalCliOptions & { limit?: number },
+  options: IssMunicipalCliOptions & { uf?: string; limit?: number },
   io: { stdout: string[]; stderr: string[] } = { stdout: [], stderr: [] },
 ): number {
   const trimmed = query?.trim() ?? '';
@@ -79,7 +134,10 @@ export function runIssMunicipalSearch(
     return EXIT.USAGE;
   }
 
-  const rows = searchIssMunicipal(trimmed, { limit: options.limit });
+  const rows = searchIssMunicipal(trimmed, {
+    limit: options.limit,
+    ...(options.uf !== undefined && options.uf.trim().length > 0 ? { uf: options.uf } : {}),
+  });
   emitDisclaimer(options, io);
 
   if (options.json) {
