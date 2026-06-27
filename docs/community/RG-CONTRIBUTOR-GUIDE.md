@@ -2,7 +2,7 @@
 
 > **Audience:** Contributors adding per-UF RG (Registro Geral) validators  
 > **Labels:** `good-first-issue`, `rg-uf`  
-> **Issue template:** [.github/ISSUE_TEMPLATE/rg-uf-contribution.md](../../.github/ISSUE_TEMPLATE/rg-uf-contribution.md)  
+> **Issue template:** [`.github/ISSUE_TEMPLATE/rg-dv-upgrade.yml`](../../.github/ISSUE_TEMPLATE/rg-dv-upgrade.yml) (legacy net-new UF: `rg-uf-contribution.md`)  
 > **Implementation checklist:** [CONTRIBUTING-UF.md](../../packages/br-validators/src/core/rg/CONTRIBUTING-UF.md)  
 > **Open UF index:** [RG-GOOD-FIRST-ISSUES.md](RG-GOOD-FIRST-ISSUES.md)
 
@@ -30,7 +30,7 @@ Brazil has **no federal RG algorithm**. Each state (UF) issued its own legacy nu
 
 ## Step 2 — Open a GitHub issue (before coding)
 
-Use the template: **New issue → RG UF contribution**  
+Use the template: **New issue → RG DV algorithm upgrade**  
 Or copy the title: `[rg] Add RG validation for UF <CODE>`
 
 ### Required issue fields

@@ -21,6 +21,7 @@ import {
 } from './lib/parse-ibge-pib-sidra.js';
 import { ISS_MUNICIPAL_CAPITAL_IBGE_CODES } from './lib/iss-municipal-capital-seeds.js';
 import { buildMetadata } from './lib/metadata-writer.js';
+import { writeCoverageGapArtifacts } from './lib/coverage-gaps.js';
 import {
   buildFailureOutcome,
   FETCH_MAX_ATTEMPTS,
@@ -197,6 +198,13 @@ async function main(): Promise<void> {
     });
 
     console.log(`Wrote ${String(rows.length)} ISS municipal rows to ${issPath}`);
+
+    await writeCoverageGapArtifacts({
+      ibgeMunicipiosPath: IBGE_MUNICIPIOS_PATH,
+      issMunicipalPath: issPath,
+      outputDir: path.join(ROOT, 'data/coverage-gaps'),
+      markdownPath: path.join(ROOT, 'docs/COVERAGE-GAPS.md'),
+    });
   } catch (error) {
     const outcome = buildFailureOutcome(
       'iss-municipal',

@@ -31,7 +31,7 @@ Every Brazilian SaaS eventually reinvents CPF validation — usually wrong.
 - ✅ **Zero runtime dependencies** — pure TypeScript logic, no HTTP calls
 - ✅ **Never throws** — every function returns `{ ok: true, value } | { ok: false, message, code }`
 - ✅ **Tree-shakeable** — subpath imports per document type
-- ✅ **Reference data** — IBGE (municipalities + NF-e `cMunFG`), Bacen banks, DDD lookup, national holidays, CNAE, CFOP, CST, LC 116, NCM, IBPT tax burden, Simples Nacional, CBO, natureza jurídica, NBS, CEST, eSocial categorias, CNPJ motivos, moedas, PTAX cotações, países Bacen, NF-e cUF, IRPF / INSS tables, SELIC meta, ISS municipal (sample), Incoterms, portos, aeroportos, **ANP fuel prices (LPC)** — embedded offline with daily freshness ([DATA-FRESHNESS.md](../../docs/DATA-FRESHNESS.md); ANP weekly)
+- ✅ **Reference data** — IBGE (municipalities + NF-e `cMunFG`), Bacen banks, DDD lookup, national holidays, CNAE, CFOP, CST, LC 116, NCM, IBPT tax burden, Simples Nacional, CBO, natureza jurídica, NBS, CEST, eSocial categorias, CNPJ motivos, moedas, PTAX cotações, países Bacen, NF-e cUF, IRPF / INSS tables, SELIC meta, ISS municipal (top 500 PIB), Incoterms, portos, aeroportos, **ANP fuel prices (LPC)** — embedded offline with daily freshness ([DATA-FRESHNESS.md](../../docs/DATA-FRESHNESS.md); ANP weekly)
 - ✅ **ESM only**, Node ≥ 18, works in browser, Bun, Deno
 
 ---
@@ -314,7 +314,7 @@ Embedded JSON from official `.gov.br` sources — **no runtime HTTP**. Each modu
 | IRPF progressive brackets | `@br-validators/core/irpf` | `irpf tabela` · `irpf calc` | `/data/payroll` | `getIrpfTabelaProgressiva`, `calcularIrpfMensal` | [RFB IRPF tables](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas) |
 | INSS contribution brackets | `@br-validators/core/inss` | `inss tabela` · `inss calc` | `/data/payroll` | `getInssTabelaContribuicao`, `calcularInssMensal` | [INSS contribution rates](https://www.gov.br/inss/pt-br/direitos-e-deveres/inscricao-e-contribuicao/tabelas-de-contribuicao) |
 | Bacen SELIC meta | `@br-validators/core/selic` | `selic` | `/data/finance` | `getSelicMeta`, `getSelicMetaPorData` | [Bacen SGS série 432](https://www3.bcb.gov.br/sgspub/localizarseries/localizarSeries.do?method=prepararTelaLocalizarSeries) |
-| ISS municipal rates (sample) | `@br-validators/core/iss-municipal` | `iss-municipal lookup` · `search` | `/data/fiscal` | `getIssMunicipalPorIbge`, `searchIssMunicipal` | [IBGE PIB municipal 2022](https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/19567-pib-dos-municipios.html) |
+| ISS municipal rates (top 500 PIB) | `@br-validators/core/iss-municipal` | `iss-municipal lookup` · `list` · `search [--uf]` | `/data/fiscal` | `getIssMunicipalPorIbge`, `getIssMunicipalPorUf`, `searchIssMunicipal` | [IBGE SIDRA PIB 5938](https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022) |
 | ICC Incoterms 2020 | `@br-validators/core/incoterms` | `incoterms lookup` | `/data/trade` | `getIncotermPorCodigo`, `getIncoterms` | [ICC Incoterms rules](https://iccwbo.org/resources-for-business/incoterms-rules/) |
 | CBO 2002 occupations | `@br-validators/core/cbo` | `cbo lookup` · `search` | `/data/fiscal` | `getCboPorCodigo`, `searchCbo` | [MTE CBO downloads](https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/cbo/servicos/downloads) |
 | CEP prefix lookup | `@br-validators/core/cep` | `cep faixa` | — | `getCepFaixaInfo`, `getCepFaixas` | [IBGE CNEFE 2022](https://www.ibge.gov.br/estatisticas/sociais/populacao/38734-cadastro-nacional-de-enderecos-para-fins-estatisticos.html) |

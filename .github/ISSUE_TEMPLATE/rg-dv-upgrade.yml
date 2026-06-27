@@ -1,0 +1,62 @@
+name: RG DV algorithm upgrade
+description: Publish official SSP/IGP check-digit walkthrough for a UF that ships format-only today
+title: "[rg] DV upgrade for UF "
+labels: ["good first issue", "rg-uf", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        All **27 UFs** already ship RG validators. Use this template to **upgrade** a format-only UF when you find an **official** state walkthrough for the check digit.
+        Read [docs/community/RG-CONTRIBUTOR-GUIDE.md](docs/community/RG-CONTRIBUTOR-GUIDE.md) and [RG-GOOD-FIRST-ISSUES.md](docs/community/RG-GOOD-FIRST-ISSUES.md).
+        **Do not** cite SEFAZ Inscrição Estadual calculators — those validate IE, not RG.
+  - type: input
+    id: uf
+    attributes:
+      label: UF code
+      placeholder: e.g. BA, GO, RS
+    validations:
+      required: true
+  - type: input
+    id: official-url
+    attributes:
+      label: Official SSP / Polícia Civil / IGP documentation URL
+    validations:
+      required: true
+  - type: dropdown
+    id: algorithm
+    attributes:
+      label: Documented algorithm
+      options:
+        - modulo-11
+        - mod10-alternating
+        - other (describe in notes)
+        - format-only confirmed — no DV published by state
+    validations:
+      required: true
+  - type: textarea
+    id: format
+    attributes:
+      label: Format specification
+      description: Canonical length, mask, prefixes, whether check digit X is allowed.
+      placeholder: |
+        canonicalLength: 9
+        baseLength: 8
+        mask: XX.XXX.XXX-X
+    validations:
+      required: true
+  - type: textarea
+    id: golden
+    attributes:
+      label: Golden vectors (valid + invalid)
+      description: Raw stripped values from official walkthrough — will go in `tests/vectors/rg.<uf>.official.json`.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Implementation checklist (before PR)
+      options:
+        - label: I will update `packages/br-validators/src/core/rg/<uf>.ts` and `RG_UF_RULES`
+        - label: I will add/update `tests/vectors/rg.<uf>.official.json`
+        - label: I will update [docs/OFFICIAL-SOURCES.md § RG](docs/OFFICIAL-SOURCES.md#rg--reference-index)
+        - label: I will run `pnpm --filter @br-validators/core test:coverage` (100% on `src/**`)

@@ -1189,7 +1189,7 @@ CLI: `br-validators selic [--date YYYY-MM-DD] [--json] [--verbose]`
 
 Every `IssMunicipalResult` includes `warning`, `aliquotaMin`, `aliquotaMax`, `leiUrl`, `capturadoEm`, and `estimativa`.
 
-Golden: IBGE **`3550308`** (São Paulo), **`3304557`** (Rio de Janeiro), **`3106200`** (Belo Horizonte). Vector: `iss-municipal.official.json`.
+Golden: IBGE **`3550308`** (São Paulo), **`3304557`** (Rio de Janeiro), **`3106200`** (Belo Horizonte), **`3509502`** (Campinas — high-PIB non-capital, `estimativa: true`). Vector: `iss-municipal.official.json`.
 
 ```typescript
 import {

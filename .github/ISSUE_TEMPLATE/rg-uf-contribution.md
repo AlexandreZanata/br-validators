@@ -1,10 +1,12 @@
 ---
-name: RG UF contribution
-about: Add RG (Registro Geral) validation for a Brazilian state (UF)
+name: RG UF contribution (historical)
+about: Legacy template — all 27 UFs shipped; use rg-dv-upgrade.yml for DV algorithm upgrades
 title: '[rg] Add RG validation for UF __'
 labels: ['good first issue', 'rg-uf']
 assignees: ''
 ---
+
+> **Status:** 27/27 UFs shipped. For new contributions use [`.github/ISSUE_TEMPLATE/rg-dv-upgrade.yml`](rg-dv-upgrade.yml) — official SSP/IGP DV walkthrough upgrades only.
 
 ## UF
 

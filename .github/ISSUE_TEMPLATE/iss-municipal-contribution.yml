@@ -1,0 +1,77 @@
+name: ISS municipal rate contribution
+description: Cite official municipal ISS legislation for a municipality (embed or replace estimation row)
+title: "[iss-municipal] "
+labels: ["good first issue", "iss-municipal", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this to add or upgrade a row in `@br-validators/core/iss-municipal`.
+        Check [docs/COVERAGE-GAPS.md](docs/COVERAGE-GAPS.md) and `data/coverage-gaps/*.json` first.
+        **Official municipal law or NFSe portal URL required** — LC 116 Art. 8 band alone stays `estimativa: true`.
+        See [CONTRIBUTING.md § ISS municipal rate contributions](CONTRIBUTING.md#iss-municipal-rate-contributions).
+  - type: dropdown
+    id: contribution-type
+    attributes:
+      label: Contribution type
+      options:
+        - not-embedded — municipality missing from 500-row embed
+        - estimativa-upgrade — row exists but uses LC 116 band only
+        - capital-correction — capital row with wrong or outdated legislation URL
+    validations:
+      required: true
+  - type: input
+    id: codigo-ibge
+    attributes:
+      label: IBGE municipality code (7 digits)
+      placeholder: e.g. 3509502
+    validations:
+      required: true
+  - type: input
+    id: municipio
+    attributes:
+      label: Municipality name
+      placeholder: e.g. Campinas
+    validations:
+      required: true
+  - type: input
+    id: uf
+    attributes:
+      label: UF (2 letters)
+      placeholder: e.g. SP
+    validations:
+      required: true
+  - type: input
+    id: lei-url
+    attributes:
+      label: Official legislation or municipal NFSe portal URL
+      description: Must cite municipal ISS alíquota — not only Planalto LC 116 Art. 8.
+    validations:
+      required: true
+  - type: textarea
+    id: aliquotas
+    attributes:
+      label: Alíquota min / max from source (%)
+      description: |
+        e.g. `aliquotaMin: 2, aliquotaMax: 5` or fixed rate within LC 116 band (2%–5%).
+      placeholder: |
+        aliquotaMin: 2
+        aliquotaMax: 5
+    validations:
+      required: true
+  - type: textarea
+    id: source-excerpt
+    attributes:
+      label: Source excerpt or article reference
+      description: Quote the law article, decree, or portal field that defines the rate.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Contributor checklist (before PR)
+      options:
+        - label: I verified the municipality in `data/coverage-gaps/iss-municipal-not-embedded.json` or `iss-municipal-estimativa-only.json`
+        - label: I will add a golden row to `packages/br-validators/tests/vectors/iss-municipal.official.json`
+        - label: I will set `estimativa: false` only when `leiUrl` cites municipal legislation
+        - label: I understand results are quoting-only — not NFSe emission validation

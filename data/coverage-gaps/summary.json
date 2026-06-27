@@ -1,0 +1,233 @@
+{
+  "generatedAt": "2026-06-27T10:39:58.449Z",
+  "issMunicipal": {
+    "ibgeMunicipioTotal": 5571,
+    "issEmbeddedTotal": 500,
+    "issNotEmbeddedTotal": 5071,
+    "issEstimativaOnlyTotal": 473,
+    "issOfficialMunicipalRateTotal": 27,
+    "byUf": [
+      {
+        "uf": "AC",
+        "ibgeTotal": 22,
+        "embedded": 1,
+        "notEmbedded": 21,
+        "estimativaOnly": 0,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "AL",
+        "ibgeTotal": 102,
+        "embedded": 3,
+        "notEmbedded": 99,
+        "estimativaOnly": 2,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "AP",
+        "ibgeTotal": 16,
+        "embedded": 2,
+        "notEmbedded": 14,
+        "estimativaOnly": 1,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "AM",
+        "ibgeTotal": 62,
+        "embedded": 2,
+        "notEmbedded": 60,
+        "estimativaOnly": 1,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "BA",
+        "ibgeTotal": 417,
+        "embedded": 25,
+        "notEmbedded": 392,
+        "estimativaOnly": 24,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "CE",
+        "ibgeTotal": 184,
+        "embedded": 8,
+        "notEmbedded": 176,
+        "estimativaOnly": 7,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "DF",
+        "ibgeTotal": 1,
+        "embedded": 1,
+        "notEmbedded": 0,
+        "estimativaOnly": 0,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "ES",
+        "ibgeTotal": 78,
+        "embedded": 14,
+        "notEmbedded": 64,
+        "estimativaOnly": 13,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "GO",
+        "ibgeTotal": 246,
+        "embedded": 19,
+        "notEmbedded": 227,
+        "estimativaOnly": 18,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "MA",
+        "ibgeTotal": 217,
+        "embedded": 7,
+        "notEmbedded": 210,
+        "estimativaOnly": 6,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "MT",
+        "ibgeTotal": 142,
+        "embedded": 18,
+        "notEmbedded": 124,
+        "estimativaOnly": 17,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "MS",
+        "ibgeTotal": 79,
+        "embedded": 14,
+        "notEmbedded": 65,
+        "estimativaOnly": 13,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "MG",
+        "ibgeTotal": 853,
+        "embedded": 57,
+        "notEmbedded": 796,
+        "estimativaOnly": 56,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "PA",
+        "ibgeTotal": 144,
+        "embedded": 14,
+        "notEmbedded": 130,
+        "estimativaOnly": 13,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "PB",
+        "ibgeTotal": 223,
+        "embedded": 5,
+        "notEmbedded": 218,
+        "estimativaOnly": 4,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "PR",
+        "ibgeTotal": 399,
+        "embedded": 31,
+        "notEmbedded": 368,
+        "estimativaOnly": 30,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "PE",
+        "ibgeTotal": 185,
+        "embedded": 13,
+        "notEmbedded": 172,
+        "estimativaOnly": 12,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "PI",
+        "ibgeTotal": 224,
+        "embedded": 3,
+        "notEmbedded": 221,
+        "estimativaOnly": 2,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "RJ",
+        "ibgeTotal": 92,
+        "embedded": 43,
+        "notEmbedded": 49,
+        "estimativaOnly": 42,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "RN",
+        "ibgeTotal": 167,
+        "embedded": 3,
+        "notEmbedded": 164,
+        "estimativaOnly": 2,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "RS",
+        "ibgeTotal": 497,
+        "embedded": 44,
+        "notEmbedded": 453,
+        "estimativaOnly": 43,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "RO",
+        "ibgeTotal": 52,
+        "embedded": 5,
+        "notEmbedded": 47,
+        "estimativaOnly": 4,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "RR",
+        "ibgeTotal": 15,
+        "embedded": 1,
+        "notEmbedded": 14,
+        "estimativaOnly": 0,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "SC",
+        "ibgeTotal": 295,
+        "embedded": 33,
+        "notEmbedded": 262,
+        "estimativaOnly": 32,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "SP",
+        "ibgeTotal": 645,
+        "embedded": 127,
+        "notEmbedded": 518,
+        "estimativaOnly": 126,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "SE",
+        "ibgeTotal": 75,
+        "embedded": 3,
+        "notEmbedded": 72,
+        "estimativaOnly": 2,
+        "officialMunicipalRate": 1
+      },
+      {
+        "uf": "TO",
+        "ibgeTotal": 139,
+        "embedded": 4,
+        "notEmbedded": 135,
+        "estimativaOnly": 3,
+        "officialMunicipalRate": 1
+      }
+    ]
+  },
+  "notes": {
+    "inss": "National employee contribution table — not per municipality; fully sourced.",
+    "irpf": "National progressive monthly table — not per municipality; fully sourced.",
+    "rg": "27/27 UFs shipped; 24 UFs format-only pending official DV walkthrough."
+  }
+}

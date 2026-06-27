@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **ISS municipal 500 + UF filter (EXP-34-ISS)** — expand `@br-validators/core/iss-municipal` embed from 100 to **500** municipalities (27 capitals + top IBGE SIDRA PIB 2022); primary fetch via [SIDRA 5938](https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022); `getIssMunicipalPorUf`, `getIssMunicipalUfsDisponiveis`, `searchIssMunicipal(query, { uf?, limit? })`; CLI `iss-municipal list --uf` and `search --uf`; playground UF filter on `/data/fiscal`; golden vectors for Campinas **`3509502`** and UF-scoped search
+- **Coverage gaps index** — [docs/COVERAGE-GAPS.md](docs/COVERAGE-GAPS.md) + `data/coverage-gaps/*.json` (5.071 municipalities not in ISS embed, 473 estimation-only rows); `pnpm generate:coverage-gaps`; README help-wanted section; issue templates `iss-municipal-contribution`, `rg-dv-upgrade`
+
 ---
 
 ## [1.9.0] - 2026-06-26

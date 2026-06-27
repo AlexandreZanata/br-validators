@@ -21,20 +21,27 @@
       "aliquotaMin": 2,
       "aliquotaMax": 5,
       "leiUrlContains": "prefeitura.pbh.gov.br"
+    },
+    "campinas": {
+      "codigoIbge": 3509502,
+      "aliquotaMin": 2,
+      "aliquotaMax": 5,
+      "estimativa": true,
+      "leiUrlContains": "planalto.gov.br"
     }
   },
-  "searchWithUf": {
-    "query": "campinas",
+  "ufFilter": {
     "uf": "SP",
-    "codigoIbge": 3509502
+    "query": "campinas",
+    "expectCodigoIbge": 3509502
+  },
+  "ufListFilter": {
+    "sp": "SP",
+    "invalid": "zz"
   },
   "searchWithUfNoMatch": {
     "query": "santos",
     "uf": "RJ"
-  },
-  "ufFilter": {
-    "sp": "SP",
-    "invalid": "zz"
   },
   "negative": {
     "notFoundIbge": 9999999,

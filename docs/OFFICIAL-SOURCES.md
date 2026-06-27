@@ -41,7 +41,7 @@
 | **NBS** | NFSe Nacional | [Anexo B NBS2 xlsx](https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica/documentacao-atual/anexo_b-nbs2-lista_servico_nacional-snnfse.xlsx) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Brazilian Services Nomenclature leaf codes. Golden: **`1.1502.50.00`** (TI systems integration). Vector: `nbs.official.json`. Parsed from xlsx without extra deps. |
 | **CEST** | CONFAZ | [Convênio ICMS 142/2018](https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | ST specifier codes (7 digits) linked to NCM prefixes. Golden: **`0302100`** (returnable beer bottle); NCM **`22030000`** cross-ref. Vector: `cest.official.json`. |
 | **CST** | RFB SPED | [SPED Fiscal — Tabelas de Situação Tributária](http://www.sped.fazenda.gov.br/spedtabelas/AppConsulta/publico/aspx/ConsultaTabelasExternas.aspx?CodSistema=SpedFiscal) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | NF-e CST codes for ICMS, IPI, PIS, COFINS. Golden: ICMS **`00`** / **`10`**, IPI **`50`** / **`00`**, PIS **`01`** / **`07`**, COFINS **`01`** / **`07`**. Vector: `cst.official.json`. CSOSN deferred. Manual refresh (`agendamento: manual`). |
-| **LC 116** | Planalto / NFSe | [LC 116/2003 — Planalto](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm) · [NFSe LC 116 list](https://www.gov.br/nfse/pt-br/mei-e-demais-empresas/codigos-de-tributacao-nacional-nbs) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | ISS national service list (~200 items). Golden: **`1.01`** (análise e desenvolvimento de sistemas), **`7.02`** (obras de construção civil). Vector: `lc116.official.json`. Municipal ISS **rates**: partial embed `@br-validators/core/iss-municipal` (100 cities). Manual refresh. |
+| **LC 116** | Planalto / NFSe | [LC 116/2003 — Planalto](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm) · [NFSe LC 116 list](https://www.gov.br/nfse/pt-br/mei-e-demais-empresas/codigos-de-tributacao-nacional-nbs) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | ISS national service list (~200 items). Golden: **`1.01`** (análise e desenvolvimento de sistemas), **`7.02`** (obras de construção civil). Vector: `lc116.official.json`. Municipal ISS **rates**: partial embed `@br-validators/core/iss-municipal` (500 cities). Manual refresh. |
 | **eSocial categorias** | eSocial / MTE | [eSocial S-1.3 Tabelas](https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Tabela 01 worker categories (~47). Golden: **`101`** (empregado geral), **`103`** (aprendiz), **`901`** (estagiário). Vector: `esocial.official.json`. Manual refresh. Natureza rubricas / leave types deferred v2. |
 | **Simples Nacional** | Planalto / RFB | [LC 123/2006 — Planalto](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm) · [Receita Anexo I](http://normas.receita.fazenda.gov.br/sijut2consulta/anexoOutros.action?idArquivoBinario=48430) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Anexos I–V rate tables (6 faixas each, LC 155/2016). Golden: Anexo **`I`** RBT12 **`700000`** (alíquota efetiva **7,52%**), Anexo **`III`** faixa 1, Anexo **`V`** RBT12 **`200000`**. Vector: `simples-nacional.official.json`. CNAE→anexo mapping deferred. Manual refresh. |
 | **IRPF (tabela progressiva mensal)** | RFB | [Tabelas IRPF](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas) · [Tabela progressiva mensal](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas/tabela-progressiva-mensal) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) · Full index: [§ IRPF](#irpf) | Monthly withholding brackets (5 faixas). Golden: base **`3000`** → imposto **`68.56`**; **`2826.65`** → **`42.56`**; **`5000`** → **`479`**. Vector: `irpf.official.json`. Annual declaration / 13º IRRF deferred. Manual refresh (`agendamento: manual`). |
@@ -671,7 +671,7 @@ Golden: ICMS `00` (tributada integralmente), `10` (ST); IPI `50` (saída tributa
 
 Golden: `1.01` (análise e desenvolvimento de sistemas), `7.02` (execução de obras de construção civil).
 
-**Scope v1:** National LC 116 item codes + descriptions only. **Per-municipio ISS alíquotas:** partial embed (~100 cities) at `@br-validators/core/iss-municipal` — see [§ ISS municipal](#iss-municipal). Full 5.570-municipality table remains deferred (ROADMAP S-09). Optional v2: LC 116 ↔ NBS cross-reference.
+**Scope v1:** National LC 116 item codes + descriptions only. **Per-municipio ISS alíquotas:** partial embed (~500 cities) at `@br-validators/core/iss-municipal` — see [§ ISS municipal](#iss-municipal). Full 5.570-municipality table remains deferred (ROADMAP S-09). Optional v2: LC 116 ↔ NBS cross-reference.
 
 ---
 
@@ -683,17 +683,18 @@ Golden: `1.01` (análise e desenvolvimento de sistemas), `7.02` (execução de o
 | Role | Source | URL |
 |------|--------|-----|
 | LC 116/2003 — ISS framework (2%–5% band) | Planalto | https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm#art8 |
-| IBGE — PIB municipal ranking (selection) | IBGE Contas Regionais | https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9088-produto-interno-bruto-dos-municipios.html |
-| IBGE — PIB Table 1 xlsx (fetch) | IBGE FTP | https://ftp.ibge.gov.br/Pib_Municipios/2022_2023/xlsx/tabelas_completas_2022.xlsx |
+| IBGE SIDRA — PIB municipal ranking (primary fetch) | IBGE SIDRA API | https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022 |
+| IBGE — PIB municipal (reference) | IBGE Contas Regionais | https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9088-produto-interno-bruto-dos-municipios.html |
+| IBGE — PIB Table 1 xlsx (optional cross-check) | IBGE FTP | https://ftp.ibge.gov.br/Pib_Municipios/2022_2023/xlsx/tabelas_completas_2022.xlsx |
 | IBGE — municipality codes | IBGE | https://www.ibge.gov.br/explica/codigos-dos-municipios.php |
 | CNM — municipal legislation index | CNM | https://www.cnm.org.br/ |
 | NFSe Nacional | gov.br | https://www.gov.br/nfse/pt-br |
 
-Golden: IBGE **`3550308`** (São Paulo/SP — alíquota band 2%–5%, `legislacao.prefeitura.sp.gov.br`), **`3304557`** (Rio de Janeiro/RJ), **`3106200`** (Belo Horizonte/MG).
+Golden: IBGE **`3550308`** (São Paulo/SP — alíquota band 2%–5%, `legislacao.prefeitura.sp.gov.br`), **`3304557`** (Rio de Janeiro/RJ), **`3106200`** (Belo Horizonte/MG), **`3509502`** (Campinas/SP — high-PIB non-capital, `estimativa: true`).
 
-`getIssMunicipalPorIbge`, `getIssMunicipalPorUfMunicipio`, `searchIssMunicipal`, `getAllIssMunicipal` — every `IssMunicipalResult` includes `warning` (estimation / quoting only; **not** NFSe emission).
+`getIssMunicipalPorIbge`, `getIssMunicipalPorUf`, `getIssMunicipalPorUfMunicipio`, `searchIssMunicipal(query, { uf?, limit? })`, `getIssMunicipalUfsDisponiveis`, `getAllIssMunicipal` — every `IssMunicipalResult` includes `warning` (estimation / quoting only; **not** NFSe emission).
 
-**Scope v1:** 27 state capitals + top PIB municipalities deduplicated to **100 rows**. Fields: `aliquotaMin`, `aliquotaMax`, `leiUrl`, `capturadoEm`, `estimativa`. Capital rows cite municipal portals; non-capital rows use LC 116 Art. 8 band with `estimativa: true`. **Out of scope:** all 5.570 municipalities, per-LC-116-item municipal rates, NFSe emission validation.
+**Scope v1:** 27 state capitals + top PIB municipalities (SIDRA 5938, PIB 2022) deduplicated to **500 rows**. Fields: `aliquotaMin`, `aliquotaMax`, `leiUrl`, `capturadoEm`, `estimativa`. Capital rows cite municipal portals; non-capital rows use LC 116 Art. 8 band with `estimativa: true` — **not** verified municipal legislation. **Out of scope:** all 5.570 municipalities, per-LC-116-item municipal rates, NFSe emission validation.
 
 ---
 

@@ -1,0 +1,137 @@
+[
+  {
+    "codigoIbge": 1200401,
+    "nome": "Rio Branco",
+    "uf": "AC"
+  },
+  {
+    "codigoIbge": 2704302,
+    "nome": "Maceió",
+    "uf": "AL"
+  },
+  {
+    "codigoIbge": 1302603,
+    "nome": "Manaus",
+    "uf": "AM"
+  },
+  {
+    "codigoIbge": 1600303,
+    "nome": "Macapá",
+    "uf": "AP"
+  },
+  {
+    "codigoIbge": 2927408,
+    "nome": "Salvador",
+    "uf": "BA"
+  },
+  {
+    "codigoIbge": 2304400,
+    "nome": "Fortaleza",
+    "uf": "CE"
+  },
+  {
+    "codigoIbge": 5300108,
+    "nome": "Brasília",
+    "uf": "DF"
+  },
+  {
+    "codigoIbge": 3205309,
+    "nome": "Vitória",
+    "uf": "ES"
+  },
+  {
+    "codigoIbge": 5208707,
+    "nome": "Goiânia",
+    "uf": "GO"
+  },
+  {
+    "codigoIbge": 2111300,
+    "nome": "São Luís",
+    "uf": "MA"
+  },
+  {
+    "codigoIbge": 3106200,
+    "nome": "Belo Horizonte",
+    "uf": "MG"
+  },
+  {
+    "codigoIbge": 5002704,
+    "nome": "Campo Grande",
+    "uf": "MS"
+  },
+  {
+    "codigoIbge": 5103403,
+    "nome": "Cuiabá",
+    "uf": "MT"
+  },
+  {
+    "codigoIbge": 1501402,
+    "nome": "Belém",
+    "uf": "PA"
+  },
+  {
+    "codigoIbge": 2507507,
+    "nome": "João Pessoa",
+    "uf": "PB"
+  },
+  {
+    "codigoIbge": 2611606,
+    "nome": "Recife",
+    "uf": "PE"
+  },
+  {
+    "codigoIbge": 2211001,
+    "nome": "Teresina",
+    "uf": "PI"
+  },
+  {
+    "codigoIbge": 4106902,
+    "nome": "Curitiba",
+    "uf": "PR"
+  },
+  {
+    "codigoIbge": 3304557,
+    "nome": "Rio de Janeiro",
+    "uf": "RJ"
+  },
+  {
+    "codigoIbge": 2408102,
+    "nome": "Natal",
+    "uf": "RN"
+  },
+  {
+    "codigoIbge": 1100205,
+    "nome": "Porto Velho",
+    "uf": "RO"
+  },
+  {
+    "codigoIbge": 1400100,
+    "nome": "Boa Vista",
+    "uf": "RR"
+  },
+  {
+    "codigoIbge": 4314902,
+    "nome": "Porto Alegre",
+    "uf": "RS"
+  },
+  {
+    "codigoIbge": 4205407,
+    "nome": "Florianópolis",
+    "uf": "SC"
+  },
+  {
+    "codigoIbge": 2800308,
+    "nome": "Aracaju",
+    "uf": "SE"
+  },
+  {
+    "codigoIbge": 3550308,
+    "nome": "São Paulo",
+    "uf": "SP"
+  },
+  {
+    "codigoIbge": 1721000,
+    "nome": "Palmas",
+    "uf": "TO"
+  }
+]

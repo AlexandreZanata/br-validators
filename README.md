@@ -24,7 +24,7 @@
 | **Documentation** | [docs.br-validators.dev](https://docs.br-validators.dev/) — VitePress deep reference (README = quick start) |
 | **Playground** | [doc-raiz-playground.vercel.app](https://doc-raiz-playground.vercel.app/) — client-side only, no PII sent to server |
 
-Reference datasets (IBGE, Bacen banks, DDD lookup, national holidays, CNAE, CFOP, CST, LC 116, eSocial categorias, NCM, CBO, natureza jurídica, NBS, CEST, moedas, PTAX cotações, países Bacen, NF-e cUF, IRPF / INSS tables, SELIC meta, ISS municipal sample, Incoterms, portos, aeroportos, ANP fuel prices) are embedded offline and refreshed **daily** (00:00 Brasília) — see [docs/DATA-FRESHNESS.md](docs/DATA-FRESHNESS.md). CST, LC 116, and eSocial use **manual** maintainer refresh (`pnpm fetch:data:cst`, `pnpm fetch:data:lc116`, `pnpm fetch:data:esocial`). Critical source failures: [data/refresh-reports/CRITICAL-ALERTS.md](data/refresh-reports/CRITICAL-ALERTS.md).
+Reference datasets (IBGE, Bacen banks, DDD lookup, national holidays, CNAE, CFOP, CST, LC 116, eSocial categorias, NCM, CBO, natureza jurídica, NBS, CEST, moedas, PTAX cotações, países Bacen, NF-e cUF, IRPF / INSS tables, SELIC meta, ISS municipal top 500 PIB, Incoterms, portos, aeroportos, ANP fuel prices) are embedded offline and refreshed **daily** (00:00 Brasília) — see [docs/DATA-FRESHNESS.md](docs/DATA-FRESHNESS.md). CST, LC 116, eSocial, and ISS municipal use **manual** maintainer refresh (`pnpm fetch:data:cst`, `pnpm fetch:data:lc116`, `pnpm fetch:data:esocial`, `pnpm fetch:data:iss-municipal`). Critical source failures: [data/refresh-reports/CRITICAL-ALERTS.md](data/refresh-reports/CRITICAL-ALERTS.md).
 
 > **Note:** The unscoped npm name [`br-validators`](https://www.npmjs.com/package/br-validators) belongs to another project. Install **`@br-validators/core`** or **`@br-validators/cli`**.
 
@@ -219,7 +219,7 @@ Government classification tables embedded in the library — **zero runtime fetc
 | IRPF progressive brackets | `@br-validators/core/irpf` | `irpf tabela` · `irpf calc` | `/data/payroll` | `getIrpfTabelaProgressiva`, `calcularIrpfMensal` | [RFB IRPF tables](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas) |
 | INSS contribution brackets | `@br-validators/core/inss` | `inss tabela` · `inss calc` | `/data/payroll` | `getInssTabelaContribuicao`, `calcularInssMensal` | [INSS contribution rates](https://www.gov.br/inss/pt-br/direitos-e-deveres/inscricao-e-contribuicao/tabelas-de-contribuicao) |
 | Bacen SELIC meta | `@br-validators/core/selic` | `selic` | `/data/finance` | `getSelicMeta`, `getSelicMetaPorData` | [Bacen SGS série 432](https://www3.bcb.gov.br/sgspub/localizarseries/localizarSeries.do?method=prepararTelaLocalizarSeries) |
-| ISS municipal rates (sample) | `@br-validators/core/iss-municipal` | `iss-municipal lookup` · `search` | `/data/fiscal` | `getIssMunicipalPorIbge`, `searchIssMunicipal` | [IBGE PIB municipal 2022](https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/19567-pib-dos-municipios.html) |
+| ISS municipal rates (top 500 PIB) | `@br-validators/core/iss-municipal` | `iss-municipal lookup` · `list` · `search [--uf]` | `/data/fiscal` | `getIssMunicipalPorIbge`, `getIssMunicipalPorUf`, `searchIssMunicipal` | [IBGE SIDRA PIB 5938](https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022) |
 | ICC Incoterms 2020 | `@br-validators/core/incoterms` | `incoterms lookup` | `/data/trade` | `getIncotermPorCodigo`, `getIncoterms` | [ICC Incoterms rules](https://iccwbo.org/resources-for-business/incoterms-rules/) |
 | CBO 2002 occupations | `@br-validators/core/cbo` | `cbo lookup` · `cbo search` | `/data/fiscal` | `getCboPorCodigo`, `searchCbo` | [MTE CBO CSV](https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/cbo/servicos/downloads/cbo2002-ocupacao.csv) |
 | CEP prefix lookup | `@br-validators/core/cep` | `cep faixa` | — | `getCepFaixaInfo`, `getCepFaixas` | [IBGE CNEFE 2022](https://www.ibge.gov.br/estatisticas/sociais/populacao/38734-cadastro-nacional-de-enderecos-para-fins-estatisticos.html) |
@@ -289,6 +289,22 @@ Every shipped type exists in **library + CLI + playground**. See [docs/DELIVERY-
 
 ---
 
+## Help wanted — contribute
+
+BR Validators is **100% MIT open source**. We need community help to close coverage gaps with **official sources only** — no guessed algorithms.
+
+| Area | Gap | How to help |
+|------|-----|-------------|
+| **ISS municipal rates** | ~5.070 municipalities not in embed; 473 estimation-only rows | Issue template [`iss-municipal-contribution`](.github/ISSUE_TEMPLATE/iss-municipal-contribution.yml) · [docs/COVERAGE-GAPS.md](docs/COVERAGE-GAPS.md) |
+| **RG check digits** | 24 UFs format-only (no published official DV) | Issue template [`rg-dv-upgrade`](.github/ISSUE_TEMPLATE/rg-dv-upgrade.yml) · [RG contributor guide](docs/community/RG-CONTRIBUTOR-GUIDE.md) |
+| **Data sources** | Endpoint moves / fetch failures | Issue template [`data_source`](.github/ISSUE_TEMPLATE/data_source.yml) · [CRITICAL-ALERTS.md](data/refresh-reports/CRITICAL-ALERTS.md) |
+
+**Before opening a PR:** read [CONTRIBUTING.md](CONTRIBUTING.md), [docs/OFFICIAL-SOURCES.md](docs/OFFICIAL-SOURCES.md), and [AGENTS.md](AGENTS.md). Every change needs golden test vectors, `CHANGELOG.md` entry, and `pnpm verify` passing (lint, typecheck, 100% coverage on `packages/br-validators/src/**`).
+
+Regenerate gap lists after ISS/IBGE updates: `pnpm generate:coverage-gaps`
+
+---
+
 ## Documentation
 
 | Doc | Description |
@@ -299,6 +315,7 @@ Every shipped type exists in **library + CLI + playground**. See [docs/DELIVERY-
 | [docs/OFFICIAL-SOURCES.md](docs/OFFICIAL-SOURCES.md) | RFB, Bacen, CONTRAN, SEFAZ sources |
 | [apps/docs/](apps/docs/) | VitePress site — [docs.br-validators.dev](https://docs.br-validators.dev/) (API synced from `LIBRARY-API.md`) |
 | [docs/community/RG-GOOD-FIRST-ISSUES.md](docs/community/RG-GOOD-FIRST-ISSUES.md) | RG 27/27 UFs shipped — DV algorithm upgrades (`good first issue`) |
+| [docs/COVERAGE-GAPS.md](docs/COVERAGE-GAPS.md) | Municipalities without ISS embed / official municipal rate; RG DV gaps |
 | [CHANGELOG.md](CHANGELOG.md) | Release history |
 | [MIGRATION.md](MIGRATION.md) | v1.x → v2.0 breaking-change guide (lookup + deprecated getters) |
 | [docs/VERSIONING.md](docs/VERSIONING.md) | SemVer policy and deprecation windows |
@@ -323,8 +340,13 @@ See [CHANGELOG.md](CHANGELOG.md) for release notes.
 
 ### Known gaps
 
+See [docs/COVERAGE-GAPS.md](docs/COVERAGE-GAPS.md) for the full index (machine-readable JSON under `data/coverage-gaps/`).
+
 | Gap | Status |
 |-----|--------|
+| ISS municipal — 5.071 municipalities not embedded | [Help wanted](#help-wanted--contribute) — cite municipal legislation |
+| ISS municipal — 473 estimation-only rows | Same — replace LC 116 band with verified `leiUrl` |
+| RG DV — 24 UFs format-only | [RG contributor guide](docs/community/RG-CONTRIBUTOR-GUIDE.md) |
 | Alphanumeric CPF | Blocked — RFB spec not published |
 | `@br-validators/adapters-correios` | Planned — CEP HTTP lookup |
 

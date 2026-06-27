@@ -3,7 +3,7 @@
 > **Status:** Phase 33c complete — **27/27 UFs shipped** (2026-06-26 batch 3: CE, PE, PI, RN, RO, RR, SE, TO).
 
 > **Labels:** `good first issue`, `rg-uf`  
-> **Template:** [.github/ISSUE_TEMPLATE/rg-uf-contribution.md](../../.github/ISSUE_TEMPLATE/rg-uf-contribution.md)  
+> **Template:** [`.github/ISSUE_TEMPLATE/rg-dv-upgrade.yml`](../../.github/ISSUE_TEMPLATE/rg-dv-upgrade.yml) (legacy: `rg-uf-contribution.md`)  
 > **Depends on:** Phase 27c RG phase 1 (SP, RJ, MG, PR, RS, SC shipped)
 
 > **Contributor guide (how to open issues, official sources, algorithm reporting):** [RG-CONTRIBUTOR-GUIDE.md](RG-CONTRIBUTOR-GUIDE.md)  

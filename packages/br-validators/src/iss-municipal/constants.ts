@@ -33,6 +33,12 @@ export const ISS_MUNICIPAL_GOLDEN_RIO = 3304557;
 /** Golden municipality — Belo Horizonte capital (IBGE 3106200). */
 export const ISS_MUNICIPAL_GOLDEN_BELO_HORIZONTE = 3106200;
 
+/** Golden municipality — Campinas high-PIB non-capital (IBGE 3509502). */
+export const ISS_MUNICIPAL_GOLDEN_CAMPINAS = 3509502;
+
+export const IBGE_SIDRA_PIB_URL =
+  'https://apisidra.ibge.gov.br/values/t/5938/n6/all/v/37/p/2022';
+
 export const ISS_MUNICIPAL_ESTIMATION_WARNING =
   'Partial municipal ISS embed for estimation and quoting only — not for NFSe emission. ' +
   'Confirm current alíquota and LC 116 item with the municipality before billing.';

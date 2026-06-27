@@ -33,6 +33,7 @@
 | [../LICENSE](../LICENSE) | MIT license text |
 | [../SECURITY.md](../SECURITY.md) | Report vulnerabilities (private) |
 | [../CONTRIBUTING.md](../CONTRIBUTING.md) | How to contribute |
+| [COVERAGE-GAPS.md](COVERAGE-GAPS.md) | Missing municipalities / estimation-only ISS / RG DV gaps |
 | [../CHANGELOG.md](../CHANGELOG.md) | Release history |
 | [API Reference (TypeDoc)](https://docs.br-validators.dev/api-reference/) | Auto-generated signatures — `pnpm docs:api` |
 

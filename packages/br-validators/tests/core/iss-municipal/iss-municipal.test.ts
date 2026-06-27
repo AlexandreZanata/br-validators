@@ -47,6 +47,16 @@ describe('ISS municipal — official golden vectors', () => {
     expect(bh?.leiUrl).toContain(vectors.golden.beloHorizonte.leiUrlContains);
   });
 
+  it('resolves Campinas as high-PIB estimation row', () => {
+    const campinas = getIssMunicipalPorIbge(vectors.golden.campinas.codigoIbge);
+    expect(campinas?.nome).toBe('Campinas');
+    expect(campinas?.uf).toBe('SP');
+    expect(campinas?.aliquotaMin).toBe(vectors.golden.campinas.aliquotaMin);
+    expect(campinas?.aliquotaMax).toBe(vectors.golden.campinas.aliquotaMax);
+    expect(campinas?.estimativa).toBe(vectors.golden.campinas.estimativa);
+    expect(campinas?.leiUrl).toContain(vectors.golden.campinas.leiUrlContains);
+  });
+
   it('looks up by UF and municipality name with accent-insensitive match', () => {
     const result = getIssMunicipalPorUfMunicipio('sp', 'sao paulo');
     expect(result?.codigoIbge).toBe(ISS_MUNICIPAL_GOLDEN_SAO_PAULO);
@@ -87,24 +97,24 @@ describe('ISS municipal — official golden vectors', () => {
   });
 
   it('filters search results by UF using golden vector', () => {
-    const match = searchIssMunicipal(vectors.searchWithUf.query, {
-      uf: vectors.searchWithUf.uf,
+    const match = searchIssMunicipal(vectors.ufFilter.query, {
+      uf: vectors.ufFilter.uf,
       limit: 5,
     });
-    expect(match.some((row) => row.codigoIbge === vectors.searchWithUf.codigoIbge)).toBe(true);
-    expect(match.every((row) => row.uf === vectors.searchWithUf.uf)).toBe(true);
+    expect(match.some((row) => row.codigoIbge === vectors.ufFilter.expectCodigoIbge)).toBe(true);
+    expect(match.every((row) => row.uf === vectors.ufFilter.uf)).toBe(true);
 
     expect(
       searchIssMunicipal(vectors.searchWithUfNoMatch.query, {
         uf: vectors.searchWithUfNoMatch.uf,
       }),
     ).toEqual([]);
-    expect(searchIssMunicipal('campinas', { uf: vectors.ufFilter.invalid })).toEqual([]);
+    expect(searchIssMunicipal('campinas', { uf: vectors.ufListFilter.invalid })).toEqual([]);
     expect(searchIssMunicipal('campinas', { uf: '' })).toEqual([]);
   });
 
   it('lists embedded municipalities per UF and exposes available UFs', () => {
-    const spRows = getIssMunicipalPorUf(vectors.ufFilter.sp);
+    const spRows = getIssMunicipalPorUf(vectors.ufListFilter.sp);
     expect(spRows.length).toBeGreaterThan(0);
     expect(spRows.every((row) => row.uf === 'SP')).toBe(true);
     expect(spRows.some((row) => row.codigoIbge === ISS_MUNICIPAL_GOLDEN_SAO_PAULO)).toBe(true);
@@ -113,7 +123,7 @@ describe('ISS municipal — official golden vectors', () => {
     expect(ufs).toContain('SP');
     expect(ufs).toEqual([...ufs].sort((left, right) => left.localeCompare(right, 'pt-BR')));
     expect(getIssMunicipalPorUf('')).toEqual([]);
-    expect(getIssMunicipalPorUf(vectors.ufFilter.invalid)).toEqual([]);
+    expect(getIssMunicipalPorUf(vectors.ufListFilter.invalid)).toEqual([]);
     expect(getIssMunicipalPorUf('ZZ')).toEqual([]);
 
     const totalByUf = ufs.reduce((sum, uf) => sum + getIssMunicipalPorUf(uf).length, 0);
