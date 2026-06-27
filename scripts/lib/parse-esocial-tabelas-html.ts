@@ -11,6 +11,15 @@ export interface EsocialCategoriaRecord {
   termino: string | null;
 }
 
+export interface EsocialRubricaRecord {
+  codigo: string;
+  natureza: string;
+  descricao: string;
+  inicio: string;
+  termino: string | null;
+  codIncCP: string;
+}
+
 const HTML_ENTITY_PATTERN = /&(#\d+|#x[\da-fA-F]+|[a-zA-Z]+);/g;
 
 function decodeHtmlEntities(value: string): string {
@@ -132,4 +141,93 @@ export function parseEsocialCategoriasHtml(html: string): EsocialCategoriaRecord
     return [];
   }
   return parseTable01Rows(tableHtml);
+}
+
+export function normalizeEsocialRubricaCodigo(codigo: string): string {
+  const digits = codigo.replace(/\D/g, '');
+  if (digits.length === 0) {
+    return '';
+  }
+  return digits.padStart(4, '0').slice(-4);
+}
+
+function extractTable03Html(html: string): string {
+  const tableStart = html.indexOf('<table id="03"');
+  if (tableStart < 0) {
+    return '';
+  }
+  const tableEnd = html.indexOf('<table id="04"', tableStart);
+  if (tableEnd < 0) {
+    return html.slice(tableStart);
+  }
+  return html.slice(tableStart, tableEnd);
+}
+
+function parseTable03Rows(tableHtml: string): EsocialRubricaRecord[] {
+  const records: EsocialRubricaRecord[] = [];
+  const rowPattern = /<tr>\s*(.*?)\s*<\/tr>/gis;
+  let rowMatch: RegExpExecArray | null = rowPattern.exec(tableHtml);
+
+  while (rowMatch !== null) {
+    const cells = [...rowMatch[1].matchAll(/<td[^>]*>(.*?)<\/td>/gis)].map((cell) =>
+      collapseWhitespace(stripHtml(cell[1])),
+    );
+
+    if (cells.length === 6) {
+      const codigo = normalizeEsocialRubricaCodigo(cells[0]);
+      if (codigo.length === 4) {
+        records.push({
+          codigo,
+          natureza: cells[1],
+          descricao: cells[2],
+          inicio: cells[3],
+          termino: normalizeTermino(cells[4]),
+          codIncCP: cells[5],
+        });
+      }
+    }
+
+    rowMatch = rowPattern.exec(tableHtml);
+  }
+
+  return mergeRubricaRecords(records);
+}
+
+function isActiveRubricaRecord(record: EsocialRubricaRecord): boolean {
+  return record.termino === null;
+}
+
+export function mergeRubricaRecords(records: readonly EsocialRubricaRecord[]): EsocialRubricaRecord[] {
+  const byCode = new Map<string, EsocialRubricaRecord>();
+
+  for (const record of records) {
+    const existing = byCode.get(record.codigo);
+    if (existing === undefined) {
+      byCode.set(record.codigo, record);
+      continue;
+    }
+
+    const existingActive = isActiveRubricaRecord(existing);
+    const recordActive = isActiveRubricaRecord(record);
+    if (recordActive && !existingActive) {
+      byCode.set(record.codigo, record);
+      continue;
+    }
+    if (!recordActive && existingActive) {
+      continue;
+    }
+    if (record.descricao.length > existing.descricao.length) {
+      byCode.set(record.codigo, record);
+    }
+  }
+
+  return [...byCode.values()].sort((left, right) => left.codigo.localeCompare(right.codigo));
+}
+
+export function parseEsocialRubricasHtml(html: string): EsocialRubricaRecord[] {
+  const tableHtml = extractTable03Html(html);
+  if (tableHtml.length === 0) {
+    return [];
+  }
+  return parseTable03Rows(tableHtml);
 }

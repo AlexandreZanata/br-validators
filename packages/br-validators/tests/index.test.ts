@@ -395,6 +395,9 @@ describe('package exports', () => {
     expect(esocialEntry.getAllEsocialCategorias).toBeTypeOf('function');
     expect(esocialEntry.getEsocialCategoriaPorCodigo).toBeTypeOf('function');
     expect(esocialEntry.searchEsocialCategorias).toBeTypeOf('function');
+    expect(esocialEntry.getAllEsocialRubricas).toBeTypeOf('function');
+    expect(esocialEntry.getEsocialRubricaPorCodigo).toBeTypeOf('function');
+    expect(esocialEntry.searchEsocialRubricas).toBeTypeOf('function');
     expect(esocialEntry.ESOCIAL_DATA_VERSION.id).toBe('esocial');
   });
 

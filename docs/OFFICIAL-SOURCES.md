@@ -43,7 +43,7 @@
 | **CST** | RFB SPED | [SPED Fiscal — Tabelas de Situação Tributária](http://www.sped.fazenda.gov.br/spedtabelas/AppConsulta/publico/aspx/ConsultaTabelasExternas.aspx?CodSistema=SpedFiscal) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | NF-e CST codes for ICMS, IPI, PIS, COFINS. Golden: ICMS **`00`** / **`10`**, IPI **`50`** / **`00`**, PIS **`01`** / **`07`**, COFINS **`01`** / **`07`**. Vector: `cst.official.json`. Manual refresh (`agendamento: manual`). |
 | **CSOSN** | CONFAZ SINIEF | [Ajuste SINIEF 03/10](https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/a03_10) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Simples Nacional CSOSN (10 codes). Golden: **`101`**, **`102`**, **`201`**, **`500`**. Vector: `csosn.official.json`. Manual refresh. |
 | **LC 116** | Planalto / NFSe | [LC 116/2003 — Planalto](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm) · [NFSe LC 116 list](https://www.gov.br/nfse/pt-br/mei-e-demais-empresas/codigos-de-tributacao-nacional-nbs) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | ISS national service list (~200 items). Golden: **`1.01`** (análise e desenvolvimento de sistemas), **`7.02`** (obras de construção civil). Vector: `lc116.official.json`. Municipal ISS **rates**: partial embed `@br-validators/core/iss-municipal` (500 cities). Manual refresh. |
-| **eSocial categorias** | eSocial / MTE | [eSocial S-1.3 Tabelas](https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Tabela 01 worker categories (~47). Golden: **`101`** (empregado geral), **`103`** (aprendiz), **`901`** (estagiário). Vector: `esocial.official.json`. Manual refresh. Natureza rubricas / leave types deferred v2. |
+| **eSocial** | eSocial / MTE | [eSocial S-1.3 Tabelas](https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Tabela 01 worker categories (~47) + Tabela 03 payroll rubricas (~208). Golden categorias: **`101`**, **`103`**, **`901`**. Golden rubricas: **`1000`** (salário), **`5001`** (13º), **`1016`** (férias), **`9908`** (FGTS). Vectors: `esocial.official.json`, `esocial-rubricas.official.json`. Manual refresh. Leave types (Tabela 18) deferred v2. |
 | **Simples Nacional** | Planalto / RFB | [LC 123/2006 — Planalto](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm) · [Receita Anexo I](http://normas.receita.fazenda.gov.br/sijut2consulta/anexoOutros.action?idArquivoBinario=48430) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) | Anexos I–V rate tables (6 faixas each, LC 155/2016). Golden: Anexo **`I`** RBT12 **`700000`** (alíquota efetiva **7,52%**), Anexo **`III`** faixa 1, Anexo **`V`** RBT12 **`200000`**. Vector: `simples-nacional.official.json`. CNAE→anexo mapping deferred. Manual refresh. |
 | **IRPF (tabela progressiva mensal)** | RFB | [Tabelas IRPF](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas) · [Tabela progressiva mensal](https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/tabelas/tabela-progressiva-mensal) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) · Full index: [§ IRPF](#irpf) | Monthly withholding brackets (5 faixas). Golden: base **`3000`** → imposto **`68.56`**; **`2826.65`** → **`42.56`**; **`5000`** → **`479`**. Vector: `irpf.official.json`. Annual declaration / 13º IRRF deferred. Manual refresh (`agendamento: manual`). |
 | **INSS (contribuição empregado)** | MPS/MF / INSS | [Portaria MPS/MF nº 6/2025](https://www.in.gov.br/web/dou/-/portaria-interministerial-mps/mf-n-6-de-10-de-janeiro-de-2025-606526848) · [INSS alíquotas 2025](https://www.gov.br/inss/pt-br/noticias/confira-como-ficaram-as-aliquotas-de-contribuicao-ao-inss) · [DATA-FRESHNESS.md](DATA-FRESHNESS.md) · Full index: [§ INSS](#inss) | Employee progressive brackets (4 faixas, teto **`8157.41`**). Golden: **`1518`** → **`113.85`**; **`3000`** → **`253.41`**; **`8157.41`** → **`951.63`**. Vector: `inss.official.json`. RPPS / MEI deferred. Manual refresh (`agendamento: manual`). |
@@ -714,19 +714,25 @@ Golden: IBGE **`3550308`** (São Paulo/SP — alíquota band 2%–5%, `legislaca
 
 ---
 
-## eSocial worker categories {#esocial-categorias-trabalhadores}
+## eSocial {#esocial}
 
-> **Vectors:** `packages/br-validators/tests/vectors/esocial.official.json`  
+> **Vectors:** `packages/br-validators/tests/vectors/esocial.official.json`, `packages/br-validators/tests/vectors/esocial-rubricas.official.json`  
 > **Freshness:** [DATA-FRESHNESS.md](DATA-FRESHNESS.md) — `agendamento: manual`
 
 | Role | Source | URL |
 |------|--------|-----|
-| eSocial S-1.3 layout tables (Tabela 01) | gov.br / eSocial | https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html |
+| eSocial S-1.3 layout tables (Tabela 01 + Tabela 03) | gov.br / eSocial | https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html |
 | Manual de Orientação (reference) | eSocial / MTE | https://www.gov.br/esocial/pt-br/documentacao-tecnica/manuais/mos-s-1-3-consolidada-ate-a-no-s-1-3-02-2024-com-marcacoes.pdf |
+
+### Tabela 01 — Categorias de Trabalhadores {#esocial-categorias-trabalhadores}
 
 Golden: **`101`** (empregado geral — CLT), **`103`** (aprendiz), **`901`** (estagiário). Each row includes `grupo`, `inicio`, and `termino` (`null` when still active).
 
-**Scope v1:** Tabela 01 — Categorias de Trabalhadores only. **Natureza rubricas** (Tabela 03) and **leave types** (Tabela 18) deferred to v2.
+### Tabela 03 — Natureza das Rubricas da Folha de Pagamento {#esocial-rubricas-folha}
+
+Golden: **`1000`** (salário, vencimento, soldo), **`5001`** (13º salário), **`1016`** (férias), **`9908`** (FGTS — depósito). Each row includes `natureza`, `descricao`, `inicio`, `termino` (`null` when still active), and `codIncCP` (incidence for S-1010 `codIncCP` values 15/16).
+
+**Scope v1:** Tabelas **01** and **03** only. **Leave types** (Tabela 18) deferred to v2.
 
 ---
 
