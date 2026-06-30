@@ -5,8 +5,8 @@
   "endpoints": [
     "https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/cbo/servicos/downloads/cbo2002-ocupacao.csv"
   ],
-  "capturadoEm": "2026-06-29",
-  "atualizadoEm": "2026-06-29T12:47:58.710Z",
+  "capturadoEm": "2026-06-30",
+  "atualizadoEm": "2026-06-30T07:23:06.878Z",
   "contagens": {
     "cbo": 2694
   },
@@ -14,12 +14,12 @@
     "adicionados": 0,
     "removidos": 0,
     "alterados": 0,
-    "comparadoCom": "2026-06-26"
+    "comparadoCom": "2026-06-29"
   },
   "verificacao": {
     "agendamento": "diario",
     "workflow": "data-refresh-bot.yml",
-    "ultimaExecucao": "2026-06-29T12:47:58.710Z"
+    "ultimaExecucao": "2026-06-30T07:23:06.878Z"
   },
   "documentacao": "docs/OFFICIAL-SOURCES.md#cbo-occupations"
 }

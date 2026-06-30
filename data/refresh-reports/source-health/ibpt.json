@@ -3,12 +3,12 @@
   "endpoints": [
     "https://deolhonoimposto.ibpt.org.br/"
   ],
-  "consecutiveFailureDays": 1,
+  "consecutiveFailureDays": 2,
   "firstFailureDate": "2026-06-29",
-  "lastFailureDate": "2026-06-29",
+  "lastFailureDate": "2026-06-30",
   "lastSuccessDate": "2026-06-26",
-  "severity": "warning",
-  "message": "Possible link deprecation — official source unreachable after 5 attempts (2 min interval).",
+  "severity": "critical",
+  "message": "Consultation link deprecated — official source unreachable for 2 or more consecutive days.",
   "retainedEmbeddedDataFrom": "2026-06-26",
   "outcomeStatus": "source_empty"
 }

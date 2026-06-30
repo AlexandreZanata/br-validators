@@ -1,1 +1,4 @@
-OK no critical alerts last_check=2026-06-29T12:48:09.263Z
+CRITICAL dataset=cfop streak=2 first_failure=2026-06-29 retained=2026-06-26 message="Consultation link deprecated — official source unreachable for 2 or more consecutive days."
+CRITICAL dataset=ibpt streak=2 first_failure=2026-06-29 retained=2026-06-26 message="Consultation link deprecated — official source unreachable for 2 or more consecutive days."
+CRITICAL dataset=cest streak=2 first_failure=2026-06-29 retained=2026-06-26 message="Consultation link deprecated — official source unreachable for 2 or more consecutive days."
+UPDATED 2026-06-30T07:23:19.238Z

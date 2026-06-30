@@ -1,42 +1,47 @@
 # Data freshness — reference datasets
 
 > **Auto-generated** by `scripts/data-refresh-bot.ts` — do not edit manually.
-> Last bot run: 2026-06-29T12:48:09.263Z
+> Last bot run: 2026-06-30T07:23:19.238Z
 
 ## Summary
 
 | Dataset | Last capture | Records | + added | − removed | ~ changed | Fields Δ | Official source |
 |---------|--------------|---------|---------|-----------|-----------|----------|-----------------|
-| IBGE Localidades | 2026-06-29 | 27 estados / 5571 municipios | 0 | 0 | 0 | — | [IBGE API v1 /localidades](https://servicodados.ibge.gov.br/api/v1/localidades/estados) |
-| Bacen STR Participants | 2026-06-29 | 469 bancos | 0 | 0 | 1 | nome, nomeReduzido | [Banco Central — Participantes STR](https://www.bcb.gov.br/content/estabilidadefinanceira/str1/ParticipantesSTR.csv) |
-| ANAC Public Aerodromos | 2026-06-29 | 533 aeroportos / 87 comIata | 0 | 0 | 0 | — | [ANAC — Lista de aeródromos de uso público](https://www.anac.gov.br/acesso-a-informacao/dados-abertos/areas-de-atuacao/aerodromos/lista-de-aerodromos-publicos/aerodromospublicosv1.csv/@@download/file/aerodromospublicosv1.csv) |
-| TSE ↔ IBGE Municipality Codes | 2026-06-29 | 5571 municipios | 0 | 0 | 0 | — | [TSE — Códigos oficiais de UF e municípios segundo o TSE e o IBGE](https://cdn.tse.jus.br/estatistica/sead/odsele/municipio_tse_ibge/municipio_tse_ibge.zip) |
-| ISO 4217 Currencies + Bacen PTAX | 2026-06-29 | 154 moedas | 0 | 0 | 0 | — | [ISO 4217 (embedded) + Banco Central PTAX Moedas](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas) |
-| Bacen PTAX Fechamento | 2026-06-29 | 850 cotacoes / 10 moedas / 85 diasUteis | 0 | 0 | 0 | — | [Banco Central Olinda PTAX API — Fechamento PTAX](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)) |
-| Bacen SGS — Meta Selic (série 432) | 2026-06-29 | 90 observacoes / 90 dias | 0 | 0 | 0 | — | [Banco Central — Taxa meta Selic definida pelo Copom](https://dadosabertos.bcb.gov.br/dataset/432-taxa-de-juros---meta-selic-definida-pelo-copom) |
+| IBGE Localidades | 2026-06-30 | 27 estados / 5571 municipios | 0 | 0 | 0 | — | [IBGE API v1 /localidades](https://servicodados.ibge.gov.br/api/v1/localidades/estados) |
+| Bacen STR Participants | 2026-06-30 | 469 bancos | 0 | 0 | 0 | — | [Banco Central — Participantes STR](https://www.bcb.gov.br/content/estabilidadefinanceira/str1/ParticipantesSTR.csv) |
+| ANAC Public Aerodromos | 2026-06-30 | 533 aeroportos / 87 comIata | 0 | 0 | 0 | — | [ANAC — Lista de aeródromos de uso público](https://www.anac.gov.br/acesso-a-informacao/dados-abertos/areas-de-atuacao/aerodromos/lista-de-aerodromos-publicos/aerodromospublicosv1.csv/@@download/file/aerodromospublicosv1.csv) |
+| TSE ↔ IBGE Municipality Codes | 2026-06-30 | 5571 municipios | 0 | 0 | 0 | — | [TSE — Códigos oficiais de UF e municípios segundo o TSE e o IBGE](https://cdn.tse.jus.br/estatistica/sead/odsele/municipio_tse_ibge/municipio_tse_ibge.zip) |
+| ISO 4217 Currencies + Bacen PTAX | 2026-06-30 | 154 moedas | 0 | 0 | 0 | — | [ISO 4217 (embedded) + Banco Central PTAX Moedas](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas) |
+| Bacen PTAX Fechamento | 2026-06-30 | 850 cotacoes / 10 moedas / 85 diasUteis | 10 | 10 | 0 | — | [Banco Central Olinda PTAX API — Fechamento PTAX](https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)) |
+| Bacen SGS — Meta Selic (série 432) | 2026-06-30 | 90 observacoes / 90 dias | 1 | 1 | 0 | — | [Banco Central — Taxa meta Selic definida pelo Copom](https://dadosabertos.bcb.gov.br/dataset/432-taxa-de-juros---meta-selic-definida-pelo-copom) |
 | ISS municipal alíquotas — partial embed (capitals + top PIB) | 2026-06-26 | 500 municipios / 27 capitais / 473 estimativaRows | 400 | 0 | 0 | — | [SIDRA 5938 PIB 2022 + LC 116 Art. 8 band + capital legislation seeds](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm) |
-| NF-e Bacen Country Codes | 2026-06-29 | 253 paises | 0 | 0 | 0 | — | [Portal Nacional NF-e — Tabela de Países (Bacen)](http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=PfPDd6dW200=) |
-| ICC Incoterms 2020 | 2026-06-29 | 11 incoterms | 0 | 0 | 0 | — | [International Chamber of Commerce — Incoterms 2020 (static reference)](https://iccwbo.org/resources-for-business/incoterms-rules/) |
-| Anatel DDD Geographic Lookup | 2026-06-29 | 67 ddds | 0 | 0 | 0 | — | [Anatel Plano de Numeração + IBGE municipios](https://informacoes.anatel.gov.br/paineis/areas-tarifarias/codigos-nacionais) |
+| NF-e Bacen Country Codes | 2026-06-30 | 253 paises | 0 | 0 | 0 | — | [Portal Nacional NF-e — Tabela de Países (Bacen)](http://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=PfPDd6dW200=) |
+| ICC Incoterms 2020 | 2026-06-30 | 11 incoterms | 0 | 0 | 0 | — | [International Chamber of Commerce — Incoterms 2020 (static reference)](https://iccwbo.org/resources-for-business/incoterms-rules/) |
+| Anatel DDD Geographic Lookup | 2026-06-30 | 67 ddds | 0 | 0 | 0 | — | [Anatel Plano de Numeração + IBGE municipios](https://informacoes.anatel.gov.br/paineis/areas-tarifarias/codigos-nacionais) |
 | Feriados Nacionais Federais | 2026-06-23 | 9 feriadosNacionaisFixos / 1 feriadosNacionaisMoveis / 9 pontosFacultativosFederais | 0 | 0 | 0 | — | [Lei 662/1949 + Portaria MGI (calendário federal)](https://www.planalto.gov.br/ccivil_03/leis/l0662.htm) |
-| IBGE CNAE 2.3 Subclasses | 2026-06-29 | 1332 cnaes | 0 | 0 | 0 | — | [IBGE API v2 /cnae/subclasses](https://servicodados.ibge.gov.br/api/v2/cnae/subclasses) |
+| IBGE CNAE 2.3 Subclasses | 2026-06-30 | 1332 cnaes | 0 | 0 | 0 | — | [IBGE API v2 /cnae/subclasses](https://servicodados.ibge.gov.br/api/v2/cnae/subclasses) |
 | CONFAZ CFOP | 2026-06-26 | 689 cfop | 0 | 0 | 0 | — | [CONFAZ SINIEF Convênio s/nº 1970 — Anexo II](https://www.confaz.fazenda.gov.br/legislacao/ajustes/sinief/cfop_cvsn_70_vigente) |
-| RFB CNPJ Naturezas Jurídicas | 2026-06-29 | 90 naturezas | 0 | 0 | 0 | — | [Receita Federal — Dados Abertos CNPJ (Naturezas.zip)](https://github.com/jonathands/dados-abertos-receita-cnpj/releases/download/2024.09/Naturezas.zip) |
-| RFB CNPJ Motivos de Situação Cadastral | 2026-06-29 | 61 motivos | 0 | 0 | 0 | — | [Receita Federal — Dados Abertos CNPJ (Motivos.zip)](https://github.com/jonathands/dados-abertos-receita-cnpj/releases/download/2024.09/Motivos.zip) |
+| RFB CNPJ Naturezas Jurídicas | 2026-06-30 | 90 naturezas | 0 | 0 | 0 | — | [Receita Federal — Dados Abertos CNPJ (Naturezas.zip)](https://github.com/jonathands/dados-abertos-receita-cnpj/releases/download/2024.09/Naturezas.zip) |
+| RFB CNPJ Motivos de Situação Cadastral | 2026-06-30 | 61 motivos | 0 | 0 | 0 | — | [Receita Federal — Dados Abertos CNPJ (Motivos.zip)](https://github.com/jonathands/dados-abertos-receita-cnpj/releases/download/2024.09/Motivos.zip) |
 | IBPT — Carga tributária aproximada por NCM (Lei 12.741/2012) | 2026-06-26 | 12 cargas | 0 | 0 | 0 | — | [IBPT — De Olho no Imposto (tabelas oficiais NCM × UF)](https://deolhonoimposto.ibpt.org.br/) |
-| NFSe NBS | 2026-06-29 | 917 nbs | 0 | 0 | 0 | — | [NFSe Nacional — Anexo B NBS2 Lista Serviço Nacional](https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica/documentacao-atual/anexo_b-nbs2-lista_servico_nacional-snnfse.xlsx/@@download/file/ANEXO_B-NBS2-LISTA_SERVICO_NACIONAL-SNNFSe.xlsx) |
+| NFSe NBS | 2026-06-30 | 917 nbs | 0 | 0 | 0 | — | [NFSe Nacional — Anexo B NBS2 Lista Serviço Nacional](https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica/documentacao-atual/anexo_b-nbs2-lista_servico_nacional-snnfse.xlsx/@@download/file/ANEXO_B-NBS2-LISTA_SERVICO_NACIONAL-SNNFSe.xlsx) |
 | CONFAZ CEST | 2026-06-26 | 1018 cest | 0 | 0 | 0 | — | [CONFAZ Convênio ICMS 142/2018 — Anexos II a XXVI](https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18) |
 | RFB SPED — CST (ICMS, IPI, PIS, COFINS) | 2026-06-24 | 11 icms / 14 ipi / 33 pis / 33 cofins | 0 | 0 | 0 | — | [SPED Fiscal — Tabelas de Situação Tributária (IN RFB 932/2009 family)](http://www.sped.fazenda.gov.br/spedtabelas/AppConsulta/publico/aspx/ConsultaTabelasExternas.aspx?CodSistema=SpedFiscal) |
 | LC 116/2003 — Lista de Serviços ISS | 2026-06-25 | 200 lc116 | 0 | 0 | 0 | — | [Lei Complementar 116/2003 — Anexo (Lista de Serviços)](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp116.htm) |
 | eSocial S-1.3 — Tabela 01 (Categorias) + Tabela 03 (Rubricas) | 2026-06-27 | 47 categorias / 208 rubricas | 208 | 0 | 0 | — | [eSocial S-1.3 — Tabelas 01 e 03](https://www.gov.br/esocial/pt-br/documentacao-tecnica/leiautes-esocial-versao-s-1-3-nt-06-2026/tabelas.html) |
 | LC 123/2006 — Simples Nacional (anexos e faixas) | 2026-06-25 | 5 anexos / 30 faixas | 0 | 0 | 0 | — | [Lei Complementar 123/2006 — Anexos I a V (redação LC 155/2016)](https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm) |
-| NCM — Nomenclatura Comum do Mercosul | 2026-06-29 | 10515 ncm | 0 | 0 | 0 | — | [Receita Federal / Siscomex nomenclatura JSON](https://portalunico.siscomex.gov.br/classif/api/publico/nomenclatura/download/json) |
-| CBO 2002 — Brazilian Occupations | 2026-06-29 | 2694 cbo | 0 | 0 | 0 | — | [MTE CBO 2002 ocupacao.csv](https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/cbo/servicos/downloads/cbo2002-ocupacao.csv) |
+| NCM — Nomenclatura Comum do Mercosul | 2026-06-30 | 10515 ncm | 0 | 0 | 0 | — | [Receita Federal / Siscomex nomenclatura JSON](https://portalunico.siscomex.gov.br/classif/api/publico/nomenclatura/download/json) |
+| CBO 2002 — Brazilian Occupations | 2026-06-30 | 2694 cbo | 0 | 0 | 0 | — | [MTE CBO 2002 ocupacao.csv](https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/cbo/servicos/downloads/cbo2002-ocupacao.csv) |
 | CEP prefix lookup (IBGE CNEFE 2022) | 2026-06-23 | 24649 faixas | 0 | 0 | 0 | — | [IBGE CNEFE Censo 2022 microdata by UF](https://ftp.ibge.gov.br/Cadastro_Nacional_de_Enderecos_para_Fins_Estatisticos/Censo_Demografico_2022/Arquivos_CNEFE/CSV/UF) |
-| ANTAQ port installations | 2026-06-29 | 1094 portos | 0 | 0 | 0 | — | [ANTAQ — Instalações Portuárias Outorgadas (Portos.xlsx)](https://www.gov.br/antaq/pt-br/central-de-conteudos/Instalaesporturias06052025.zip) |
-| ANP — Levantamento de Preços de Combustíveis (LPC) | 2026-06-29 | 1 semanas / 2340 precosMedios / 384 municipios / 7 produtos / 27 ufs | 0 | 0 | 0 | — | [ANP — resumo_semanal_lpc (municipal averages)](https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/levantamento-de-precos-de-combustiveis-ultimas-semanas-pesquisadas) |
-| PNCP domain reference tables | 2026-06-29 | 19 modalidades / 183 amparos-legais / 6 modos-disputa / 5 tipos-instrumentos-convocatorios / 12 tipos-contrato / 9 criterios-julgamento / 1 tipos-instrumentos-cobranca / 6 fontes-orcamentarias | 0 | 0 | 0 | — | [PNCP Cadastro API — static domain tables (Lei 14.133 ecosystem)](https://pncp.gov.br/api/pncp/v1/modalidades) |
-| Portal da Transparência endpoint registry | 2026-06-29 | 8 endpoints / 7 queryAdapter | 0 | 0 | 0 | — | [CGU Portal da Transparência — Swagger audit (query endpoints; no bulk embed in v1)](https://api.portaldatransparencia.gov.br/swagger-ui/index.html) |
+| ANTAQ port installations | 2026-06-30 | 1094 portos | 0 | 0 | 0 | — | [ANTAQ — Instalações Portuárias Outorgadas (Portos.xlsx)](https://www.gov.br/antaq/pt-br/central-de-conteudos/Instalaesporturias06052025.zip) |
+| ANP — Levantamento de Preços de Combustíveis (LPC) | 2026-06-30 | 1 semanas / 2340 precosMedios / 384 municipios / 7 produtos / 27 ufs | 0 | 0 | 0 | — | [ANP — resumo_semanal_lpc (municipal averages)](https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/levantamento-de-precos-de-combustiveis-ultimas-semanas-pesquisadas) |
+| PNCP domain reference tables | 2026-06-30 | 19 modalidades / 183 amparos-legais / 6 modos-disputa / 5 tipos-instrumentos-convocatorios / 12 tipos-contrato / 9 criterios-julgamento / 1 tipos-instrumentos-cobranca / 6 fontes-orcamentarias | 0 | 0 | 0 | — | [PNCP Cadastro API — static domain tables (Lei 14.133 ecosystem)](https://pncp.gov.br/api/pncp/v1/modalidades) |
+| Portal da Transparência endpoint registry | 2026-06-30 | 8 endpoints / 7 queryAdapter | 0 | 0 | 0 | — | [CGU Portal da Transparência — Swagger audit (query endpoints; no bulk embed in v1)](https://api.portaldatransparencia.gov.br/swagger-ui/index.html) |
+
+## ⚠️ Critical source alerts
+
+**3** dataset(s) marked as **consultation link deprecated** (2+ consecutive failure days).
+See [`data/refresh-reports/CRITICAL-ALERTS.md`](../data/refresh-reports/CRITICAL-ALERTS.md).
 
 ## Source health alerts
 
@@ -44,9 +49,9 @@
 
 | Dataset | Severity | Status | Embedded data from | Message |
 |---------|----------|--------|--------------------|---------|
-| cfop | warning | source_unavailable | 2026-06-26 | Possible link deprecation — official source unreachable after 5 attempts (2 min interval). |
-| ibpt | warning | source_empty | 2026-06-26 | Possible link deprecation — official source unreachable after 5 attempts (2 min interval). |
-| cest | warning | source_unavailable | 2026-06-26 | Possible link deprecation — official source unreachable after 5 attempts (2 min interval). |
+| cfop | critical | source_unavailable | 2026-06-26 | Consultation link deprecated — official source unreachable for 2 or more consecutive days. |
+| ibpt | critical | source_empty | 2026-06-26 | Consultation link deprecated — official source unreachable for 2 or more consecutive days. |
+| cest | critical | source_unavailable | 2026-06-26 | Consultation link deprecated — official source unreachable for 2 or more consecutive days. |
 
 ### Maintainer action required
 
@@ -71,12 +76,12 @@
 ```json
 {
   "datasetsVerificados": 30,
-  "datasetsAlterados": 3,
+  "datasetsAlterados": 2,
   "totalAdicionados": 608,
   "totalRemovidos": 0,
-  "totalAlterados": 1,
+  "totalAlterados": 0,
   "sourceAlerts": 3,
-  "criticalAlerts": 0,
+  "criticalAlerts": 3,
   "baselinesSelados": 0
 }
 ```

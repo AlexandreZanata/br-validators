@@ -6,7 +6,7 @@
   "maxRecords": 95,
   "golden": {
     "ultimaMeta": {
-      "data": "2026-06-29",
+      "data": "2026-06-30",
       "valor": 14.25
     },
     "copomJun2026": {
@@ -18,15 +18,15 @@
       "valor": 14.5
     },
     "inicioJanela": {
-      "data": "2026-04-01",
+      "data": "2026-04-02",
       "valor": 14.75
     }
   },
   "staleness": {
-    "asOfFresh": "2026-06-29",
-    "freshReferenceDate": "2026-06-29",
+    "asOfFresh": "2026-06-30",
+    "freshReferenceDate": "2026-06-30",
     "staleReferenceDate": "2026-06-24",
-    "capturadoEm": "2026-06-29",
+    "capturadoEm": "2026-06-30",
     "staleWarning": "Embedded data. For real-time use @br-validators/adapters-selic"
   },
   "negative": {

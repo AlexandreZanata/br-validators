@@ -5,7 +5,7 @@
     "https://deolhonoimposto.ibpt.org.br/"
   ],
   "attempts": 5,
-  "checkedAt": "2026-06-29T12:38:57.853Z",
+  "checkedAt": "2026-06-30T07:14:04.430Z",
   "retainedEmbeddedDataFrom": "2026-06-26",
   "message": "Possible link deprecation — official source unreachable after 5 attempts (interval 120000ms) (HTTP 403 downloading https://ibpt.valraw.com.br/api/meta.json). No new data returned — embedded data from 2026-06-26 retained in the API."
 }

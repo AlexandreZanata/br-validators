@@ -5,7 +5,7 @@
     "https://www.confaz.fazenda.gov.br/legislacao/convenios/2018/CV142_18"
   ],
   "attempts": 5,
-  "checkedAt": "2026-06-29T12:47:53.088Z",
+  "checkedAt": "2026-06-30T07:23:00.059Z",
   "retainedEmbeddedDataFrom": "2026-06-26",
   "message": "Possible link deprecation — official source unreachable after 5 attempts (interval 120000ms) (fetch failed). No new data returned — embedded data from 2026-06-26 retained in the API."
 }

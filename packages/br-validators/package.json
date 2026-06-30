@@ -1,6 +1,6 @@
 {
   "name": "@br-validators/core",
-  "version": "1.10.0-data.1",
+  "version": "1.10.0-data.2",
   "description": "The Brazilian document validation library for TypeScript — CPF, CNPJ (alphanumeric), NF-e, PIX, boleto, IE (27 UFs), offline IBGE/ANP/NCM/CST/LC116 reference data, and 15+ more. Zero deps, fully typed, never throws.",
   "homepage": "https://www.npmjs.com/package/@br-validators/core",
   "license": "MIT",
