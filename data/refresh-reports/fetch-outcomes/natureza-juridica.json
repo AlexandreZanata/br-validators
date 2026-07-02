@@ -5,7 +5,7 @@
     "https://github.com/jonathands/dados-abertos-receita-cnpj/releases/download/2024.09/Naturezas.zip"
   ],
   "attempts": 5,
-  "checkedAt": "2026-07-01T12:56:43.570Z",
-  "retainedEmbeddedDataFrom": "2026-07-01",
+  "checkedAt": "2026-07-02T07:17:55.088Z",
+  "retainedEmbeddedDataFrom": "2026-07-02",
   "message": "Official RFB Naturezas.zip fetch succeeded."
 }

@@ -11,7 +11,7 @@
     "/home/runner/work/br-validators/br-validators/data/source-mirrors/ibpt/golden-cargas.json"
   ],
   "attempts": 5,
-  "checkedAt": "2026-07-01T13:02:56.464Z",
-  "retainedEmbeddedDataFrom": "2026-07-01",
+  "checkedAt": "2026-07-02T07:24:07.975Z",
+  "retainedEmbeddedDataFrom": "2026-07-02",
   "message": "IBPT golden NCM×UF subset loaded from repo cache after network sources failed."
 }

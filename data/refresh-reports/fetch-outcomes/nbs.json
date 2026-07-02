@@ -5,7 +5,7 @@
     "https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica/documentacao-atual/anexo_b-nbs2-lista_servico_nacional-snnfse.xlsx/@@download/file/ANEXO_B-NBS2-LISTA_SERVICO_NACIONAL-SNNFSe.xlsx"
   ],
   "attempts": 5,
-  "checkedAt": "2026-07-01T13:03:06.457Z",
+  "checkedAt": "2026-07-02T07:24:18.208Z",
   "retainedEmbeddedDataFrom": "2026-07-01",
   "message": "Source blocked or unreachable from CI network — not link deprecation (fetch failed). No new data after 5 attempts (interval 120000ms) — embedded data from 2026-07-01 retained in the API.",
   "failureKind": "source_blocked",

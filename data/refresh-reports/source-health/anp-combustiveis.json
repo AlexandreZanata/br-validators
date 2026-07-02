@@ -3,11 +3,11 @@
   "endpoints": [
     "https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/levantamento-de-precos-de-combustiveis-ultimas-semanas-pesquisadas"
   ],
-  "consecutiveFailureDays": 1,
+  "consecutiveFailureDays": 2,
   "firstFailureDate": "2026-07-01",
-  "lastFailureDate": "2026-07-01",
+  "lastFailureDate": "2026-07-02",
   "lastSuccessDate": "2026-07-01",
-  "severity": "warning",
+  "severity": "critical",
   "message": "Source blocked or unreachable from CI network — not link deprecation (fetch failed). No new data after 5 attempts (interval 120000ms) — embedded data from 2026-07-01 retained in the API.",
   "retainedEmbeddedDataFrom": "2026-07-01",
   "outcomeStatus": "source_blocked"

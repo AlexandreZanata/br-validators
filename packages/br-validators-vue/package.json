@@ -1,6 +1,6 @@
 {
   "name": "@br-validators/vue",
-  "version": "1.10.0-data.5",
+  "version": "1.10.0-data.6",
   "description": "Vue 3 composables for Brazilian document validators — delegates to @br-validators/core",
   "license": "MIT",
   "type": "module",

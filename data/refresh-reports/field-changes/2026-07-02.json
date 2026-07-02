@@ -1,0 +1,106 @@
+{
+  "date": "2026-07-02",
+  "summary": "no_drift",
+  "datasets": [
+    {
+      "id": "ibge",
+      "status": "unchanged"
+    },
+    {
+      "id": "bancos",
+      "status": "unchanged"
+    },
+    {
+      "id": "aeroportos",
+      "status": "unchanged"
+    },
+    {
+      "id": "tse-municipios",
+      "status": "unchanged"
+    },
+    {
+      "id": "moedas",
+      "status": "unchanged"
+    },
+    {
+      "id": "ptax",
+      "status": "unchanged"
+    },
+    {
+      "id": "selic",
+      "status": "unchanged"
+    },
+    {
+      "id": "paises-bacen",
+      "status": "unchanged"
+    },
+    {
+      "id": "incoterms",
+      "status": "unchanged"
+    },
+    {
+      "id": "telefone-ddd",
+      "status": "unchanged"
+    },
+    {
+      "id": "cnaes",
+      "status": "unchanged"
+    },
+    {
+      "id": "cfop",
+      "status": "unchanged"
+    },
+    {
+      "id": "natureza-juridica",
+      "status": "unchanged"
+    },
+    {
+      "id": "cnpj-motivos",
+      "status": "unchanged"
+    },
+    {
+      "id": "ibpt",
+      "status": "unchanged"
+    },
+    {
+      "id": "nbs",
+      "status": "unchanged"
+    },
+    {
+      "id": "cest",
+      "status": "unchanged"
+    },
+    {
+      "id": "ncm",
+      "status": "unchanged"
+    },
+    {
+      "id": "cbo",
+      "status": "unchanged"
+    },
+    {
+      "id": "portos",
+      "status": "unchanged"
+    },
+    {
+      "id": "anp-combustiveis",
+      "status": "unchanged"
+    },
+    {
+      "id": "pncp-reference",
+      "status": "unchanged"
+    },
+    {
+      "id": "transparencia-snapshots",
+      "status": "unchanged"
+    },
+    {
+      "id": "feriados",
+      "status": "unchanged"
+    },
+    {
+      "id": "cep-faixas",
+      "status": "unchanged"
+    }
+  ]
+}
